@@ -1,13 +1,11 @@
-'use client';
-
+"use client";
 import Image from "next/image";
-import appleImage from '../images/apple.png'
+import appleImage from "../images/apple.png";
 import { CiFolderOn } from "react-icons/ci";
 import { CiHeart } from "react-icons/ci";
 import { AiOutlinePlus } from "react-icons/ai";
 import { IoIosSearch } from "react-icons/io";
 import { IoIosInformationCircleOutline } from "react-icons/io";
-import { CiSettings } from "react-icons/ci";
 import { IoIosList } from "react-icons/io";
 import { RxAvatar } from "react-icons/rx";
 import { CiCalendar } from "react-icons/ci";
@@ -18,426 +16,619 @@ import { PiCityThin } from "react-icons/pi";
 import { CiMobile4 } from "react-icons/ci";
 import { FiEye } from "react-icons/fi";
 import { useState } from "react";
-
-
+import { BiSolidHome } from "react-icons/bi";
+import { MdOutlineBarChart } from "react-icons/md";
+import { TbDeviceMobileDollar } from "react-icons/tb";
+import { HiWrenchScrewdriver } from "react-icons/hi2";
+import { FaMoneyCheckDollar } from "react-icons/fa6";
+import { BsCreditCard2Back } from "react-icons/bs";
+import { BiSolidUser } from "react-icons/bi";
+import { IoMdSettings } from "react-icons/io";
+import { CiSettings } from "react-icons/ci";
+import { IoIosNotificationsOutline } from "react-icons/io";
+import { FaGreaterThan } from "react-icons/fa6";
+import { FaPlus } from "react-icons/fa6";
+import { FiFilter } from "react-icons/fi";
+import { LuPencilLine } from "react-icons/lu";
+import { HiOutlineBookOpen } from "react-icons/hi2";
+import { SiHomeassistantcommunitystore } from "react-icons/si";
+import { MdOutlineCall } from "react-icons/md";
+import { LiaArrowCircleDownSolid } from "react-icons/lia";
+import { MdRemoveRedEye } from "react-icons/md";
 
 export default function Home() {
+  const [isFlyoutOpen, setFlyoutOpen] = useState(false);
+  const toggleFlyout = () => {
+    setFlyoutOpen(!isFlyoutOpen);
+  };
+  const [isFocused, setIsFocused] = useState(false);
 
-    const [isFlyoutOpen, setFlyoutOpen] = useState(false);
-    const toggleFlyout = () => {
-        setFlyoutOpen(!isFlyoutOpen);
-    };
-
-    return (
-        <>
-            <div className=" bg-[#F1F1F1] p-4">
-                <div className=" flex mb-4">
-                    <div className=" w-[15%]">
-                        <div className=" flex items-center gap-1">
-                            <div className="">
-                                <Image src={appleImage}
-                                    alt=""
-                                    width={20} height={20} />
-                            </div>
-                            <div>Orizon</div>
-                        </div>
-                    </div>
-                    <div className=" w-[85%]">
-                        <div className=" flex justify-between">
-                            <div className=" flex items-center gap-1">
-                                <CiFolderOn />
-                                <p>Customers</p>
-                            </div>
-                            <div className=" flex gap-2">
-                                <div className="flex items-center p-1.5 border border-customGray">
-                                    <CiHeart />
-                                </div>
-                                <div className="flex items-center p-1.5 border border-customGray">
-                                    <AiOutlinePlus />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className=" flex">
-                    <div className=" w-[15%] flex flex-col justify-between">
-                        <div>
-                            <div className=" flex  items-center gap-2 mb-2">
-                                <div className="">
-                                    <IoIosSearch />
-                                </div>
-                                <div className=" text-sm">Search</div>
-                            </div>
-                            <div className=" flex items-center gap-2 mb-2">
-                                <div className="">
-                                    <CiSettings />
-                                </div>
-                                <div className=" text-sm">Setting</div>
-                            </div>
-                        </div>
-                        <div className=" flex gap-2">
-                            <div><IoIosInformationCircleOutline /></div>
-                            <div className=" text-xs text-[#999999]">
-                                Support
-                            </div>
-                        </div>
-                    </div>
-                    <div className=" w-[85%] bg-white min-h-[500px] p-2 rounded">
-                        <div className=" flex justify-between">
-                            <div className=" flex items-center gap-1">
-                                <IoIosList />
-                                <p>All Customers</p>
-                            </div>
-                            <div className=" flex gap-4">
-                                <p className=" text-sm text-[#666666]">Filter</p>
-                                <p className=" text-sm text-[#666666]">Sort</p>
-                                <p className=" text-sm text-[#666666]">Options</p>
-
-                            </div>
-                        </div>
-                        {/* ----------------Table----------------------- */}
-                        <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-                            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                <thead className="text-xs text-[#999999] uppercase">
-                                    <tr className=" border border-tableBorder">
-                                        <th scope="col" className="p-4 border border-tableBorder">
-                                            <div className="flex items-center">
-                                                <input id="checkbox-all-search" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                                <label for="checkbox-all-search" className="sr-only">checkbox</label>
-                                            </div>
-                                        </th>
-                                        <th scope="col" className="px-2 py-0 border border-tableBorder">
-                                            <div className=" flex items-center gap-1">
-                                                <RxAvatar />
-                                                <div className="font-medium">Name</div>
-                                            </div>
-                                        </th>
-                                        <th scope="col" className="px-2 py-0 border border-tableBorder">
-                                            <div className=" flex items-center gap-1">
-                                                <CiCalendar />
-                                                <div className="font-medium">Birth Date</div>
-                                            </div>
-                                        </th>
-                                        <th scope="col" className="px-2 py-0 border border-tableBorder">
-                                            <div className=" flex items-center gap-1">
-                                                <TbGenderDemiboy />
-                                                <div className="font-medium">Gender</div>
-                                            </div>
-                                        </th>
-                                        <th scope="col" className="px-2 py-0 border border-tableBorder">
-                                            <div className=" flex items-center gap-1">
-                                                <CiFlag1 />
-                                                <div className="font-medium">Country of Birth</div>
-                                            </div>
-                                        </th>
-                                        <th scope="col" className="px-2 py-0 border border-tableBorder">
-                                            <div className=" flex items-center gap-1">
-                                                <TfiHome />
-                                                <div className="font-medium">Country of Recidence</div>
-                                            </div>
-                                        </th>
-                                        <th scope="col" className="px-2 py-0 border border-tableBorder">
-                                            <div className=" flex items-center gap-1">
-                                                <PiCityThin />
-                                                <div className="font-medium">City</div>
-                                            </div>
-                                        </th>
-                                        <th scope="col" className="px-2 py-0 border border-tableBorder">
-                                            <div className=" flex items-center gap-1">
-                                                <CiMobile4 />
-                                                <div className="font-medium">Mobile Num</div>
-                                            </div>
-                                        </th>
-                                        <th scope="col" className="px-2 py-0 border border-tableBorder">
-                                            <div className=" flex items-center gap-1">
-                                                <CiCalendar />
-                                                <div className="font-medium">Action</div>
-                                            </div>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 border border-tableBorder">
-                                        <td className="w-4  px-4 py-0 border border-tableBorder">
-                                            <div className="flex items-center">
-                                                <input id="checkbox-table-search-1" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                                <label for="checkbox-table-search-1" className="sr-only">checkbox</label>
-                                            </div>
-                                        </td>
-                                        <td className=" px-2 py-0 border border-tableBorder">
-                                            Alexandre Prot
-                                        </td>
-                                        <td className=" px-2 py-0 border border-tableBorder">
-                                            Jul 28, 2023 6:55 pm
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            Male
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            France
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            Paric
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            060000000
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            3.0 lb.
-                                        </td>
-                                        <td className="flex gap-1 items-center px-2 py-3 cursor-pointer" onClick={toggleFlyout}>
-                                            <FiEye className=" text-[#009A00]" />
-                                            <div className=" text-[#009A00]">View</div>
-                                        </td>
-                                    </tr>
-                                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 border border-tableBorder">
-                                        <td className="w-4  px-4 py-0 border border-tableBorder">
-                                            <div className="flex items-center">
-                                                <input id="checkbox-table-search-1" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                                <label for="checkbox-table-search-1" className="sr-only">checkbox</label>
-                                            </div>
-                                        </td>
-                                        <td className=" px-2 py-0 border border-tableBorder">
-                                            Alexandre Prot
-                                        </td>
-                                        <td className=" px-2 py-0 border border-tableBorder">
-                                            Jul 28, 2023 6:55 pm
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            Male
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            France
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            Paric
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            060000000
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            3.0 lb.
-                                        </td>
-                                        <td className="flex gap-1 items-center px-2 py-3 cursor-pointer" onClick={toggleFlyout}>
-                                            <FiEye className=" text-[#009A00]" />
-                                            <div className=" text-[#009A00]">View</div>
-                                        </td>
-                                    </tr>
-                                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 border border-tableBorder">
-                                        <td className="w-4  px-4 py-0 border border-tableBorder">
-                                            <div className="flex items-center">
-                                                <input id="checkbox-table-search-1" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                                <label for="checkbox-table-search-1" className="sr-only">checkbox</label>
-                                            </div>
-                                        </td>
-                                        <td className=" px-2 py-0 border border-tableBorder">
-                                            Alexandre Prot
-                                        </td>
-                                        <td className=" px-2 py-0 border border-tableBorder">
-                                            Jul 28, 2023 6:55 pm
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            Male
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            France
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            Paric
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            060000000
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            3.0 lb.
-                                        </td>
-                                        <td className="flex gap-1 items-center px-2 py-3 cursor-pointer" onClick={toggleFlyout}>
-                                            <FiEye className=" text-[#009A00]" />
-                                            <div className=" text-[#009A00]">View</div>
-                                        </td>
-                                    </tr>
-                                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 border border-tableBorder">
-                                        <td className="w-4  px-4 py-0 border border-tableBorder">
-                                            <div className="flex items-center">
-                                                <input id="checkbox-table-search-1" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                                <label for="checkbox-table-search-1" className="sr-only">checkbox</label>
-                                            </div>
-                                        </td>
-                                        <td className=" px-2 py-0 border border-tableBorder">
-                                            Alexandre Prot
-                                        </td>
-                                        <td className=" px-2 py-0 border border-tableBorder">
-                                            Jul 28, 2023 6:55 pm
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            Male
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            France
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            Paric
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            060000000
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            3.0 lb.
-                                        </td>
-                                        <td className="flex gap-1 items-center px-2 py-3 cursor-pointer" onClick={toggleFlyout}>
-                                            <FiEye className=" text-[#009A00]" />
-                                            <div className=" text-[#009A00]">View</div>
-                                        </td>
-                                    </tr>
-                                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 border border-tableBorder">
-                                        <td className="w-4  px-4 py-0 border border-tableBorder">
-                                            <div className="flex items-center">
-                                                <input id="checkbox-table-search-1" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                                <label for="checkbox-table-search-1" className="sr-only">checkbox</label>
-                                            </div>
-                                        </td>
-                                        <td className=" px-2 py-0 border border-tableBorder">
-                                            Alexandre Prot
-                                        </td>
-                                        <td className=" px-2 py-0 border border-tableBorder">
-                                            Jul 28, 2023 6:55 pm
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            Male
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            France
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            Paric
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            060000000
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            3.0 lb.
-                                        </td>
-                                        <td className="flex gap-1 items-center px-2 py-3 cursor-pointer" onClick={toggleFlyout}>
-                                            <FiEye className=" text-[#009A00]" />
-                                            <div className=" text-[#009A00]">View</div>
-                                        </td>
-                                    </tr>
-                                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 border border-tableBorder">
-                                        <td className="w-4  px-4 py-0 border border-tableBorder">
-                                            <div className="flex items-center">
-                                                <input id="checkbox-table-search-1" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                                <label for="checkbox-table-search-1" className="sr-only">checkbox</label>
-                                            </div>
-                                        </td>
-                                        <td className=" px-2 py-0 border border-tableBorder">
-                                            Alexandre Prot
-                                        </td>
-                                        <td className=" px-2 py-0 border border-tableBorder">
-                                            Jul 28, 2023 6:55 pm
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            Male
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            France
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            Paric
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            060000000
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            3.0 lb.
-                                        </td>
-                                        <td className="flex gap-1 items-center px-2 py-3 cursor-pointer" onClick={toggleFlyout}>
-                                            <FiEye className=" text-[#009A00]" />
-                                            <div className=" text-[#009A00]">View</div>
-                                        </td>
-                                    </tr>
-                                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 border border-tableBorder">
-                                        <td className="w-4  px-4 py-0 border border-tableBorder">
-                                            <div className="flex items-center">
-                                                <input id="checkbox-table-search-1" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                                <label for="checkbox-table-search-1" className="sr-only">checkbox</label>
-                                            </div>
-                                        </td>
-                                        <td className=" px-2 py-0 border border-tableBorder">
-                                            Alexandre Prot
-                                        </td>
-                                        <td className=" px-2 py-0 border border-tableBorder">
-                                            Jul 28, 2023 6:55 pm
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            Male
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            France
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            Paric
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            060000000
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            3.0 lb.
-                                        </td>
-                                        <td className="flex gap-1 items-center px-2 py-3 cursor-pointer" onClick={toggleFlyout}>
-                                            <FiEye className=" text-[#009A00]" />
-                                            <div className=" text-[#009A00]">View</div>
-                                        </td>
-                                    </tr>
-                                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 border border-tableBorder">
-                                        <td className="w-4  px-4 py-0 border border-tableBorder">
-                                            <div className="flex items-center">
-                                                <input id="checkbox-table-search-1" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                                <label for="checkbox-table-search-1" className="sr-only">checkbox</label>
-                                            </div>
-                                        </td>
-                                        <td className=" px-2 py-0 border border-tableBorder">
-                                            Alexandre Prot
-                                        </td>
-                                        <td className=" px-2 py-0 border border-tableBorder">
-                                            Jul 28, 2023 6:55 pm
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            Male
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            France
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            Paric
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            060000000
-                                        </td>
-                                        <td className="px-2 py-0 border border-tableBorder">
-                                            3.0 lb.
-                                        </td>
-                                        <td className="flex gap-1 items-center px-2 py-3 cursor-pointer" onClick={toggleFlyout}>
-                                            <FiEye className=" text-[#009A00]" />
-                                            <div className=" text-[#009A00]">View</div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        {/* ----------------End table--------------------------- */}
-                    </div>
-                </div>
+  return (
+    <>
+      <div className=" flex  min-h-screen">
+        {/* Left sidebar */}
+        <div className=" w-[15%]  flex flex-col justify-between py-4 px-4 border-r-2 border-customBorder shadow-borderShadow mt-2">
+          {/* SIDE LEFT BAR TOP SECTION */}
+          <div>
+            <div className=" flex gap-2 mb-12">
+              <Image
+                src="/images/orizonDashboardIcon.svg"
+                alt="Description of image"
+                width={36}
+                height={22.5}
+              />
+              <p className=" text-[25px] leading-normal font-black text-customBlue">
+                Orizon
+              </p>
             </div>
+            {/* SEARCH INPUT WITH ICON */}
+            <input
+              type="text"
+              placeholder="Search..."
+              className=" w-full rounded-lg border border-[#E7E7E7] p-[10px] focus:outline-none placeholder-[#717171] mb-12"
+            />
+            {/* MENU WITH ICONS */}
+            <div className=" mb-9 flex gap-6 items-center">
+              <BiSolidHome className=" w-6 h-6 text-[#B1B1B1]" />
+              <p className=" text-[#B1B1B1] text-base leading-normal font-medium">
+                Dashboard
+              </p>
+            </div>
+            <div className=" mb-9 flex gap-6 items-center">
+              <MdOutlineBarChart className=" w-6 h-6 text-customBlue " />
+              <p className=" text-customBlue text-base leading-normal font-medium">
+                Customers
+              </p>
+            </div>
+            <div className=" mb-9 flex gap-6 items-center">
+              <TbDeviceMobileDollar className=" w-6 h-6 text-[#B1B1B1]" />
+              <p className=" text-[#B1B1B1] text-base leading-normal font-medium">
+                Transaction
+              </p>
+            </div>
+            <div className=" mb-9 flex gap-6 items-center">
+              <HiWrenchScrewdriver className=" w-6 h-6 text-[#B1B1B1]" />
+              <p className=" text-[#B1B1B1] text-base leading-normal font-medium">
+                Point of Services
+              </p>
+            </div>
+            <div className=" mb-9 flex gap-6 items-center">
+              <FaMoneyCheckDollar className=" w-6 h-6 text-[#B1B1B1]" />
+              <p className=" text-[#B1B1B1] text-base leading-normal font-medium">
+                Payment Terminal
+              </p>
+            </div>
+            <div className=" mb-9 flex gap-6 items-center">
+              <BsCreditCard2Back className=" w-6 h-6 text-[#B1B1B1]" />
+              <p className=" text-[#B1B1B1] text-base leading-normal font-medium">
+                Credit Cards
+              </p>
+            </div>
+            <div className=" mb-9 flex gap-6 items-center">
+              <BiSolidUser className=" w-6 h-6 text-[#B1B1B1]" />
+              <p className=" text-[#B1B1B1] text-base leading-normal font-medium">
+                User Management
+              </p>
+            </div>
+            <div className=" mb-9 flex gap-6 items-center">
+              <IoMdSettings className=" w-6 h-6 text-[#B1B1B1]" />
+              <p className=" text-[#B1B1B1] text-base leading-normal font-medium">
+                Settings
+              </p>
+            </div>
+          </div>
+          {/* END SIDE LEFT BAR TOP SECTION */}
 
-            {isFlyoutOpen && (
-                <div className={`flyout ${isFlyoutOpen ? 'open' : ''}`}>
-                    {/* Flyout content here */}
-                    <h1>This is my flyout</h1>
-                    <h2>Its working</h2>
-                    <h3>And workign</h3>
-                    <button onClick={toggleFlyout}>Close Flyout</button>
+          {/*  SIDE LEFT BAR BOTTOM SECTION */}
+          <div className=" flex gap-2 items-center">
+            <div>
+              <Image
+                src="/images/logoutIcon.svg"
+                alt="logout Icon"
+                width={24}
+                height={24}
+              />
+            </div>
+            <div className=" text-base font-semibold leading-normal text-[#EB5757]">
+              Logout
+            </div>
+          </div>
+          {/*  END SIDE LEFT BAR BOTTOM SECTION */}
+        </div>
+        {/* Main content right section */}
+        <div className=" w-[85%] bg-white min-h-[500px]  rounded p-4 mt-2">
+          {/* left section top row */}
+          <div className=" w-full flex justify-end items-center gap-7 mb-8">
+            {/* SEARCH INPUT WITH ICON */}
+            <input
+              type="text"
+              placeholder="Search for something"
+              className=" bg-[#F5F7FA] w-64 h-[50px] rounded-[40px] px-6 border border-[#E7E7E7]  focus:outline-none placeholder-[#8BA3CB] text-[15px] leading-normal"
+            />
+            <div className=" w-[50px] h-[50px] bg-[#F5F7FA] rounded-full flex justify-center items-center">
+              <CiSettings className=" text-[#718EBF] w-[25px] h-[25px]" />
+            </div>
+            <div className=" w-[50px] h-[50px] bg-[#F5F7FA] rounded-full flex justify-center items-center">
+              <IoIosNotificationsOutline className=" text-[#FE5C73] w-[25px] h-[25px]" />
+            </div>
+            <div className=" w-[50px] h-[50px]  rounded-full flex justify-center items-center">
+              <Image
+                src="/images/profile.png"
+                alt="Orizon profile"
+                width={50}
+                height={50}
+              />
+            </div>
+          </div>
+          {/* Main content middle section */}
+          <div className="w-full flex justify-between items-center h-[74px] mt-3 mb-8">
+            <div>
+              <p className=" text-[#0A0A0A] text-[32px] font-semibold leading-[41.6px]">
+                Customers
+              </p>
+              <div className=" flex gap-2 ml-[1px] items-center">
+                <p className=" text-[#717171] text-xl ">Customers</p>
+                <FaGreaterThan className=" text-[#717171]" />
+                <p className=" text-[#0A0A0A] text-xl font-semibold ">
+                  Recently added
+                </p>
+              </div>
+            </div>
+            <div>
+              <button className=" flex items-center gap-[10px] bg-[#fff]  h-12 px-3 py-[6px] rounded-2xl  border border-[#E7E7E7] shadow-borderShadow">
+                <FaPlus className=" h-[20px] w-[20px] text-customBlue" />
+                <p className=" text-customBlue text-base leading-normal">
+                  Add New Customer
+                </p>
+              </button>
+            </div>
+          </div>
+
+          {/* ----------------Table----------------------- */}
+          <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+            {/* Search and filter table row */}
+            <div className=" flex justify-between items-center mb-6">
+              <div>
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  className=" w-[254px] px-4 py-3 rounded-2xl border border-[#E7E7E7]  focus:outline-none placeholder-[#717171] placeholder-font-weight-600 "
+                />
+              </div>
+              <div className=" flex justify-center items-center gap-4">
+                <div className=" flex gap-2 py-3 px-4 rounded-[16px] border border-[#E7E7E7]">
+                  <FiFilter className=" w-6 h-6" />
+                  <p className=" text-[#0A0A0A] text-base font-medium">
+                    Filter
+                  </p>
                 </div>
-            )}
+                <div className=" flex gap-2 py-3 px-4 rounded-[16px] border border-[#E7E7E7]">
+                  <LuPencilLine className=" w-6 h-6" />
+                  <p className=" text-[#0A0A0A] text-base font-medium">
+                    Filter
+                  </p>
+                </div>
+              </div>
+            </div>
+            {/* End search and filter row */}
+            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+              <thead className="text-xs text-[#999999]">
+                <tr className=" border border-tableBorder">
+                  <th scope="col" className="p-4 border border-tableBorder">
+                    <div className="flex items-center">
+                      <input
+                        id="checkbox-all-search"
+                        type="checkbox"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                      />
+                      <label for="checkbox-all-search" className="sr-only">
+                        checkbox
+                      </label>
+                    </div>
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-2 py-0 border border-tableBorder"
+                  >
+                    <div className=" flex items-center gap-2">
+                      <RxAvatar className=" w-6 h-6" />
+                      <div className="font-medium text-[#717171] text-base leading-normal">
+                        Name - Birth Date{" "}
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-2 py-0 border border-tableBorder"
+                  >
+                    <div className=" flex items-center gap-2">
+                      <HiOutlineBookOpen className=" w-6 h-6" />
+                      <div className="font-medium text-[#717171] text-base leading-normal">
+                        Birth Country
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-2 py-0 border border-tableBorder"
+                  >
+                    <div className=" flex items-center gap-2">
+                      <HiOutlineBookOpen className=" w-6 h-6" />
+                      <div className="font-medium text-[#717171] text-base leading-normal">
+                        Gender
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-2 py-0 border border-tableBorder"
+                  >
+                    <div className=" flex items-center gap-2">
+                      <SiHomeassistantcommunitystore className=" w-6 h-6" />
+                      <div className="font-medium text-[#717171] text-base leading-normal">
+                        Country of Residence
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-2 py-0 border border-tableBorder"
+                  >
+                    <div className=" flex items-center gap-2">
+                      <MdOutlineCall className=" w-6 h-6" />
+                      <div className="font-medium text-[#717171] text-base leading-normal">
+                        Phone
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-2 py-0 border border-tableBorder"
+                  >
+                    <div className=" flex items-center gap-2">
+                      <LiaArrowCircleDownSolid className="w-6 h-6" />
+                      <div className="font-medium text-[#717171] text-base leading-normal">
+                        Action
+                      </div>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className=" border border-tableBorder bg-white">
+                  <td className="w-4  px-4 py-0 border border-tableBorder">
+                    <div className="flex items-center">
+                      <input
+                        id="checkbox-table-search-1"
+                        type="checkbox"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                      />
+                      <label for="checkbox-table-search-1" className="sr-only">
+                        checkbox
+                      </label>
+                    </div>
+                  </td>
+                  <td className=" px-2 py-2 border border-tableBorder flex items-center gap-2">
+                    <div>
+                      <Image
+                        src="/images/tableImage.png"
+                        alt="Table image"
+                        width={44}
+                        height={44}
+                      />
+                    </div>
+                    <div>
+                      <p className=" text-[#0A0A0A] text-base font-semibold leading-normal">
+                        Amy Jordan (Male)
+                      </p>
+                      <p className=" text-[#717171] text-sm leading-normal">
+                        Jul 28, 2023 6:55 pm
+                      </p>
+                    </div>
+                  </td>
+                  <td className=" px-2 py-2 border border-tableBorder">
+                    <p className=" text-[#717171] text-base leading-normal">
+                      France
+                    </p>
+                  </td>
+                  <td className="px-2 py-0 border border-tableBorder">
+                    <p className=" text-[#717171] text-base leading-normal">
+                      Male
+                    </p>
+                  </td>
+                  <td className="px-2 py-0 border border-tableBorder">
+                    <p className=" text-[#717171] text-base leading-normal">
+                      France
+                    </p>
+                  </td>
+                  <td className="px-2 py-0 border border-tableBorder">
+                    <p className=" text-[#717171] text-base leading-normal">
+                      1 (800) 667-6389
+                    </p>
+                  </td>
+                  <td>
+                    <button
+                      onClick={toggleFlyout}
+                      className=" py-[6px] px-4 bg-[#C6F7FE] m-2 flex gap-[10px] items-center rounded-full"
+                    >
+                      <MdRemoveRedEye className=" text-customBlue w-4 h-4" />
+                      <p className=" text-sm leading-normal text-customBlue">
+                        View Details
+                      </p>
+                    </button>
+                  </td>
+                </tr>
+                <tr className=" border border-tableBorder bg-white">
+                  <td className="w-4  px-4 py-0 border border-tableBorder">
+                    <div className="flex items-center">
+                      <input
+                        id="checkbox-table-search-1"
+                        type="checkbox"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                      />
+                      <label for="checkbox-table-search-1" className="sr-only">
+                        checkbox
+                      </label>
+                    </div>
+                  </td>
+                  <td className=" px-2 py-2 border border-tableBorder flex items-center gap-2">
+                    <div>
+                      <Image
+                        src="/images/tableImage.png"
+                        alt="Table image"
+                        width={44}
+                        height={44}
+                      />
+                    </div>
+                    <div>
+                      <p className=" text-[#0A0A0A] text-base font-semibold leading-normal">
+                        Amy Jordan (Male)
+                      </p>
+                      <p className=" text-[#717171] text-sm leading-normal">
+                        Jul 28, 2023 6:55 pm
+                      </p>
+                    </div>
+                  </td>
+                  <td className=" px-2 py-2 border border-tableBorder">
+                    <p className=" text-[#717171] text-base leading-normal">
+                      France
+                    </p>
+                  </td>
+                  <td className="px-2 py-0 border border-tableBorder">
+                    <p className=" text-[#717171] text-base leading-normal">
+                      Male
+                    </p>
+                  </td>
+                  <td className="px-2 py-0 border border-tableBorder">
+                    <p className=" text-[#717171] text-base leading-normal">
+                      France
+                    </p>
+                  </td>
+                  <td className="px-2 py-0 border border-tableBorder">
+                    <p className=" text-[#717171] text-base leading-normal">
+                      1 (800) 667-6389
+                    </p>
+                  </td>
+                  <td>
+                    <button
+                      onClick={toggleFlyout}
+                      className=" py-[6px] px-4 bg-[#C6F7FE] m-2 flex gap-[10px] items-center rounded-full"
+                    >
+                      <MdRemoveRedEye className=" text-customBlue w-4 h-4" />
+                      <p className=" text-sm leading-normal text-customBlue">
+                        View Details
+                      </p>
+                    </button>
+                  </td>
+                </tr>
+                <tr className=" border border-tableBorder bg-white">
+                  <td className="w-4  px-4 py-0 border border-tableBorder">
+                    <div className="flex items-center">
+                      <input
+                        id="checkbox-table-search-1"
+                        type="checkbox"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                      />
+                      <label for="checkbox-table-search-1" className="sr-only">
+                        checkbox
+                      </label>
+                    </div>
+                  </td>
+                  <td className=" px-2 py-2 border border-tableBorder flex items-center gap-2">
+                    <div>
+                      <Image
+                        src="/images/tableImage.png"
+                        alt="Table image"
+                        width={44}
+                        height={44}
+                      />
+                    </div>
+                    <div>
+                      <p className=" text-[#0A0A0A] text-base font-semibold leading-normal">
+                        Amy Jordan (Male)
+                      </p>
+                      <p className=" text-[#717171] text-sm leading-normal">
+                        Jul 28, 2023 6:55 pm
+                      </p>
+                    </div>
+                  </td>
+                  <td className=" px-2 py-2 border border-tableBorder">
+                    <p className=" text-[#717171] text-base leading-normal">
+                      France
+                    </p>
+                  </td>
+                  <td className="px-2 py-0 border border-tableBorder">
+                    <p className=" text-[#717171] text-base leading-normal">
+                      Male
+                    </p>
+                  </td>
+                  <td className="px-2 py-0 border border-tableBorder">
+                    <p className=" text-[#717171] text-base leading-normal">
+                      France
+                    </p>
+                  </td>
+                  <td className="px-2 py-0 border border-tableBorder">
+                    <p className=" text-[#717171] text-base leading-normal">
+                      1 (800) 667-6389
+                    </p>
+                  </td>
+                  <td>
+                    <button
+                      onClick={toggleFlyout}
+                      className=" py-[6px] px-4 bg-[#C6F7FE] m-2 flex gap-[10px] items-center rounded-full"
+                    >
+                      <MdRemoveRedEye className=" text-customBlue w-4 h-4" />
+                      <p className=" text-sm leading-normal text-customBlue">
+                        View Details
+                      </p>
+                    </button>
+                  </td>
+                </tr>
+                <tr className=" border border-tableBorder bg-white">
+                  <td className="w-4  px-4 py-0 border border-tableBorder">
+                    <div className="flex items-center">
+                      <input
+                        id="checkbox-table-search-1"
+                        type="checkbox"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                      />
+                      <label for="checkbox-table-search-1" className="sr-only">
+                        checkbox
+                      </label>
+                    </div>
+                  </td>
+                  <td className=" px-2 py-2 border border-tableBorder flex items-center gap-2">
+                    <div>
+                      <Image
+                        src="/images/tableImage.png"
+                        alt="Table image"
+                        width={44}
+                        height={44}
+                      />
+                    </div>
+                    <div>
+                      <p className=" text-[#0A0A0A] text-base font-semibold leading-normal">
+                        Amy Jordan (Male)
+                      </p>
+                      <p className=" text-[#717171] text-sm leading-normal">
+                        Jul 28, 2023 6:55 pm
+                      </p>
+                    </div>
+                  </td>
+                  <td className=" px-2 py-2 border border-tableBorder">
+                    <p className=" text-[#717171] text-base leading-normal">
+                      France
+                    </p>
+                  </td>
+                  <td className="px-2 py-0 border border-tableBorder">
+                    <p className=" text-[#717171] text-base leading-normal">
+                      Male
+                    </p>
+                  </td>
+                  <td className="px-2 py-0 border border-tableBorder">
+                    <p className=" text-[#717171] text-base leading-normal">
+                      France
+                    </p>
+                  </td>
+                  <td className="px-2 py-0 border border-tableBorder">
+                    <p className=" text-[#717171] text-base leading-normal">
+                      1 (800) 667-6389
+                    </p>
+                  </td>
+                  <td>
+                    <button
+                      onClick={toggleFlyout}
+                      className=" py-[6px] px-4 bg-[#C6F7FE] m-2 flex gap-[10px] items-center rounded-full"
+                    >
+                      <MdRemoveRedEye className=" text-customBlue w-4 h-4" />
+                      <p className=" text-sm leading-normal text-customBlue">
+                        View Details
+                      </p>
+                    </button>
+                  </td>
+                </tr>
+                <tr className=" border border-tableBorder bg-white">
+                  <td className="w-4  px-4 py-0 border border-tableBorder">
+                    <div className="flex items-center">
+                      <input
+                        id="checkbox-table-search-1"
+                        type="checkbox"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                      />
+                      <label for="checkbox-table-search-1" className="sr-only">
+                        checkbox
+                      </label>
+                    </div>
+                  </td>
+                  <td className=" px-2 py-2 border border-tableBorder flex items-center gap-2">
+                    <div>
+                      <Image
+                        src="/images/tableImage.png"
+                        alt="Table image"
+                        width={44}
+                        height={44}
+                      />
+                    </div>
+                    <div>
+                      <p className=" text-[#0A0A0A] text-base font-semibold leading-normal">
+                        Amy Jordan (Male)
+                      </p>
+                      <p className=" text-[#717171] text-sm leading-normal">
+                        Jul 28, 2023 6:55 pm
+                      </p>
+                    </div>
+                  </td>
+                  <td className=" px-2 py-2 border border-tableBorder">
+                    <p className=" text-[#717171] text-base leading-normal">
+                      France
+                    </p>
+                  </td>
+                  <td className="px-2 py-0 border border-tableBorder">
+                    <p className=" text-[#717171] text-base leading-normal">
+                      Male
+                    </p>
+                  </td>
+                  <td className="px-2 py-0 border border-tableBorder">
+                    <p className=" text-[#717171] text-base leading-normal">
+                      France
+                    </p>
+                  </td>
+                  <td className="px-2 py-0 border border-tableBorder">
+                    <p className=" text-[#717171] text-base leading-normal">
+                      1 (800) 667-6389
+                    </p>
+                  </td>
+                  <td>
+                    <button
+                      onClick={toggleFlyout}
+                      className=" py-[6px] px-4 bg-[#C6F7FE] m-2 flex gap-[10px] items-center rounded-full"
+                    >
+                      <MdRemoveRedEye className=" text-customBlue w-4 h-4" />
+                      <p className=" text-sm leading-normal text-customBlue">
+                        View Details
+                      </p>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          {/* ----------------End table--------------------------- */}
+        </div>
+      </div>
+
+      {isFlyoutOpen && (
+        <>
+          <div className=" min-h-screen w-full bg-[#1f1d1d80] absolute top-0 left-0 right-0 z-[999]"></div>
+          <div className={`flyout ${isFlyoutOpen ? "open" : ""}`}>
+            {/* Flyout content here */}
+            <h1>This is my flyout</h1>
+            <h2>Its working</h2>
+            <h3>And workign</h3>
+            <button onClick={toggleFlyout}>Close Flyout</button>
+          </div>
         </>
-    );
+      )}
+    </>
+  );
 }

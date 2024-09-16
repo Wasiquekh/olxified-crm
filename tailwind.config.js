@@ -8,18 +8,50 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        customGray: '#EBEBEB',
-        tableBorder:  '#F1F1F1',
+        customBlue: '#09549D',
+        customGray: "#EBEBEB",
+        tableBorder: "#F1F1F1",
+        customBorder: "#F5F6F7",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
-        "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       boxShadow: {
-        'loginBoxShadow': '1px 3px 3px 0px rgba(0, 0, 0, 0.25)',  
+        loginBoxShadow: "1px 3px 3px 0px rgba(0, 0, 0, 0.25)",
+        borderShadow: "0px 1px 1px 0px rgba(0, 0, 0, 0.25)",
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }) {
+      addUtilities(
+        {
+          '.placeholder-font-weight-100::placeholder': {
+            fontWeight: '100',
+          },
+          '.placeholder-font-weight-200::placeholder': {
+            fontWeight: '200',
+          },
+          '.placeholder-font-weight-300::placeholder': {
+            fontWeight: '300',
+          },
+          '.placeholder-font-weight-400::placeholder': {
+            fontWeight: '400',
+          },
+          '.placeholder-font-weight-500::placeholder': {
+            fontWeight: '500',
+          },
+          '.placeholder-font-weight-600::placeholder': {
+            fontWeight: '600',
+          },
+          '.placeholder-font-weight-700::placeholder': {
+            fontWeight: '700',
+          },
+        },
+        ['responsive', 'hover']
+      );
+    },
+  ],
 };
