@@ -35,13 +35,11 @@ import { SiHomeassistantcommunitystore } from "react-icons/si";
 import { MdOutlineCall } from "react-icons/md";
 import { LiaArrowCircleDownSolid } from "react-icons/lia";
 import { MdRemoveRedEye } from "react-icons/md";
+import { MdModeEdit } from "react-icons/md";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
 export default function Home() {
-  const [isFlyoutOpen, setFlyoutOpen] = useState(false);
-  const toggleFlyout = () => {
-    setFlyoutOpen(!isFlyoutOpen);
-  };
-  const [isFocused, setIsFocused] = useState(false);
+
 
   return (
     <>
@@ -75,8 +73,8 @@ export default function Home() {
               </p>
             </div>
             <div className=" mb-9 flex gap-6 items-center">
-              <MdOutlineBarChart className=" w-6 h-6 text-customBlue " />
-              <p className=" text-customBlue text-base leading-normal font-medium">
+              <MdOutlineBarChart className=" w-6 h-6 text-[#B1B1B1] " />
+              <p className=" text-[#B1B1B1] text-base leading-normal font-medium">
                 Customers
               </p>
             </div>
@@ -105,8 +103,8 @@ export default function Home() {
               </p>
             </div>
             <div className=" mb-9 flex gap-6 items-center">
-              <BiSolidUser className=" w-6 h-6 text-[#B1B1B1]" />
-              <p className=" text-[#B1B1B1] text-base leading-normal font-medium">
+              <BiSolidUser className=" w-6 h-6 text-customBlue" />
+              <p className=" text-customBlue text-base leading-normal font-medium">
                 User Management
               </p>
             </div>
@@ -137,7 +135,7 @@ export default function Home() {
         </div>
         {/* Main content right section */}
         <div className=" w-[85%] bg-white min-h-[500px]  rounded p-4 mt-2">
-          {/* left section top row */}
+          {/* right section top row */}
           <div className=" w-full flex justify-end items-center gap-7 mb-8">
             {/* SEARCH INPUT WITH ICON */}
             <input
@@ -163,22 +161,20 @@ export default function Home() {
           {/* Main content middle section */}
           <div className="w-full flex justify-between items-center h-[74px] mt-3 mb-8">
             <div>
-              <p className=" text-[#0A0A0A] text-[32px] font-semibold leading-[41.6px]">
-                Customers
+              <p className=" text-[#0A0A0A] text-[26px] font-semibold leading-normal">
+                User Management
               </p>
               <div className=" flex gap-2 ml-[1px] items-center">
-                <p className=" text-[#717171] text-xl ">Customers</p>
-                <FaGreaterThan className=" text-[#717171]" />
-                <p className=" text-[#0A0A0A] text-xl font-semibold ">
-                  Recently added
+                <p className=" text-[#717171] text-base leading-normal">
+                  2+ New User added today, sorted by name
                 </p>
               </div>
             </div>
             <div>
               <button className=" flex items-center gap-[10px] bg-[#fff]  h-12 px-3 py-[6px] rounded-2xl  border border-[#E7E7E7] shadow-borderShadow">
-                <FaPlus className=" h-[20px] w-[20px] text-customBlue" />
-                <p className=" text-customBlue text-base leading-normal">
-                  Add New Customer
+                <FaPlus className=" h-[20px] w-[20px] text-[#0A0A0A]" />
+                <p className=" text-[#0A0A0A] text-base leading-normal">
+                  Create User
                 </p>
               </button>
             </div>
@@ -186,31 +182,6 @@ export default function Home() {
 
           {/* ----------------Table----------------------- */}
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-            {/* Search and filter table row */}
-            <div className=" flex justify-between items-center mb-6">
-              <div>
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  className=" w-[254px] px-4 py-3 rounded-2xl border border-[#E7E7E7]  focus:outline-none placeholder-[#717171] placeholder-font-weight-600 "
-                />
-              </div>
-              <div className=" flex justify-center items-center gap-4">
-                <div className=" flex gap-2 py-3 px-4 rounded-[16px] border border-[#E7E7E7]">
-                  <FiFilter className=" w-6 h-6" />
-                  <p className=" text-[#0A0A0A] text-base font-medium">
-                    Filter
-                  </p>
-                </div>
-                <div className=" flex gap-2 py-3 px-4 rounded-[16px] border border-[#E7E7E7]">
-                  <LuPencilLine className=" w-6 h-6" />
-                  <p className=" text-[#0A0A0A] text-base font-medium">
-                    Filter
-                  </p>
-                </div>
-              </div>
-            </div>
-            {/* End search and filter row */}
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
               <thead className="text-xs text-[#999999]">
                 <tr className=" border border-tableBorder">
@@ -231,9 +202,9 @@ export default function Home() {
                     className="px-2 py-0 border border-tableBorder"
                   >
                     <div className=" flex items-center gap-2">
-                      <RxAvatar className=" w-6 h-6" />
-                      <div className="font-medium text-[#717171] text-base leading-normal">
-                        Name - Birth Date{" "}
+                      <RxAvatar className=" w-5 h-5" />
+                      <div className="font-semibold text-[#717171] text-base leading-normal">
+                        Name - Mail{" "}
                       </div>
                     </div>
                   </th>
@@ -242,41 +213,8 @@ export default function Home() {
                     className="px-2 py-0 border border-tableBorder"
                   >
                     <div className=" flex items-center gap-2">
-                      <HiOutlineBookOpen className=" w-6 h-6" />
-                      <div className="font-medium text-[#717171] text-base leading-normal">
-                        Birth Country
-                      </div>
-                    </div>
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-2 py-0 border border-tableBorder"
-                  >
-                    <div className=" flex items-center gap-2">
-                      <HiOutlineBookOpen className=" w-6 h-6" />
-                      <div className="font-medium text-[#717171] text-base leading-normal">
-                        Gender
-                      </div>
-                    </div>
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-2 py-0 border border-tableBorder"
-                  >
-                    <div className=" flex items-center gap-2">
-                      <SiHomeassistantcommunitystore className=" w-6 h-6" />
-                      <div className="font-medium text-[#717171] text-base leading-normal">
-                        Country of Residence
-                      </div>
-                    </div>
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-2 py-0 border border-tableBorder"
-                  >
-                    <div className=" flex items-center gap-2">
-                      <MdOutlineCall className=" w-6 h-6" />
-                      <div className="font-medium text-[#717171] text-base leading-normal">
+                      <MdOutlineCall className=" w-5 h-5" />
+                      <div className="font-semibold text-[#717171] text-base leading-normal">
                         Phone
                       </div>
                     </div>
@@ -286,8 +224,19 @@ export default function Home() {
                     className="px-2 py-0 border border-tableBorder"
                   >
                     <div className=" flex items-center gap-2">
-                      <LiaArrowCircleDownSolid className="w-6 h-6" />
-                      <div className="font-medium text-[#717171] text-base leading-normal">
+                      <LiaArrowCircleDownSolid className="w-5 h-5" />
+                      <div className="font-semibold text-[#717171] text-base leading-normal">
+                        Role
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-2 py-0 border border-tableBorder"
+                  >
+                    <div className=" flex items-center gap-2">
+                      <LiaArrowCircleDownSolid className="w-5 h-5" />
+                      <div className="font-semibold text-[#717171] text-base leading-normal">
                         Action
                       </div>
                     </div>
@@ -303,7 +252,10 @@ export default function Home() {
                         type="checkbox"
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                       />
-                      <label htmlFor="checkbox-table-search-1" className="sr-only">
+                      <label
+                        htmlFor="checkbox-table-search-1"
+                        className="sr-only"
+                      >
                         checkbox
                       </label>
                     </div>
@@ -318,44 +270,47 @@ export default function Home() {
                       />
                     </div>
                     <div>
-                      <p className=" text-[#0A0A0A] text-base font-semibold leading-normal">
+                      <p className=" text-[#0A0A0A] text-base font-semibold leading-normal mb-[6px]">
                         Amy Jordan (Male)
                       </p>
                       <p className=" text-[#717171] text-sm leading-normal">
-                        Jul 28, 2023 6:55 pm
+                        info@salesforce.com
                       </p>
                     </div>
-                  </td>
-                  <td className=" px-2 py-2 border border-tableBorder">
-                    <p className=" text-[#717171] text-base leading-normal">
-                      France
-                    </p>
-                  </td>
-                  <td className="px-2 py-0 border border-tableBorder">
-                    <p className=" text-[#717171] text-base leading-normal">
-                      Male
-                    </p>
-                  </td>
-                  <td className="px-2 py-0 border border-tableBorder">
-                    <p className=" text-[#717171] text-base leading-normal">
-                      France
-                    </p>
                   </td>
                   <td className="px-2 py-0 border border-tableBorder">
                     <p className=" text-[#717171] text-base leading-normal">
                       1 (800) 667-6389
                     </p>
                   </td>
-                  <td>
-                    <button
-                      onClick={toggleFlyout}
-                      className=" py-[6px] px-4 bg-[#C6F7FE] m-2 flex gap-[10px] items-center rounded-full"
-                    >
-                      <MdRemoveRedEye className=" text-customBlue w-4 h-4" />
-                      <p className=" text-sm leading-normal text-customBlue">
-                        View Details
+                  <td className="px-2 py-0 border border-tableBorder">
+                    <button className=" py-[6px] px-8 bg-[#DCF8DC]    rounded-[16px]">
+                      <p className=" text-sm leading-normal text-[#0C390C]">
+                        Admin
                       </p>
                     </button>
+                  </td>
+                  <td className="px-2 py-0 border border-tableBorder">
+                    <div className=" flex gap-1.5">
+                    <button className=" py-[6px] px-4 bg-[#C6F7FE]  flex gap-1.5 items-center rounded-full">
+                      <MdRemoveRedEye className=" text-customBlue w-4 h-4" />
+                      <p className=" text-sm leading-normal text-customBlue">
+                        View
+                      </p>
+                    </button>
+                    <button className=" py-[6px] px-4 bg-[#F9E3FB]  flex gap-1.5 items-center rounded-full">
+                      <MdModeEdit  className=" text-[#6D1473] w-4 h-4" />
+                      <p className=" text-sm leading-normal text-[#6D1473]">
+                        Edit
+                      </p>
+                    </button>
+                    <button className=" py-[6px] px-4 bg-[#FFD0D1]  flex gap-1.5 items-center rounded-full">
+                      <RiDeleteBin6Line  className=" text-[#FF1C1F] w-4 h-4" />
+                      <p className=" text-sm leading-normal text-[#FF1C1F]">
+                        Delete
+                      </p>
+                    </button>
+                    </div>
                   </td>
                 </tr>
                 <tr className=" border border-tableBorder bg-white">
@@ -366,7 +321,10 @@ export default function Home() {
                         type="checkbox"
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                       />
-                      <label htmlFor="checkbox-table-search-1" className="sr-only">
+                      <label
+                        htmlFor="checkbox-table-search-1"
+                        className="sr-only"
+                      >
                         checkbox
                       </label>
                     </div>
@@ -381,44 +339,47 @@ export default function Home() {
                       />
                     </div>
                     <div>
-                      <p className=" text-[#0A0A0A] text-base font-semibold leading-normal">
+                      <p className=" text-[#0A0A0A] text-base font-semibold leading-normal mb-[6px]">
                         Amy Jordan (Male)
                       </p>
                       <p className=" text-[#717171] text-sm leading-normal">
-                        Jul 28, 2023 6:55 pm
+                        info@salesforce.com
                       </p>
                     </div>
-                  </td>
-                  <td className=" px-2 py-2 border border-tableBorder">
-                    <p className=" text-[#717171] text-base leading-normal">
-                      France
-                    </p>
-                  </td>
-                  <td className="px-2 py-0 border border-tableBorder">
-                    <p className=" text-[#717171] text-base leading-normal">
-                      Male
-                    </p>
-                  </td>
-                  <td className="px-2 py-0 border border-tableBorder">
-                    <p className=" text-[#717171] text-base leading-normal">
-                      France
-                    </p>
                   </td>
                   <td className="px-2 py-0 border border-tableBorder">
                     <p className=" text-[#717171] text-base leading-normal">
                       1 (800) 667-6389
                     </p>
                   </td>
-                  <td>
-                    <button
-                      onClick={toggleFlyout}
-                      className=" py-[6px] px-4 bg-[#C6F7FE] m-2 flex gap-[10px] items-center rounded-full"
-                    >
-                      <MdRemoveRedEye className=" text-customBlue w-4 h-4" />
-                      <p className=" text-sm leading-normal text-customBlue">
-                        View Details
+                  <td className="px-2 py-0 border border-tableBorder">
+                    <button className=" py-[6px] px-8 bg-[#DCF8DC]    rounded-[16px]">
+                      <p className=" text-sm leading-normal text-[#0C390C]">
+                        Admin
                       </p>
                     </button>
+                  </td>
+                  <td className="px-2 py-0 border border-tableBorder">
+                    <div className=" flex gap-1.5">
+                    <button className=" py-[6px] px-4 bg-[#C6F7FE]  flex gap-1.5 items-center rounded-full">
+                      <MdRemoveRedEye className=" text-customBlue w-4 h-4" />
+                      <p className=" text-sm leading-normal text-customBlue">
+                        View
+                      </p>
+                    </button>
+                    <button className=" py-[6px] px-4 bg-[#F9E3FB]  flex gap-1.5 items-center rounded-full">
+                      <MdModeEdit  className=" text-[#6D1473] w-4 h-4" />
+                      <p className=" text-sm leading-normal text-[#6D1473]">
+                        Edit
+                      </p>
+                    </button>
+                    <button className=" py-[6px] px-4 bg-[#FFD0D1]  flex gap-1.5 items-center rounded-full">
+                      <RiDeleteBin6Line  className=" text-[#FF1C1F] w-4 h-4" />
+                      <p className=" text-sm leading-normal text-[#FF1C1F]">
+                        Delete
+                      </p>
+                    </button>
+                    </div>
                   </td>
                 </tr>
                 <tr className=" border border-tableBorder bg-white">
@@ -429,7 +390,10 @@ export default function Home() {
                         type="checkbox"
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                       />
-                      <label htmlFor="checkbox-table-search-1" className="sr-only">
+                      <label
+                        htmlFor="checkbox-table-search-1"
+                        className="sr-only"
+                      >
                         checkbox
                       </label>
                     </div>
@@ -444,44 +408,47 @@ export default function Home() {
                       />
                     </div>
                     <div>
-                      <p className=" text-[#0A0A0A] text-base font-semibold leading-normal">
+                      <p className=" text-[#0A0A0A] text-base font-semibold leading-normal mb-[6px]">
                         Amy Jordan (Male)
                       </p>
                       <p className=" text-[#717171] text-sm leading-normal">
-                        Jul 28, 2023 6:55 pm
+                        info@salesforce.com
                       </p>
                     </div>
-                  </td>
-                  <td className=" px-2 py-2 border border-tableBorder">
-                    <p className=" text-[#717171] text-base leading-normal">
-                      France
-                    </p>
-                  </td>
-                  <td className="px-2 py-0 border border-tableBorder">
-                    <p className=" text-[#717171] text-base leading-normal">
-                      Male
-                    </p>
-                  </td>
-                  <td className="px-2 py-0 border border-tableBorder">
-                    <p className=" text-[#717171] text-base leading-normal">
-                      France
-                    </p>
                   </td>
                   <td className="px-2 py-0 border border-tableBorder">
                     <p className=" text-[#717171] text-base leading-normal">
                       1 (800) 667-6389
                     </p>
                   </td>
-                  <td>
-                    <button
-                      onClick={toggleFlyout}
-                      className=" py-[6px] px-4 bg-[#C6F7FE] m-2 flex gap-[10px] items-center rounded-full"
-                    >
-                      <MdRemoveRedEye className=" text-customBlue w-4 h-4" />
-                      <p className=" text-sm leading-normal text-customBlue">
-                        View Details
+                  <td className="px-2 py-0 border border-tableBorder">
+                    <button className=" py-[6px] px-8 bg-[#DCF8DC]    rounded-[16px]">
+                      <p className=" text-sm leading-normal text-[#0C390C]">
+                        Admin
                       </p>
                     </button>
+                  </td>
+                  <td className="px-2 py-0 border border-tableBorder">
+                    <div className=" flex gap-1.5">
+                    <button className=" py-[6px] px-4 bg-[#C6F7FE]  flex gap-1.5 items-center rounded-full">
+                      <MdRemoveRedEye className=" text-customBlue w-4 h-4" />
+                      <p className=" text-sm leading-normal text-customBlue">
+                        View
+                      </p>
+                    </button>
+                    <button className=" py-[6px] px-4 bg-[#F9E3FB]  flex gap-1.5 items-center rounded-full">
+                      <MdModeEdit  className=" text-[#6D1473] w-4 h-4" />
+                      <p className=" text-sm leading-normal text-[#6D1473]">
+                        Edit
+                      </p>
+                    </button>
+                    <button className=" py-[6px] px-4 bg-[#FFD0D1]  flex gap-1.5 items-center rounded-full">
+                      <RiDeleteBin6Line  className=" text-[#FF1C1F] w-4 h-4" />
+                      <p className=" text-sm leading-normal text-[#FF1C1F]">
+                        Delete
+                      </p>
+                    </button>
+                    </div>
                   </td>
                 </tr>
                 <tr className=" border border-tableBorder bg-white">
@@ -492,7 +459,10 @@ export default function Home() {
                         type="checkbox"
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                       />
-                      <label htmlFor="checkbox-table-search-1" className="sr-only">
+                      <label
+                        htmlFor="checkbox-table-search-1"
+                        className="sr-only"
+                      >
                         checkbox
                       </label>
                     </div>
@@ -507,107 +477,47 @@ export default function Home() {
                       />
                     </div>
                     <div>
-                      <p className=" text-[#0A0A0A] text-base font-semibold leading-normal">
+                      <p className=" text-[#0A0A0A] text-base font-semibold leading-normal mb-[6px]">
                         Amy Jordan (Male)
                       </p>
                       <p className=" text-[#717171] text-sm leading-normal">
-                        Jul 28, 2023 6:55 pm
+                        info@salesforce.com
                       </p>
                     </div>
-                  </td>
-                  <td className=" px-2 py-2 border border-tableBorder">
-                    <p className=" text-[#717171] text-base leading-normal">
-                      France
-                    </p>
-                  </td>
-                  <td className="px-2 py-0 border border-tableBorder">
-                    <p className=" text-[#717171] text-base leading-normal">
-                      Male
-                    </p>
-                  </td>
-                  <td className="px-2 py-0 border border-tableBorder">
-                    <p className=" text-[#717171] text-base leading-normal">
-                      France
-                    </p>
                   </td>
                   <td className="px-2 py-0 border border-tableBorder">
                     <p className=" text-[#717171] text-base leading-normal">
                       1 (800) 667-6389
                     </p>
                   </td>
-                  <td>
-                    <button
-                      onClick={toggleFlyout}
-                      className=" py-[6px] px-4 bg-[#C6F7FE] m-2 flex gap-[10px] items-center rounded-full"
-                    >
-                      <MdRemoveRedEye className=" text-customBlue w-4 h-4" />
-                      <p className=" text-sm leading-normal text-customBlue">
-                        View Details
+                  <td className="px-2 py-0 border border-tableBorder">
+                    <button className=" py-[6px] px-8 bg-[#DCF8DC]    rounded-[16px]">
+                      <p className=" text-sm leading-normal text-[#0C390C]">
+                        Admin
                       </p>
                     </button>
                   </td>
-                </tr>
-                <tr className=" border border-tableBorder bg-white">
-                  <td className="w-4  px-4 py-0 border border-tableBorder">
-                    <div className="flex items-center">
-                      <input
-                        id="checkbox-table-search-1"
-                        type="checkbox"
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label htmlFor="checkbox-table-search-1" className="sr-only">
-                        checkbox
-                      </label>
-                    </div>
-                  </td>
-                  <td className=" px-2 py-2 border border-tableBorder flex items-center gap-2">
-                    <div>
-                      <Image
-                        src="/images/tableImage.png"
-                        alt="Table image"
-                        width={44}
-                        height={44}
-                      />
-                    </div>
-                    <div>
-                      <p className=" text-[#0A0A0A] text-base font-semibold leading-normal">
-                        Amy Jordan (Male)
-                      </p>
-                      <p className=" text-[#717171] text-sm leading-normal">
-                        Jul 28, 2023 6:55 pm
-                      </p>
-                    </div>
-                  </td>
-                  <td className=" px-2 py-2 border border-tableBorder">
-                    <p className=" text-[#717171] text-base leading-normal">
-                      France
-                    </p>
-                  </td>
                   <td className="px-2 py-0 border border-tableBorder">
-                    <p className=" text-[#717171] text-base leading-normal">
-                      Male
-                    </p>
-                  </td>
-                  <td className="px-2 py-0 border border-tableBorder">
-                    <p className=" text-[#717171] text-base leading-normal">
-                      France
-                    </p>
-                  </td>
-                  <td className="px-2 py-0 border border-tableBorder">
-                    <p className=" text-[#717171] text-base leading-normal">
-                      1 (800) 667-6389
-                    </p>
-                  </td>
-                  <td>
-                    <button
-                      onClick={toggleFlyout}
-                      className=" py-[6px] px-4 bg-[#C6F7FE] m-2 flex gap-[10px] items-center rounded-full"
-                    >
+                    <div className=" flex gap-1.5">
+                    <button className=" py-[6px] px-4 bg-[#C6F7FE]  flex gap-1.5 items-center rounded-full">
                       <MdRemoveRedEye className=" text-customBlue w-4 h-4" />
                       <p className=" text-sm leading-normal text-customBlue">
-                        View Details
+                        View
                       </p>
                     </button>
+                    <button className=" py-[6px] px-4 bg-[#F9E3FB]  flex gap-1.5 items-center rounded-full">
+                      <MdModeEdit  className=" text-[#6D1473] w-4 h-4" />
+                      <p className=" text-sm leading-normal text-[#6D1473]">
+                        Edit
+                      </p>
+                    </button>
+                    <button className=" py-[6px] px-4 bg-[#FFD0D1]  flex gap-1.5 items-center rounded-full">
+                      <RiDeleteBin6Line  className=" text-[#FF1C1F] w-4 h-4" />
+                      <p className=" text-sm leading-normal text-[#FF1C1F]">
+                        Delete
+                      </p>
+                    </button>
+                    </div>
                   </td>
                 </tr>
               </tbody>
@@ -616,19 +526,6 @@ export default function Home() {
           {/* ----------------End table--------------------------- */}
         </div>
       </div>
-
-      {isFlyoutOpen && (
-        <>
-          <div className=" min-h-screen w-full bg-[#1f1d1d80] absolute top-0 left-0 right-0 z-[999]"></div>
-          <div className={`flyout ${isFlyoutOpen ? "open" : ""}`}>
-            {/* Flyout content here */}
-            <h1>This is my flyout</h1>
-            <h2>Its working</h2>
-            <h3>And workign</h3>
-            <button onClick={toggleFlyout}>Close Flyout</button>
-          </div>
-        </>
-      )}
     </>
   );
 }
