@@ -54,8 +54,9 @@ export default function Home() {
               <Image
                 src="/images/orizonDashboardIcon.svg"
                 alt="Description of image"
-                width={36}
-                height={22.5}
+                width={0}
+                height={0}
+                 className=" w-11 h-auto"
               />
               <p className=" text-[25px] leading-normal font-black text-customBlue">
                 Orizon
@@ -303,16 +304,24 @@ export default function Home() {
                         type="checkbox"
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                       />
-                      <label htmlFor="checkbox-table-search-1" className="sr-only">
+                      <label
+                        htmlFor="checkbox-table-search-1"
+                        className="sr-only"
+                      >
                         checkbox
                       </label>
                     </div>
                   </td>
                   <td className=" px-2 py-2 border border-tableBorder flex items-center gap-2">
-                    <div>
+                    <div className="">
                       <Image
                         src="/images/tableImage.png"
                         alt="Table image"
+                        sizes="100vw"
+                        style={{
+                          width: "100%",
+                          height: "auto",
+                        }}
                         width={44}
                         height={44}
                       />
@@ -366,16 +375,24 @@ export default function Home() {
                         type="checkbox"
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                       />
-                      <label htmlFor="checkbox-table-search-1" className="sr-only">
+                      <label
+                        htmlFor="checkbox-table-search-1"
+                        className="sr-only"
+                      >
                         checkbox
                       </label>
                     </div>
                   </td>
                   <td className=" px-2 py-2 border border-tableBorder flex items-center gap-2">
-                    <div>
+                    <div className="">
                       <Image
                         src="/images/tableImage.png"
                         alt="Table image"
+                        sizes="100vw"
+                        style={{
+                          width: "100%",
+                          height: "auto",
+                        }}
                         width={44}
                         height={44}
                       />
@@ -429,16 +446,24 @@ export default function Home() {
                         type="checkbox"
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                       />
-                      <label htmlFor="checkbox-table-search-1" className="sr-only">
+                      <label
+                        htmlFor="checkbox-table-search-1"
+                        className="sr-only"
+                      >
                         checkbox
                       </label>
                     </div>
                   </td>
                   <td className=" px-2 py-2 border border-tableBorder flex items-center gap-2">
-                    <div>
+                    <div className="">
                       <Image
                         src="/images/tableImage.png"
                         alt="Table image"
+                        sizes="100vw"
+                        style={{
+                          width: "100%",
+                          height: "auto",
+                        }}
                         width={44}
                         height={44}
                       />
@@ -492,16 +517,24 @@ export default function Home() {
                         type="checkbox"
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                       />
-                      <label htmlFor="checkbox-table-search-1" className="sr-only">
+                      <label
+                        htmlFor="checkbox-table-search-1"
+                        className="sr-only"
+                      >
                         checkbox
                       </label>
                     </div>
                   </td>
                   <td className=" px-2 py-2 border border-tableBorder flex items-center gap-2">
-                    <div>
+                    <div className="">
                       <Image
                         src="/images/tableImage.png"
                         alt="Table image"
+                        sizes="100vw"
+                        style={{
+                          width: "100%",
+                          height: "auto",
+                        }}
                         width={44}
                         height={44}
                       />
@@ -555,16 +588,24 @@ export default function Home() {
                         type="checkbox"
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                       />
-                      <label htmlFor="checkbox-table-search-1" className="sr-only">
+                      <label
+                        htmlFor="checkbox-table-search-1"
+                        className="sr-only"
+                      >
                         checkbox
                       </label>
                     </div>
                   </td>
                   <td className=" px-2 py-2 border border-tableBorder flex items-center gap-2">
-                    <div>
+                    <div className="">
                       <Image
                         src="/images/tableImage.png"
                         alt="Table image"
+                        sizes="100vw"
+                        style={{
+                          width: "100%",
+                          height: "auto",
+                        }}
                         width={44}
                         height={44}
                       />

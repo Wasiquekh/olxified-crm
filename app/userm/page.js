@@ -266,11 +266,12 @@ export default function Home() {
           {/* SIDE LEFT BAR TOP SECTION */}
           <div>
             <div className=" flex gap-2 mb-12">
-              <Image
+            <Image
                 src="/images/orizonDashboardIcon.svg"
                 alt="Description of image"
-                width={36}
-                height={22.5}
+                width={0}
+                height={0}
+                 className=" w-11 h-auto"
               />
               <p className=" text-[25px] leading-normal font-black text-customBlue">
                 Orizon
