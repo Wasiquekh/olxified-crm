@@ -766,9 +766,10 @@ export default function Home() {
                   <div className=" cursor-pointer p-6  w-full h-40 rounded-3xl border-2 border-dashed border-[#7A8699] flex flex-col gap-2 justify-center items-center">
                     <Image
                       src="/images/uploadBtn.svg"
-                      width={150}
-                      height={150}
+                      width={0}
+                      height={0}
                       alt="Picture of the author"
+                      className=" w-[150px] h-auto"
                     />
                     <p>Or Drop Files</p>
                   </div>
@@ -1149,9 +1150,10 @@ export default function Home() {
                     <div>
                       <Image
                         src="/images/Chip_Card.svg"
-                        width={29}
-                        height={29}
+                        width={0}
+                        height={0}
                         alt="Picture of the author"
+                        className=" w-[29px] h-auto"
                       />
                     </div>
                   </div>
@@ -1190,14 +1192,14 @@ export default function Home() {
                         cy="9.83443"
                         r="9.20455"
                         fill="white"
-                        fill-opacity="0.5"
+                        fillOpacity="0.5"
                       />
                       <circle
                         cx="17.7955"
                         cy="9.83443"
                         r="9.20455"
                         fill="white"
-                        fill-opacity="0.5"
+                        fillOpacity="0.5"
                       />
                     </svg>
                   </div>
