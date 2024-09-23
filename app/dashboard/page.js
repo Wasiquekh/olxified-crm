@@ -35,6 +35,7 @@ import { SiHomeassistantcommunitystore } from "react-icons/si";
 import { MdOutlineCall } from "react-icons/md";
 import { LiaArrowCircleDownSolid } from "react-icons/lia";
 import { MdRemoveRedEye } from "react-icons/md";
+import { IoCloseOutline } from "react-icons/io5";
 
 export default function Home() {
   const [isFlyoutOpen, setFlyoutOpen] = useState(false);
@@ -56,7 +57,7 @@ export default function Home() {
                 alt="Description of image"
                 width={0}
                 height={0}
-                 className=" w-11 h-auto"
+                className=" w-11 h-auto"
               />
               <p className=" text-[25px] leading-normal font-black text-customBlue">
                 Orizon
@@ -660,13 +661,169 @@ export default function Home() {
 
       {isFlyoutOpen && (
         <>
-          <div className=" min-h-screen w-full bg-[#1f1d1d80] absolute top-0 left-0 right-0 z-[999]"></div>
+          <div
+            className=" min-h-screen w-full bg-[#1f1d1d80] absolute top-0 left-0 right-0 z-[999]"
+            onClick={() => {
+              setFlyoutOpen(!isFlyoutOpen);
+            }}
+          ></div>
           <div className={`flyout ${isFlyoutOpen ? "open" : ""}`}>
+            <div className=" min-h-[3300px]">
             {/* Flyout content here */}
-            <h1>This is my flyout</h1>
-            <h2>Its working</h2>
-            <h3>And workign</h3>
-            <button onClick={toggleFlyout}>Close Flyout</button>
+            <div className=" flex justify-between mb-8">
+              <p className=" text-[#333B69] text-[26px] font-bold leading-9">User Details</p>
+              <IoCloseOutline
+                onClick={toggleFlyout}
+                className=" h-8 w-8 border border-[#E7E7E7] text-[#0A0A0A] rounded"
+              />
+            </div>
+            <div className=" flex flex-col gap-3 mb-[10px]">
+              <p className=" text-[#333] text-xl font-medium leading-6">
+              Alexandre Prot
+              </p>
+              <p className=" text-[#999] text-[13px] leading-5">Edited 4hrs ago by Admin</p>
+            </div>
+            <div className=" w-full border-b border-[#E7E7E7] mb-4"></div>
+            {/* FORM */}
+            <div className=" w-full">
+            <div className=" w-full flex gap-4 mb-4">
+                <div className=" w-full">
+                  <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
+                  First Name<span className=" text-[#EB5757] text-base font-medium"> *</span>
+                  </p>
+                  <input
+                    type="text"
+                    placeholder="Alexandre"
+                    className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                  />
+                </div>
+                <div className=" w-full">
+                  <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
+                  Last Name
+                  </p>
+                  <input
+                    type="text"
+                    placeholder="Prot"
+                    className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                  />
+                </div>
+              </div>
+
+              <div className=" w-full flex gap-4 mb-4">
+                <div className=" w-full">
+                  <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
+                  Phone
+                  </p>
+                  <input
+                    type="number"
+                    placeholder="1 (800) 667-6389"
+                    className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                  />
+                </div>
+                <div className=" w-full">
+                  <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
+                  Birth Date<span className=" text-[#EB5757] text-base font-medium"> *</span>
+                  </p>
+                  <input
+                    type="date"
+                    placeholder=""
+                    className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                  />
+                </div>
+              </div>
+
+              <div className=" w-full flex gap-4 mb-4">
+                <div className=" w-full">
+                  <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
+                  Email ID
+                  </p>
+                  <input
+                    type="email"
+                    placeholder="email@example.com"
+                    className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                  />
+                </div>
+              </div>
+
+              <div className=" w-full flex gap-4 mb-9">
+                <div className=" w-full">
+                  <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
+                  Gender
+                  </p>
+                  <input
+                    type="email"
+                    placeholder="Male"
+                    className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                  />
+                </div>
+              </div>
+              <p className=" text-[#333B69] text-[22px] leading-normal font-semibold">Address Information</p>
+
+              <div className=" w-full flex gap-4 mb-4">
+                <div className=" w-full">
+                  <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
+                  Country of Birth
+                  </p>
+                  <input
+                    type="text"
+                    placeholder="USA"
+                    className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                  />
+                </div>
+              </div>
+
+              <div className=" w-full flex gap-4 mb-4">
+                <div className=" w-full">
+                  <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
+                  City of Birth
+                  </p>
+                  <input
+                    type="text"
+                    placeholder="New York City"
+                    className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                  />
+                </div>
+              </div>
+
+              <div className=" w-full flex gap-4 mb-4">
+                <div className=" w-full">
+                  <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
+                  Zip/Postal Code
+                  </p>
+                  <input
+                    type="text"
+                    placeholder="---None---"
+                    className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                  />
+                </div>
+                <div className=" w-full">
+                  <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
+                  State/Province
+                  </p>
+                  <input
+                    type="text"
+                    placeholder="---None---"
+                    className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                  />
+                </div>
+              </div>
+
+              <div className=" w-full flex gap-4 mb-9">
+                <div className=" w-full">
+                  <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
+                  Street
+                  </p>
+                  <input
+                    type="text"
+                    placeholder="Broadway 10012, New York, NY, USA"
+                    className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                  />
+                </div>
+              </div>
+              
+            </div>
+            {/* END FORM */}
+            </div>
           </div>
         </>
       )}
