@@ -126,7 +126,7 @@ export default function Home() {
               </p>
             </div>
             </Link>
-            <Link href="/usermanagement">
+            <Link href="/user">
             <div className=" mb-9 flex gap-6 items-center group">
               <BiSolidUser className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
               <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
