@@ -56,27 +56,21 @@ export default function Home() {
           height={52}
           className=" mx-auto mb-5"
         />
-        <p className=" font-bold text-base leading-normal text-center text-black mb-6">
-          Login to Orizon
+        <p className=" font-bold text-base leading-normal text-center text-black mb-14">
+        Authenticate your Account
         </p>
+        <p className=" text-[#232323] text-base leading-[26px] text-center mb-14">
+        Please confirm your account by entering the authentication number sent to your authenticator app</p>
+        <div className="flex gap-[10px] justify-between mb-14 w-[90%] mx-auto">
+            <p className="py-4 px-5 border-b border-[#BDD1E0] text-black text-xl font-semibold leading-normal">1</p>
+            <p className="py-4 px-5 border-b border-[#BDD1E0] text-black text-xl font-semibold leading-normal">2</p>
+            <p className="py-4 px-5 border-b border-[#BDD1E0] text-black text-xl font-semibold leading-normal">3</p>
+            <p className="py-4 px-5 border-b border-[#BDD1E0] text-black text-xl font-semibold leading-normal">4</p>
+            <p className="py-4 px-5 border-b border-[#BDD1E0] text-black text-xl font-semibold leading-normal">5</p>
+            <p className="py-4 px-5 border-b border-[#BDD1E0] text-black text-xl font-semibold leading-normal">6</p>
+        </div>
         <div className=" w-full">
-          <p
-            className=" text-[#232323] text-base leading-normal mb-2">
-            Email or Userid
-          </p>
-          <input
-            type="text"
-            placeholder="Enter your User ID/Email"
-            className=" focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-6"
-          />
-          <p className=" text-[#232323] text-base leading-normal mb-2">
-            Password
-          </p>
-          <input
-            type="text"
-            placeholder="Entet your password"
-            className=" focus:outline-none  w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-6"/>
-              <Link href="/otp">
+        <Link href="/dashboard">
             <button
             className=" bg-[#1814F3] border rounded-[15px] w-full h-[50px] text-center text-white text-lg font-medium leading-normal mb-3"
             >
@@ -84,8 +78,8 @@ export default function Home() {
             </button>
             </Link>
             <div className=" flex gap-4"> 
-              <p className=" text-[#424955] text-[15px] leading-normal">Forgot User ID or Password?</p> 
-              <p className=" text-[#1814F3] text-[15px] font-semibold underline cursor-pointer">Reset Now</p>
+              <p className=" text-[#424955] text-[15px] leading-normal">Haven't received the code?</p> 
+              <p className=" text-[#1814F3] text-[15px] font-semibold underline cursor-pointer">Resend a New Code</p>
             </div>
           
         </div>

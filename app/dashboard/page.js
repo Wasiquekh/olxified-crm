@@ -37,11 +37,16 @@ import { LiaArrowCircleDownSolid } from "react-icons/lia";
 import { MdRemoveRedEye } from "react-icons/md";
 import { IoCloseOutline } from "react-icons/io5";
 import { HiOutlineWallet } from "react-icons/hi2";
+import Link from "next/link";
 
 export default function Home() {
   const [isFlyoutOpen, setFlyoutOpen] = useState(false);
+  const [isFlyoutFilterOpen, setFlyoutFilterOpen] = useState(false);
   const toggleFlyout = () => {
     setFlyoutOpen(!isFlyoutOpen);
+  };
+  const toggleFilterFlyout = () => {
+    setFlyoutFilterOpen(!isFlyoutFilterOpen);
   };
   const [isFocused, setIsFocused] = useState(false);
 
@@ -52,6 +57,7 @@ export default function Home() {
         <div className=" w-[15%]  flex flex-col justify-between py-4 px-4 border-r-2 border-customBorder shadow-borderShadow mt-2">
           {/* SIDE LEFT BAR TOP SECTION */}
           <div>
+          <Link href="/dashboard">
             <div className=" flex gap-2 mb-12">
               <Image
                 src="/images/orizonDashboardIcon.svg"
@@ -64,6 +70,7 @@ export default function Home() {
                 Orizon
               </p>
             </div>
+            </Link>
             {/* SEARCH INPUT WITH ICON */}
             <input
               type="text"
@@ -71,51 +78,65 @@ export default function Home() {
               className=" w-full rounded-lg border border-[#E7E7E7] p-[10px] focus:outline-none placeholder-[#717171] mb-12"
             />
             {/* MENU WITH ICONS */}
-            <div className=" mb-9 flex gap-6 items-center">
-              <BiSolidHome className=" w-6 h-6 text-[#B1B1B1]" />
-              <p className=" text-[#B1B1B1] text-base leading-normal font-medium">
+            <Link href="/dashboard">
+            <div className=" mb-9 flex gap-6 items-center  cursor-pointer group">
+              <BiSolidHome className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
+              <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
                 Dashboard
               </p>
             </div>
+            </Link>
+            <Link href="/dashboard">
             <div className=" mb-9 flex gap-6 items-center">
               <MdOutlineBarChart className=" w-6 h-6 text-customBlue " />
               <p className=" text-customBlue text-base leading-normal font-medium">
                 Customers
               </p>
             </div>
-            <div className=" mb-9 flex gap-6 items-center">
-              <TbDeviceMobileDollar className=" w-6 h-6 text-[#B1B1B1]" />
-              <p className=" text-[#B1B1B1] text-base leading-normal font-medium">
+            </Link>
+            <Link href="/transaction">
+            <div className=" mb-9 flex gap-6 items-center group">
+              <TbDeviceMobileDollar className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
+              <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
                 Transaction
               </p>
             </div>
-            <div className=" mb-9 flex gap-6 items-center">
-              <HiWrenchScrewdriver className=" w-6 h-6 text-[#B1B1B1]" />
-              <p className=" text-[#B1B1B1] text-base leading-normal font-medium">
+            </Link>
+            <Link href="/dashboard">
+            <div className=" mb-9 flex gap-6 items-center group">
+              <HiWrenchScrewdriver className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
+              <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
                 Point of Services
               </p>
             </div>
-            <div className=" mb-9 flex gap-6 items-center">
-              <FaMoneyCheckDollar className=" w-6 h-6 text-[#B1B1B1]" />
-              <p className=" text-[#B1B1B1] text-base leading-normal font-medium">
+            </Link>
+            <Link href="/dashboard">
+            <div className=" mb-9 flex gap-6 items-center group">
+              <FaMoneyCheckDollar className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
+              <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
                 Payment Terminal
               </p>
             </div>
-            <div className=" mb-9 flex gap-6 items-center">
-              <BsCreditCard2Back className=" w-6 h-6 text-[#B1B1B1]" />
-              <p className=" text-[#B1B1B1] text-base leading-normal font-medium">
+            </Link>
+            <Link href="/dashboard">
+            <div className=" mb-9 flex gap-6 items-center group">
+              <BsCreditCard2Back className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
+              <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
                 Credit Cards
               </p>
             </div>
-            <div className=" mb-9 flex gap-6 items-center">
-              <BiSolidUser className=" w-6 h-6 text-[#B1B1B1]" />
-              <p className=" text-[#B1B1B1] text-base leading-normal font-medium">
+            </Link>
+            <Link href="/usermanagement">
+            <div className=" mb-9 flex gap-6 items-center group">
+              <BiSolidUser className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
+              <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
                 User Management
               </p>
             </div>
-            <div className=" mb-9 flex gap-6 items-center">
-              <IoMdSettings className=" w-6 h-6 text-[#B1B1B1]" />
-              <p className=" text-[#B1B1B1] text-base leading-normal font-medium">
+            </Link>
+            <div className=" mb-9 flex gap-6 items-center group">
+              <IoMdSettings className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
+              <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
                 Settings
               </p>
             </div>
@@ -178,19 +199,19 @@ export default function Home() {
               </div>
             </div>
             <div>
-              <button className=" flex items-center gap-[10px] bg-[#fff]  h-12 px-3 py-[6px] rounded-2xl  border border-[#E7E7E7] shadow-borderShadow">
+              {/* <button className=" flex items-center gap-[10px] bg-[#fff]  h-12 px-3 py-[6px] rounded-2xl  border border-[#E7E7E7] shadow-borderShadow">
                 <FaPlus className=" h-[20px] w-[20px] text-customBlue" />
                 <p className=" text-customBlue text-base leading-normal">
                   Add New Customer
                 </p>
-              </button>
+              </button> */}
             </div>
           </div>
 
           {/* ----------------Table----------------------- */}
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
             {/* Search and filter table row */}
-            <div className=" flex justify-between items-center mb-6">
+            <div className=" flex justify-between items-center mb-6  w-[98%] mx-auto">
               <div>
                 <input
                   type="text"
@@ -199,18 +220,20 @@ export default function Home() {
                 />
               </div>
               <div className=" flex justify-center items-center gap-4">
-                <div className=" flex gap-2 py-3 px-4 rounded-[16px] border border-[#E7E7E7]">
+                <div className=" flex gap-2 py-3 px-4 rounded-[16px] border border-[#E7E7E7] cursor-pointer"
+                 onClick={toggleFilterFlyout}
+                 >
                   <FiFilter className=" w-6 h-6" />
                   <p className=" text-[#0A0A0A] text-base font-medium">
                     Filter
                   </p>
                 </div>
-                <div className=" flex gap-2 py-3 px-4 rounded-[16px] border border-[#E7E7E7]">
+                {/* <div className=" flex gap-2 py-3 px-4 rounded-[16px] border border-[#E7E7E7]">
                   <LuPencilLine className=" w-6 h-6" />
                   <p className=" text-[#0A0A0A] text-base font-medium">
                     Filter
                   </p>
-                </div>
+                </div> */}
               </div>
             </div>
             {/* End search and filter row */}
@@ -1352,6 +1375,121 @@ export default function Home() {
                 </div>
               </div>
               {/* END CARD MANAGEMENT */}
+              <div className="mt-10 w-full flex justify-end items-center gap-5">
+                <button className=" py-[13px] px-[26px] border border-[#E7E7E7] rounded-2xl text-[#0A0A0A] text-base font-medium leading-6">
+                  Cancel
+                </button>
+                <button className=" py-[13px] px-[26px] bg-customBlue rounded-2xl text-base font-medium leading-6 text-white ">
+                  Update Details
+                </button>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* FITLER FLYOUT */}
+      {isFlyoutFilterOpen && (
+        <>
+          <div
+            className=" min-h-screen w-full bg-[#1f1d1d80] absolute top-0 left-0 right-0 z-[999]"
+            onClick={() => {
+              setFlyoutFilterOpen(!isFlyoutFilterOpen);
+            }}
+          ></div>
+          <div className={`filterflyout ${isFlyoutFilterOpen ? "filteropen" : ""}`}>
+            <div className=" w-full min-h-auto">
+              {/* Flyout content here */}
+              <div className=" flex justify-between mb-8">
+                <p className=" text-[#333B69] text-[26px] font-bold leading-9">
+                  User Details
+                </p>
+                <IoCloseOutline
+                  onClick={toggleFilterFlyout}
+                  className=" h-8 w-8 border border-[#E7E7E7] text-[#0A0A0A] rounded cursor-pointer"
+                />
+              </div>
+              <div className=" flex flex-col gap-3 mb-[10px]">
+                <p className=" text-[#333] text-xl font-medium leading-6">
+                  Alexandre Prot
+                </p>
+                <p className=" text-[#999] text-[13px] leading-5">
+                  Edited 4hrs ago by Admin
+                </p>
+              </div>
+              <div className=" w-full border-b border-[#E7E7E7] mb-4"></div>
+              {/* FORM */}
+              <div className=" w-full">
+                <div className=" w-full flex gap-4 mb-4">
+                  <div className=" w-full">
+                    <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
+                      First Name
+                      <span className=" text-[#EB5757] text-base font-medium">
+                        {" "}
+                        *
+                      </span>
+                    </p>
+                    <input
+                      type="text"
+                      placeholder="Alexandre"
+                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                    />
+                  </div>
+                  <div className=" w-full">
+                    <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
+                      Last Name
+                    </p>
+                    <input
+                      type="text"
+                      placeholder="Prot"
+                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                    />
+                  </div>
+                </div>
+
+                <div className=" w-full flex gap-4 mb-4">
+                  <div className=" w-full">
+                    <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
+                      Phone
+                    </p>
+                    <input
+                      type="number"
+                      placeholder="1 (800) 667-6389"
+                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                    />
+                  </div>
+                  <div className=" w-full">
+                    <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
+                      Birth Date
+                      <span className=" text-[#EB5757] text-base font-medium">
+                        {" "}
+                        *
+                      </span>
+                    </p>
+                    <input
+                      type="date"
+                      placeholder=""
+                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                    />
+                  </div>
+                </div>
+
+                <div className=" w-full flex gap-4 mb-4">
+                  <div className=" w-full">
+                    <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
+                      Email ID
+                    </p>
+                    <input
+                      type="email"
+                      placeholder="email@example.com"
+                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                    />
+                  </div>
+                </div>
+              </div>
+              {/* END FORM */}
+             
+              
               <div className="mt-10 w-full flex justify-end items-center gap-5">
                 <button className=" py-[13px] px-[26px] border border-[#E7E7E7] rounded-2xl text-[#0A0A0A] text-base font-medium leading-6">
                   Cancel

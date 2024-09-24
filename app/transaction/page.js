@@ -39,6 +39,7 @@ import { MdRemoveRedEye } from "react-icons/md";
 import { MdModeEdit } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { PiArrowCircleUp } from "react-icons/pi";
+import Link from "next/link";
 
 export default function Home() {
   const tabs = [
@@ -435,18 +436,20 @@ export default function Home() {
         <div className=" w-[15%]  flex flex-col justify-between py-4 px-4 border-r-2 border-customBorder shadow-borderShadow mt-2">
           {/* SIDE LEFT BAR TOP SECTION */}
           <div>
+          <Link href="/dashboard">
             <div className=" flex gap-2 mb-12">
-            <Image
+              <Image
                 src="/images/orizonDashboardIcon.svg"
                 alt="Description of image"
                 width={0}
                 height={0}
-                 className=" w-11 h-auto"
+                className=" w-11 h-auto"
               />
               <p className=" text-[25px] leading-normal font-black text-customBlue">
                 Orizon
               </p>
             </div>
+            </Link>
             {/* SEARCH INPUT WITH ICON */}
             <input
               type="text"
@@ -454,51 +457,65 @@ export default function Home() {
               className=" w-full rounded-lg border border-[#E7E7E7] p-[10px] focus:outline-none placeholder-[#717171] mb-12"
             />
             {/* MENU WITH ICONS */}
-            <div className=" mb-9 flex gap-6 items-center">
-              <BiSolidHome className=" w-6 h-6 text-[#B1B1B1]" />
-              <p className=" text-[#B1B1B1] text-base leading-normal font-medium">
+            <Link href="/dashboard">
+            <div className=" mb-9 flex gap-6 items-center  cursor-pointer group">
+              <BiSolidHome className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
+              <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
                 Dashboard
               </p>
             </div>
+            </Link>
+            <Link href="/dashboard">
             <div className=" mb-9 flex gap-6 items-center">
               <MdOutlineBarChart className=" w-6 h-6 text-[#B1B1B1] " />
               <p className=" text-[#B1B1B1] text-base leading-normal font-medium">
                 Customers
               </p>
             </div>
-            <div className=" mb-9 flex gap-6 items-center">
-              <TbDeviceMobileDollar className=" w-6 h-6 text-customBlue" />
-              <p className=" text-customBlue text-base leading-normal font-medium">
+            </Link>
+            <Link href="/transaction">
+            <div className=" mb-9 flex gap-6 items-center group">
+              <TbDeviceMobileDollar className=" w-6 h-6 text-customBlue group-hover:text-customBlue" />
+              <p className=" text-customBlue text-base leading-normal font-medium group-hover:text-customBlue">
                 Transaction
               </p>
             </div>
-            <div className=" mb-9 flex gap-6 items-center">
-              <HiWrenchScrewdriver className=" w-6 h-6 text-[#B1B1B1]" />
-              <p className=" text-[#B1B1B1] text-base leading-normal font-medium">
+            </Link>
+            <Link href="/dashboard">
+            <div className=" mb-9 flex gap-6 items-center group">
+              <HiWrenchScrewdriver className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
+              <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
                 Point of Services
               </p>
             </div>
-            <div className=" mb-9 flex gap-6 items-center">
-              <FaMoneyCheckDollar className=" w-6 h-6 text-[#B1B1B1]" />
-              <p className=" text-[#B1B1B1] text-base leading-normal font-medium">
+            </Link>
+            <Link href="/dashboard">
+            <div className=" mb-9 flex gap-6 items-center group">
+              <FaMoneyCheckDollar className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
+              <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
                 Payment Terminal
               </p>
             </div>
-            <div className=" mb-9 flex gap-6 items-center">
-              <BsCreditCard2Back className=" w-6 h-6 text-[#B1B1B1]" />
-              <p className=" text-[#B1B1B1] text-base leading-normal font-medium">
+            </Link>
+            <Link href="/dashboard">
+            <div className=" mb-9 flex gap-6 items-center group">
+              <BsCreditCard2Back className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
+              <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
                 Credit Cards
               </p>
             </div>
-            <div className=" mb-9 flex gap-6 items-center">
-              <BiSolidUser className=" w-6 h-6 text-[#B1B1B1]" />
-              <p className=" text-[#B1B1B1] text-base leading-normal font-medium">
+            </Link>
+            <Link href="/usermanagement">
+            <div className=" mb-9 flex gap-6 items-center group">
+              <BiSolidUser className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
+              <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
                 User Management
               </p>
             </div>
-            <div className=" mb-9 flex gap-6 items-center">
-              <IoMdSettings className=" w-6 h-6 text-[#B1B1B1]" />
-              <p className=" text-[#B1B1B1] text-base leading-normal font-medium">
+            </Link>
+            <div className=" mb-9 flex gap-6 items-center group">
+              <IoMdSettings className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
+              <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
                 Settings
               </p>
             </div>

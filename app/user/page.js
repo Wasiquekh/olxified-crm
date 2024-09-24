@@ -37,6 +37,7 @@ import { LiaArrowCircleDownSolid } from "react-icons/lia";
 import { MdRemoveRedEye } from "react-icons/md";
 import { MdModeEdit } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import Link from "next/link";
 
 export default function Home() {
 
@@ -48,6 +49,7 @@ export default function Home() {
         <div className=" w-[15%]  flex flex-col justify-between py-4 px-4 border-r-2 border-customBorder shadow-borderShadow mt-2">
           {/* SIDE LEFT BAR TOP SECTION */}
           <div>
+          <Link href="/dashboard">
             <div className=" flex gap-2 mb-12">
             <Image
                 src="/images/orizonDashboardIcon.svg"
@@ -60,6 +62,7 @@ export default function Home() {
                 Orizon
               </p>
             </div>
+            </Link>
             {/* SEARCH INPUT WITH ICON */}
             <input
               type="text"
