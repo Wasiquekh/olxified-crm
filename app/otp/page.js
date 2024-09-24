@@ -78,7 +78,7 @@ export default function Home() {
             </button>
             </Link>
             <div className=" flex gap-4"> 
-              <p className=" text-[#424955] text-[15px] leading-normal">Haven't received the code?</p> 
+              <p className=" text-[#424955] text-[15px] leading-normal">Haven&apos;t received the code?</p> 
               <p className=" text-[#1814F3] text-[15px] font-semibold underline cursor-pointer">Resend a New Code</p>
             </div>
           
