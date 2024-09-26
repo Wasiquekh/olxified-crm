@@ -497,7 +497,7 @@ export default function Home() {
               </p>
             </div>
             </Link>
-            <Link href="/dashboard">
+            <Link href="/cards">
             <div className=" mb-9 flex gap-6 items-center group">
               <BsCreditCard2Back className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
               <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
