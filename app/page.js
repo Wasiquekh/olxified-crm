@@ -1,7 +1,62 @@
+"use client";
 import Image from "next/image";
-import Link from "next/link";
+import { appCheck } from "./firebase-config";
+import { getToken } from "firebase/app-check";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
+
+const [email, setEmail] = useState('');
+const [password, setPassword] = useState('');
+const [loading, setLoading] = useState(false);
+const router = useRouter();
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      // Retrieve App Check token
+      const appCheckToken = await getToken(appCheck, true);
+      // console.log("App Check Token:", appCheckToken);
+      if (!appCheckToken) {
+        //  console.error("Failed to retrieve App Check token");
+        return;
+      }
+      // Submit the form data
+      const res = await fetch(
+        "https://orizon-crm-api-uat.yliqo.com/api/v1/Orizonapigateway/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Firebase-AppCheck": appCheckToken.token, // Include App Check token
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
+  
+      if (!res.ok) {
+        const errorData = await res.json();
+        console.error("Login failed", res.status, errorData);
+        throw new Error(`Error: ${res.status} - ${errorData.message}`);
+      }
+  
+      const data = await res.json();
+      //console.log("Response:", data);
+      localStorage.setItem('email',email);
+      localStorage.setItem('password',password);
+      router.push("/otp");
+  
+    } catch (error) {
+      console.error("Login error:", error);
+    } finally {
+      setLoading(false);
+    }
+
+
+  }
   return (
     <>
       <div className=" bg-[#F5F5F5]">
@@ -59,6 +114,7 @@ export default function Home() {
         <p className=" font-bold text-base leading-normal text-center text-black mb-6">
           Login to Orizon
         </p>
+        <form onSubmit={handleSubmit}>
         <div className=" w-full">
           <p
             className=" text-[#232323] text-base leading-normal mb-2">
@@ -66,29 +122,36 @@ export default function Home() {
           </p>
           <input
             type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
             placeholder="Enter your User ID/Email"
-            className=" focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-6"
+            className=" focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-6 text-[#718EBF]"
           />
           <p className=" text-[#232323] text-base leading-normal mb-2">
             Password
           </p>
           <input
-            type="text"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
             placeholder="Entet your password"
-            className=" focus:outline-none  w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-6"/>
-              <Link href="/otp">
+            className=" focus:outline-none  w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-6 text-[#718EBF]"/>
             <button
+            type='submit'
+            disabled={loading}
             className=" bg-[#1814F3] border rounded-[15px] w-full h-[50px] text-center text-white text-lg font-medium leading-normal mb-3"
             >
-              Login
+              {loading ? 'Logging in...' : 'Login'}
             </button>
-            </Link>
             <div className=" flex gap-4"> 
               <p className=" text-[#424955] text-[15px] leading-normal">Forgot User ID or Password?</p> 
               <p className=" text-[#1814F3] text-[15px] font-semibold underline cursor-pointer">Reset Now</p>
             </div>
           
         </div>
+        </form>
       </div>
     </>
   );
