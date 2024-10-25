@@ -2,8 +2,11 @@
 import Image from "next/image";
 import { appCheck } from "./firebase-config";
 import { getToken } from "firebase/app-check";
-import { useState } from 'react';
+import { useState,useContext  } from 'react';
 import { useRouter } from 'next/navigation';
+import AxiosProvider from './provider/axiosProvider';
+import { AuthContext} from './AuthContext';
+
 
 export default function Home() {
 
@@ -12,51 +15,47 @@ const [password, setPassword] = useState('');
 const [loading, setLoading] = useState(false);
 const router = useRouter();
 
+const axiosProvider = new AxiosProvider();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      // Retrieve App Check token
-      const appCheckToken = await getToken(appCheck, true);
-      // console.log("App Check Token:", appCheckToken);
-      if (!appCheckToken) {
-        //  console.error("Failed to retrieve App Check token");
-        return;
-      }
-      // Submit the form data
-      const res = await fetch(
-        "https://orizon-crm-api-uat.yliqo.com/api/v1/Orizonapigateway/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-Firebase-AppCheck": appCheckToken.token, // Include App Check token
-          },
-          body: JSON.stringify({ email, password }),
-        }
-      );
-  
-      if (!res.ok) {
-        const errorData = await res.json();
-        console.error("Login failed", res.status, errorData);
-        throw new Error(`Error: ${res.status} - ${errorData.message}`);
-      }
-  
-      const data = await res.json();
-      //console.log("Response:", data);
-      localStorage.setItem('email',email);
-      localStorage.setItem('password',password);
-      router.push("/otp");
-  
-    } catch (error) {
-      console.error("Login error:", error);
-    } finally {
-      setLoading(false);
-    }
+ // Use AuthContext
+ const { saveAuthData } = useContext(AuthContext);
 
+ const handleSubmit = async (e) => {
+   e.preventDefault();
+   setLoading(true);
+   try {
+     // Retrieve App Check token
+     const appCheckToken = await getToken(appCheck, true);
+     if (!appCheckToken) {
+       console.error("Failed to retrieve App Check token");
+       return;
+     }
 
-  }
+     // Submit the form data using AxiosProvider
+     const res = await axiosProvider.post("/login", { email, password }, {
+       headers: {
+         "X-Firebase-AppCheck": appCheckToken.token,
+       },
+     });
+
+     if (res.status !== 200) {
+       console.error("Login failed", res.status, res.data);
+       throw new Error(`Error: ${res.status} - ${res.data.message}`);
+     }
+
+     // Save authentication data in context and localStorage
+     saveAuthData(email,);
+
+     // Navigate to the OTP page
+     router.push("/otp");
+     
+   } catch (error) {
+     console.error("Login error:", error);
+   } finally {
+     setLoading(false);
+   }
+ };
+
   return (
     <>
       <div className=" bg-[#F5F5F5]">

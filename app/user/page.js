@@ -17,109 +17,116 @@ import { LiaArrowCircleDownSolid } from "react-icons/lia";
 import { MdRemoveRedEye } from "react-icons/md";
 import { MdModeEdit } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { IoCloseOutline } from "react-icons/io5";
 import Link from "next/link";
 import { appCheck } from "../firebase-config";
 import { getToken } from "firebase/app-check";
 import { useEffect } from "react";
 import { useState } from "react";
+import AxiosProvider from "../provider/axiosProvider";
+import { AuthContext } from "../AuthContext";
+import { useContext } from "react";
+import { useFormik } from 'formik';
+import * as Yup from 'yup'; // for validation
+import SidebarUserUpdateForm from "../component/SidebarUserUpdateForm";
+
+const axiosProvider = new AxiosProvider();
 
 export default function Home() {
   const [data, setData] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const itemsPerPage = 10; // Customize this as needed
+  const [paginatedData, setPaginatedData] = useState([]); // To hold the paginated data
+  const [isEditFlyoutOpen, setIsEditFlyoutOpen] = useState(false);
+  const [currentUserData, setCurrentUserData] = useState({});
+
+  console.log('ID',currentUserData.id)
+  const toggleEditFlyout = () => {
+    setIsEditFlyoutOpen(!isEditFlyoutOpen);
+  };
+
+  const changeCurrentUserData = (item) => {
+    setCurrentUserData(item);
+    toggleEditFlyout();
+  };
+
+
+  
+
+ useEffect(() => {
+  const fetchData = async () => {
+    try {
+      // Get the Firebase App Check token
+      const tokenResponse = await getToken(appCheck, true);
+      const appCheckToken = tokenResponse.token;
+  
+
+      // Bearer token - assuming it is stored or retrieved (e.g., from local storage, an API, or auth context)
+      const accessToken = localStorage.getItem("accessToken");
+
+      // Make API request with App Check token and Authorization Bearer token in the headers
+      const response = await axiosProvider.get("/getalluser", {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "X-Firebase-AppCheck": appCheckToken,
+          Authorization: `Bearer ${accessToken}`, // Add the access token for authentication
+        },
+      });
+      // Axios already parses the response, so no need for response.json()
+      const result = response.data;
+      setData(result.data); // Assuming setData is a state setter function to store the result
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      if (error.response && error.response.status === 401) {
+        console.error("Unauthorized: Check App Check token and Bearer token.");
+      }
+    }
+  };
+
+  fetchData(); // Fetch data when the page loads
+}, []); // Empty dependency array ensures it runs only once
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Get the Firebase App Check token
-        const tokenResponse = await getToken(appCheck, true);
-        const appCheckToken = tokenResponse.token;
-        // Bearer token - assuming it is stored or retrieved (e.g., from local storage, an API, or auth context)
-        const accessToken = localStorage.getItem("accessToken");
+    if (data) {
+      // Calculate total pages based on the length of the data
+      setTotalPages(Math.ceil(data.length / itemsPerPage));
 
-        // Make API request with App Check token in the headers
-        const response = await fetch(
-          "https://orizon-crm-api-uat.yliqo.com/api/v1/Orizonapigateway/getalluser",
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${accessToken}`, // Bearer token
-              "Content-Type": "application/x-www-form-urlencoded",
-              "x-firebase-appcheck": appCheckToken, // Firebase App Check token
-            },
-          }
-        );
+      // Slice data to show the items for the current page
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const currentData = data.slice(startIndex, startIndex + itemsPerPage);
+      setPaginatedData(currentData);
+    }
+  }, [currentPage, data]);
 
-        const result = await response.json();
-        console.log(result.data); // Check the data in the console
-        setData(result.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
-    fetchData(); // Fetch data when the page loads
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
 
+  if (!data) {
+    return (
+      <div className=" h-screen flex flex-col gap-5 justify-center items-center">
+        <Image
+          src="/images/orizonIcon.svg"
+          alt="Table image"
+          width={500}
+          height={500}
+          style={{ width: "150px", height: "auto" }}
+          className="animate-pulse rounded"
+        />
+        <p className=" text-black text-xl font-medium">Data Loading...</p>
+      </div>
+    );
+  }
 
-  }, []); // Empty dependency array ensures it runs only once
-
-
-  useEffect(() => {
-    const addData = async () => {
-      const userName = 'noor';
-      const userMobile = '9172758731';
-      const userEmail = 'noor@gmail.com';
-      const userPassword = 'noor@123';
-      const userRole = '1';
-  
-      try {
-        // Get Firebase App Check token
-        const appCheckTokenn = await getToken();
-  
-        // Prepare URL-encoded body data
-        const bodyData = new URLSearchParams();
-        bodyData.append('name', userName);
-        bodyData.append('mobileNumber', userMobile);
-        bodyData.append('email', userEmail);
-        bodyData.append('password', userPassword);
-        bodyData.append('roleLevel', userRole);
-  
-        // Submit the form data
-        const res = await fetch(
-          "https://orizon-crm-api-uat.yliqo.com/api/v1/Orizonapigateway/register",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-              "X-Firebase-AppCheck": appCheckTokenn.token, // Include App Check token
-            },
-            body: bodyData.toString(), // Use the URLSearchParams formatted string
-          }
-        );
-  
-        if (!res.ok) {
-          console.log('data nahi ja raha hai')
-          const errorData = await res.json();
-          console.error("Login failed", res.status, errorData);
-          throw new Error(`Error: ${res.status} - ${errorData.message}`);
-        }
-  
-        const data = await res.json();
-        console.log("Response Added data:", data);
-      } catch (error) {
-        console.error("Login error:", error);
-        console.log('data nahi ja raha hai error ki wajah se')
-      }
-    };
-  
-    addData();
-  }, []);
-  
-
-
-
-
-
-
-  console.log("%%%%%%%%%%%%", data);
   return (
     <>
       <div className=" flex  min-h-screen">
@@ -346,85 +353,118 @@ export default function Home() {
                 </tr>
               </thead>
               <tbody>
-              {data && data.map((item) => (
-            
-         
-                <tr className=" border border-tableBorder bg-white">
-                  <td className="w-4  px-4 py-0 border border-tableBorder">
-                    <div className="flex items-center">
-                      <input
-                        id="checkbox-table-search-1"
-                        type="checkbox"
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label
-                        htmlFor="checkbox-table-search-1"
-                        className="sr-only"
-                      >
-                        checkbox
-                      </label>
-                    </div>
-                  </td>
-                  <td className=" px-2 py-2 border border-tableBorder flex items-center gap-2">
-                    <div>
-                      <Image
-                        src="/images/tableImage.png"
-                        alt="Table image"
-                        width={44}
-                        height={44}
-                      />
-                    </div>
-                    <div>
-                      <p className=" text-[#0A0A0A] text-base font-semibold leading-normal mb-[6px]">
-                        {item.name}
-                      </p>
-                      <p key={item.email} className=" text-[#717171] text-sm leading-normal">
-                      {item.email} 
-                      </p>
-                    </div>
-                  </td>
-                  <td className="px-2 py-0 border border-tableBorder">
-                    <p className=" text-[#717171] text-base leading-normal">
-                    {item.mobile_number}
-                    </p>
-                  </td>
-                  <td className="px-2 py-0 border border-tableBorder">
-                    <button className=" py-[6px] px-8 bg-[#DCF8DC]    rounded-[16px]">
-                      <p className=" text-sm leading-normal text-[#0C390C]">
-                      {item.role}
-                      </p>
-                    </button>
-                  </td>
-                  <td className="px-2 py-0 border border-tableBorder">
-                    <div className=" flex gap-1.5">
-                      <button className=" py-[6px] px-4 bg-[#C6F7FE]  flex gap-1.5 items-center rounded-full">
-                        <MdRemoveRedEye className=" text-customBlue w-4 h-4" />
-                        <p className=" text-sm leading-normal text-customBlue">
-                          View
+                {paginatedData &&
+                  paginatedData.map((item) => (
+                    <tr className=" border border-tableBorder bg-white">
+                      <td className="w-4  px-4 py-0 border border-tableBorder">
+                        <div className="flex items-center">
+                          <input
+                            id="checkbox-table-search-1"
+                            type="checkbox"
+                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          />
+                          <label
+                            htmlFor="checkbox-table-search-1"
+                            className="sr-only"
+                          >
+                            checkbox
+                          </label>
+                        </div>
+                      </td>
+                      <td className=" px-2 py-2 border border-tableBorder flex items-center gap-2">
+                        <div>
+                          <Image
+                            src="/images/tableImage.png"
+                            alt="Table image"
+                            width={44}
+                            height={44}
+                          />
+                        </div>
+                        <div>
+                          <p className=" text-[#0A0A0A] text-base font-semibold leading-normal mb-[6px]">
+                            {item.name}
+                          </p>
+                          <p
+                            key={item.email}
+                            className=" text-[#717171] text-sm leading-normal"
+                          >
+                            {item.email}
+                          </p>
+                        </div>
+                      </td>
+                      <td className="px-2 py-0 border border-tableBorder">
+                        <p className=" text-[#717171] text-base leading-normal">
+                          {item.mobile_number}
                         </p>
-                      </button>
-                      <button className=" py-[6px] px-4 bg-[#F9E3FB]  flex gap-1.5 items-center rounded-full">
-                        <MdModeEdit className=" text-[#6D1473] w-4 h-4" />
-                        <p className=" text-sm leading-normal text-[#6D1473]">
-                          Edit
-                        </p>
-                      </button>
-                      <button className=" py-[6px] px-4 bg-[#FFD0D1]  flex gap-1.5 items-center rounded-full">
-                        <RiDeleteBin6Line className=" text-[#FF1C1F] w-4 h-4" />
-                        <p className=" text-sm leading-normal text-[#FF1C1F]">
-                          Delete
-                        </p>
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-                 ))}
+                      </td>
+                      <td className="px-2 py-0 border border-tableBorder">
+                        <button className=" py-[6px] px-8 bg-[#DCF8DC]    rounded-[16px]">
+                          <p className=" text-sm leading-normal text-[#0C390C]">
+                            {item.role}
+                          </p>
+                        </button>
+                      </td>
+                      <td className="px-2 py-0 border border-tableBorder">
+                        <div className=" flex gap-1.5">
+                          <button
+                            onClick={() => changeCurrentUserData(item)}
+                            className=" py-[6px] px-4 bg-[#C6F7FE]  flex gap-1.5 items-center rounded-full"
+                          >
+                            <MdRemoveRedEye className=" text-customBlue w-4 h-4" />
+                            <p className=" text-sm leading-normal text-customBlue">
+                              View
+                            </p>
+                          </button>
+                          <button className=" py-[6px] px-4 bg-[#FFD0D1]  flex gap-1.5 items-center rounded-full">
+                            <RiDeleteBin6Line className=" text-[#FF1C1F] w-4 h-4" />
+                            <p className=" text-sm leading-normal text-[#FF1C1F]">
+                              Delete
+                            </p>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
+            {/* Pagination Controls */}
+            <div className="flex justify-center gap-5 items-center my-8">
+              <button
+                className="px-1 py-1 bg-customBlue text-white rounded disabled:opacity-50"
+                onClick={handlePrevPage}
+                disabled={currentPage === 1}
+              >
+                <Image
+                  src="/images/pre.svg"
+                  alt="Table image"
+                  width={32}
+                  height={32}
+                  style={{ width: "32px", height: "auto" }} // Maintain aspect ratio
+                />
+              </button>
+              <span className="text-[#717171] text-sm">
+                Page {currentPage} of {totalPages}
+              </span>
+              <button
+                className="px-1 py-1 bg-customBlue text-white rounded disabled:opacity-50"
+                onClick={handleNextPage}
+                disabled={currentPage === totalPages}
+              >
+                <Image
+                  src="/images/next.svg"
+                  alt="Table image"
+                  width={32}
+                  height={32}
+                  style={{ width: "32px", height: "auto" }} // Maintain aspect ratio
+                />
+              </button>
+            </div>
           </div>
           {/* ----------------End table--------------------------- */}
         </div>
       </div>
+
+    <SidebarUserUpdateForm isEditFlyoutOpen={isEditFlyoutOpen} setIsEditFlyoutOpen={setIsEditFlyoutOpen} currentUserData={currentUserData}></SidebarUserUpdateForm>
     </>
   );
 }

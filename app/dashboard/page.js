@@ -1,20 +1,5 @@
 "use client";
 import Image from "next/image";
-import appleImage from "../images/apple.png";
-import { CiFolderOn } from "react-icons/ci";
-import { CiHeart } from "react-icons/ci";
-import { AiOutlinePlus } from "react-icons/ai";
-import { IoIosSearch } from "react-icons/io";
-import { IoIosInformationCircleOutline } from "react-icons/io";
-import { IoIosList } from "react-icons/io";
-import { RxAvatar } from "react-icons/rx";
-import { CiCalendar } from "react-icons/ci";
-import { TbGenderDemiboy } from "react-icons/tb";
-import { CiFlag1 } from "react-icons/ci";
-import { TfiHome } from "react-icons/tfi";
-import { PiCityThin } from "react-icons/pi";
-import { CiMobile4 } from "react-icons/ci";
-import { FiEye } from "react-icons/fi";
 import { useState } from "react";
 import { BiSolidHome } from "react-icons/bi";
 import { MdOutlineBarChart } from "react-icons/md";
@@ -27,9 +12,7 @@ import { IoMdSettings } from "react-icons/io";
 import { CiSettings } from "react-icons/ci";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { FaGreaterThan } from "react-icons/fa6";
-import { FaPlus } from "react-icons/fa6";
 import { FiFilter } from "react-icons/fi";
-import { LuPencilLine } from "react-icons/lu";
 import { HiOutlineBookOpen } from "react-icons/hi2";
 import { SiHomeassistantcommunitystore } from "react-icons/si";
 import { MdOutlineCall } from "react-icons/md";
@@ -37,6 +20,7 @@ import { LiaArrowCircleDownSolid } from "react-icons/lia";
 import { MdRemoveRedEye } from "react-icons/md";
 import { IoCloseOutline } from "react-icons/io5";
 import { HiOutlineWallet } from "react-icons/hi2";
+import { RxAvatar } from "react-icons/rx";
 import Link from "next/link";
 
 export default function Home() {

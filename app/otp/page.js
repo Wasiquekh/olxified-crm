@@ -159,7 +159,7 @@ export default function Home() {
           to your authenticator app
         </p>
         <form onSubmit={handleSubmit}>
-          <div className="flex gap-[10px] justify-between mb-14 w-[90%] mx-auto">
+          <div className="flex gap-[10px] justify-center mb-14 w-[90%] mx-auto">
             {otp.map((digit, index) => (
               <input
                 key={index}
