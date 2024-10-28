@@ -30,6 +30,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup"; // for validation
 import { toast } from "react-toastify";
 import SidebarUserUpdateForm from "../component/SidebarUserUpdateForm";
+import Swal from 'sweetalert2';
 
 const axiosProvider = new AxiosProvider();
 
@@ -47,40 +48,52 @@ export default function Home() {
     setIsEditFlyoutOpen(!isEditFlyoutOpen);
   };
 
-  const changeCurrentUserDataId = async (item) => {
+  const deleteUserData = async (item) => {
     const userID = item.id;
   
-    try {
-      // Get the Firebase App Check token
-      const tokenResponse = await getToken(appCheck, true);
-      const appCheckToken = tokenResponse.token;
+    // Show SweetAlert confirmation
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you really want to delete this user?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No',
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          // Get the Firebase App Check token
+          const tokenResponse = await getToken(appCheck, true);
+          const appCheckToken = tokenResponse.token;
   
-      // Bearer token
-      const accessToken = localStorage.getItem("accessToken");
+          // Bearer token
+          const accessToken = localStorage.getItem("accessToken");
+          console.log(accessToken);
   
-      // Debug: Check axiosProvider and its methods
-      console.log("axiosProvider before delete:", axiosProvider);
-      //console.log("Delete method:", axiosProvider.post);
+          // Make API request to delete the user with the specific ID
+          const response = await axiosProvider.post(
+            "/deleteuser",
+            { id: userID },
+            {
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "X-Firebase-AppCheck": appCheckToken,
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
   
-      // Make API request to delete the user with the specific ID
-      const response = await axiosProvider.post(
-        "/deleteuser",
-        { id: userID },
-        
-        {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            "X-Firebase-AppCheck": appCheckToken,
-            Authorization: `Bearer ${accessToken}`,
-          },
+          // Show success toast and refetch data
+          toast.success("Successfully Deleted");
+          setShouldRefetch((prev) => !prev);
+        } catch (error) {
+          console.error("Error deleting user:", error);
+          toast.error("Failed to delete user");
         }
-      );
-      toast.success("Successfully Deleted");
-      setShouldRefetch((prev) => !prev);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      toast.error("Not Deleting");
-    }
+      }
+    });
   };
   
 
@@ -390,8 +403,8 @@ export default function Home() {
               </thead>
               <tbody>
                 {paginatedData &&
-                  paginatedData.map((item) => (
-                    <tr className=" border border-tableBorder bg-white">
+                  paginatedData.map((item, index) => (
+                    <tr className=" border border-tableBorder bg-white"  key={index}>
                       <td className="w-4  px-4 py-0 border border-tableBorder">
                         <div className="flex items-center">
                           <input
@@ -452,7 +465,7 @@ export default function Home() {
                             </p>
                           </button>
                           <button
-                            onClick={() => changeCurrentUserDataId(item)}
+                            onClick={() => deleteUserData(item)}
                             className=" py-[6px] px-4 bg-[#FFD0D1]  flex gap-1.5 items-center rounded-full"
                           >
                             <RiDeleteBin6Line className=" text-[#FF1C1F] w-4 h-4" />

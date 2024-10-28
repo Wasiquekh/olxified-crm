@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BiSolidHome } from "react-icons/bi";
 import { MdOutlineBarChart } from "react-icons/md";
 import { TbDeviceMobileDollar } from "react-icons/tb";
@@ -22,10 +22,23 @@ import { IoCloseOutline } from "react-icons/io5";
 import { HiOutlineWallet } from "react-icons/hi2";
 import { RxAvatar } from "react-icons/rx";
 import Link from "next/link";
+import { appCheck } from "../firebase-config";
+import { getToken } from "firebase/app-check";
+import AxiosProvider from "../provider/axiosProvider";
+
+const axiosProvider = new AxiosProvider();
 
 export default function Home() {
   const [isFlyoutOpen, setFlyoutOpen] = useState(false);
   const [isFlyoutFilterOpen, setFlyoutFilterOpen] = useState(false);
+  const [data, setData] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const itemsPerPage = 10; // Customize this as needed
+  const [paginatedData, setPaginatedData] = useState([]); // To hold the paginated data
+
+  console.log("DATA", data);
+
   const toggleFlyout = () => {
     setFlyoutOpen(!isFlyoutOpen);
   };
@@ -34,6 +47,86 @@ export default function Home() {
   };
   const [isFocused, setIsFocused] = useState(false);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Get the Firebase App Check token
+        const tokenResponse = await getToken(appCheck, true);
+        const appCheckToken = tokenResponse.token;
+
+        // Bearer token - assuming it is stored or retrieved (e.g., from local storage, an API, or auth context)
+        const accessToken = localStorage.getItem("accessToken");
+
+        // Make API request with App Check token and Authorization Bearer token in the headers
+        const response = await axiosProvider.get("/getallcrmuser", {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "X-Firebase-AppCheck": appCheckToken,
+            Authorization: `Bearer ${accessToken}`, // Add the access token for authentication
+          },
+        });
+        // Axios already parses the response, so no need for response.json()
+        const result = response.data;
+        setData(result.data);
+        //console.log('++++++++++++',result.data)
+        //  setData(result.data); // Assuming setData is a state setter function to store the result
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        console.error(
+          "Errorrrrrrrr:",
+          error.response ? error.response.data : error.message
+        );
+        if (error.response && error.response.status === 401) {
+          console.error(
+            "Unauthorized: Check App Check token and Bearer token."
+          );
+        }
+      }
+    };
+
+    fetchData(); // Fetch data when the page loads
+  }, []); // Empty dependency array ensures it runs only once
+
+  useEffect(() => {
+    if (data) {
+      // Calculate total pages based on the length of the data
+      setTotalPages(Math.ceil(data.length / itemsPerPage));
+
+      // Slice data to show the items for the current page
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const currentData = data.slice(startIndex, startIndex + itemsPerPage);
+      setPaginatedData(currentData);
+    }
+  }, [currentPage, data]);
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  if (!data) {
+    return (
+      <div className=" h-screen flex flex-col gap-5 justify-center items-center">
+        <Image
+          src="/images/orizonIcon.svg"
+          alt="Table image"
+          width={500}
+          height={500}
+          style={{ width: "150px", height: "auto" }}
+          className="animate-pulse rounded"
+        />
+        <p className=" text-black text-xl font-medium">Data Loading...</p>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className=" flex  min-h-screen">
@@ -41,19 +134,19 @@ export default function Home() {
         <div className=" w-[15%]  flex flex-col justify-between py-4 px-4 border-r-2 border-customBorder shadow-borderShadow mt-2">
           {/* SIDE LEFT BAR TOP SECTION */}
           <div>
-          <Link href="/dashboard">
-            <div className=" flex gap-2 mb-12">
-              <Image
-                src="/images/orizonDashboardIcon.svg"
-                alt="Description of image"
-                width={0}
-                height={0}
-                className=" w-11 h-auto"
-              />
-              <p className=" text-[25px] leading-normal font-black text-customBlue">
-                Orizon
-              </p>
-            </div>
+            <Link href="/dashboard">
+              <div className=" flex gap-2 mb-12">
+                <Image
+                  src="/images/orizonDashboardIcon.svg"
+                  alt="Description of image"
+                  width={0}
+                  height={0}
+                  className=" w-11 h-auto"
+                />
+                <p className=" text-[25px] leading-normal font-black text-customBlue">
+                  Orizon
+                </p>
+              </div>
             </Link>
             {/* SEARCH INPUT WITH ICON */}
             <input
@@ -63,60 +156,60 @@ export default function Home() {
             />
             {/* MENU WITH ICONS */}
             <Link href="/dashboard">
-            <div className=" mb-9 flex gap-6 items-center  cursor-pointer group">
-              <BiSolidHome className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
-              <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
-                Dashboard
-              </p>
-            </div>
+              <div className=" mb-9 flex gap-6 items-center  cursor-pointer group">
+                <BiSolidHome className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
+                <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
+                  Dashboard
+                </p>
+              </div>
             </Link>
             <Link href="/dashboard">
-            <div className=" mb-9 flex gap-6 items-center">
-              <MdOutlineBarChart className=" w-6 h-6 text-customBlue " />
-              <p className=" text-customBlue text-base leading-normal font-medium">
-                Customers
-              </p>
-            </div>
+              <div className=" mb-9 flex gap-6 items-center">
+                <MdOutlineBarChart className=" w-6 h-6 text-customBlue " />
+                <p className=" text-customBlue text-base leading-normal font-medium">
+                  Customers
+                </p>
+              </div>
             </Link>
             <Link href="/transaction">
-            <div className=" mb-9 flex gap-6 items-center group">
-              <TbDeviceMobileDollar className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
-              <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
-                Transaction
-              </p>
-            </div>
+              <div className=" mb-9 flex gap-6 items-center group">
+                <TbDeviceMobileDollar className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
+                <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
+                  Transaction
+                </p>
+              </div>
             </Link>
             <Link href="/dashboard">
-            <div className=" mb-9 flex gap-6 items-center group">
-              <HiWrenchScrewdriver className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
-              <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
-                Point of Services
-              </p>
-            </div>
+              <div className=" mb-9 flex gap-6 items-center group">
+                <HiWrenchScrewdriver className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
+                <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
+                  Point of Services
+                </p>
+              </div>
             </Link>
             <Link href="/dashboard">
-            <div className=" mb-9 flex gap-6 items-center group">
-              <FaMoneyCheckDollar className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
-              <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
-                Payment Terminal
-              </p>
-            </div>
+              <div className=" mb-9 flex gap-6 items-center group">
+                <FaMoneyCheckDollar className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
+                <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
+                  Payment Terminal
+                </p>
+              </div>
             </Link>
             <Link href="/cards">
-            <div className=" mb-9 flex gap-6 items-center group">
-              <BsCreditCard2Back className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
-              <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
-                Credit Cards
-              </p>
-            </div>
+              <div className=" mb-9 flex gap-6 items-center group">
+                <BsCreditCard2Back className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
+                <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
+                  Credit Cards
+                </p>
+              </div>
             </Link>
             <Link href="/user">
-            <div className=" mb-9 flex gap-6 items-center group">
-              <BiSolidUser className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
-              <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
-                User Management
-              </p>
-            </div>
+              <div className=" mb-9 flex gap-6 items-center group">
+                <BiSolidUser className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
+                <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
+                  User Management
+                </p>
+              </div>
             </Link>
             <div className=" mb-9 flex gap-6 items-center group">
               <IoMdSettings className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
@@ -204,9 +297,10 @@ export default function Home() {
                 />
               </div>
               <div className=" flex justify-center items-center gap-4">
-                <div className=" flex gap-2 py-3 px-4 rounded-[16px] border border-[#E7E7E7] cursor-pointer"
-                 onClick={toggleFilterFlyout}
-                 >
+                <div
+                  className=" flex gap-2 py-3 px-4 rounded-[16px] border border-[#E7E7E7] cursor-pointer"
+                  onClick={toggleFilterFlyout}
+                >
                   <FiFilter className=" w-6 h-6" />
                   <p className=" text-[#0A0A0A] text-base font-medium">
                     Filter
@@ -305,363 +399,118 @@ export default function Home() {
                 </tr>
               </thead>
               <tbody>
-                <tr className=" border border-tableBorder bg-white">
-                  <td className="w-4  px-4 py-0 border border-tableBorder">
-                    <div className="flex items-center">
-                      <input
-                        id="checkbox-table-search-1"
-                        type="checkbox"
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label
-                        htmlFor="checkbox-table-search-1"
-                        className="sr-only"
-                      >
-                        checkbox
-                      </label>
-                    </div>
-                  </td>
-                  <td className=" px-2 py-2 border border-tableBorder flex items-center gap-2">
-                    <div className="">
-                      <Image
-                        src="/images/tableImage.png"
-                        alt="Table image"
-                        sizes="100vw"
-                        style={{
-                          width: "100%",
-                          height: "auto",
-                        }}
-                        width={44}
-                        height={44}
-                      />
-                    </div>
-                    <div>
-                      <p className=" text-[#0A0A0A] text-base font-semibold leading-normal">
-                        Amy Jordan (Male)
-                      </p>
-                      <p className=" text-[#717171] text-sm leading-normal">
-                        Jul 28, 2023 6:55 pm
-                      </p>
-                    </div>
-                  </td>
-                  <td className=" px-2 py-2 border border-tableBorder">
-                    <p className=" text-[#717171] text-base leading-normal">
-                      France
-                    </p>
-                  </td>
-                  <td className="px-2 py-0 border border-tableBorder">
-                    <p className=" text-[#717171] text-base leading-normal">
-                      Male
-                    </p>
-                  </td>
-                  <td className="px-2 py-0 border border-tableBorder">
-                    <p className=" text-[#717171] text-base leading-normal">
-                      France
-                    </p>
-                  </td>
-                  <td className="px-2 py-0 border border-tableBorder">
-                    <p className=" text-[#717171] text-base leading-normal">
-                      1 (800) 667-6389
-                    </p>
-                  </td>
-                  <td>
-                    <button
-                      onClick={toggleFlyout}
-                      className=" py-[6px] px-4 bg-[#C6F7FE] m-2 flex gap-[10px] items-center rounded-full"
+                {paginatedData &&
+                  paginatedData.map((item, index) => (
+                    <tr
+                      className=" border border-tableBorder bg-white"
+                      key={index}
                     >
-                      <MdRemoveRedEye className=" text-customBlue w-4 h-4" />
-                      <p className=" text-sm leading-normal text-customBlue">
-                        View Details
-                      </p>
-                    </button>
-                  </td>
-                </tr>
-                <tr className=" border border-tableBorder bg-white">
-                  <td className="w-4  px-4 py-0 border border-tableBorder">
-                    <div className="flex items-center">
-                      <input
-                        id="checkbox-table-search-1"
-                        type="checkbox"
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label
-                        htmlFor="checkbox-table-search-1"
-                        className="sr-only"
-                      >
-                        checkbox
-                      </label>
-                    </div>
-                  </td>
-                  <td className=" px-2 py-2 border border-tableBorder flex items-center gap-2">
-                    <div className="">
-                      <Image
-                        src="/images/tableImage.png"
-                        alt="Table image"
-                        sizes="100vw"
-                        style={{
-                          width: "100%",
-                          height: "auto",
-                        }}
-                        width={44}
-                        height={44}
-                      />
-                    </div>
-                    <div>
-                      <p className=" text-[#0A0A0A] text-base font-semibold leading-normal">
-                        Amy Jordan (Male)
-                      </p>
-                      <p className=" text-[#717171] text-sm leading-normal">
-                        Jul 28, 2023 6:55 pm
-                      </p>
-                    </div>
-                  </td>
-                  <td className=" px-2 py-2 border border-tableBorder">
-                    <p className=" text-[#717171] text-base leading-normal">
-                      France
-                    </p>
-                  </td>
-                  <td className="px-2 py-0 border border-tableBorder">
-                    <p className=" text-[#717171] text-base leading-normal">
-                      Male
-                    </p>
-                  </td>
-                  <td className="px-2 py-0 border border-tableBorder">
-                    <p className=" text-[#717171] text-base leading-normal">
-                      France
-                    </p>
-                  </td>
-                  <td className="px-2 py-0 border border-tableBorder">
-                    <p className=" text-[#717171] text-base leading-normal">
-                      1 (800) 667-6389
-                    </p>
-                  </td>
-                  <td>
-                    <button
-                      onClick={toggleFlyout}
-                      className=" py-[6px] px-4 bg-[#C6F7FE] m-2 flex gap-[10px] items-center rounded-full"
-                    >
-                      <MdRemoveRedEye className=" text-customBlue w-4 h-4" />
-                      <p className=" text-sm leading-normal text-customBlue">
-                        View Details
-                      </p>
-                    </button>
-                  </td>
-                </tr>
-                <tr className=" border border-tableBorder bg-white">
-                  <td className="w-4  px-4 py-0 border border-tableBorder">
-                    <div className="flex items-center">
-                      <input
-                        id="checkbox-table-search-1"
-                        type="checkbox"
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label
-                        htmlFor="checkbox-table-search-1"
-                        className="sr-only"
-                      >
-                        checkbox
-                      </label>
-                    </div>
-                  </td>
-                  <td className=" px-2 py-2 border border-tableBorder flex items-center gap-2">
-                    <div className="">
-                      <Image
-                        src="/images/tableImage.png"
-                        alt="Table image"
-                        sizes="100vw"
-                        style={{
-                          width: "100%",
-                          height: "auto",
-                        }}
-                        width={44}
-                        height={44}
-                      />
-                    </div>
-                    <div>
-                      <p className=" text-[#0A0A0A] text-base font-semibold leading-normal">
-                        Amy Jordan (Male)
-                      </p>
-                      <p className=" text-[#717171] text-sm leading-normal">
-                        Jul 28, 2023 6:55 pm
-                      </p>
-                    </div>
-                  </td>
-                  <td className=" px-2 py-2 border border-tableBorder">
-                    <p className=" text-[#717171] text-base leading-normal">
-                      France
-                    </p>
-                  </td>
-                  <td className="px-2 py-0 border border-tableBorder">
-                    <p className=" text-[#717171] text-base leading-normal">
-                      Male
-                    </p>
-                  </td>
-                  <td className="px-2 py-0 border border-tableBorder">
-                    <p className=" text-[#717171] text-base leading-normal">
-                      France
-                    </p>
-                  </td>
-                  <td className="px-2 py-0 border border-tableBorder">
-                    <p className=" text-[#717171] text-base leading-normal">
-                      1 (800) 667-6389
-                    </p>
-                  </td>
-                  <td>
-                    <button
-                      onClick={toggleFlyout}
-                      className=" py-[6px] px-4 bg-[#C6F7FE] m-2 flex gap-[10px] items-center rounded-full"
-                    >
-                      <MdRemoveRedEye className=" text-customBlue w-4 h-4" />
-                      <p className=" text-sm leading-normal text-customBlue">
-                        View Details
-                      </p>
-                    </button>
-                  </td>
-                </tr>
-                <tr className=" border border-tableBorder bg-white">
-                  <td className="w-4  px-4 py-0 border border-tableBorder">
-                    <div className="flex items-center">
-                      <input
-                        id="checkbox-table-search-1"
-                        type="checkbox"
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label
-                        htmlFor="checkbox-table-search-1"
-                        className="sr-only"
-                      >
-                        checkbox
-                      </label>
-                    </div>
-                  </td>
-                  <td className=" px-2 py-2 border border-tableBorder flex items-center gap-2">
-                    <div className="">
-                      <Image
-                        src="/images/tableImage.png"
-                        alt="Table image"
-                        sizes="100vw"
-                        style={{
-                          width: "100%",
-                          height: "auto",
-                        }}
-                        width={44}
-                        height={44}
-                      />
-                    </div>
-                    <div>
-                      <p className=" text-[#0A0A0A] text-base font-semibold leading-normal">
-                        Amy Jordan (Male)
-                      </p>
-                      <p className=" text-[#717171] text-sm leading-normal">
-                        Jul 28, 2023 6:55 pm
-                      </p>
-                    </div>
-                  </td>
-                  <td className=" px-2 py-2 border border-tableBorder">
-                    <p className=" text-[#717171] text-base leading-normal">
-                      France
-                    </p>
-                  </td>
-                  <td className="px-2 py-0 border border-tableBorder">
-                    <p className=" text-[#717171] text-base leading-normal">
-                      Male
-                    </p>
-                  </td>
-                  <td className="px-2 py-0 border border-tableBorder">
-                    <p className=" text-[#717171] text-base leading-normal">
-                      France
-                    </p>
-                  </td>
-                  <td className="px-2 py-0 border border-tableBorder">
-                    <p className=" text-[#717171] text-base leading-normal">
-                      1 (800) 667-6389
-                    </p>
-                  </td>
-                  <td>
-                    <button
-                      onClick={toggleFlyout}
-                      className=" py-[6px] px-4 bg-[#C6F7FE] m-2 flex gap-[10px] items-center rounded-full"
-                    >
-                      <MdRemoveRedEye className=" text-customBlue w-4 h-4" />
-                      <p className=" text-sm leading-normal text-customBlue">
-                        View Details
-                      </p>
-                    </button>
-                  </td>
-                </tr>
-                <tr className=" border border-tableBorder bg-white">
-                  <td className="w-4  px-4 py-0 border border-tableBorder">
-                    <div className="flex items-center">
-                      <input
-                        id="checkbox-table-search-1"
-                        type="checkbox"
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label
-                        htmlFor="checkbox-table-search-1"
-                        className="sr-only"
-                      >
-                        checkbox
-                      </label>
-                    </div>
-                  </td>
-                  <td className=" px-2 py-2 border border-tableBorder flex items-center gap-2">
-                    <div className="">
-                      <Image
-                        src="/images/tableImage.png"
-                        alt="Table image"
-                        sizes="100vw"
-                        style={{
-                          width: "100%",
-                          height: "auto",
-                        }}
-                        width={44}
-                        height={44}
-                      />
-                    </div>
-                    <div>
-                      <p className=" text-[#0A0A0A] text-base font-semibold leading-normal">
-                        Amy Jordan (Male)
-                      </p>
-                      <p className=" text-[#717171] text-sm leading-normal">
-                        Jul 28, 2023 6:55 pm
-                      </p>
-                    </div>
-                  </td>
-                  <td className=" px-2 py-2 border border-tableBorder">
-                    <p className=" text-[#717171] text-base leading-normal">
-                      France
-                    </p>
-                  </td>
-                  <td className="px-2 py-0 border border-tableBorder">
-                    <p className=" text-[#717171] text-base leading-normal">
-                      Male
-                    </p>
-                  </td>
-                  <td className="px-2 py-0 border border-tableBorder">
-                    <p className=" text-[#717171] text-base leading-normal">
-                      France
-                    </p>
-                  </td>
-                  <td className="px-2 py-0 border border-tableBorder">
-                    <p className=" text-[#717171] text-base leading-normal">
-                      1 (800) 667-6389
-                    </p>
-                  </td>
-                  <td>
-                    <button
-                      onClick={toggleFlyout}
-                      className=" py-[6px] px-4 bg-[#C6F7FE] m-2 flex gap-[10px] items-center rounded-full"
-                    >
-                      <MdRemoveRedEye className=" text-customBlue w-4 h-4" />
-                      <p className=" text-sm leading-normal text-customBlue">
-                        View Details
-                      </p>
-                    </button>
-                  </td>
-                </tr>
+                      <td className="w-4  px-4 py-0 border border-tableBorder">
+                        <div className="flex items-center">
+                          <input
+                            id="checkbox-table-search-1"
+                            type="checkbox"
+                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          />
+                          <label
+                            htmlFor="checkbox-table-search-1"
+                            className="sr-only"
+                          >
+                            checkbox
+                          </label>
+                        </div>
+                      </td>
+                      <td className=" px-2 py-2 border border-tableBorder flex items-center gap-2">
+                        <div className="">
+                          <Image
+                            src="/images/tableImage.png"
+                            alt="Table image"
+                            sizes="100vw"
+                            style={{
+                              width: "100%",
+                              height: "auto",
+                            }}
+                            width={44}
+                            height={44}
+                          />
+                        </div>
+                        <div>
+                          <p className=" text-[#0A0A0A] text-base font-semibold leading-normal">
+                            {item.name} 
+                            {/* ({item.gender}) */}
+                          </p>
+                          <p className=" text-[#717171] text-sm leading-normal">
+                            {item.birthdate}
+                          </p>
+                        </div>
+                      </td>
+                      <td className=" px-2 py-2 border border-tableBorder">
+                        <p className=" text-[#717171] text-base leading-normal">
+                          {item.countryofbirth}
+                        </p>
+                      </td>
+                      <td className="px-2 py-0 border border-tableBorder">
+                        <p className=" text-[#717171] text-base leading-normal">
+                          {item.gender}
+                        </p>
+                      </td>
+                      <td className="px-2 py-0 border border-tableBorder">
+                        <p className=" text-[#717171] text-base leading-normal">
+                          {item.countryofresidence}
+                        </p>
+                      </td>
+                      <td className="px-2 py-0 border border-tableBorder">
+                        <p className=" text-[#717171] text-base leading-normal">
+                          {item.mobilephonenumber}
+                        </p>
+                      </td>
+                      <td>
+                        <button
+                          onClick={toggleFlyout}
+                          className=" py-[6px] px-4 bg-[#C6F7FE] m-2 flex gap-[10px] items-center rounded-full"
+                        >
+                          <MdRemoveRedEye className=" text-customBlue w-4 h-4" />
+                          <p className=" text-sm leading-normal text-customBlue">
+                            View Details
+                          </p>
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
+            {/* Pagination Controls */}
+            <div className="flex justify-center gap-5 items-center my-8">
+              <button
+                className="px-1 py-1 bg-customBlue text-white rounded disabled:opacity-50"
+                onClick={handlePrevPage}
+                disabled={currentPage === 1}
+              >
+                <Image
+                  src="/images/pre.svg"
+                  alt="Table image"
+                  width={32}
+                  height={32}
+                  style={{ width: "32px", height: "auto" }} // Maintain aspect ratio
+                />
+              </button>
+              <span className="text-[#717171] text-sm">
+                Page {currentPage} of {totalPages}
+              </span>
+              <button
+                className="px-1 py-1 bg-customBlue text-white rounded disabled:opacity-50"
+                onClick={handleNextPage}
+                disabled={currentPage === totalPages}
+              >
+                <Image
+                  src="/images/next.svg"
+                  alt="Table image"
+                  width={32}
+                  height={32}
+                  style={{ width: "32px", height: "auto" }} // Maintain aspect ratio
+                />
+              </button>
+            </div>
           </div>
           {/* ----------------End table--------------------------- */}
         </div>
@@ -787,8 +636,10 @@ export default function Home() {
                     <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
                       Gender
                     </p>
-                    <select name="gender" id="gender"
-                    className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                    <select
+                      name="gender"
+                      id="gender"
+                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
                     >
                       <option value="volvo">Male</option>
                       <option value="saab">Female</option>
@@ -819,8 +670,10 @@ export default function Home() {
                     <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
                       City of Birth
                     </p>
-                    <select name="city" id="city"
-                    className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                    <select
+                      name="city"
+                      id="city"
+                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
                     >
                       <option value="volvo">New York City</option>
                       <option value="saab">Hannover</option>
@@ -834,8 +687,10 @@ export default function Home() {
                     <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
                       Zip/Postal Code
                     </p>
-                    <select name="gender" id="gender"
-                    className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                    <select
+                      name="gender"
+                      id="gender"
+                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
                     >
                       <option value="volvo">---None---</option>
                       <option value="saab">---None---</option>
@@ -846,8 +701,10 @@ export default function Home() {
                     <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
                       State/Province
                     </p>
-                    <select name="gender" id="gender"
-                    className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                    <select
+                      name="gender"
+                      id="gender"
+                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
                     >
                       <option value="volvo">---None---</option>
                       <option value="saab">---None---</option>
@@ -861,12 +718,20 @@ export default function Home() {
                     <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
                       Street
                     </p>
-                    <select name="gender" id="gender"
-                    className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                    <select
+                      name="gender"
+                      id="gender"
+                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
                     >
-                      <option value="volvo">Broadway 10012, New York, NY, USA</option>
-                      <option value="saab">Broadway 10012, New York, NY, USA</option>
-                      <option value="mercedes">Broadway 10012, New York, NY, USA</option>
+                      <option value="volvo">
+                        Broadway 10012, New York, NY, USA
+                      </option>
+                      <option value="saab">
+                        Broadway 10012, New York, NY, USA
+                      </option>
+                      <option value="mercedes">
+                        Broadway 10012, New York, NY, USA
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -889,8 +754,10 @@ export default function Home() {
                     <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
                       City of Birth
                     </p>
-                    <select name="city" id="city"
-                    className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                    <select
+                      name="city"
+                      id="city"
+                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
                     >
                       <option value="volvo">New York City</option>
                       <option value="saab">Hannover</option>
@@ -904,8 +771,10 @@ export default function Home() {
                     <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
                       Zip/Postal Code
                     </p>
-                    <select name="gender" id="gender"
-                    className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                    <select
+                      name="gender"
+                      id="gender"
+                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
                     >
                       <option value="volvo">---None---</option>
                       <option value="saab">---None---</option>
@@ -916,8 +785,10 @@ export default function Home() {
                     <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
                       State/Province
                     </p>
-                    <select name="gender" id="gender"
-                    className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                    <select
+                      name="gender"
+                      id="gender"
+                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
                     >
                       <option value="volvo">---None---</option>
                       <option value="saab">---None---</option>
@@ -931,12 +802,20 @@ export default function Home() {
                     <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
                       Street
                     </p>
-                    <select name="gender" id="gender"
-                    className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                    <select
+                      name="gender"
+                      id="gender"
+                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
                     >
-                      <option value="volvo">Broadway 10012, New York, NY, USA</option>
-                      <option value="saab">Broadway 10012, New York, NY, USA</option>
-                      <option value="mercedes">Broadway 10012, New York, NY, USA</option>
+                      <option value="volvo">
+                        Broadway 10012, New York, NY, USA
+                      </option>
+                      <option value="saab">
+                        Broadway 10012, New York, NY, USA
+                      </option>
+                      <option value="mercedes">
+                        Broadway 10012, New York, NY, USA
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -1381,7 +1260,9 @@ export default function Home() {
               setFlyoutFilterOpen(!isFlyoutFilterOpen);
             }}
           ></div>
-          <div className={`filterflyout ${isFlyoutFilterOpen ? "filteropen" : ""}`}>
+          <div
+            className={`filterflyout ${isFlyoutFilterOpen ? "filteropen" : ""}`}
+          >
             <div className=" w-full min-h-auto">
               {/* Flyout content here */}
               <div className=" flex justify-between mb-8">
@@ -1472,8 +1353,7 @@ export default function Home() {
                 </div>
               </div>
               {/* END FORM */}
-             
-              
+
               <div className="mt-10 w-full flex justify-end items-center gap-5">
                 <button className=" py-[13px] px-[26px] border border-[#E7E7E7] rounded-2xl text-[#0A0A0A] text-base font-medium leading-6">
                   Cancel
