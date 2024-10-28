@@ -3,13 +3,13 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { appCheck } from "../firebase-config";
 import { getToken } from "firebase/app-check";
-import { toast } from 'react-toastify';
-
+import { toast } from "react-toastify";
 
 const SidebarUserUpdateForm = ({
   isEditFlyoutOpen,
   setIsEditFlyoutOpen,
   currentUserData,
+  setShouldRefetch,
 }) => {
   return (
     <>
@@ -64,13 +64,10 @@ const SidebarUserUpdateForm = ({
               if (response.ok) {
                 // Handle successful response
                 console.log("User updated successfully");
-                toast.success('Form submitted successfully!');
-              
-               
-                  setIsEditFlyoutOpen(false);
-               
-                
-                
+                toast.success("Form submitted successfully!");
+                setIsEditFlyoutOpen(false);
+                // Set shouldRefetch to true to trigger re-fetch
+                setShouldRefetch((prev) => !prev);
               } else {
                 // Handle error response
                 const errorData = await response.json();
@@ -78,7 +75,7 @@ const SidebarUserUpdateForm = ({
               }
             } catch (error) {
               console.error("Request failed:", error);
-              toast.success('Form submitted successfully!');
+              toast.success("Form submitted successfully!");
             } finally {
               setSubmitting(false);
             }
@@ -204,7 +201,7 @@ const SidebarUserUpdateForm = ({
                   onClick={() => setIsEditFlyoutOpen(false)}
                   className="py-[13px] px-[26px] bg-customBlue rounded-2xl text-base font-medium leading-6 text-white"
                 >
-                    { isSubmitting ? 'Update Details' : 'Updating Details' }
+                  {isSubmitting ? "Update Details" : "Updating Details"}
                 </button>
               </div>
             </form>

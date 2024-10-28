@@ -26,8 +26,9 @@ import { useState } from "react";
 import AxiosProvider from "../provider/axiosProvider";
 import { AuthContext } from "../AuthContext";
 import { useContext } from "react";
-import { useFormik } from 'formik';
-import * as Yup from 'yup'; // for validation
+import { useFormik } from "formik";
+import * as Yup from "yup"; // for validation
+import { toast } from "react-toastify";
 import SidebarUserUpdateForm from "../component/SidebarUserUpdateForm";
 
 const axiosProvider = new AxiosProvider();
@@ -40,52 +41,87 @@ export default function Home() {
   const [paginatedData, setPaginatedData] = useState([]); // To hold the paginated data
   const [isEditFlyoutOpen, setIsEditFlyoutOpen] = useState(false);
   const [currentUserData, setCurrentUserData] = useState({});
+  const [shouldRefetch, setShouldRefetch] = useState(false);
 
-  console.log('ID',currentUserData.id)
   const toggleEditFlyout = () => {
     setIsEditFlyoutOpen(!isEditFlyoutOpen);
   };
+
+  const changeCurrentUserDataId = async (item) => {
+    const userID = item.id;
+  
+    try {
+      // Get the Firebase App Check token
+      const tokenResponse = await getToken(appCheck, true);
+      const appCheckToken = tokenResponse.token;
+  
+      // Bearer token
+      const accessToken = localStorage.getItem("accessToken");
+  
+      // Debug: Check axiosProvider and its methods
+      console.log("axiosProvider before delete:", axiosProvider);
+      //console.log("Delete method:", axiosProvider.post);
+  
+      // Make API request to delete the user with the specific ID
+      const response = await axiosProvider.post(
+        "/deleteuser",
+        { id: userID },
+        
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "X-Firebase-AppCheck": appCheckToken,
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      toast.success("Successfully Deleted");
+      setShouldRefetch((prev) => !prev);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      toast.error("Not Deleting");
+    }
+  };
+  
 
   const changeCurrentUserData = (item) => {
     setCurrentUserData(item);
     toggleEditFlyout();
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Get the Firebase App Check token
+        const tokenResponse = await getToken(appCheck, true);
+        const appCheckToken = tokenResponse.token;
 
-  
+        // Bearer token - assuming it is stored or retrieved (e.g., from local storage, an API, or auth context)
+        const accessToken = localStorage.getItem("accessToken");
 
- useEffect(() => {
-  const fetchData = async () => {
-    try {
-      // Get the Firebase App Check token
-      const tokenResponse = await getToken(appCheck, true);
-      const appCheckToken = tokenResponse.token;
-  
-
-      // Bearer token - assuming it is stored or retrieved (e.g., from local storage, an API, or auth context)
-      const accessToken = localStorage.getItem("accessToken");
-
-      // Make API request with App Check token and Authorization Bearer token in the headers
-      const response = await axiosProvider.get("/getalluser", {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          "X-Firebase-AppCheck": appCheckToken,
-          Authorization: `Bearer ${accessToken}`, // Add the access token for authentication
-        },
-      });
-      // Axios already parses the response, so no need for response.json()
-      const result = response.data;
-      setData(result.data); // Assuming setData is a state setter function to store the result
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      if (error.response && error.response.status === 401) {
-        console.error("Unauthorized: Check App Check token and Bearer token.");
+        // Make API request with App Check token and Authorization Bearer token in the headers
+        const response = await axiosProvider.get("/getalluser", {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "X-Firebase-AppCheck": appCheckToken,
+            Authorization: `Bearer ${accessToken}`, // Add the access token for authentication
+          },
+        });
+        // Axios already parses the response, so no need for response.json()
+        const result = response.data;
+        setData(result.data); // Assuming setData is a state setter function to store the result
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        if (error.response && error.response.status === 401) {
+          console.error(
+            "Unauthorized: Check App Check token and Bearer token."
+          );
+        }
       }
-    }
-  };
+    };
 
-  fetchData(); // Fetch data when the page loads
-}, []); // Empty dependency array ensures it runs only once
+    fetchData(); // Fetch data when the page loads
+  }, [shouldRefetch]); // Empty dependency array ensures it runs only once
 
   useEffect(() => {
     if (data) {
@@ -415,7 +451,10 @@ export default function Home() {
                               View
                             </p>
                           </button>
-                          <button className=" py-[6px] px-4 bg-[#FFD0D1]  flex gap-1.5 items-center rounded-full">
+                          <button
+                            onClick={() => changeCurrentUserDataId(item)}
+                            className=" py-[6px] px-4 bg-[#FFD0D1]  flex gap-1.5 items-center rounded-full"
+                          >
                             <RiDeleteBin6Line className=" text-[#FF1C1F] w-4 h-4" />
                             <p className=" text-sm leading-normal text-[#FF1C1F]">
                               Delete
@@ -464,7 +503,12 @@ export default function Home() {
         </div>
       </div>
 
-    <SidebarUserUpdateForm isEditFlyoutOpen={isEditFlyoutOpen} setIsEditFlyoutOpen={setIsEditFlyoutOpen} currentUserData={currentUserData}></SidebarUserUpdateForm>
+      <SidebarUserUpdateForm
+        isEditFlyoutOpen={isEditFlyoutOpen}
+        setIsEditFlyoutOpen={setIsEditFlyoutOpen}
+        currentUserData={currentUserData}
+        setShouldRefetch={setShouldRefetch}
+      ></SidebarUserUpdateForm>
     </>
   );
 }

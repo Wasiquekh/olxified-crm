@@ -36,7 +36,9 @@ export default class AxiosProvider {
   async put(url, data, config) {
     return this.instance.put(url, data, config);
   }
-
+  async delete(url, config) {
+    return this.instance.delete(url, config);
+  }
   handleResponse(response) {
     console.log("Response Data:", response.data);
     return response;
