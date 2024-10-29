@@ -24,7 +24,7 @@ import { RxAvatar } from "react-icons/rx";
 import Link from "next/link";
 import { appCheck } from "../firebase-config";
 import { getToken } from "firebase/app-check";
-import AxiosProvider from "../provider/axiosProvider";
+import AxiosProvider from "@provider/AxiosProvider";
 
 const axiosProvider = new AxiosProvider();
 
