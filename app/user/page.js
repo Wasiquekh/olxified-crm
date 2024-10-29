@@ -23,7 +23,7 @@ import { appCheck } from "../firebase-config";
 import { getToken } from "firebase/app-check";
 import { useEffect } from "react";
 import { useState } from "react";
-import AxiosProvider from "../provider/axiosProvider";
+import AxiosProvider from "../../provider/axiosProvider";
 import { AuthContext } from "../AuthContext";
 import { useContext } from "react";
 import { useFormik } from "formik";

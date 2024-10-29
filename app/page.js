@@ -4,9 +4,8 @@ import { appCheck } from "./firebase-config";
 import { getToken } from "firebase/app-check";
 import { useState,useContext  } from 'react';
 import { useRouter } from 'next/navigation';
-import AxiosProvider from './provider/axiosProvider';
 import { AuthContext} from './AuthContext';
-
+import AxiosProvider from '../provider/axiosProvider';
 
 export default function Home() {
 
