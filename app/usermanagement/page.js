@@ -17,7 +17,7 @@ import { appCheck } from "../firebase-config";
 import { getToken } from "firebase/app-check";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import AxiosProvider from "@provider/axiosProvider";
+import AxiosProvider from "@provider/AxiosProvider";
 import { AuthContext } from "../AuthContext";
 import { useContext } from "react";
 import { ToastContainer, toast } from 'react-toastify';
