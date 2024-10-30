@@ -4,6 +4,9 @@ import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { appCheck } from "../firebase-config";
 import { getToken } from "firebase/app-check";
+import { toast } from "react-toastify";
+import { AuthContext } from "../AuthContext";
+import AxiosProvider from "@provider/AxiosProvider";
 
 export default function Home() {
   const [otp, setOtp] = useState(new Array(6).fill(""));
@@ -12,6 +15,7 @@ export default function Home() {
   const inputRefs = useRef([]);
   const router = useRouter();
 
+  const axiosProvider = new AxiosProvider();
   const handleChange = (e, index) => {
     const value = e.target.value;
     if (/^\d{0,1}$/.test(value)) {
@@ -42,57 +46,54 @@ export default function Home() {
     // -------------
     const userEmail = localStorage.getItem("email");
     const userPassword = localStorage.getItem("password");
-    const userMobile = "+919930634384";
-    // console.log(userEmail);
-    // console.log(userPassword);
-    // console.log(userMobile);
-
+    const userMobile = localStorage.getItem("mobileNumber");
     // ----------------
     const otpValue = otp.join("");
-
     if (otpValue.length !== 6) {
-      setError("Please enter a valid 6-digit OTP.");
+      toast.error("Please enter a valid 6-digit OTP.");
+     // setError("Please enter a valid 6-digit OTP.");
       return;
     }
+    console.log('otp email',userEmail)
+    console.log('otp pass',userPassword)
+    console.log('otp mobile',userMobile)
+    console.log('otp code',otpValue)
     //console.log(otpValue)
     try {
-      // Getting app Check token
+      // Getting App Check token
       const appCheckToken = await getToken(appCheck, true);
       console.log("App Check Token:", appCheckToken);
-
-      const response = await fetch(
-        "https://orizon-crm-api-uat.yliqo.com/api/v1/Orizonapigateway/otplogin",
+    
+      const res = await axiosProvider.post(
+        "/otplogin",
+        { 
+          email: userEmail,
+          password: userPassword,
+          mobile_number: userMobile,
+          code: otpValue,
+        },
         {
-          method: "POST",
           headers: {
-            "Content-Type": "application/json",
             "X-Firebase-AppCheck": appCheckToken.token,
           },
-          body: JSON.stringify({
-            email: userEmail,
-            password: userPassword,
-            mobile_number: userMobile,
-            code: otpValue,
-          }),
         }
       );
-
-      if (response.ok) {
-        const data = await response.json();
-       // console.log('OTP verification response:', data); // Log the entire response
+    
+      // Check response status and handle accordingly
+      if (res.status === 200) {  // Axios responses don't have `ok`, so we use `status` instead
+        const data = res.data; // Axios already parses JSON data, so you can access it directly
+        console.log('OTP verification response:', data); // Log the entire response
         const accessToken = data.data.token; // Access the token correctly
-       // console.log('Access Token:', accessToken);
-       localStorage.setItem('accessToken',accessToken);
+        console.log('Access Token:', accessToken);
+        localStorage.setItem('accessToken', accessToken);
         router.push("/dashboard");
       } else {
-        const errorData = await response.json();
-        setError(errorData.message || "Invalid OTP");
+        setError(res.data.message || "Invalid OTP");
       }
     } catch (error) {
       console.error("Network error:", error);
       setError("Network error, please try again.");
-    }
-    finally {
+    } finally {
       setLoading(false);
     }
   };

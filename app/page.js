@@ -2,58 +2,72 @@
 import Image from "next/image";
 import { appCheck } from "./firebase-config";
 import { getToken } from "firebase/app-check";
-import { useState,useContext  } from 'react';
-import { useRouter } from 'next/navigation';
-import { AuthContext} from './AuthContext';
-import AxiosProvider from '@provider/AxiosProvider';
+import { useState, useContext } from "react";
+import { useRouter } from "next/navigation";
+import { AuthContext } from "./AuthContext";
+import AxiosProvider from "@provider/AxiosProvider";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import { toast } from "react-toastify";
 
 export default function Home() {
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
-const [email, setEmail] = useState('');
-const [password, setPassword] = useState('');
-const [loading, setLoading] = useState(false);
-const router = useRouter();
+  const axiosProvider = new AxiosProvider();
+  // Use AuthContext
+  const { saveAuthData } = useContext(AuthContext);
 
-const axiosProvider = new AxiosProvider();
+  const validationSchema = Yup.object().shape({
+    email: Yup.string().required("Email or User ID is required"),
+    password: Yup.string().required("Password is required"),
+  });
 
- // Use AuthContext
- const { saveAuthData } = useContext(AuthContext);
+  const handleSubmit = async (values) => {
+    setLoading(true);
+    try {
+      const appCheckToken = await getToken(appCheck, true);
+      console.log(appCheckToken)
+      if (!appCheckToken) {
+        console.error("Failed to retrieve App Check token");
+        return;
+      }
+      
+      const res = await axiosProvider.post(
+        "/login",
+        { email: values.email, password: values.password },
+        {
+          headers: {
+            "X-Firebase-AppCheck": appCheckToken.token,
+          },
+        }
+      );
 
- const handleSubmit = async (e) => {
-   e.preventDefault();
-   setLoading(true);
-   try {
-     // Retrieve App Check token
-     const appCheckToken = await getToken(appCheck, true);
-     if (!appCheckToken) {
-       console.error("Failed to retrieve App Check token");
-       return;
-     }
+      if (res.status !== 200) {
+        console.error("Login failed", res.status, res.data);
+        throw new Error(`Error: ${res.status} - ${res.data.message}`);
+      }
 
-     // Submit the form data using AxiosProvider
-     const res = await axiosProvider.post("/login", { email, password }, {
-       headers: {
-         "X-Firebase-AppCheck": appCheckToken.token,
-       },
-     });
-
-     if (res.status !== 200) {
-       console.error("Login failed", res.status, res.data);
-       throw new Error(`Error: ${res.status} - ${res.data.message}`);
-     }
-
-     // Save authentication data in context and localStorage
-     saveAuthData(email,);
-
-     // Navigate to the OTP page
-     router.push("/otp");
-     
-   } catch (error) {
-     console.error("Login error:", error);
-   } finally {
-     setLoading(false);
-   }
- };
+      saveAuthData(values.email);
+      localStorage.setItem('email',values.email)
+      localStorage.setItem('password',values.password)
+      const mobileNumber = res.data.data.mobile_number;
+      localStorage.setItem('mobileNumber',mobileNumber)
+      //console.log(mobileNumber); // Log the mobile number
+      router.push("/otp");
+    } catch (error) {
+      console.log(error)
+      if (error.response && error.response.status === 500) {
+        // Show toast for wrong credentials
+        toast.error("Username or password is incorrect. Please try again.");
+      } else {
+        console.error("Login error:", error);
+        toast.error("An unexpected error occurred. Please try again later.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -112,44 +126,68 @@ const axiosProvider = new AxiosProvider();
         <p className=" font-bold text-base leading-normal text-center text-black mb-6">
           Login to Orizon
         </p>
-        <form onSubmit={handleSubmit}>
-        <div className=" w-full">
-          <p
-            className=" text-[#232323] text-base leading-normal mb-2">
-            Email or Userid
-          </p>
-          <input
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            placeholder="Enter your User ID/Email"
-            className=" focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-6 text-[#718EBF]"
-          />
-          <p className=" text-[#232323] text-base leading-normal mb-2">
-            Password
-          </p>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            placeholder="Entet your password"
-            className=" focus:outline-none  w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-6 text-[#718EBF]"/>
-            <button
-            type='submit'
-            disabled={loading}
-            className=" bg-[#1814F3] border rounded-[15px] w-full h-[50px] text-center text-white text-lg font-medium leading-normal mb-3"
-            >
-              {loading ? 'Logging in...' : 'Login'}
-            </button>
-            <div className=" flex gap-4"> 
-              <p className=" text-[#424955] text-[15px] leading-normal">Forgot User ID or Password?</p> 
-              <p className=" text-[#1814F3] text-[15px] font-semibold underline cursor-pointer">Reset Now</p>
-            </div>
-          
-        </div>
-        </form>
+        <Formik
+          initialValues={{ email: "", password: "" }}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+          {() => (
+            <Form className="w-full">
+              <div className="w-full">
+                <p className="text-[#232323] text-base leading-normal mb-2">
+                  Email or Userid
+                </p>
+                <div className="relative">
+                <Field
+                  type="text"
+                  name="email"
+                  autoComplete="username" 
+                  placeholder="Enter your User ID/Email"
+                  className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-7 text-[#718EBF]"
+                />
+                <ErrorMessage
+                  name="email"
+                  component="div"
+                  className="text-red-500 text-sm mb-2 absolute top-14"
+                />
+                </div>
+                <p className="text-[#232323] text-base leading-normal mb-2">
+                  Password
+                </p>
+                <div className="relative">
+                <Field
+                  type="password"
+                  name="password"
+                  autoComplete="current-password" 
+                  placeholder="Enter your password"
+                  className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-8 text-[#718EBF]"
+                />
+                <ErrorMessage
+                  name="password"
+                  component="div"
+                  className="text-red-500 text-sm mb-2 absolute top-14"
+                />
+                  </div>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="bg-[#1814F3] border rounded-[15px] w-full h-[50px] text-center text-white text-lg font-medium leading-normal mb-3"
+                >
+                  {loading ? "Logging in..." : "Login"}
+                </button>
+
+                <div className="flex gap-4">
+                  <p className="text-[#424955] text-[15px] leading-normal">
+                    Forgot User ID or Password?
+                  </p>
+                  <p className="text-[#1814F3] text-[15px] font-semibold underline cursor-pointer">
+                    Reset Now
+                  </p>
+                </div>
+              </div>
+            </Form>
+          )}
+        </Formik>
       </div>
     </>
   );
