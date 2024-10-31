@@ -27,12 +27,12 @@ export default function Home() {
     setLoading(true);
     try {
       const appCheckToken = await getToken(appCheck, true);
-      console.log(appCheckToken)
+      console.log(appCheckToken);
       if (!appCheckToken) {
         console.error("Failed to retrieve App Check token");
         return;
       }
-      
+
       const res = await axiosProvider.post(
         "/login",
         { email: values.email, password: values.password },
@@ -49,21 +49,16 @@ export default function Home() {
       }
 
       saveAuthData(values.email);
-      localStorage.setItem('email',values.email)
-      localStorage.setItem('password',values.password)
+      localStorage.setItem("email", values.email);
+      localStorage.setItem("password", values.password);
       const mobileNumber = res.data.data.mobile_number;
-      localStorage.setItem('mobileNumber',mobileNumber)
+      localStorage.setItem("mobileNumber", mobileNumber);
       //console.log(mobileNumber); // Log the mobile number
       router.push("/otp");
     } catch (error) {
-      console.log(error)
-      if (error.response && error.response.status === 500) {
-        // Show toast for wrong credentials
-        toast.error("Username or password is incorrect. Please try again.");
-      } else {
-        console.error("Login error:", error);
-        toast.error("An unexpected error occurred. Please try again later.");
-      }
+      console.log(error);
+      // Show toast for wrong credentials
+      toast.error("Username or password is incorrect. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -138,36 +133,36 @@ export default function Home() {
                   Email or Userid
                 </p>
                 <div className="relative">
-                <Field
-                  type="text"
-                  name="email"
-                  autoComplete="username" 
-                  placeholder="Enter your User ID/Email"
-                  className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-7 text-[#718EBF]"
-                />
-                <ErrorMessage
-                  name="email"
-                  component="div"
-                  className="text-red-500 text-sm mb-2 absolute top-14"
-                />
+                  <Field
+                    type="text"
+                    name="email"
+                    autoComplete="username"
+                    placeholder="Enter your User ID/Email"
+                    className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-7 text-[#718EBF]"
+                  />
+                  <ErrorMessage
+                    name="email"
+                    component="div"
+                    className="text-red-500 text-sm mb-2 absolute top-14"
+                  />
                 </div>
                 <p className="text-[#232323] text-base leading-normal mb-2">
                   Password
                 </p>
                 <div className="relative">
-                <Field
-                  type="password"
-                  name="password"
-                  autoComplete="current-password" 
-                  placeholder="Enter your password"
-                  className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-8 text-[#718EBF]"
-                />
-                <ErrorMessage
-                  name="password"
-                  component="div"
-                  className="text-red-500 text-sm mb-2 absolute top-14"
-                />
-                  </div>
+                  <Field
+                    type="password"
+                    name="password"
+                    autoComplete="current-password"
+                    placeholder="Enter your password"
+                    className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-8 text-[#718EBF]"
+                  />
+                  <ErrorMessage
+                    name="password"
+                    component="div"
+                    className="text-red-500 text-sm mb-2 absolute top-14"
+                  />
+                </div>
                 <button
                   type="submit"
                   disabled={loading}

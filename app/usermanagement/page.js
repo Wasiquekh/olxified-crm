@@ -20,15 +20,20 @@ import * as Yup from "yup";
 import AxiosProvider from "@provider/AxiosProvider";
 import { AuthContext } from "../AuthContext";
 import { useContext } from "react";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 
 const axiosProvider = new AxiosProvider();
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Your name is required"),
-  mobileNumber: Yup.string()
-    .matches(/^[0-9]{10}$/, "Mobile number must be 10 digits")
+  mobile_number: Yup.string()
+    .matches(
+      /^\+\d{1,4}\d{10}$/,
+      "Enter a valid mobile number with country code"
+    ) // Regex for valid mobile number format
     .required("Mobile number is required"),
   email: Yup.string()
     .email("Invalid email address")
@@ -39,11 +44,12 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function Home() {
-  const [saving, setSaving] = useState(false)
+  const [saving, setSaving] = useState(false);
   const { saveAuthData } = useContext(AuthContext);
 
   const handleSubmit = async (values, { resetForm }) => {
-    setSaving(true)
+    console.log(values);
+    setSaving(true);
     try {
       const appCheckToken = await getToken(appCheck, true);
       const res = await axiosProvider.post("/register", values, {
@@ -55,7 +61,7 @@ export default function Home() {
 
       if (res.status === 200) {
         saveAuthData(res.data); // Save auth data if needed
-        toast.success('Form submitted successfully!');
+        toast.success("Form submitted successfully!");
         resetForm();
       } else {
         setErrors({ submit: res.data.message || "Registration failed" });
@@ -64,12 +70,10 @@ export default function Home() {
       console.error("Error during registration:", error);
       setErrors({ submit: "An error occurred during registration." });
       toast.error("Failed to submit the form.");
-    }
-    finally{
-      setSaving(false)
+    } finally {
+      setSaving(false);
     }
   };
-
 
   const tabs = [
     {
@@ -90,18 +94,16 @@ export default function Home() {
             <Formik
               initialValues={{
                 name: "",
-                mobileNumber: "",
+                mobile_number: "",
                 email: "",
                 password: "",
                 roleLevel: "1",
               }}
-              validationSchema={validationSchema}
-              onSubmit={handleSubmit}
+              validationSchema={validationSchema} // Ensure validationSchema is defined
+              onSubmit={handleSubmit} // Ensure handleSubmit is defined
             >
-              {({ isSubmitting }) => (
-                <Form>
-                  {" "}
-                  {/* Use Formik's Form component here */}
+              {({ setFieldValue, isSubmitting, saving, values }) => (
+                <Form className="w-9/12">
                   <div className="w-full">
                     <div className="w-full flex gap-6">
                       <div className="w-full relative">
@@ -121,21 +123,35 @@ export default function Home() {
                         />
                       </div>
 
-                      <div className="w-full relative">
-                        <p className="text-[#232323] text-base leading-normal mb-2">
-                          Mobile Number
-                        </p>
-                        <Field
-                          type="text"
-                          name="mobileNumber"
-                          placeholder="9930XXXXXX"
-                          className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-6 text-[#718EBF]"
-                        />
-                        <ErrorMessage
-                          name="mobileNumber"
-                          component="div"
-                          className="text-red-500 absolute top-[90px] text-xs"
-                        />
+                      {/* Mobile Number Field */}
+                      <div className="w-full relative mb-6">
+                        {/* Mobile Number Field */}
+                        <div className="w-full relative mb-6">
+                          <p className="text-[#232323] text-base leading-normal mb-2">
+                            Mobile Number
+                          </p>
+                          <PhoneInput
+                            country={"in"}
+                            value={values.mobile_number}
+                            onChange={(phone) => {
+                              // Ensure the phone variable is not empty before manipulating it
+                              const formattedPhone = phone
+                                ? phone.startsWith("+")
+                                  ? phone
+                                  : `+${phone}`
+                                : "";
+                              setFieldValue("mobile_number", formattedPhone); // Set the phone number with +
+                            }}
+                            placeholder="Mobile Number"
+                            className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4"
+                          />
+
+                          <ErrorMessage
+                            name="mobile_number"
+                            component="div"
+                            className="text-red-500 absolute top-[90px] text-xs"
+                          />
+                        </div>
                       </div>
                     </div>
 
@@ -189,21 +205,20 @@ export default function Home() {
                           <option value="2">Non-Admin</option>
                         </Field>
                       </div>
-                      <div className="w-full"></div>
+
+                      <div className="w-full relative"></div>
                     </div>
 
                     <div className="w-full flex gap-6">
                       <div className="w-full">
                         <button
                           type="submit"
-                         // disabled={isSubmitting}
                           disabled={saving}
                           className="w-[190px] h-[50px] bg-customBlue rounded-[15px] text-white text-lg leading-normal font-medium"
                         >
-                          {saving ? 'Saving...' : 'Save'}
+                          {saving ? "Saving..." : "Save"}
                         </button>
                       </div>
-                      <div className="w-full"></div>
                     </div>
                   </div>
                 </Form>

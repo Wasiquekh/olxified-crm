@@ -16,6 +16,8 @@ export default function Home() {
   const router = useRouter();
 
   const axiosProvider = new AxiosProvider();
+
+
   const handleChange = (e, index) => {
     const value = e.target.value;
     if (/^\d{0,1}$/.test(value)) {
@@ -92,7 +94,8 @@ export default function Home() {
       }
     } catch (error) {
       console.error("Network error:", error);
-      setError("Network error, please try again.");
+      toast.error("Invalid OTP");
+      //setError("Network error, please try again.");
     } finally {
       setLoading(false);
     }
