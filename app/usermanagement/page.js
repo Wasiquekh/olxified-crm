@@ -44,12 +44,12 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function Home() {
-  const [saving, setSaving] = useState(false);
+  //const [saving, setSaving] = useState(false);
   const { saveAuthData } = useContext(AuthContext);
 
   const handleSubmit = async (values, { resetForm }) => {
     console.log(values);
-    setSaving(true);
+   // setSaving(true);
     try {
       const appCheckToken = await getToken(appCheck, true);
       const res = await axiosProvider.post("/register", values, {
@@ -70,9 +70,7 @@ export default function Home() {
       console.error("Error during registration:", error);
       setErrors({ submit: "An error occurred during registration." });
       toast.error("Failed to submit the form.");
-    } finally {
-      setSaving(false);
-    }
+    } 
   };
 
   const tabs = [
@@ -102,7 +100,7 @@ export default function Home() {
               validationSchema={validationSchema} // Ensure validationSchema is defined
               onSubmit={handleSubmit} // Ensure handleSubmit is defined
             >
-              {({ setFieldValue, isSubmitting, saving, values }) => (
+              {({ setFieldValue, isSubmitting, values, }) => (
                 <Form className="w-9/12">
                   <div className="w-full">
                     <div className="w-full flex gap-6">
@@ -143,7 +141,7 @@ export default function Home() {
                               setFieldValue("mobile_number", formattedPhone); // Set the phone number with +
                             }}
                             placeholder="Mobile Number"
-                            className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4"
+                           // className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4"
                           />
 
                           <ErrorMessage
@@ -212,11 +210,13 @@ export default function Home() {
                     <div className="w-full flex gap-6">
                       <div className="w-full">
                         <button
+
                           type="submit"
-                          disabled={saving}
+                          disabled={isSubmitting}
                           className="w-[190px] h-[50px] bg-customBlue rounded-[15px] text-white text-lg leading-normal font-medium"
                         >
-                          {saving ? "Saving..." : "Save"}
+                          {/* {saving ? "Saving..." : "Save"} */}
+                           {isSubmitting ? "Submitting..." : "Submit"}
                         </button>
                       </div>
                     </div>
