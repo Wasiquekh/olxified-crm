@@ -62,6 +62,7 @@ export default function Home() {
         saveAuthData(res.data); // Save auth data if needed
         toast.success("Form submitted successfully!");
         resetForm();
+        window.location.reload();
       } else {
         setErrors({ submit: res.data.message || "Registration failed" });
       }
