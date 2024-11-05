@@ -49,7 +49,6 @@ export default function Home() {
 
   const handleSubmit = async (values, { resetForm }) => {
     console.log(values);
-   // setSaving(true);
     try {
       const appCheckToken = await getToken(appCheck, true);
       const res = await axiosProvider.post("/register", values, {
@@ -58,7 +57,7 @@ export default function Home() {
           "X-Firebase-AppCheck": appCheckToken.token,
         },
       });
-
+  
       if (res.status === 200) {
         saveAuthData(res.data); // Save auth data if needed
         toast.success("Form submitted successfully!");
@@ -67,11 +66,16 @@ export default function Home() {
         setErrors({ submit: res.data.message || "Registration failed" });
       }
     } catch (error) {
-      console.error("Error during registration:", error);
-      setErrors({ submit: "An error occurred during registration." });
-      toast.error("Failed to submit the form.");
-    } 
+      if (error.response && error.response.status === 409) {
+        // Display specific 409 error message in the toast
+        toast.error(error.response.data.msg || "Conflict error occurred.");
+      } else {
+        console.error("Error during registration:", error);
+        toast.error("Failed to submit the form.");
+      }
+    }
   };
+  
 
   const tabs = [
     {
