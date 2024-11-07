@@ -1,12 +1,14 @@
 import axios from "axios";
 
+
 // Check if running on the server or client
 const isServer = typeof window === "undefined";
 
 // Default base URL
 const defaultBaseURL = "https://orizon-crm-api-uat.yliqo.com/api/v1/Orizonapigateway";
-
 export default class AxiosProvider {
+  
+  
   constructor(baseURL = defaultBaseURL, headers = { "Content-Type": "application/x-www-form-urlencoded" }) {
     // Dynamically set the base URL based on environment (server or client)
     this.baseURL = isServer
@@ -40,12 +42,23 @@ export default class AxiosProvider {
     return this.instance.delete(url, config);
   }
   handleResponse(response) {
-    console.log("Response Data:", response.data);
+    // console.log("Response Data:", response.data);
     return response;
   }
 
-  handleError(error) {
+  // handleError(error) {
+  //   console.error("Error:", error);
+  //   if(error.status == 401){
+  //     router.push(routes.login);
+  //   }
+  //   return Promise.reject(error);
+  // }
+   handleError(error) {
     console.error("Error:", error);
+    if (error.status === 401) {
+      window.location.href = "/"; // Handle redirection on API error
+    }
     return Promise.reject(error);
   }
+  
 }

@@ -46,9 +46,9 @@ export default function Home() {
     e.preventDefault();
     setLoading(true);
     // -------------
-    const userEmail = localStorage.getItem("email");
-    const userPassword = localStorage.getItem("password");
-    const userMobile = localStorage.getItem("mobileNumber");
+    const userEmail = localStorage.getItem("userEmail");
+   // const userPassword = localStorage.getItem("password");
+    const userMobile = localStorage.getItem("userMobile");
     // ----------------
     const otpValue = otp.join("");
     if (otpValue.length !== 6) {
@@ -56,11 +56,11 @@ export default function Home() {
      // setError("Please enter a valid 6-digit OTP.");
       return;
     }
-    console.log('otp email',userEmail)
-    console.log('otp pass',userPassword)
-    console.log('otp mobile',userMobile)
-    console.log('otp code',otpValue)
-    //console.log(otpValue)
+   // console.log('otp email',userEmail)
+   //console.log('otp pass',userPassword)
+   // console.log('otp mobile',userMobile)
+   // console.log('otp code',otpValue)
+   //console.log(otpValue)
     try {
       // Getting App Check token
       const appCheckToken = await getToken(appCheck, true);
@@ -70,7 +70,7 @@ export default function Home() {
         "/otplogin",
         { 
           email: userEmail,
-          password: userPassword,
+          //password: userPassword,
           mobile_number: userMobile,
           code: otpValue,
         },

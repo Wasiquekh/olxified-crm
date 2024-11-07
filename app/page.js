@@ -9,13 +9,14 @@ import AxiosProvider from "@provider/AxiosProvider";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
+import StorageManager from "../provider/StorageManager";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-
+  // Instantiate StorageManager
+  const storage = new StorageManager();
   const axiosProvider = new AxiosProvider();
-  // Use AuthContext
   const { saveAuthData } = useContext(AuthContext);
 
   const validationSchema = Yup.object().shape({
@@ -49,11 +50,8 @@ export default function Home() {
       }
 
       saveAuthData(values.email);
-      localStorage.setItem("email", values.email);
-      localStorage.setItem("password", values.password);
-      const mobileNumber = res.data.data.mobile_number;
-      localStorage.setItem("mobileNumber", mobileNumber);
-      //console.log(mobileNumber); // Log the mobile number
+      await storage.saveUserEmail(values.email);
+      await storage.saveUserMobile(res.data.data.mobile_number);
       router.push("/otp");
     } catch (error) {
       console.log(error);
