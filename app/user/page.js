@@ -23,7 +23,7 @@ import { appCheck } from "../firebase-config";
 import { getToken } from "firebase/app-check";
 import { useEffect } from "react";
 import { useState } from "react";
-import AxiosProvider from "@provider/AxiosProvider";
+import AxiosProvider from "../../provider/AxiosProvider";
 import { AuthContext } from "../AuthContext";
 import { useContext } from "react";
 import { useFormik } from "formik";
@@ -183,7 +183,7 @@ export default function Home() {
         <div className=" w-[15%]  flex flex-col justify-between py-4 px-4 border-r-2 border-customBorder shadow-borderShadow mt-2">
           {/* SIDE LEFT BAR TOP SECTION */}
           <div>
-            <Link href="/dashboard">
+            <Link href="/customer">
               <div className=" flex gap-2 mb-12">
                 <Image
                   src="/images/orizonDashboardIcon.svg"
@@ -204,7 +204,7 @@ export default function Home() {
               className=" w-full rounded-lg border border-[#E7E7E7] p-[10px] focus:outline-none placeholder-[#717171] mb-12"
             />
             {/* MENU WITH ICONS */}
-            <Link href="/dashboard">
+            <Link href="/customer">
               <div className=" mb-9 flex gap-6 items-center  cursor-pointer group">
                 <BiSolidHome className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
                 <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
@@ -212,10 +212,10 @@ export default function Home() {
                 </p>
               </div>
             </Link>
-            <Link href="/dashboard">
-              <div className=" mb-9 flex gap-6 items-center">
-                <MdOutlineBarChart className=" w-6 h-6 text-[#B1B1B1] " />
-                <p className=" text-[#B1B1B1] text-base leading-normal font-medium">
+            <Link href="/customer">
+              <div className=" mb-9 flex gap-6 items-center group">
+                <MdOutlineBarChart className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue " />
+                <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
                   Customers
                 </p>
               </div>
@@ -228,7 +228,7 @@ export default function Home() {
                 </p>
               </div>
             </Link>
-            <Link href="/dashboard">
+            <Link href="/customer">
               <div className=" mb-9 flex gap-6 items-center group">
                 <HiWrenchScrewdriver className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
                 <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
@@ -236,7 +236,7 @@ export default function Home() {
                 </p>
               </div>
             </Link>
-            <Link href="/dashboard">
+            <Link href="/customer">
               <div className=" mb-9 flex gap-6 items-center group">
                 <FaMoneyCheckDollar className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
                 <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">

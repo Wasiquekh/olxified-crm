@@ -5,26 +5,36 @@ import { getToken } from "firebase/app-check";
 import { useState, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { AuthContext } from "./AuthContext";
-import AxiosProvider from "@provider/AxiosProvider";
+import AxiosProvider from "../provider/AxiosProvider";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import StorageManager from "../provider/StorageManager";
+import { FaRegEye } from "react-icons/fa";
+import { FaRegEyeSlash } from "react-icons/fa";
+import OtpHome from "./otp/page";
 
-export default function Home() {
+interface FormValues {
+  email: string;
+  password: string;
+}
+export default function LoginHome() {
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [userPassword, setUserPassword] = useState<string | undefined>(undefined);
   const router = useRouter();
-  // Instantiate StorageManager
   const storage = new StorageManager();
   const axiosProvider = new AxiosProvider();
   const { saveAuthData } = useContext(AuthContext);
+
+  console.log('my password',userPassword)
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().required("Email or User ID is required"),
     password: Yup.string().required("Password is required"),
   });
 
-  const handleSubmit = async (values) => {
+  const handleSubmitLogin = async (values: FormValues) => {
     setLoading(true);
     try {
       const appCheckToken = await getToken(appCheck, true);
@@ -46,25 +56,31 @@ export default function Home() {
 
       if (res.status !== 200) {
         console.error("Login failed", res.status, res.data);
-        throw new Error(`Error: ${res.status} - ${res.data.message}`);
+       // throw new Error(Error: ${res.status} - ${res.data.message});
       }
 
       saveAuthData(values.email);
       await storage.saveUserEmail(values.email);
       await storage.saveUserMobile(res.data.data.mobile_number);
-      router.push("/otp");
+      setUserPassword(values.password)
+      router.push('/otp');
     } catch (error) {
       console.log(error);
-      // Show toast for wrong credentials
       toast.error("Username or password is incorrect. Please try again.");
     } finally {
       setLoading(false);
     }
   };
-
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+  // const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setFieldValue('password', e.target.value); // Updates Formik state for password
+  //   console.log("Password:", password);  
+  // };
   return (
     <>
-      <div className=" bg-[#F5F5F5]">
+      <div className="bg-[#F5F5F5]">
         <Image
           src="/images/orizon-login-bg.svg"
           alt="Orizon iconLogo bg"
@@ -108,23 +124,23 @@ export default function Home() {
           className=" absolute  top-[90%] right-0 left-0 mx-auto"
         />
       </div>
-      <div className=" absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto  w-[500px] h-[587px] shadow-loginBoxShadow bg-white px-12 py-16">
+      <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[500px] h-[587px] shadow-loginBoxShadow bg-white px-12 py-16">
         <Image
           src="/images/loginicon.svg"
           alt="OrizonIcon"
           width={82}
           height={52}
-          className=" mx-auto mb-5"
+          className="mx-auto mb-5"
         />
-        <p className=" font-bold text-base leading-normal text-center text-black mb-6">
+        <p className="font-bold text-base leading-normal text-center text-black mb-6">
           Login to Orizon
         </p>
         <Formik
           initialValues={{ email: "", password: "" }}
           validationSchema={validationSchema}
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmitLogin}
         >
-          {() => (
+          {({ setFieldValue }) => (
             <Form className="w-full">
               <div className="w-full">
                 <p className="text-[#232323] text-base leading-normal mb-2">
@@ -149,12 +165,24 @@ export default function Home() {
                 </p>
                 <div className="relative">
                   <Field
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     name="password"
+                    onChange={(e) => setFieldValue("password", e.target.value)}
                     autoComplete="current-password"
                     placeholder="Enter your password"
                     className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-8 text-[#718EBF]"
                   />
+                  {showPassword ? (
+                    <FaRegEye
+                      onClick={togglePasswordVisibility}
+                      className="absolute top-4 right-4 text-[#718EBF] text-[15px] cursor-pointer"
+                    />
+                  ) : (
+                    <FaRegEyeSlash
+                      onClick={togglePasswordVisibility}
+                      className="absolute top-4 right-4 text-[#718EBF] text-[15px] cursor-pointer"
+                    />
+                  )}
                   <ErrorMessage
                     name="password"
                     component="div"

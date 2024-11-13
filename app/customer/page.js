@@ -24,71 +24,91 @@ import { RxAvatar } from "react-icons/rx";
 import Link from "next/link";
 import { appCheck } from "../firebase-config";
 import { getToken } from "firebase/app-check";
-import AxiosProvider from "@provider/AxiosProvider";
+import AxiosProvider from "../../provider/AxiosProvider";
+import { RiAccountCircleLine } from "react-icons/ri";
+import { RxCross2 } from "react-icons/rx";
 
 const axiosProvider = new AxiosProvider();
 
 export default function Home() {
   const [isFlyoutOpen, setFlyoutOpen] = useState(false);
   const [isFlyoutFilterOpen, setFlyoutFilterOpen] = useState(false);
-  const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const itemsPerPage = 10; // Customize this as needed
   const [paginatedData, setPaginatedData] = useState([]); // To hold the paginated data
+  const [data, setData] = useState([]);
   const [filterData, setFilterData] = useState({
-    firstname: '',
-    lastname: '',
-    mobilephonenumber: '',
-    birthdate: '',
+    firstname: "",
+    lastname: "",
+    mobilephonenumber: "",
+    birthdate: "",
   });
-  console.log('filter data',data)
+  const [isError, setIsError] = useState(false);
+  const [appliedFilters, setAppliedFilters] = useState([]);
+  //console.log('Applied filter',appliedFilters)
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFilterData((prevData) => ({
       ...prevData,
-      [name]: value, 
+      [name]: value,
     }));
   };
- // console.log(filterData)
+  // console.log(filterData)
 
- const handleSubmit = async (e) => {
-  e.preventDefault();
-toggleFilterFlyout()
+    // Update filters based on filterData changes
+    useEffect(() => {
+      const filters = [];
+      if (filterData.firstname) filters.push(`First Name: ${filterData.firstname}`);
+      if (filterData.lastname) filters.push(`Last Name: ${filterData.lastname}`);
+      setAppliedFilters(filters);
+    }, [filterData]);
 
-  try {
-    const tokenResponse = await getToken(appCheck, true);
-    const appCheckToken = tokenResponse.token;
-    const accessToken = localStorage.getItem("accessToken");
+  const handleSubmit = async (e) => {
+    if (e && e.preventDefault) e.preventDefault(); // Check if e exists and has preventDefault
+    toggleFilterFlyout();
 
-    const response = await axiosProvider.post("/filter", filterData, {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "X-Firebase-AppCheck": appCheckToken,
-        Authorization: `Bearer ${accessToken}`, // Add the access token for authentication
-      },
-    });
+    try {
+      const tokenResponse = await getToken(appCheck, true);
+      const appCheckToken = tokenResponse.token;
+      const accessToken = localStorage.getItem("accessToken");
 
-    const result = response.data;
-    if (result.success && result.data && result.data.customers) {
-      setData(result.data.customers); // Set the customers data
-      //console.log("Filtered customers retrieved successfully:", result.data.customers);
-    } else {
-      console.warn("No customers data found in response");
+      // Construct query parameters based on firstname and lastname filters
+      const queryParams = new URLSearchParams();
+      if (filterData.firstname)
+        queryParams.append("firstname", filterData.firstname);
+      if (filterData.lastname)
+        queryParams.append("lastname", filterData.lastname);
+
+      const response = await axiosProvider.post("/filter", filterData, {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "X-Firebase-AppCheck": appCheckToken,
+          Authorization: `Bearer ${accessToken}`, // Add the access token for authentication
+        },
+      });
+
+      const result = response.data;
+      if (result.success && result.data && result.data.customers) {
+        setData(result.data.customers); // Set the customers data
+        //console.log("Filtered customers retrieved successfully:", result.data.customers);
+      } 
+    } catch (error) {
+      if (error.response && error.response.status == 404) {
+        setIsError(true);
+        console.log("data not found");
+      }
+      console.error("Error fetching data:", error);
+      console.error(
+        "Error details:",
+        error.response ? error.response.data : error.message
+      );
+      if (error.response && error.response.status === 401) {
+        console.error("Unauthorized: Check App Check token and Bearer token.");
+      }
     }
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    console.error(
-      "Error details:",
-      error.response ? error.response.data : error.message
-    );
-    if (error.response && error.response.status === 401) {
-      console.error("Unauthorized: Check App Check token and Bearer token.");
-    }
-  }
-};
-
+  };
 
   const toggleFlyout = () => {
     setFlyoutOpen(!isFlyoutOpen);
@@ -116,6 +136,7 @@ toggleFilterFlyout()
             Authorization: `Bearer ${accessToken}`, // Add the access token for authentication
           },
         });
+
         // Axios already parses the response, so no need for response.json()
         const result = response.data;
         setData(result.data);
@@ -142,7 +163,7 @@ toggleFilterFlyout()
     if (Array.isArray(data) && data.length > 0) {
       // Calculate total pages based on the length of the data
       setTotalPages(Math.ceil(data.length / itemsPerPage));
-  
+
       // Slice data to show the items for the current page
       const startIndex = (currentPage - 1) * itemsPerPage;
       const currentData = data.slice(startIndex, startIndex + itemsPerPage);
@@ -150,10 +171,9 @@ toggleFilterFlyout()
     } else {
       // Handle cases where data is not an array or is empty
       setPaginatedData([]); // Set to an empty array if data is not valid
-      setTotalPages(0);      // Set total pages to 0
+      setTotalPages(0); // Set total pages to 0
     }
   }, [currentPage, data]);
-  
 
   const handlePrevPage = () => {
     if (currentPage > 1) {
@@ -183,6 +203,58 @@ toggleFilterFlyout()
     );
   }
 
+// Function to remove a specific filter and call handleSubmit
+const removeFilter = async (filter) => {
+  // Remove the filter from the applied filters
+  setAppliedFilters((prevFilters) => prevFilters.filter((f) => f !== filter));
+
+  // Update filterData based on which filter was removed
+  setFilterData((prev) => {
+    const newFilterData = { ...prev };
+
+    if (filter.startsWith("First Name")) {
+      newFilterData.firstname = "";
+    } else if (filter.startsWith("Last Name")) {
+      newFilterData.lastname = "";
+    }
+    
+    // Make the API call after updating filterData
+    callApiWithUpdatedFilters(newFilterData);
+    return newFilterData; // Update filterData state
+  });
+};
+
+// Function to handle the API call
+const callApiWithUpdatedFilters = async (updatedFilterData) => {
+  try {
+    const tokenResponse = await getToken(appCheck, true);
+    const appCheckToken = tokenResponse.token;
+    const accessToken = localStorage.getItem("accessToken");
+
+    const response = await axiosProvider.post("/filter", updatedFilterData, {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "X-Firebase-AppCheck": appCheckToken,
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    const result = response.data;
+    if (result.success && result.data && result.data.customers) {
+      setData(result.data.customers); // Update the table data with the filtered customers
+    }
+  } catch (error) {
+    if (error.response && error.response.status === 404) {
+      setIsError(true);
+      console.log("Data not found");
+    }
+    console.error("Error fetching data:", error);
+    if (error.response && error.response.status === 401) {
+      console.error("Unauthorized: Check App Check token and Bearer token.");
+    }
+  }
+};
+
   return (
     <>
       <div className=" flex  min-h-screen">
@@ -190,7 +262,7 @@ toggleFilterFlyout()
         <div className=" w-[15%]  flex flex-col justify-between py-4 px-4 border-r-2 border-customBorder shadow-borderShadow mt-2">
           {/* SIDE LEFT BAR TOP SECTION */}
           <div>
-            <Link href="/dashboard">
+            <Link href="/customer">
               <div className=" flex gap-2 mb-12">
                 <Image
                   src="/images/orizonDashboardIcon.svg"
@@ -211,7 +283,7 @@ toggleFilterFlyout()
               className=" w-full rounded-lg border border-[#E7E7E7] p-[10px] focus:outline-none placeholder-[#717171] mb-12"
             />
             {/* MENU WITH ICONS */}
-            <Link href="/dashboard">
+            <Link href="/customer">
               <div className=" mb-9 flex gap-6 items-center  cursor-pointer group">
                 <BiSolidHome className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
                 <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
@@ -219,7 +291,7 @@ toggleFilterFlyout()
                 </p>
               </div>
             </Link>
-            <Link href="/dashboard">
+            <Link href="/customer">
               <div className=" mb-9 flex gap-6 items-center">
                 <MdOutlineBarChart className=" w-6 h-6 text-customBlue " />
                 <p className=" text-customBlue text-base leading-normal font-medium">
@@ -235,7 +307,7 @@ toggleFilterFlyout()
                 </p>
               </div>
             </Link>
-            <Link href="/dashboard">
+            <Link href="/customer">
               <div className=" mb-9 flex gap-6 items-center group">
                 <HiWrenchScrewdriver className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
                 <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
@@ -243,7 +315,7 @@ toggleFilterFlyout()
                 </p>
               </div>
             </Link>
-            <Link href="/dashboard">
+            <Link href="/customer">
               <div className=" mb-9 flex gap-6 items-center group">
                 <FaMoneyCheckDollar className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
                 <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
@@ -340,7 +412,6 @@ toggleFilterFlyout()
               </button> */}
             </div>
           </div>
-
           {/* ----------------Table----------------------- */}
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
             {/* Search and filter table row */}
@@ -371,6 +442,31 @@ toggleFilterFlyout()
               </div>
             </div>
             {/* End search and filter row */}
+            {/* Show Applied Filters */}
+            <div className="w-[99%] mx-auto mb-3">
+              {appliedFilters.length > 0 && (
+                <div>
+                  <ul>
+                    {" "}
+                    {/* Add gap for spacing between items */}
+                    {appliedFilters.map((filter, index) => (
+                      <li
+                        className="flex items-center text-[#1814F3] bg-[#EDF2FE] inline-flex  p-2 rounded gap-1 text-xs ml-2"
+                        key={index}
+                      >
+                        <RiAccountCircleLine className="text-[#1814F3]" />
+                        {filter}
+                        <RxCross2
+                        onClick={()=>{
+                          removeFilter(filter)
+                        }}
+                         className="text-[#1814F3] cursor-pointer" />
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
               <thead className="text-xs text-[#999999]">
                 <tr className=" border border-tableBorder">
@@ -455,7 +551,14 @@ toggleFilterFlyout()
                 </tr>
               </thead>
               <tbody>
-                {paginatedData &&
+                {isError ? (
+                  <tr className="">
+                    <td colSpan="8" className="text-center text-xl mt-5">
+                      <div className=" mt-5">Data not found</div>
+                    </td>
+                  </tr>
+                ) : (
+                  paginatedData &&
                   paginatedData.map((item, index) => (
                     <tr
                       className=" border border-tableBorder bg-white"
@@ -532,7 +635,8 @@ toggleFilterFlyout()
                         </button>
                       </td>
                     </tr>
-                  ))}
+                  ))
+                )}
               </tbody>
             </table>
             {/* Pagination Controls */}
@@ -1341,96 +1445,82 @@ toggleFilterFlyout()
               <div className=" w-full border-b border-[#E7E7E7] mb-4"></div>
               {/* FORM */}
               <form onSubmit={handleSubmit}>
-              <div className=" w-full">
-                <div className=" w-full flex gap-4 mb-4">
-                  <div className=" w-full">
-                    <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
-                      First Name
-                    </p>
-                    <input
-                      type="text"
-                      value={filterData.firstname}
-                      name="firstname"
-                      onChange={handleChange}
-                      placeholder="Alexandre"
-                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
-                    />
+                <div className=" w-full">
+                  <div className=" w-full flex gap-4 mb-4">
+                    <div className=" w-full">
+                      <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
+                        First Name
+                      </p>
+                      <input
+                        type="text"
+                        value={filterData.firstname}
+                        name="firstname"
+                        onChange={handleChange}
+                        placeholder="Alexandre"
+                        className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                      />
+                    </div>
+                    <div className=" w-full">
+                      <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
+                        Last Name
+                      </p>
+                      <input
+                        type="text"
+                        value={filterData.lastname}
+                        onChange={handleChange}
+                        name="lastname"
+                        placeholder="Prot"
+                        className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                      />
+                    </div>
                   </div>
-                  <div className=" w-full">
-                    <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
-                      Last Name
-                    </p>
-                    <input
-                      type="text"
-                      value={filterData.lastname}
-                      onChange={handleChange}
-                      name="lastname"
-                      placeholder="Prot"
-                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
-                    />
+
+                  <div className=" w-full flex gap-4 mb-4">
+                    <div className=" w-full">
+                      <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
+                        Phone
+                      </p>
+                      <input
+                        type="number"
+                        value={filterData.mobilephonenumber}
+                        onChange={handleChange}
+                        name="mobilephonenumber"
+                        placeholder="1 (800) 667-6389"
+                        className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                      />
+                    </div>
+                    <div className=" w-full">
+                      <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
+                        Birth Date
+                      </p>
+                      <input
+                        type="date"
+                        value={filterData.birthdate}
+                        onChange={handleChange}
+                        name="birthdate"
+                        placeholder=""
+                        className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                      />
+                    </div>
                   </div>
                 </div>
 
-                <div className=" w-full flex gap-4 mb-4">
-                  <div className=" w-full">
-                    <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
-                      Phone
-                    </p>
-                    <input
-                      type="number"
-                      value={filterData.mobilephonenumber}
-                      onChange={handleChange}
-                      name="mobilephonenumber"
-                      placeholder="1 (800) 667-6389"
-                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
-                    />
-                  </div>
-                  <div className=" w-full">
-                    <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
-                      Birth Date
-                    </p>
-                    <input
-                      type="date"
-                      value={filterData.birthdate}
-                      onChange={handleChange}
-                      name="birthdate"
-                      placeholder=""
-                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
-                    />
-                  </div>
+                {/* END FORM */}
+
+                <div className="mt-10 w-full flex justify-end items-center gap-5">
+                  <button
+                    onClick={toggleFilterFlyout}
+                    className=" py-[13px] px-[26px] border border-[#E7E7E7] rounded-2xl text-[#0A0A0A] text-base font-medium leading-6"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className=" py-[13px] px-[26px] bg-customBlue rounded-2xl text-base font-medium leading-6 text-white "
+                  >
+                    Update Details
+                  </button>
                 </div>
-
-                {/* <div className=" w-full flex gap-4 mb-4">
-                  <div className=" w-full">
-                    <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
-                      Email ID
-                    </p>
-                    <input
-                      type="email"
-                      value={filterData.email}
-                      onChange={handleChange}
-                      name="email"
-                      placeholder="email@example.com"
-                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
-                    />
-                  </div>
-                </div> */}
-              </div>
-            
-              {/* END FORM */}
-
-              <div className="mt-10 w-full flex justify-end items-center gap-5">
-                <button
-                onClick={toggleFilterFlyout}
-                className=" py-[13px] px-[26px] border border-[#E7E7E7] rounded-2xl text-[#0A0A0A] text-base font-medium leading-6">
-                  Cancel
-                </button>
-                <button 
-                type="submit"
-                className=" py-[13px] px-[26px] bg-customBlue rounded-2xl text-base font-medium leading-6 text-white ">
-                  Update Details
-                </button>
-              </div>
               </form>
             </div>
           </div>

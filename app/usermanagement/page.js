@@ -17,13 +17,15 @@ import { appCheck } from "../firebase-config";
 import { getToken } from "firebase/app-check";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import AxiosProvider from "@provider/AxiosProvider";
+import AxiosProvider from "../../provider/AxiosProvider";
 import { AuthContext } from "../AuthContext";
 import { useContext } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+import { FaRegEye } from "react-icons/fa";
+import { FaRegEyeSlash } from "react-icons/fa";
 
 const axiosProvider = new AxiosProvider();
 
@@ -45,8 +47,12 @@ const validationSchema = Yup.object().shape({
 
 export default function Home() {
   //const [saving, setSaving] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const { saveAuthData } = useContext(AuthContext);
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
   const handleSubmit = async (values, { resetForm }) => {
     console.log(values);
     try {
@@ -57,7 +63,7 @@ export default function Home() {
           "X-Firebase-AppCheck": appCheckToken.token,
         },
       });
-  
+
       if (res.status === 200) {
         saveAuthData(res.data); // Save auth data if needed
         toast.success("Form submitted successfully!");
@@ -76,7 +82,7 @@ export default function Home() {
       }
     }
   };
-  
+
 
   const tabs = [
     {
@@ -105,7 +111,7 @@ export default function Home() {
               validationSchema={validationSchema} // Ensure validationSchema is defined
               onSubmit={handleSubmit} // Ensure handleSubmit is defined
             >
-              {({ setFieldValue, isSubmitting, values, }) => (
+              {({ setFieldValue, isSubmitting, values }) => (
                 <Form className="w-9/12">
                   <div className="w-full">
                     <div className="w-full flex gap-6">
@@ -146,7 +152,7 @@ export default function Home() {
                               setFieldValue("mobile_number", formattedPhone); // Set the phone number with +
                             }}
                             placeholder="Mobile Number"
-                           // className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4"
+                            // className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4"
                           />
 
                           <ErrorMessage
@@ -181,11 +187,22 @@ export default function Home() {
                           Password
                         </p>
                         <Field
-                          type="password"
+                          type={showPassword ? "text" : "password"}
                           name="password"
                           placeholder="********"
                           className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-6 text-[#718EBF]"
                         />
+                        {showPassword ? (
+                          <FaRegEye
+                            onClick={togglePasswordVisibility}
+                            className="absolute top-12 right-4 text-[#718EBF] text-[15px] cursor-pointer"
+                          />
+                        ) : (
+                          <FaRegEyeSlash
+                            onClick={togglePasswordVisibility}
+                            className="absolute top-12 right-4 text-[#718EBF] text-[15px] cursor-pointer"
+                          />
+                        )}
                         <ErrorMessage
                           name="password"
                           component="div"
@@ -215,13 +232,12 @@ export default function Home() {
                     <div className="w-full flex gap-6">
                       <div className="w-full">
                         <button
-
                           type="submit"
                           disabled={isSubmitting}
                           className="w-[190px] h-[50px] bg-customBlue rounded-[15px] text-white text-lg leading-normal font-medium"
                         >
                           {/* {saving ? "Saving..." : "Save"} */}
-                           {isSubmitting ? "Submitting..." : "Submit"}
+                          {isSubmitting ? "Submitting..." : "Submit"}
                         </button>
                       </div>
                     </div>
@@ -386,7 +402,7 @@ export default function Home() {
         <div className=" w-[15%]  flex flex-col justify-between py-4 px-4 border-r-2 border-customBorder shadow-borderShadow mt-2">
           {/* SIDE LEFT BAR TOP SECTION */}
           <div>
-            <Link href="/dashboard">
+            <Link href="/customer">
               <div className=" flex gap-2 mb-12">
                 <Image
                   src="/images/orizonDashboardIcon.svg"
@@ -407,7 +423,7 @@ export default function Home() {
               className=" w-full rounded-lg border border-[#E7E7E7] p-[10px] focus:outline-none placeholder-[#717171] mb-12"
             />
             {/* MENU WITH ICONS */}
-            <Link href="/dashboard">
+            <Link href="/customer">
               <div className=" mb-9 flex gap-6 items-center  cursor-pointer group">
                 <BiSolidHome className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
                 <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
@@ -415,10 +431,10 @@ export default function Home() {
                 </p>
               </div>
             </Link>
-            <Link href="/dashboard">
-              <div className=" mb-9 flex gap-6 items-center">
-                <MdOutlineBarChart className=" w-6 h-6 text-[#B1B1B1] " />
-                <p className=" text-[#B1B1B1] text-base leading-normal font-medium">
+            <Link href="/customer">
+              <div className=" mb-9 flex gap-6 items-center group">
+                <MdOutlineBarChart className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
+                <p className=" text-[#B1B1B1] text-base leading-normal  font-medium group-hover:text-customBlue">
                   Customers
                 </p>
               </div>
@@ -431,7 +447,7 @@ export default function Home() {
                 </p>
               </div>
             </Link>
-            <Link href="/dashboard">
+            <Link href="/customer">
               <div className=" mb-9 flex gap-6 items-center group">
                 <HiWrenchScrewdriver className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
                 <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
@@ -439,7 +455,7 @@ export default function Home() {
                 </p>
               </div>
             </Link>
-            <Link href="/dashboard">
+            <Link href="/customer">
               <div className=" mb-9 flex gap-6 items-center group">
                 <FaMoneyCheckDollar className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
                 <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">

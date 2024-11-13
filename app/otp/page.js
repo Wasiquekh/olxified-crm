@@ -6,9 +6,9 @@ import { appCheck } from "../firebase-config";
 import { getToken } from "firebase/app-check";
 import { toast } from "react-toastify";
 import { AuthContext } from "../AuthContext";
-import AxiosProvider from "@provider/AxiosProvider";
+import AxiosProvider from "../../provider/AxiosProvider";
 
-export default function Home() {
+export default function OtpHome() {
   const [otp, setOtp] = useState(new Array(6).fill(""));
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -16,7 +16,6 @@ export default function Home() {
   const router = useRouter();
 
   const axiosProvider = new AxiosProvider();
-
 
   const handleChange = (e, index) => {
     const value = e.target.value;
@@ -47,30 +46,30 @@ export default function Home() {
     setLoading(true);
     // -------------
     const userEmail = localStorage.getItem("userEmail");
-   // const userPassword = localStorage.getItem("password");
+    // const userPassword = localStorage.getItem("password");
     const userMobile = localStorage.getItem("userMobile");
     // ----------------
     const otpValue = otp.join("");
     if (otpValue.length !== 6) {
       toast.error("Please enter a valid 6-digit OTP.");
-     // setError("Please enter a valid 6-digit OTP.");
+      // setError("Please enter a valid 6-digit OTP.");
+      setLoading(false);
       return;
     }
-   // console.log('otp email',userEmail)
-   //console.log('otp pass',userPassword)
-   // console.log('otp mobile',userMobile)
-   // console.log('otp code',otpValue)
-   //console.log(otpValue)
+    // console.log('otp email',userEmail)
+    //console.log('otp pass',userPassword)
+    // console.log('otp mobile',userMobile)
+    // console.log('otp code',otpValue)
+    //console.log(otpValue)
     try {
       // Getting App Check token
       const appCheckToken = await getToken(appCheck, true);
       console.log("App Check Token:", appCheckToken);
-    
+
       const res = await axiosProvider.post(
         "/otplogin",
-        { 
+        {
           email: userEmail,
-          //password: userPassword,
           mobile_number: userMobile,
           code: otpValue,
         },
@@ -80,15 +79,16 @@ export default function Home() {
           },
         }
       );
-    
+
       // Check response status and handle accordingly
-      if (res.status === 200) {  // Axios responses don't have `ok`, so we use `status` instead
+      if (res.status === 200) {
+        // Axios responses don't have `ok`, so we use `status` instead
         const data = res.data; // Axios already parses JSON data, so you can access it directly
-        console.log('OTP verification response:', data); // Log the entire response
+        console.log("OTP verification response:", data); // Log the entire response
         const accessToken = data.data.token; // Access the token correctly
-        console.log('Access Token:', accessToken);
-        localStorage.setItem('accessToken', accessToken);
-        router.push("/dashboard");
+        console.log("Access Token:", accessToken);
+        localStorage.setItem("accessToken", accessToken);
+        router.push("/customer");
       } else {
         setError(res.data.message || "Invalid OTP");
       }
@@ -100,7 +100,39 @@ export default function Home() {
       setLoading(false);
     }
   };
+  const resendOtp = async () => {
+    // -------------
+    const userEmail = localStorage.getItem("userEmail");
+    const userMobile = localStorage.getItem("userMobile");
+    // ----------------
+    try {
+      const appCheckToken = await getToken(appCheck, true);
+      //console.log(appCheckToken);
+      if (!appCheckToken) {
+        console.error("Failed to retrieve App Check token");
+        return;
+      }
 
+      const res = await axiosProvider.post(
+        "/resendcode",
+        { email: userEmail, mobile_number: userMobile },
+        {
+          headers: {
+            "X-Firebase-AppCheck": appCheckToken.token,
+          },
+        }
+      );
+
+      if (res.status !== 200) {
+        console.error("Login failed", res.status, res.data);
+        throw new Error(`Error: ${res.status} - ${res.data.message}`);
+      }
+      toast.success("OTP is  sent");
+    } catch (error) {
+      console.log(error);
+      toast.error("OTP is not sent");
+    }
+  };
   return (
     <>
       <div className=" bg-[#F5F5F5]">
@@ -183,14 +215,16 @@ export default function Home() {
               type="submit"
               className=" bg-[#1814F3] border rounded-[15px] w-full h-[50px] text-center text-white text-lg font-medium leading-normal mb-3"
             >
-              
-              {loading ? 'OTP Verifying...' : 'Verify OTP'}
+              {loading ? "OTP Verifying..." : "Verify OTP"}
             </button>
             <div className=" flex gap-4">
               <p className=" text-[#424955] text-[15px] leading-normal">
                 Haven&apos;t received the code?
               </p>
-              <p className=" text-[#1814F3] text-[15px] font-semibold underline cursor-pointer">
+              <p
+                onClick={resendOtp}
+                className=" text-[#1814F3] text-[15px] font-semibold underline cursor-pointer"
+              >
                 Resend a New Code
               </p>
             </div>
