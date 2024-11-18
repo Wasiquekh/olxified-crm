@@ -21,6 +21,7 @@ if (typeof window !== 'undefined') {
   // Only run the Firebase App Check initialization on the client
   appCheck = initializeAppCheck(app, {
     provider: new ReCaptchaV3Provider("6LeNlSAqAAAAAGbgvmjfMsR2zwWpGCFL4RqDg9uE"),
+    container: "recaptcha-container-id", // Provide the id of a DOM element
     isTokenAutoRefreshEnabled: true,
   });
 }

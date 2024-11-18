@@ -5,25 +5,33 @@ import { useRouter } from "next/navigation";
 import { appCheck } from "../firebase-config";
 import { getToken } from "firebase/app-check";
 import { toast } from "react-toastify";
-import { AuthContext } from "../AuthContext";
 import AxiosProvider from "../../provider/AxiosProvider";
+import StorageManager from "../../provider/StorageManager";
+import { useContext } from "react";
+import { AppContext } from "../AppContext";
+
+const axiosProvider = new AxiosProvider();
 
 export default function OtpHome() {
-  const [otp, setOtp] = useState(new Array(6).fill(""));
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const storage = new StorageManager();
   const inputRefs = useRef([]);
   const router = useRouter();
+  const [code, setcode] = useState(new Array(6).fill(""));
+  const [loading, setLoading] = useState(false);
+  const [qrCode, setQrCode] = useState();
+  const [secretKey, setSecretKey] = useState(
+    storage.getDecryptedUserSecretKey()
+  );
 
-  const axiosProvider = new AxiosProvider();
+  const { setAccessToken } = useContext(AppContext);
 
   const handleChange = (e, index) => {
     const value = e.target.value;
     if (/^\d{0,1}$/.test(value)) {
       // Only allow digits
-      const newOtp = [...otp];
-      newOtp[index] = value;
-      setOtp(newOtp);
+      const newCode = [...code];
+      newCode[index] = value;
+      setcode(newCode);
 
       // Move focus to the next input
       if (value && index < 5) {
@@ -33,45 +41,67 @@ export default function OtpHome() {
   };
 
   const handleKeyDown = (e, index) => {
-    if (e.key === "Backspace" && otp[index] === "") {
+    if (e.key === "Backspace" && code[index] === "") {
       // Move focus to the previous input on backspace
       if (index > 0) {
         inputRefs.current[index - 1].focus();
       }
     }
   };
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    console.log("secret ket", secretKey);
+  }, [secretKey]);
+
+  const fetchData = async () => {
+    try {
+      if (secretKey == "") {
+        // Getting App Check token
+        const appCheckToken = await getToken(appCheck, true);
+        // console.log("App Check Token:", appCheckToken);
+        const res = await axiosProvider.post(
+          "/generateqrcode",
+          {},
+          {
+            headers: {
+              "X-Firebase-AppCheck": appCheckToken.token,
+            },
+          }
+        );
+        // Check response status and handle accordingly
+        if (res.status === 200) {
+          setQrCode(res.data.data.qrCodeDataURL);
+          // console.log('secret key', res.data.data.secret);
+          setSecretKey(res.data.data.secret);
+          storage.saveUserSecretKey(res.data.data.secret);
+        }
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+      toast.error("Invalid OTP");
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    // -------------
-    const userEmail = localStorage.getItem("userEmail");
-    // const userPassword = localStorage.getItem("password");
-    const userMobile = localStorage.getItem("userMobile");
-    // ----------------
-    const otpValue = otp.join("");
-    if (otpValue.length !== 6) {
-      toast.error("Please enter a valid 6-digit OTP.");
-      // setError("Please enter a valid 6-digit OTP.");
+    const codeValue = code.join("");
+    if (codeValue.length !== 6) {
+      toast.error("Please enter a valid 6-digit code.");
       setLoading(false);
+      console.log(codeValue);
       return;
     }
-    // console.log('otp email',userEmail)
-    //console.log('otp pass',userPassword)
-    // console.log('otp mobile',userMobile)
-    // console.log('otp code',otpValue)
-    //console.log(otpValue)
     try {
-      // Getting App Check token
       const appCheckToken = await getToken(appCheck, true);
-      console.log("App Check Token:", appCheckToken);
-
       const res = await axiosProvider.post(
-        "/otplogin",
+        "/verifytotp",
         {
-          email: userEmail,
-          mobile_number: userMobile,
-          code: otpValue,
+          token: codeValue,
+          secret: secretKey,
         },
         {
           headers: {
@@ -79,58 +109,15 @@ export default function OtpHome() {
           },
         }
       );
-
-      // Check response status and handle accordingly
-      if (res.status === 200) {
-        // Axios responses don't have `ok`, so we use `status` instead
-        const data = res.data; // Axios already parses JSON data, so you can access it directly
-        console.log("OTP verification response:", data); // Log the entire response
-        const accessToken = data.data.token; // Access the token correctly
-        console.log("Access Token:", accessToken);
-        localStorage.setItem("accessToken", accessToken);
-        router.push("/customer");
-      } else {
-        setError(res.data.message || "Invalid OTP");
-      }
+      setAccessToken(res.data.data.token);
+      storage.saveAccessToken(res.data.data.token);
+      router.push("/customer");
     } catch (error) {
       console.error("Network error:", error);
-      toast.error("Invalid OTP");
-      //setError("Network error, please try again.");
+      toast.error("Invalid Code Please try again");
+      setcode(new Array(6).fill(""));
     } finally {
       setLoading(false);
-    }
-  };
-  const resendOtp = async () => {
-    // -------------
-    const userEmail = localStorage.getItem("userEmail");
-    const userMobile = localStorage.getItem("userMobile");
-    // ----------------
-    try {
-      const appCheckToken = await getToken(appCheck, true);
-      //console.log(appCheckToken);
-      if (!appCheckToken) {
-        console.error("Failed to retrieve App Check token");
-        return;
-      }
-
-      const res = await axiosProvider.post(
-        "/resendcode",
-        { email: userEmail, mobile_number: userMobile },
-        {
-          headers: {
-            "X-Firebase-AppCheck": appCheckToken.token,
-          },
-        }
-      );
-
-      if (res.status !== 200) {
-        console.error("Login failed", res.status, res.data);
-        throw new Error(`Error: ${res.status} - ${res.data.message}`);
-      }
-      toast.success("OTP is  sent");
-    } catch (error) {
-      console.log(error);
-      toast.error("OTP is not sent");
     }
   };
   return (
@@ -187,16 +174,38 @@ export default function OtpHome() {
           height={52}
           className=" mx-auto mb-5"
         />
-        <p className=" font-bold text-base leading-normal text-center text-black mb-14">
+        <p className=" font-bold text-base leading-normal text-center text-black mb-2">
           Authenticate your Account
         </p>
+        {qrCode && (
+          <Image
+            src={qrCode}
+            alt="OrizonIcon"
+            width={100}
+            height={100}
+            className="mx-auto"
+          />
+        )}
+        {/* <div className=" w-full flex justify-center mt-3 mb-3">
+          <input
+            type="text"
+            onChange={(e) => setCode(e.target.value)}
+            value={code}
+            placeholder="Enter Code"
+            className=" border border-[#000] text-center"
+          />
+        </div>
+        <button onClick={handleSubmit} className=" w-full text-center">
+          Submit Code
+        </button> */}
+
         <p className=" text-[#232323] text-base leading-[26px] text-center mb-14">
           Please confirm your account by entering the authentication number sent
           to your authenticator app
         </p>
         <form onSubmit={handleSubmit}>
           <div className="flex gap-[10px] justify-center mb-14 w-[90%] mx-auto">
-            {otp.map((digit, index) => (
+            {code.map((digit, index) => (
               <input
                 key={index}
                 type="text"
@@ -209,25 +218,13 @@ export default function OtpHome() {
               />
             ))}
           </div>
-          {error && <div style={{ color: "red" }}>{error}</div>}
           <div className=" w-full">
             <button
               type="submit"
               className=" bg-[#1814F3] border rounded-[15px] w-full h-[50px] text-center text-white text-lg font-medium leading-normal mb-3"
             >
-              {loading ? "OTP Verifying..." : "Verify OTP"}
+              {loading ? "Code Verifying..." : "Verify code"}
             </button>
-            <div className=" flex gap-4">
-              <p className=" text-[#424955] text-[15px] leading-normal">
-                Haven&apos;t received the code?
-              </p>
-              <p
-                onClick={resendOtp}
-                className=" text-[#1814F3] text-[15px] font-semibold underline cursor-pointer"
-              >
-                Resend a New Code
-              </p>
-            </div>
           </div>
         </form>
       </div>

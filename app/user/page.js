@@ -24,15 +24,17 @@ import { getToken } from "firebase/app-check";
 import { useEffect } from "react";
 import { useState } from "react";
 import AxiosProvider from "../../provider/AxiosProvider";
-import { AuthContext } from "../AuthContext";
+import { AppContext } from "../AppContext";
 import { useContext } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup"; // for validation
 import { toast } from "react-toastify";
 import SidebarUserUpdateForm from "../component/SidebarUserUpdateForm";
 import Swal from 'sweetalert2';
+import StorageManager from "../../provider/StorageManager";
 
 const axiosProvider = new AxiosProvider();
+const storage = new StorageManager();
 
 export default function Home() {
   const [data, setData] = useState(null);
@@ -43,6 +45,7 @@ export default function Home() {
   const [isEditFlyoutOpen, setIsEditFlyoutOpen] = useState(false);
   const [currentUserData, setCurrentUserData] = useState({});
   const [shouldRefetch, setShouldRefetch] = useState(false);
+  const { accessToken } = useContext(AppContext);
 
   const toggleEditFlyout = () => {
     setIsEditFlyoutOpen(!isEditFlyoutOpen);
@@ -110,7 +113,7 @@ export default function Home() {
         const appCheckToken = tokenResponse.token;
 
         // Bearer token - assuming it is stored or retrieved (e.g., from local storage, an API, or auth context)
-        const accessToken = localStorage.getItem("accessToken");
+        //const accessToken = localStorage.getItem("accessToken");
 
         // Make API request with App Check token and Authorization Bearer token in the headers
         const response = await axiosProvider.get("/getalluser", {

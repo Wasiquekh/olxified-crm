@@ -18,7 +18,7 @@ import { getToken } from "firebase/app-check";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import AxiosProvider from "../../provider/AxiosProvider";
-import { AuthContext } from "../AuthContext";
+//import { AuthContext } from "../AuthContext";
 import { useContext } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -26,6 +26,7 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
+import { AppContext} from '../AppContext';
 
 const axiosProvider = new AxiosProvider();
 
@@ -48,7 +49,8 @@ const validationSchema = Yup.object().shape({
 export default function Home() {
   //const [saving, setSaving] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const { saveAuthData } = useContext(AuthContext);
+  //const { saveAuthData } = useContext(AuthContext);
+  const { accessToken} = useContext(AppContext);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -65,13 +67,11 @@ export default function Home() {
       });
 
       if (res.status === 200) {
-        saveAuthData(res.data); // Save auth data if needed
+       // saveAuthData(res.data); // Save auth data if needed
         toast.success("Form submitted successfully!");
         resetForm();
         window.location.reload();
-      } else {
-        setErrors({ submit: res.data.message || "Registration failed" });
-      }
+      } 
     } catch (error) {
       if (error.response && error.response.status === 409) {
         // Display specific 409 error message in the toast

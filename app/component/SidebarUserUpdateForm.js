@@ -32,7 +32,11 @@ const SidebarUserUpdateForm = ({
             name: Yup.string().required("Name is required"),
             mobileNumber: Yup.string()
               .required("Mobile number is required")
-              .matches(/^[0-9]{10}$/, "Mobile number must be 10 digits"),
+              .matches(
+                /^\+\d{1,4}\d{10}$/,
+                "Enter a valid mobile number with country code"
+              ) // Regex for valid mobile number format
+              .required("Mobile number is required"),
             email: Yup.string()
               .email("Invalid email format")
               .required("Email is required"),
@@ -64,7 +68,7 @@ const SidebarUserUpdateForm = ({
               if (response.ok) {
                 // Handle successful response
                 console.log("User updated successfully");
-                toast.success("Form submitted successfully!");
+                toast.success("User updated successfully!");
                 setIsEditFlyoutOpen(false);
                 // Set shouldRefetch to true to trigger re-fetch
                 setShouldRefetch((prev) => !prev);

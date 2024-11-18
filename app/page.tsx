@@ -4,7 +4,7 @@ import { appCheck } from "./firebase-config";
 import { getToken } from "firebase/app-check";
 import { useState, useContext } from "react";
 import { useRouter } from "next/navigation";
-import { AuthContext } from "./AuthContext";
+import { AppContext } from "./AppContext";
 import AxiosProvider from "../provider/AxiosProvider";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -12,7 +12,6 @@ import { toast } from "react-toastify";
 import StorageManager from "../provider/StorageManager";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
-import OtpHome from "./otp/page";
 
 interface FormValues {
   email: string;
@@ -21,13 +20,11 @@ interface FormValues {
 export default function LoginHome() {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [userPassword, setUserPassword] = useState<string | undefined>(undefined);
+
   const router = useRouter();
   const storage = new StorageManager();
   const axiosProvider = new AxiosProvider();
-  const { saveAuthData } = useContext(AuthContext);
-
-  console.log('my password',userPassword)
+  const { setAccessToken } = useContext(AppContext);
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().required("Email or User ID is required"),
@@ -38,12 +35,11 @@ export default function LoginHome() {
     setLoading(true);
     try {
       const appCheckToken = await getToken(appCheck, true);
-      console.log(appCheckToken);
+     // console.log(appCheckToken);
       if (!appCheckToken) {
         console.error("Failed to retrieve App Check token");
         return;
       }
-
       const res = await axiosProvider.post(
         "/login",
         { email: values.email, password: values.password },
@@ -53,17 +49,12 @@ export default function LoginHome() {
           },
         }
       );
-
       if (res.status !== 200) {
         console.error("Login failed", res.status, res.data);
        // throw new Error(Error: ${res.status} - ${res.data.message});
       }
-
-      saveAuthData(values.email);
-      await storage.saveUserEmail(values.email);
-      await storage.saveUserMobile(res.data.data.mobile_number);
-      setUserPassword(values.password)
-      router.push('/otp');
+      // saveAuthData(values.email);
+      router.push('/qrcode');
     } catch (error) {
       console.log(error);
       toast.error("Username or password is incorrect. Please try again.");
@@ -74,10 +65,6 @@ export default function LoginHome() {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-  // const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setFieldValue('password', e.target.value); // Updates Formik state for password
-  //   console.log("Password:", password);  
-  // };
   return (
     <>
       <div className="bg-[#F5F5F5]">

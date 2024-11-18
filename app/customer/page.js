@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BiSolidHome } from "react-icons/bi";
 import { MdOutlineBarChart } from "react-icons/md";
 import { TbDeviceMobileDollar } from "react-icons/tb";
@@ -27,6 +27,8 @@ import { getToken } from "firebase/app-check";
 import AxiosProvider from "../../provider/AxiosProvider";
 import { RiAccountCircleLine } from "react-icons/ri";
 import { RxCross2 } from "react-icons/rx";
+import StorageManager from "../../provider/StorageManager";
+import { AppContext } from "../AppContext";
 
 const axiosProvider = new AxiosProvider();
 
@@ -46,7 +48,8 @@ export default function Home() {
   });
   const [isError, setIsError] = useState(false);
   const [appliedFilters, setAppliedFilters] = useState([]);
-  //console.log('Applied filter',appliedFilters)
+  const storage = new StorageManager();
+  const { accessToken } = useContext(AppContext);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -55,9 +58,6 @@ export default function Home() {
       [name]: value,
     }));
   };
-  // console.log(filterData)
-
-    // Update filters based on filterData changes
     useEffect(() => {
       const filters = [];
       if (filterData.firstname) filters.push(`First Name: ${filterData.firstname}`);
@@ -72,7 +72,7 @@ export default function Home() {
     try {
       const tokenResponse = await getToken(appCheck, true);
       const appCheckToken = tokenResponse.token;
-      const accessToken = localStorage.getItem("accessToken");
+      const accessToken = storage.getAccessToken();
 
       // Construct query parameters based on firstname and lastname filters
       const queryParams = new URLSearchParams();
@@ -91,8 +91,7 @@ export default function Home() {
 
       const result = response.data;
       if (result.success && result.data && result.data.customers) {
-        setData(result.data.customers); // Set the customers data
-        //console.log("Filtered customers retrieved successfully:", result.data.customers);
+        setData(result.data.customers);
       } 
     } catch (error) {
       if (error.response && error.response.status == 404) {
@@ -121,27 +120,17 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Get the Firebase App Check token
         const tokenResponse = await getToken(appCheck, true);
         const appCheckToken = tokenResponse.token;
-
-        // Bearer token - assuming it is stored or retrieved (e.g., from local storage, an API, or auth context)
-        const accessToken = localStorage.getItem("accessToken");
-
-        // Make API request with App Check token and Authorization Bearer token in the headers
         const response = await axiosProvider.get("/getallcrmuser", {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
             "X-Firebase-AppCheck": appCheckToken,
-            Authorization: `Bearer ${accessToken}`, // Add the access token for authentication
+            Authorization: `Bearer ${accessToken}`,
           },
         });
-
-        // Axios already parses the response, so no need for response.json()
         const result = response.data;
         setData(result.data);
-        //console.log('++++++++++++',result.data)
-        //  setData(result.data); // Assuming setData is a state setter function to store the result
       } catch (error) {
         console.error("Error fetching data:", error);
         console.error(
@@ -156,9 +145,8 @@ export default function Home() {
       }
     };
 
-    fetchData(); // Fetch data when the page loads
-  }, []); // Empty dependency array ensures it runs only once
-
+    fetchData(); 
+  }, []);
   useEffect(() => {
     if (Array.isArray(data) && data.length > 0) {
       // Calculate total pages based on the length of the data
@@ -217,7 +205,7 @@ const removeFilter = async (filter) => {
     } else if (filter.startsWith("Last Name")) {
       newFilterData.lastname = "";
     }
-    
+
     // Make the API call after updating filterData
     callApiWithUpdatedFilters(newFilterData);
     return newFilterData; // Update filterData state

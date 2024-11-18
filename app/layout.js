@@ -1,7 +1,7 @@
 // app/layout.js (or wherever your RootLayout is located)
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { AuthProvider } from "./AuthContext"; // Adjust the import path accordingly
+import { AppProvider } from "./AppContext"; // Adjust the import path accordingly
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AuthProvider>
+        <AppProvider>
           {children}
           <ToastContainer
             position="top-right"
@@ -30,7 +30,7 @@ export default function RootLayout({ children }) {
             pauseOnHover
             theme="light"
           ></ToastContainer>
-        </AuthProvider>
+        </AppProvider>
       </body>
     </html>
   );
