@@ -55,15 +55,31 @@ class StorageManager {
     }
   }
 
-  async saveUserSecretKey(secretKey) {
-    const encryptedData = CryptoJS.AES.encrypt(secretKey, "secret_key").toString();
-    localStorage.setItem(this.cacheKeys.userSecretKey, encryptedData);
-    return true;
-  }
+  // async saveUserSecretKey(secretKey) {
+  //   const encryptedData = CryptoJS.AES.encrypt(secretKey, "secret_key").toString();
+  //   localStorage.setItem(this.cacheKeys.userSecretKey, encryptedData);
+  //   return true;
+  // }
 
-  getUserSecretKey() {
-    return localStorage.getItem(this.cacheKeys.userSecretKey);
-  }
+  // getUserSecretKey() {
+  //   return localStorage.getItem(this.cacheKeys.userSecretKey);
+  // }
+  async saveUserSecretKey(secretKey) {
+    if (typeof window !== "undefined") {
+        const encryptedData = CryptoJS.AES.encrypt(secretKey, "secret_key").toString();
+        localStorage.setItem(this.cacheKeys.userSecretKey, encryptedData);
+        return true;
+    }
+    throw new Error("localStorage is not available");
+}
+
+getUserSecretKey() {
+    if (typeof window !== "undefined") {
+        return localStorage.getItem(this.cacheKeys.userSecretKey);
+    }
+    console.warn("localStorage is not available");
+    return null;
+}
 
   async removeUserSecretKey() {
     localStorage.removeItem(this.cacheKeys.userSecretKey);
