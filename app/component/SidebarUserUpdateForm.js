@@ -4,6 +4,9 @@ import * as Yup from "yup";
 import { appCheck } from "../firebase-config";
 import { getToken } from "firebase/app-check";
 import { toast } from "react-toastify";
+import AxiosProvider from "../../provider/AxiosProvider";
+
+const axiosProvider = new AxiosProvider();
 
 const SidebarUserUpdateForm = ({
   isEditFlyoutOpen,
@@ -24,13 +27,13 @@ const SidebarUserUpdateForm = ({
           initialValues={{
             id: currentUserData.id || "",
             name: currentUserData.name || "",
-            mobileNumber: currentUserData.mobile_number || "",
+            mobile_number: currentUserData.mobile_number || "",
             email: currentUserData.email || "",
           }}
           enableReinitialize={true} // Add this line
           validationSchema={Yup.object({
             name: Yup.string().required("Name is required"),
-            mobileNumber: Yup.string()
+            mobile_number: Yup.string()
               .required("Mobile number is required")
               .matches(
                 /^\+\d{1,4}\d{10}$/,
@@ -42,45 +45,53 @@ const SidebarUserUpdateForm = ({
               .required("Email is required"),
           })}
           onSubmit={async (values, { setSubmitting }) => {
-            try {
-              // Get the Firebase App Check token
-              const tokenResponse = await getToken(appCheck, true);
-              const appCheckToken = tokenResponse.token;
-              const accessToken = localStorage.getItem("accessToken");
-              const response = await fetch(
-                "https://orizon-crm-api-uat.yliqo.com/api/v1/Orizonapigateway/updateuser",
-                {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                    "X-Firebase-AppCheck": appCheckToken,
-                    Authorization: `Bearer ${accessToken}`,
-                  },
-                  body: new URLSearchParams({
-                    id: values.id,
-                    name: values.name,
-                    mobileNumber: values.mobileNumber,
-                    email: values.email,
-                  }),
-                }
-              );
-
-              if (response.ok) {
-                // Handle successful response
-                console.log("User updated successfully");
-                toast.success("User updated successfully!");
-                setIsEditFlyoutOpen(false);
-                // Set shouldRefetch to true to trigger re-fetch
-                setShouldRefetch((prev) => !prev);
-              } else {
-                // Handle error response
-                const errorData = await response.json();
-                console.error("Error updating user:", errorData);
-              }
-            } catch (error) {
-              console.error("Request failed:", error);
-              toast.success("Form submitted successfully!");
-            } finally {
+         // console.log('updating value',values)
+         try {
+          // Get the Firebase App Check token
+          const tokenResponse = await getToken(appCheck, true);
+          const appCheckToken = tokenResponse.token;
+        
+          // Get accessToken from localStorage
+          const accessToken = localStorage.getItem("accessToken");
+          if (!accessToken) {
+            toast.error("Access token not found. Please log in again.");
+            return;
+          }
+        
+          // Make the API call
+          const res = await axiosProvider.post("/updateuser", values, {
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+              "X-Firebase-AppCheck": appCheckToken,
+              Authorization: `Bearer ${accessToken}`,
+            },
+          });
+        
+          // Handle responses
+          if (res.status === 200) {
+            toast.success("User updated successfully!");
+            setIsEditFlyoutOpen(false);
+            setShouldRefetch((prev) => !prev); // Trigger re-fetch
+          } else if (res.status === 204) {
+            toast.success("No Data Changed!");
+          } else {
+            toast.error(`Unexpected response: ${res.status}`);
+          }
+        } catch (error) {
+          console.error("Error during user update:", error);
+        
+          if (error.response) {
+            const { status, data } = error.response;
+            if (status === 409) {
+              toast.error(data?.msg || "Conflict error occurred.");
+            } else {
+              toast.error(data?.msg || `Error: ${status} - ${data?.message || "Something went wrong"}`);
+            }
+          } else {
+            toast.error("Failed to submit the form.");
+          }
+        }
+         finally {
               setSubmitting(false);
             }
           }}
@@ -135,18 +146,18 @@ const SidebarUserUpdateForm = ({
                     </label>
                     <input
                       type="text"
-                      name="mobileNumber"
+                      name="mobile_number"
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      value={values.mobileNumber}
+                      value={values.mobile_number}
                       className={`focus:outline-none w-full border rounded-[12px] text-sm leading-4 font-medium text-[#717171] py-4 px-4 ${
-                        touched.mobileNumber && errors.mobileNumber
+                        touched.mobile_number && errors.mobile_number
                           ? "border-red-500"
                           : "border-[#DFEAF2]"
                       }`}
                     />
-                    {touched.mobileNumber && errors.mobileNumber && (
-                      <div className="text-red-500">{errors.mobileNumber}</div>
+                    {touched.mobile_number && errors.mobile_number && (
+                      <div className="text-red-500">{errors.mobile_number}</div>
                     )}
                   </div>
                 </div>
