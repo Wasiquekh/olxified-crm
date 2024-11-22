@@ -417,7 +417,7 @@ export default function Home() {
                     {/* Add gap for spacing between items */}
                     {appliedFilters.map((filter, index) => (
                       <li
-                        className="flex items-center text-[#1814F3] bg-[#EDF2FE] inline-flex  p-2 rounded gap-1 text-xs ml-2"
+                        className=" items-center text-[#1814F3] bg-[#EDF2FE] inline-flex  p-2 rounded gap-1 text-xs ml-2"
                         key={index}
                       >
                         <RiAccountCircleLine className="text-[#1814F3]" />
