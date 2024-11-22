@@ -14,36 +14,49 @@ import { IoIosNotificationsOutline } from "react-icons/io";
 import { FaPlus } from "react-icons/fa6";
 import { MdOutlineCall } from "react-icons/md";
 import { LiaArrowCircleDownSolid } from "react-icons/lia";
-import { MdRemoveRedEye } from "react-icons/md";
-import { MdModeEdit } from "react-icons/md";
+import { MdRemoveRedEye, MdModeEdit } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { IoCloseOutline } from "react-icons/io5";
 import Link from "next/link";
 import { appCheck } from "../firebase-config";
 import { getToken } from "firebase/app-check";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import AxiosProvider from "../../provider/AxiosProvider";
 import { AppContext } from "../AppContext";
-import { useContext } from "react";
-import { useFormik } from "formik";
-import * as Yup from "yup"; // for validation
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 import SidebarUserUpdateForm from "../component/SidebarUserUpdateForm";
-import Swal from 'sweetalert2';
 import StorageManager from "../../provider/StorageManager";
 
+interface User {
+  id: string;
+  name: string;
+  mobile_number: string;
+  email: string;
+  role: string; // Add the role property
+}
+
+interface ResponseData {
+  data: User[];
+}
+interface CurrentUserData {
+  id: string;
+  name: string;
+  mobile_number: string;
+  email: string;
+  role: string;
+}
 const axiosProvider = new AxiosProvider();
 const storage = new StorageManager();
 
 export default function Home() {
-  const [data, setData] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [data, setData] = useState<User[] | null>(null);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(1);
   const itemsPerPage = 10; // Customize this as needed
-  const [paginatedData, setPaginatedData] = useState([]); // To hold the paginated data
-  const [isEditFlyoutOpen, setIsEditFlyoutOpen] = useState(false);
-  const [currentUserData, setCurrentUserData] = useState({});
+  const [paginatedData, setPaginatedData] = useState<User[]>([]);
+  const [isEditFlyoutOpen, setIsEditFlyoutOpen] = useState<boolean>(false);
+  const [currentUserData, setCurrentUserData] = useState<User | null>(null);
   const [shouldRefetch, setShouldRefetch] = useState(false);
   const { accessToken } = useContext(AppContext);
 
@@ -51,32 +64,28 @@ export default function Home() {
     setIsEditFlyoutOpen(!isEditFlyoutOpen);
   };
 
-  const deleteUserData = async (item) => {
+  const deleteUserData = async (item: User) => {
     const userID = item.id;
-  
-    // Show SweetAlert confirmation
+
     Swal.fire({
-      title: 'Are you sure?',
-      text: 'Do you really want to delete this user?',
-      icon: 'warning',
+      title: "Are you sure?",
+      text: "Do you really want to delete this user?",
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonText: 'Yes',
-      cancelButtonText: 'No',
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          // Get the Firebase App Check token
           const tokenResponse = await getToken(appCheck, true);
           const appCheckToken = tokenResponse.token;
-  
-          // Bearer token
+
           const accessToken = localStorage.getItem("accessToken");
           console.log(accessToken);
-  
-          // Make API request to delete the user with the specific ID
-          const response = await axiosProvider.post(
+
+          await axiosProvider.post(
             "/deleteuser",
             { id: userID },
             {
@@ -87,8 +96,7 @@ export default function Home() {
               },
             }
           );
-  
-          // Show success toast and refetch data
+
           toast.success("Successfully Deleted");
           setShouldRefetch((prev) => !prev);
         } catch (error) {
@@ -98,9 +106,8 @@ export default function Home() {
       }
     });
   };
-  
 
-  const changeCurrentUserData = (item) => {
+  const changeCurrentUserData = (item: User) => {
     setCurrentUserData(item);
     toggleEditFlyout();
   };
@@ -108,27 +115,22 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Get the Firebase App Check token
         const tokenResponse = await getToken(appCheck, true);
         const appCheckToken = tokenResponse.token;
 
-        // Bearer token - assuming it is stored or retrieved (e.g., from local storage, an API, or auth context)
-        //const accessToken = localStorage.getItem("accessToken");
-
-        // Make API request with App Check token and Authorization Bearer token in the headers
-        const response = await axiosProvider.get("/getalluser", {
+        const response = await axiosProvider.get<ResponseData>("/getalluser", {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
             "X-Firebase-AppCheck": appCheckToken,
-            Authorization: `Bearer ${accessToken}`, // Add the access token for authentication
+            Authorization: `Bearer ${accessToken}`,
           },
         });
-        // Axios already parses the response, so no need for response.json()
+
         const result = response.data;
-        setData(result.data); // Assuming setData is a state setter function to store the result
+        setData(result.data);
       } catch (error) {
         console.error("Error fetching data:", error);
-        if (error.response && error.response.status === 401) {
+        if (error.response?.status === 401) {
           console.error(
             "Unauthorized: Check App Check token and Bearer token."
           );
@@ -136,15 +138,13 @@ export default function Home() {
       }
     };
 
-    fetchData(); // Fetch data when the page loads
-  }, [shouldRefetch]); // Empty dependency array ensures it runs only once
+    fetchData();
+  }, [shouldRefetch]);
 
   useEffect(() => {
     if (data) {
-      // Calculate total pages based on the length of the data
       setTotalPages(Math.ceil(data.length / itemsPerPage));
 
-      // Slice data to show the items for the current page
       const startIndex = (currentPage - 1) * itemsPerPage;
       const currentData = data.slice(startIndex, startIndex + itemsPerPage);
       setPaginatedData(currentData);
@@ -165,7 +165,7 @@ export default function Home() {
 
   if (!data) {
     return (
-      <div className=" h-screen flex flex-col gap-5 justify-center items-center">
+      <div className="h-screen flex flex-col gap-5 justify-center items-center">
         <Image
           src="/images/orizonIcon.svg"
           alt="Table image"
@@ -174,11 +174,12 @@ export default function Home() {
           style={{ width: "150px", height: "auto" }}
           className="animate-pulse rounded"
         />
-        <p className=" text-black text-xl font-medium">Data Loading...</p>
+        <p className="text-black text-xl font-medium">Data Loading...</p>
       </div>
     );
   }
 
+  
   return (
     <>
       <div className=" flex  min-h-screen">
@@ -407,7 +408,10 @@ export default function Home() {
               <tbody>
                 {paginatedData &&
                   paginatedData.map((item, index) => (
-                    <tr className=" border border-tableBorder bg-white" key={index} >
+                    <tr
+                      className=" border border-tableBorder bg-white"
+                      key={index}
+                    >
                       <td className="w-4  px-4 py-0 border border-tableBorder">
                         <div className="flex items-center">
                           <input
@@ -524,7 +528,7 @@ export default function Home() {
         setIsEditFlyoutOpen={setIsEditFlyoutOpen}
         currentUserData={currentUserData}
         setShouldRefetch={setShouldRefetch}
-      ></SidebarUserUpdateForm>
+      />
     </>
   );
 }

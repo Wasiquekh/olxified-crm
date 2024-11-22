@@ -51,9 +51,7 @@ export default function LoginHome() {
       );
       if (res.status !== 200) {
         console.error("Login failed", res.status, res.data);
-       // throw new Error(Error: ${res.status} - ${res.data.message});
       }
-      // saveAuthData(values.email);
       router.push('/qrcode');
     } catch (error) {
       console.log(error);

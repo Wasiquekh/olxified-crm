@@ -15,10 +15,9 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { appCheck } from "../firebase-config";
 import { getToken } from "firebase/app-check";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import AxiosProvider from "../../provider/AxiosProvider";
-//import { AuthContext } from "../AuthContext";
 import { useContext } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -26,9 +25,17 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
-import { AppContext} from '../AppContext';
+import { AppContext } from "../AppContext";
 
 const axiosProvider = new AxiosProvider();
+
+interface FormValues {
+  name: string;
+  mobile_number: string;
+  email: string;
+  password: string;
+  roleLevel: string;
+}
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Your name is required"),
@@ -47,15 +54,18 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function Home() {
-  //const [saving, setSaving] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  //const { saveAuthData } = useContext(AuthContext);
-  const { accessToken} = useContext(AppContext);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const { accessToken } = useContext(AppContext);
+  //console.log('access token############',accessToken)
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-  const handleSubmit = async (values, { resetForm }) => {
+
+  const handleSubmit = async (
+    values: FormValues,
+    { resetForm }: FormikHelpers<FormValues>
+  ) => {
     console.log(values);
     try {
       const appCheckToken = await getToken(appCheck, true);
@@ -67,14 +77,12 @@ export default function Home() {
       });
 
       if (res.status === 200) {
-       // saveAuthData(res.data); // Save auth data if needed
         toast.success("Form submitted successfully!");
         resetForm();
         window.location.reload();
-      } 
-    } catch (error) {
+      }
+    } catch (error: any) {
       if (error.response && error.response.status === 409) {
-        // Display specific 409 error message in the toast
         toast.error(error.response.data.msg || "Conflict error occurred.");
       } else {
         console.error("Error during registration:", error);
@@ -83,21 +91,19 @@ export default function Home() {
     }
   };
 
-
   const tabs = [
     {
       label: "Create New User",
       content: (
         <>
-          {/* //   Tab 1 content */}
-          <div className=" flex gap-8 pt-8">
+          <div className="flex gap-8 pt-8">
             <div>
               <Image
                 src="/images/user.png"
                 alt="Orizon profile"
                 width={150}
                 height={150}
-                className=" rounded-full"
+                className="rounded-full"
               />
             </div>
             <Formik
@@ -108,8 +114,8 @@ export default function Home() {
                 password: "",
                 roleLevel: "1",
               }}
-              validationSchema={validationSchema} // Ensure validationSchema is defined
-              onSubmit={handleSubmit} // Ensure handleSubmit is defined
+              validationSchema={validationSchema}
+              onSubmit={handleSubmit}
             >
               {({ setFieldValue, isSubmitting, values }) => (
                 <Form className="w-9/12">
@@ -134,7 +140,6 @@ export default function Home() {
 
                       {/* Mobile Number Field */}
                       <div className="w-full relative mb-6">
-                        {/* Mobile Number Field */}
                         <div className="w-full relative mb-6">
                           <p className="text-[#232323] text-base leading-normal mb-2">
                             Mobile Number
@@ -142,19 +147,16 @@ export default function Home() {
                           <PhoneInput
                             country={"in"}
                             value={values.mobile_number}
-                            onChange={(phone) => {
-                              // Ensure the phone variable is not empty before manipulating it
+                            onChange={(phone: string) => {
                               const formattedPhone = phone
                                 ? phone.startsWith("+")
                                   ? phone
                                   : `+${phone}`
                                 : "";
-                              setFieldValue("mobile_number", formattedPhone); // Set the phone number with +
+                              setFieldValue("mobile_number", formattedPhone);
                             }}
                             placeholder="Mobile Number"
-                            // className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4"
                           />
-
                           <ErrorMessage
                             name="mobile_number"
                             component="div"
@@ -225,8 +227,6 @@ export default function Home() {
                           <option value="2">Non-Admin</option>
                         </Field>
                       </div>
-
-                      <div className="w-full relative"></div>
                     </div>
 
                     <div className="w-full flex gap-6">
@@ -236,7 +236,6 @@ export default function Home() {
                           disabled={isSubmitting}
                           className="w-[190px] h-[50px] bg-customBlue rounded-[15px] text-white text-lg leading-normal font-medium"
                         >
-                          {/* {saving ? "Saving..." : "Save"} */}
                           {isSubmitting ? "Submitting..." : "Submit"}
                         </button>
                       </div>
@@ -248,7 +247,6 @@ export default function Home() {
             <ToastContainer />
           </div>
         </>
-        // End Tab content 1
       ),
     },
     {
