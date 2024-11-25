@@ -99,7 +99,7 @@ export default function OtpHome() {
         "/verifytotp",
         {
           token: codeValue,
-          secret: secretKey,
+          secretKey: secretKey,
         },
         {
           headers: {
