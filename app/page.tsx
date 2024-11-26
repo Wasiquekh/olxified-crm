@@ -12,6 +12,9 @@ import { toast } from "react-toastify";
 import StorageManager from "../provider/StorageManager";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
+import { constrainedMemory } from "process";
+
+const storage = new StorageManager();
 
 interface FormValues {
   email: string;
@@ -52,6 +55,9 @@ export default function LoginHome() {
       if (res.status !== 200) {
         console.error("Login failed", res.status, res.data);
       }
+     // console.log(res.data.data.secretKey);
+      storage.saveUserId(res.data.data.userId);
+      storage.saveUserSecretKey(res.data.data.secretKey);
       router.push('/qrcode');
     } catch (error) {
       console.log(error);

@@ -7,6 +7,7 @@ class StorageManager {
       userMobile: 'userMobile',
       userSecretKey: 'userSecretKey',
       accessToken: 'accessToken',
+      userId:'userId',
     };
   }
 
@@ -34,6 +35,19 @@ class StorageManager {
 
   async removeUserMobile() {
     localStorage.removeItem(this.cacheKeys.userMobile);
+  }
+
+  async saveUserId(userId) {
+    localStorage.setItem(this.cacheKeys.userId, userId);
+    return true;
+  }
+
+  getUserId() {
+    return localStorage.getItem(this.cacheKeys.userId);
+  }
+
+  async removeUserId() {
+    localStorage.removeItem(this.cacheKeys.userId);
   }
 
   getAccessToken() {

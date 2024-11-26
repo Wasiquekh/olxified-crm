@@ -12,6 +12,7 @@ import { AppContext } from "../AppContext";
 
 const axiosProvider = new AxiosProvider();
 
+
 export default function OtpHome() {
   const storage = new StorageManager();
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
@@ -19,8 +20,11 @@ export default function OtpHome() {
   const [code, setCode] = useState<string[]>(new Array(6).fill(""));
   const [loading, setLoading] = useState<boolean>(false);
   const [qrCode, setQrCode] = useState<string | undefined>();
-  const [secretKey, setSecretKey] = useState<string | undefined>(
+  const [secretKey, setSecretKey] = useState<string | null>(
     storage.getDecryptedUserSecretKey()
+  );
+  const [userId, setuserId] = useState<string | undefined>(
+    storage.getUserId()
   );
 
   const { setAccessToken } = useContext(AppContext);
@@ -53,7 +57,7 @@ export default function OtpHome() {
   }, []);
 
   useEffect(() => {
-   // console.log("Secret key:", secretKey);
+    console.log("Secret key:", secretKey);
   }, [secretKey]);
 
   const fetchData = async () => {
@@ -72,6 +76,7 @@ export default function OtpHome() {
         );
         if (res.status === 200) {
           setQrCode(res.data.data.qrCodeDataURL);
+
           setSecretKey(res.data.data.secret);
           storage.saveUserSecretKey(res.data.data.secret);
         }
@@ -100,6 +105,7 @@ export default function OtpHome() {
         {
           token: codeValue,
           secretKey: secretKey,
+          userId:userId,
         },
         {
           headers: {

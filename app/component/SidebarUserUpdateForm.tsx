@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { appCheck } from "../firebase-config";
@@ -6,10 +6,13 @@ import { getToken } from "firebase/app-check";
 import { toast } from "react-toastify";
 import AxiosProvider from "../../provider/AxiosProvider";
 import StorageManager from "../../provider/StorageManager";
+import { AppContext } from "../AppContext";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
 const axiosProvider = new AxiosProvider();
 const storage = new StorageManager();
 
+// Interface for Current User Data
 interface CurrentUserData {
   id: string;
   name: string;
@@ -18,6 +21,7 @@ interface CurrentUserData {
   role: string;
 }
 
+// Props interface for SidebarUserUpdateForm
 interface SidebarUserUpdateFormProps {
   isEditFlyoutOpen: boolean;
   setIsEditFlyoutOpen: (open: boolean) => void;
@@ -25,19 +29,92 @@ interface SidebarUserUpdateFormProps {
   setShouldRefetch: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+// SidebarUserUpdateForm Component
 const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
   isEditFlyoutOpen,
   setIsEditFlyoutOpen,
   currentUserData,
   setShouldRefetch,
 }) => {
-interface CurrentUserData {
-  id: string;
-  name: string;
-  mobile_number: string;
-  email: string;
-  role: string;
-}
+  const [userDescription, setUserDescription] = useState<string | null>(null);
+  console.log('user desc',userDescription)
+  const [isVisible, setIsVisible] = useState<boolean>(true);
+  const { accessToken } = useContext(AppContext);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Check if currentUserData and currentUserData.id are valid
+        if (currentUserData && currentUserData.id) {
+          const tokenResponse = await getToken(appCheck, true);
+          const appCheckToken = tokenResponse.token;
+
+          // Send user ID along with other data to the API
+          const res = await axiosProvider.post(
+            "/fetchsecret",
+            {
+              userId: currentUserData.id, // Send currentUserData.id to the API
+            },
+            {
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "X-Firebase-AppCheck": appCheckToken,
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
+
+          setUserDescription(res.data.data.description);
+        } else {
+          console.log("User ID not found or currentUserData is missing");
+        }
+      } catch (error: any) {
+        console.log('Error occurred:', error);
+      
+        // Check if error response exists and handle the error message
+        if (error.response && error.response.data) {
+          toast.error(error.response.data.msg || 'An error occurred'); // Display the error message from the API response
+        } else {
+          toast.error('An unexpected error occurred'); // Fallback error message
+        }
+      }
+    };
+
+    fetchData(); // Call fetchData only if currentUserData.id exists
+  }, [currentUserData, accessToken]); // Adding accessToken as a dependency if it changes
+
+  const hanldleDelete = async () => {
+    setIsEditFlyoutOpen(false);
+    try {
+      if (currentUserData && currentUserData.id) {
+        const tokenResponse = await getToken(appCheck, true);
+        const appCheckToken = tokenResponse.token;
+
+        const res = await axiosProvider.post(
+          "/deletesecert",
+          {
+            userId: currentUserData.id, // Send currentUserData.id to the API
+          },
+          {
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+              "X-Firebase-AppCheck": appCheckToken,
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+        //console.log("%%%%%%%%%%%%%%%%%%%%%%%% ssucess api", res);
+        toast.success("Secret Key Deleted");
+      }
+    } catch (error: any) {
+      // Check if error response exists and handle the error message
+      if (error.res && error.res) {
+        const errorMsg = error.res.msg || "An error occurred.";
+        toast.error(errorMsg); // Display the error message in the toast
+      }
+    }
+  };
+
   return (
     <>
       {isEditFlyoutOpen && (
@@ -47,208 +124,244 @@ interface CurrentUserData {
         ></div>
       )}
       <div className={`filterflyout ${isEditFlyoutOpen ? "filteropen" : ""}`}>
-        <Formik
-          initialValues={{
-            id: currentUserData?.id || "",
-            name: currentUserData?.name || "",
-            mobile_number: currentUserData?.mobile_number || "",
-            email: currentUserData?.email || "",
-          }}
-          enableReinitialize={true}
-          validationSchema={Yup.object({
-            name: Yup.string().required("Name is required"),
-            mobile_number: Yup.string()
-              .required("Mobile number is required")
-              .matches(
-                /^\+\d{1,4}\d{10}$/,
-                "Enter a valid mobile number with country code"
-              ),
-            email: Yup.string()
-              .email("Invalid email format")
-              .required("Email is required"),
-          })}
-          onSubmit={async (values, { setSubmitting }) => {
-            try {
-              const tokenResponse = await getToken(appCheck, true);
-              const appCheckToken = tokenResponse.token;
-              const accessToken = storage.getAccessToken();
+        <div className="flex justify-between mb-4">
+          <p className="text-[#333B69] text-[26px] font-bold leading-9 hover:cursor-pointer block">
+            User Details
+          </p>
+          <button
+            type="button"
+            onClick={() => setIsEditFlyoutOpen(false)}
+            className="h-8 w-8 border border-[#E7E7E7] text-[#0A0A0A] rounded cursor-pointer"
+          >
+            X
+          </button>
+        </div>
+        <div className=" flex gap-20 mb-4">
+          <p
+            onClick={() => setIsVisible(true)}
+            className="text-[#333B69] text-[16px] font-medium leading-9 hover:cursor-pointer"
+          >
+            Personal Details
+          </p>
+          <p
+            onClick={() => setIsVisible(false)}
+            className="text-[#333B69] text-[16px] font-medium leading-9 hover:cursor-pointer"
+          >
+            MF 2 Device
+          </p>
+        </div>
+        {isVisible ? (
+          <Formik
+            initialValues={{
+              id: currentUserData?.id || "",
+              name: currentUserData?.name || "",
+              mobile_number: currentUserData?.mobile_number || "",
+              email: currentUserData?.email || "",
+            }}
+            enableReinitialize={true}
+            validationSchema={Yup.object({
+              name: Yup.string().required("Name is required"),
+              mobile_number: Yup.string()
+                .required("Mobile number is required")
+                .matches(
+                  /^\+\d{1,4}\d{10}$/,
+                  "Enter a valid mobile number with country code"
+                ),
+              email: Yup.string()
+                .email("Invalid email format")
+                .required("Email is required"),
+            })}
+            onSubmit={async (values, { setSubmitting }) => {
+              try {
+                const tokenResponse = await getToken(appCheck, true);
+                const appCheckToken = tokenResponse.token;
+                const accessToken = storage.getAccessToken();
 
-              const res = await axiosProvider.post("/updateuser", values, {
-                headers: {
-                  "Content-Type": "application/x-www-form-urlencoded",
-                  "X-Firebase-AppCheck": appCheckToken,
-                  Authorization: `Bearer ${accessToken}`,
-                },
-              });
+                const res = await axiosProvider.post("/updateuser", values, {
+                  headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "X-Firebase-AppCheck": appCheckToken,
+                    Authorization: `Bearer ${accessToken}`,
+                  },
+                });
 
-              if (res.status === 200) {
-                toast.success("User updated successfully!");
-                setIsEditFlyoutOpen(false);
-                setShouldRefetch((prev) => !prev);
-              } else if (res.status === 204) {
-                toast.success("No Data Changed!");
-              } else {
-                toast.error(`Unexpected response: ${res.status}`);
-              }
-            } catch (error) {
-              console.error("Error during user update:", error);
-
-              if (error.response) {
-                const { status, data } = error.response;
-                if (status === 409) {
-                  toast.error(data?.msg || "Conflict error occurred.");
+                if (res.status === 200) {
+                  toast.success("User updated successfully!");
+                  setIsEditFlyoutOpen(false);
+                  setShouldRefetch((prev) => !prev);
+                } else if (res.status === 204) {
+                  toast.success("No Data Changed!");
                 } else {
-                  toast.error(
-                    data?.msg ||
-                      `Error: ${status} - ${
-                        data?.message || "Something went wrong"
-                      }`
-                  );
+                  toast.error(`Unexpected response: ${res.status}`);
                 }
-              } else {
-                toast.error("Failed to submit the form.");
-              }
-            } finally {
-              setSubmitting(false);
-            }
-          }}
-        >
-          {({
-            values,
-            errors,
-            touched,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            isSubmitting,
-          }) => (
-            <Form onSubmit={handleSubmit} className="w-full">
-              <div className="flex justify-between mb-8">
-                <p className="text-[#333B69] text-[26px] font-bold leading-9">
-                  User Details
-                </p>
-                <button
-                  type="button"
-                  onClick={() => setIsEditFlyoutOpen(false)}
-                  className="h-8 w-8 border border-[#E7E7E7] text-[#0A0A0A] rounded cursor-pointer"
-                >
-                  X
-                </button>
-              </div>
-              <div className="flex flex-col gap-3 mb-[10px]">
-                <div className="w-full flex gap-4 mb-4">
-                  <div className="w-full">
-                    <label className="text-[#0A0A0A] font-medium text-base leading-6 mb-2">
-                      Name
-                    </label>
-                    <Field
-                      type="text"
-                      name="name"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.name}
-                      className={`focus:outline-none w-full border rounded-[12px] text-sm leading-4 font-medium text-[#717171] py-4 px-4 ${
-                        touched.name && errors.name
-                          ? "border-red-500"
-                          : "border-[#DFEAF2]"
-                      }`}
-                    />
-                    <ErrorMessage
-                      name="name"
-                      component="div"
-                      className="text-red-500"
-                    />
-                  </div>
-                  <div className="w-full">
-                    <label className="text-[#0A0A0A] font-medium text-base leading-6 mb-2">
-                      Mobile
-                    </label>
-                    <Field
-                      type="text"
-                      name="mobile_number"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.mobile_number}
-                      className={`focus:outline-none w-full border rounded-[12px] text-sm leading-4 font-medium text-[#717171] py-4 px-4 ${
-                        touched.mobile_number && errors.mobile_number
-                          ? "border-red-500"
-                          : "border-[#DFEAF2]"
-                      }`}
-                    />
-                    <ErrorMessage
-                      name="mobile_number"
-                      component="div"
-                      className="text-red-500"
-                    />
-                  </div>
-                </div>
-                <div className="w-full flex gap-4 mb-4">
-                  <div className="w-full">
-                    <label className="text-[#0A0A0A] font-medium text-base leading-6 mb-2">
-                      Email
-                    </label>
-                    <Field
-                      type="email"
-                      name="email"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.email}
-                      className={`focus:outline-none w-full border rounded-[12px] text-sm leading-4 font-medium text-[#717171] py-4 px-4 ${
-                        touched.email && errors.email
-                          ? "border-red-500"
-                          : "border-[#DFEAF2]"
-                      }`}
-                    />
-                    <ErrorMessage
-                      name="email"
-                      component="div"
-                      className="text-red-500"
-                    />
-                  </div>
-                  <div className="w-full">
-                    <label className="text-[#0A0A0A] font-medium text-base leading-6 mb-2">
-                      Role
-                    </label>
-                    <Field
-                      as="select"
-                      name="role"
-                      onChange={handleChange}
-                     // value={values.role || currentUserData?.role || ""}
-                      className="focus:outline-none w-full border rounded-[12px] text-sm leading-4 font-medium text-[#717171] py-4 px-4"
-                    >
-                      <option value="" disabled>
-                        Select Role
-                      </option>
-                      {currentUserData?.role && (
-                        <option value={currentUserData.role}>
-                          {currentUserData.role}
-                        </option>
-                      )}
-                    </Field>
-                  </div>
-                </div>
-              </div>
+              } catch (error) {
+                console.error("Error during user update:", error);
 
-              <div className="mt-10 w-full flex justify-end items-center gap-5">
-                <button
-                  type="button"
-                  onClick={() => setIsEditFlyoutOpen(false)}
-                  className="py-[13px] px-[26px] border border-[#E7E7E7] rounded-2xl text-[#0A0A0A] text-base font-medium leading-6"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  onClick={() => setIsEditFlyoutOpen(false)}
-                  disabled={isSubmitting}
-                  className="py-[13px] px-[26px] bg-customBlue rounded-2xl text-base font-medium leading-6 text-white"
-                >
-                  {isSubmitting ? "Updating Details" : "Update Details"}
-                </button>
-              </div>
-            </Form>
-          )}
-        </Formik>
+                if (error.response) {
+                  const { status, data } = error.response;
+                  if (status === 409) {
+                    toast.error(data?.msg || "Conflict error occurred.");
+                  } else {
+                    toast.error(
+                      data?.msg ||
+                        `Error: ${status} - ${
+                          data?.message || "Something went wrong"
+                        }`
+                    );
+                  }
+                } else {
+                  toast.error("Failed to submit the form.");
+                }
+              } finally {
+                setSubmitting(false);
+              }
+            }}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              isSubmitting,
+            }) => (
+              <Form onSubmit={handleSubmit} className="w-full">
+                <div className="flex flex-col gap-3 mb-[10px]">
+                  <div className="w-full flex gap-4 mb-4">
+                    <div className="w-full">
+                      <label className="text-[#0A0A0A] font-medium text-base leading-6 mb-2">
+                        Name
+                      </label>
+                      <Field
+                        type="text"
+                        name="name"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.name}
+                        className={`focus:outline-none w-full border rounded-[12px] text-sm leading-4 font-medium text-[#717171] py-4 px-4 ${
+                          touched.name && errors.name
+                            ? "border-red-500"
+                            : "border-[#DFEAF2]"
+                        }`}
+                      />
+                      <ErrorMessage
+                        name="name"
+                        component="div"
+                        className="text-red-500"
+                      />
+                    </div>
+                    <div className="w-full">
+                      <label className="text-[#0A0A0A] font-medium text-base leading-6 mb-2">
+                        Mobile
+                      </label>
+                      <Field
+                        type="text"
+                        name="mobile_number"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.mobile_number}
+                        className={`focus:outline-none w-full border rounded-[12px] text-sm leading-4 font-medium text-[#717171] py-4 px-4 ${
+                          touched.mobile_number && errors.mobile_number
+                            ? "border-red-500"
+                            : "border-[#DFEAF2]"
+                        }`}
+                      />
+                      <ErrorMessage
+                        name="mobile_number"
+                        component="div"
+                        className="text-red-500"
+                      />
+                    </div>
+                  </div>
+                  <div className="w-full flex gap-4 mb-4">
+                    <div className="w-full">
+                      <label className="text-[#0A0A0A] font-medium text-base leading-6 mb-2">
+                        Email
+                      </label>
+                      <Field
+                        type="email"
+                        name="email"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.email}
+                        className={`focus:outline-none w-full border rounded-[12px] text-sm leading-4 font-medium text-[#717171] py-4 px-4 ${
+                          touched.email && errors.email
+                            ? "border-red-500"
+                            : "border-[#DFEAF2]"
+                        }`}
+                      />
+                      <ErrorMessage
+                        name="email"
+                        component="div"
+                        className="text-red-500"
+                      />
+                    </div>
+                    <div className="w-full">
+                      <label className="text-[#0A0A0A] font-medium text-base leading-6 mb-2">
+                        Role
+                      </label>
+                      <Field
+                        as="select"
+                        name="role"
+                        onChange={handleChange}
+                        // value={values.role || currentUserData?.role || ""}
+                        className="focus:outline-none w-full border rounded-[12px] text-sm leading-4 font-medium text-[#717171] py-4 px-4"
+                      >
+                        <option value="" disabled>
+                          Select Role
+                        </option>
+                        {currentUserData?.role && (
+                          <option value={currentUserData.role}>
+                            {currentUserData.role}
+                          </option>
+                        )}
+                      </Field>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-10 w-full flex justify-end items-center gap-5">
+                  <button
+                    type="button"
+                    onClick={() => setIsEditFlyoutOpen(false)}
+                    className="py-[13px] px-[26px] border border-[#E7E7E7] rounded-2xl text-[#0A0A0A] text-base font-medium leading-6"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    onClick={() => setIsEditFlyoutOpen(false)}
+                    disabled={isSubmitting}
+                    className="py-[13px] px-[26px] bg-customBlue rounded-2xl text-base font-medium leading-6 text-white"
+                  >
+                    {isSubmitting ? "Updating Details" : "Update Details"}
+                  </button>
+                </div>
+              </Form>
+            )}
+          </Formik>
+        ) : (
+          
+          <div className=" w-full">
+            <div className=" flex justify-between">
+              <p>Name</p>
+              <p>Description</p>
+              <p>Action</p>
+            </div>
+            <div className=" flex justify-between">
+              <p>{currentUserData.name}</p>
+              <input type="text" value={userDescription} className=" border" />
+              <button
+                onClick={hanldleDelete}
+                className=" py-[6px] px-4 bg-[#FFD0D1]  flex gap-1.5 items-center rounded-full"
+              >
+                <RiDeleteBin6Line className=" text-[#FF1C1F] w-4 h-4" />
+                <p className=" text-sm leading-normal text-[#FF1C1F]">Delete</p>
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );
