@@ -7,60 +7,86 @@ class StorageManager {
       userMobile: 'userMobile',
       userSecretKey: 'userSecretKey',
       accessToken: 'accessToken',
-      userId:'userId',
+      userId: 'userId',
     };
   }
 
   async saveUserEmail(email) {
-    localStorage.setItem(this.cacheKeys.userEmail, email);
-    return true;
+    if (typeof window !== "undefined") {
+      localStorage.setItem(this.cacheKeys.userEmail, email);
+      return true;
+    }
+    throw new Error("localStorage is not available");
   }
 
   getUserEmail() {
-    return localStorage.getItem(this.cacheKeys.userEmail);
+    if (typeof window !== "undefined") {
+      return localStorage.getItem(this.cacheKeys.userEmail);
+    }
+    return null;
   }
 
   async removeUserEmail() {
-    localStorage.removeItem(this.cacheKeys.userEmail);
+    if (typeof window !== "undefined") {
+      localStorage.removeItem(this.cacheKeys.userEmail);
+    }
   }
 
   async saveUserMobile(mobile) {
-    localStorage.setItem(this.cacheKeys.userMobile, mobile);
-    return true;
+    if (typeof window !== "undefined") {
+      localStorage.setItem(this.cacheKeys.userMobile, mobile);
+      return true;
+    }
+    throw new Error("localStorage is not available");
   }
 
   getUserMobile() {
-    return localStorage.getItem(this.cacheKeys.userMobile);
+    if (typeof window !== "undefined") {
+      return localStorage.getItem(this.cacheKeys.userMobile);
+    }
+    return null;
   }
 
   async removeUserMobile() {
-    localStorage.removeItem(this.cacheKeys.userMobile);
+    if (typeof window !== "undefined") {
+      localStorage.removeItem(this.cacheKeys.userMobile);
+    }
   }
 
   async saveUserId(userId) {
-    localStorage.setItem(this.cacheKeys.userId, userId);
-    return true;
+    if (typeof window !== "undefined") {
+      localStorage.setItem(this.cacheKeys.userId, userId);
+      return true;
+    }
+    throw new Error("localStorage is not available");
   }
 
   getUserId() {
-    return localStorage.getItem(this.cacheKeys.userId);
+    if (typeof window !== "undefined") {
+      return localStorage.getItem(this.cacheKeys.userId);
+    }
+    return null;
   }
 
   async removeUserId() {
-    localStorage.removeItem(this.cacheKeys.userId);
+    if (typeof window !== "undefined") {
+      localStorage.removeItem(this.cacheKeys.userId);
+    }
   }
 
   getAccessToken() {
     if (typeof window !== "undefined") {
       return localStorage.getItem(this.cacheKeys.accessToken);
     }
-    return null; // Return null or a default value for SSR
+    return null;
   }
 
   async saveAccessToken(token) {
     if (typeof window !== "undefined") {
       localStorage.setItem(this.cacheKeys.accessToken, token);
+      return true;
     }
+    throw new Error("localStorage is not available");
   }
 
   async removeAccessToken() {
@@ -69,48 +95,43 @@ class StorageManager {
     }
   }
 
-  // async saveUserSecretKey(secretKey) {
-  //   const encryptedData = CryptoJS.AES.encrypt(secretKey, "secret_key").toString();
-  //   localStorage.setItem(this.cacheKeys.userSecretKey, encryptedData);
-  //   return true;
-  // }
-
-  // getUserSecretKey() {
-  //   return localStorage.getItem(this.cacheKeys.userSecretKey);
-  // }
   async saveUserSecretKey(secretKey) {
     if (typeof window !== "undefined") {
-        const encryptedData = CryptoJS.AES.encrypt(secretKey, "secret_key").toString();
-        localStorage.setItem(this.cacheKeys.userSecretKey, encryptedData);
-        return true;
+      const encryptedData = CryptoJS.AES.encrypt(secretKey, "secret_key").toString();
+      localStorage.setItem(this.cacheKeys.userSecretKey, encryptedData);
+      return true;
     }
     throw new Error("localStorage is not available");
-}
-
-getUserSecretKey() {
-    if (typeof window !== "undefined") {
-        return localStorage.getItem(this.cacheKeys.userSecretKey);
-    }
-    console.warn("localStorage is not available");
-    return null;
-}
-
-  async removeUserSecretKey() {
-    localStorage.removeItem(this.cacheKeys.userSecretKey);
   }
 
-    // Method to decrypt and retrieve the user secret key
-    getDecryptedUserSecretKey() {
+  getUserSecretKey() {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem(this.cacheKeys.userSecretKey);
+    }
+    return null;
+  }
+
+  async removeUserSecretKey() {
+    if (typeof window !== "undefined") {
+      localStorage.removeItem(this.cacheKeys.userSecretKey);
+    }
+  }
+
+  getDecryptedUserSecretKey() {
+    if (typeof window !== "undefined") {
       const encryptedData = this.getUserSecretKey();
       if (encryptedData) {
         const bytes = CryptoJS.AES.decrypt(encryptedData, "secret_key");
         return bytes.toString(CryptoJS.enc.Utf8);
       }
-      return "";
     }
+    return "";
+  }
 
   async resetAll() {
-    Object.values(this.cacheKeys).forEach(key => localStorage.removeItem(key));
+    if (typeof window !== "undefined") {
+      Object.values(this.cacheKeys).forEach(key => localStorage.removeItem(key));
+    }
   }
 }
 
