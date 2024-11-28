@@ -1,4 +1,5 @@
 import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
 import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 
 // Your web app's Firebase configuration
@@ -15,15 +16,22 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-let appCheck; // Declare appCheck outside to export later
+// Initialize App Check
+export const appCheck = (() => {
+  if (typeof window !== "undefined") {
+    return initializeAppCheck(app, {
+      provider: new ReCaptchaV3Provider("6LeNlSAqAAAAAGbgvmjfMsR2zwWpGCFL4RqDg9uE"),
+      isTokenAutoRefreshEnabled: true,
+    });
+  }
+  return null;
+})();
 
-if (typeof window !== 'undefined') {
-  // Only run the Firebase App Check initialization on the client
-  appCheck = initializeAppCheck(app, {
-    provider: new ReCaptchaV3Provider("6LeNlSAqAAAAAGbgvmjfMsR2zwWpGCFL4RqDg9uE"),
-    container: "recaptcha-container-id", // Provide the id of a DOM element
-    isTokenAutoRefreshEnabled: true,
-  });
-}
-
-export { app, appCheck };
+// Initialize Analytics
+export const analytics = (() => {
+  if (typeof window !== "undefined") {
+    return getAnalytics(app);
+  }
+  return null;
+})();
+export { app, };

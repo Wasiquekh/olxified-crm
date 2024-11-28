@@ -4,6 +4,7 @@ import "./globals.css";
 import { AppProvider } from "./AppContext"; // Adjust the import path accordingly
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ErrorBoundary from "../app/ErrorBoundary";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,6 +17,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
+      <ErrorBoundary>
         <AppProvider>
           {children}
           <ToastContainer
@@ -31,6 +33,7 @@ export default function RootLayout({ children }) {
             theme="light"
           ></ToastContainer>
         </AppProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );
