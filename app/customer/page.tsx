@@ -41,15 +41,28 @@ interface FilterData {
 }
 
 interface Customer {
-  id: number;
+  id: string; // Updated to string as per the API response
   firstname: string;
   lastname: string;
-  mobilephonenumber: string;
+  mobilephonenumber?: string | null; // Changed to optional with possible null value
+  mobilephonenumber_verified?: boolean | null;
   birthdate: string;
   countryofbirth?: string;
   gender?: string;
-  countryofresidence?: string
+  countryofresidence?: string;
+  city?: string;
+  streetaddress?: string;
+  iddoctype?: string;
+  idcardrecto?: string | null;
+  idcardverso?: string | null;
+  password?: string;
+  shortintrovideo?: string | null;
+  fcmtoken?: string;
+  usersignature?: string | null;
+  created_at?: string;
+  updated_at?: string;
 }
+
 
 export default function Home() {
   const [isFlyoutOpen, setFlyoutOpen] = useState<boolean>(false);
@@ -65,8 +78,15 @@ export default function Home() {
   });
   const [isError, setIsError] = useState<boolean>(false);
   const [appliedFilters, setAppliedFilters] = useState<string[]>([]);
+  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);     
   const storage = new StorageManager();
   const { accessToken } = useContext(AppContext);
+  console.log('Get all user Data',data)
+
+ const handleViewDetails = (customer: Customer) => {
+  setSelectedCustomer(customer);  // Set the selected customer when the button is clicked
+  toggleFlyout();
+};
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -591,7 +611,8 @@ export default function Home() {
                       </td>
                       <td>
                         <button
-                          onClick={toggleFlyout}
+                         // onClick={toggleFlyout}
+                         onClick={()=>handleViewDetails(item)}
                           className=" py-[6px] px-4 bg-[#C6F7FE] m-2 flex gap-[10px] items-center rounded-full"
                         >
                           <MdRemoveRedEye className=" text-customBlue w-4 h-4" />
@@ -763,8 +784,9 @@ export default function Home() {
          isFlyoutOpen={isFlyoutOpen}
          toggleFlyout={toggleFlyout}
          setFlyoutOpen={setFlyoutOpen}
-      >
-      </CustomerViewDetails>
+         customer={selectedCustomer}
+      />
+      
     </>
   );
 }

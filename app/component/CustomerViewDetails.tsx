@@ -1,26 +1,219 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
 import { HiOutlineWallet } from "react-icons/hi2";
 import Image from "next/image";
+import Popup from "reactjs-popup";
+import "reactjs-popup/dist/index.css";
+import { AppContext } from "../AppContext";
+import AxiosProvider from "../../provider/AxiosProvider";
+import { appCheck } from "../firebase-config";
+import { getToken } from "firebase/app-check";
+import { toast } from "react-toastify";
+import { auth } from "firebase-admin";
+
+const axiosProvider = new AxiosProvider();
+
+interface Customer {
+  id: string;
+  firstname: string;
+  lastname: string;
+  mobilephonenumber?: string | null;
+  mobilephonenumber_verified?: boolean | null;
+  birthdate: string;
+  countryofbirth?: string;
+  gender?: string;
+  countryofresidence?: string;
+  city?: string;
+  streetaddress?: string;
+  iddoctype?: string;
+  idcardrecto?: string | null;
+  idcardverso?: string | null;
+  password?: string;
+  shortintrovideo?: string | null;
+  fcmtoken?: string;
+  usersignature?: string | null;
+  created_at?: string;
+  updated_at?: string;
+}
 
 // Define the prop types
 interface CustomerViewDetailsProps {
   isFlyoutOpen: boolean;
   toggleFlyout: () => void;
   setFlyoutOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  customer: Customer; // Receive the selected customer as a prop
 }
 
 const CustomerViewDetails: React.FC<CustomerViewDetailsProps> = ({
   isFlyoutOpen,
   toggleFlyout,
   setFlyoutOpen,
+  customer,
 }) => {
+  const [usersignatureUrl, setUserSignitureUrl] = useState<string>("");
+  const [userShortVideo, setUserShortVideo] = useState<string>("");
+  const [userIdCardFront, setUserIdCardFrond] = useState<string>("");
+  const [userIdCardBack, setUserIdCardBack] = useState<string>("");
+
+
+  const [isPopupOpen, setPopupOpen] = useState(false);
+  const handleOpenPopup = () => {
+    setPopupOpen(true);
+  };
+  const handleClosePopup = () => {
+    setPopupOpen(false);
+  };
+  const { accessToken } = useContext(AppContext);
+  //api call for user signiture
+  const handleUserSigniture = async () => {
+    setUserShortVideo("");
+    setUserIdCardFrond('');
+    setUserIdCardBack('');
+    const usersignature = customer.usersignature;
+    const fileName = usersignature.split("/").pop();
+
+    handleOpenPopup();
+    try {
+      const tokenResponse = await getToken(appCheck, true);
+      const appCheckToken = tokenResponse.token;
+
+      const res = await axiosProvider.post(
+        "/getsignature",
+        {
+          filename: fileName,
+        },
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "X-Firebase-AppCheck": appCheckToken,
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      setUserSignitureUrl(res.data.data.url);
+    } catch (error: any) {
+      // Check if error response exists and handle the error message
+      if (error.res && error.res) {
+        const errorMsg = error.res.msg || "An error occurred.";
+        toast.error(errorMsg); // Display the error message in the toast
+      }
+    }
+  };
+  // api call for user short video
+  const handleUserShortVideo = async () => {
+    setUserSignitureUrl("");
+    setUserIdCardFrond('');
+    setUserIdCardBack('');
+    const uservideo = customer.shortintrovideo;
+    const fileName = uservideo.split("/").pop();
+
+    handleOpenPopup();
+    try {
+      const tokenResponse = await getToken(appCheck, true);
+      const appCheckToken = tokenResponse.token;
+
+      const res = await axiosProvider.post(
+        "/getvedio",
+        {
+          filename: fileName,
+        },
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "X-Firebase-AppCheck": appCheckToken,
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      setUserShortVideo(res.data.data.url);
+    } catch (error: any) {
+      // Check if error response exists and handle the error message
+      if (error.res && error.res) {
+        const errorMsg = error.res.msg || "An error occurred.";
+        toast.error(errorMsg); // Display the error message in the toast
+      }
+    }
+  };
+  //api call for id card front side
+  const handleIdCardFront = async () => {
+    setUserSignitureUrl('');
+    setUserShortVideo('');
+    setUserIdCardBack('');
+    const idFrontUrl = customer.idcardrecto;
+    const fileName = idFrontUrl.split("/").pop();
+    console.log("File Name:", fileName); // This will log the file name "Kenne Thierry.jpeg"
+
+    handleOpenPopup();
+    try {
+      const tokenResponse = await getToken(appCheck, true);
+      const appCheckToken = tokenResponse.token;
+
+      const res = await axiosProvider.post(
+        "/getsubmitocr",
+        {
+          frontImageFilename: fileName,
+        },
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "X-Firebase-AppCheck": appCheckToken,
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      setUserIdCardFrond(res.data.data.frontImageUrl);
+      // setUserShortVideo(res.data.data.url);
+    } catch (error: any) {
+      // Check if error response exists and handle the error message
+      if (error.res && error.res) {
+        const errorMsg = error.res.msg || "An error occurred.";
+        toast.error(errorMsg); // Display the error message in the toast
+      }
+    }
+  };
+
+  //api call for id card back side
+  const handleIdCardBack = async () => {
+    setUserSignitureUrl('');
+    setUserShortVideo('');
+    setUserIdCardFrond('');
+    const idBackUrl = customer.idcardverso;
+    const fileName = idBackUrl.split("/").pop();
+    handleOpenPopup();
+    try {
+      const tokenResponse = await getToken(appCheck, true);
+      const appCheckToken = tokenResponse.token;
+
+      const res = await axiosProvider.post(
+        "/getsubmitocr",
+        {
+          frontImageFilename: fileName,
+          backImageFilename: fileName,
+        },
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "X-Firebase-AppCheck": appCheckToken,
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      setUserIdCardBack(res.data.data.backImageUrl);
+      // setUserShortVideo(res.data.data.url);
+    } catch (error: any) {
+      // Check if error response exists and handle the error message
+      if (error.res && error.res) {
+        const errorMsg = error.res.msg || "An error occurred.";
+        toast.error(errorMsg); // Display the error message in the toast
+      }
+    }
+  };
   return (
     <div>
       {isFlyoutOpen && (
         <>
           <div
-            className="bg-[#1f1d1d80] fixed h-full w-full top-0 left-0  z-[1000]"
+            className="bg-[#1f1d1d80] fixed h-full w-full top-0 left-0  z-[9]"
             onClick={() => {
               setFlyoutOpen(!isFlyoutOpen);
             }}
@@ -59,8 +252,9 @@ const CustomerViewDetails: React.FC<CustomerViewDetailsProps> = ({
                     </p>
                     <input
                       type="text"
+                      value={customer.firstname}
                       placeholder="Alexandre"
-                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 text-[#717171]"
                     />
                   </div>
                   <div className=" w-full">
@@ -69,8 +263,9 @@ const CustomerViewDetails: React.FC<CustomerViewDetailsProps> = ({
                     </p>
                     <input
                       type="text"
+                      value={customer.lastname}
                       placeholder="Prot"
-                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 text-[#717171]"
                     />
                   </div>
                 </div>
@@ -81,9 +276,10 @@ const CustomerViewDetails: React.FC<CustomerViewDetailsProps> = ({
                       Phone
                     </p>
                     <input
-                      type="number"
+                      type="text"
+                      value={customer.mobilephonenumber}
                       placeholder="1 (800) 667-6389"
-                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 text-[#717171]"
                     />
                   </div>
                   <div className=" w-full">
@@ -95,232 +291,127 @@ const CustomerViewDetails: React.FC<CustomerViewDetailsProps> = ({
                       </span>
                     </p>
                     <input
-                      type="date"
+                      type="text"
+                      value={customer.birthdate}
                       placeholder=""
-                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 text-[#717171]"
                     />
                   </div>
                 </div>
-
                 <div className=" w-full flex gap-4 mb-4">
-                  <div className=" w-full">
-                    <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
-                      Email ID
-                    </p>
-                    <input
-                      type="email"
-                      placeholder="email@example.com"
-                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
-                    />
-                  </div>
-                </div>
-
-                <div className=" w-full  border border-[#DFEAF2] rounded-2xl mb-2 flex flex-col justify-center items-center p-7">
-                  <p className=" text-left w-full text-[#0A0A0A] text-[26px] font-semibold leading-8 mb-4">
-                    Profile Photo
-                  </p>
-                  <input type="file" name="file" className=" hidden" />
-                  <div className=" cursor-pointer p-6  w-full h-40 rounded-3xl border-2 border-dashed border-[#7A8699] flex flex-col gap-2 justify-center items-center">
-                    <Image
-                      src="/images/uploadBtn.svg"
-                      width={0}
-                      height={0}
-                      alt="Picture of the author"
-                      className=" w-[150px] h-auto"
-                    />
-                    <p>Or Drop Files</p>
-                  </div>
-                </div>
-
-                <div className=" w-full flex gap-4 mb-9">
-                  <div className=" w-full">
+                  <div className=" w-1/2">
                     <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
                       Gender
                     </p>
-                    <select
-                      name="gender"
-                      id="gender"
-                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
-                    >
-                      <option value="volvo">Male</option>
-                      <option value="saab">Female</option>
-                      <option value="mercedes">Other</option>
-                    </select>
+                    <input
+                      type="text"
+                      value={customer.gender}
+                      placeholder="1 (800) 667-6389"
+                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 text-[#717171]"
+                    />
                   </div>
                 </div>
-                <p className=" text-[#333B69] text-[22px] leading-normal font-semibold">
+                <div className=" w-full  border border-[#DFEAF2] rounded-2xl mb-2 flex flex-col justify-center items-center p-7">
+                  <p className=" text-left w-full text-[#0A0A0A] text-[26px] font-semibold leading-8 mb-4">
+                    Card Details
+                  </p>
+                  <div className="w-full flex gap-4 mb-4">
+                    <button
+                      onClick={handleIdCardFront}
+                      className="w-full bg-customBlue rounded p-3 text-white"
+                    >
+                      ID Card Ecto
+                    </button>
+                    <button
+                      onClick={handleIdCardBack}
+                      className="w-full bg-customBlue rounded p-3 text-white"
+                    >
+                      ID Card Verso
+                    </button>
+                  </div>
+                  <div className=" w-full flex gap-4">
+                    <button
+                      onClick={handleUserSigniture}
+                      className=" w-full bg-customBlue rounded p-3 text-white"
+                    >
+                      User signiture
+                    </button>
+                    <button
+                      onClick={handleUserShortVideo}
+                      className=" w-full bg-customBlue rounded p-3 text-white"
+                    >
+                      User short video
+                    </button>
+                  </div>
+                </div>
+                <p className=" text-[#333B69] text-[22px] leading-normal font-semibold mt-4">
                   Address Information
                 </p>
                 <div className=" w-full border-b border-[#E7E7E7] mb-4 mt-2"></div>
-
                 <div className=" w-full flex gap-4 mb-4">
-                  <div className=" w-full">
+                  <div className=" w-1/2">
                     <p className=" text-[#0A0A0A] font-semibold text-base leading-6 mb-2">
                       Country of Birth
                     </p>
                     <input
                       type="text"
+                      value={customer.countryofbirth}
                       placeholder="USA"
-                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 text-[#717171]"
+                    />
+                  </div>
+
+                  <div className=" w-1/2">
+                    <p className=" text-[#0A0A0A] font-semibold text-base leading-6 mb-2">
+                      Country
+                    </p>
+                    <input
+                      type="text"
+                      value={customer.city}
+                      placeholder="USA"
+                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 text-[#717171]"
                     />
                   </div>
                 </div>
-
                 <div className=" w-full flex gap-4 mb-4">
-                  <div className=" w-full">
-                    <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
-                      City of Birth
+                  <div className=" w-1/2">
+                    <p className=" text-[#0A0A0A] font-semibold text-base leading-6 mb-2">
+                      City
                     </p>
-                    <select
-                      name="city"
-                      id="city"
-                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
-                    >
-                      <option value="volvo">New York City</option>
-                      <option value="saab">Hannover</option>
-                      <option value="mercedes">Sidney</option>
-                    </select>
+                    <input
+                      type="text"
+                      value={customer.streetaddress}
+                      placeholder="USA"
+                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 text-[#717171]"
+                    />
                   </div>
-                </div>
-
-                <div className=" w-full flex gap-4 mb-4">
-                  <div className=" w-full">
-                    <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
-                      Zip/Postal Code
-                    </p>
-                    <select
-                      name="gender"
-                      id="gender"
-                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
-                    >
-                      <option value="volvo">---None---</option>
-                      <option value="saab">---None---</option>
-                      <option value="mercedes">---None---</option>
-                    </select>
-                  </div>
-                  <div className=" w-full">
-                    <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
-                      State/Province
-                    </p>
-                    <select
-                      name="gender"
-                      id="gender"
-                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
-                    >
-                      <option value="volvo">---None---</option>
-                      <option value="saab">---None---</option>
-                      <option value="mercedes">---None---</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className=" w-full flex gap-4 mb-9">
-                  <div className=" w-full">
-                    <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
-                      Street
-                    </p>
-                    <select
-                      name="gender"
-                      id="gender"
-                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
-                    >
-                      <option value="volvo">
-                        Broadway 10012, New York, NY, USA
-                      </option>
-                      <option value="saab">
-                        Broadway 10012, New York, NY, USA
-                      </option>
-                      <option value="mercedes">
-                        Broadway 10012, New York, NY, USA
-                      </option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className=" w-full flex gap-4 mb-4">
-                  <div className=" w-full">
+                  <div className=" w-1/2">
                     <p className=" text-[#0A0A0A] font-semibold text-base leading-6 mb-2">
                       Country of Residence
                     </p>
                     <input
                       type="text"
+                      value={customer.countryofresidence}
                       placeholder="USA"
-                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 text-[#717171]"
                     />
                   </div>
                 </div>
-
-                <div className=" w-full flex gap-4 mb-4">
-                  <div className=" w-full">
-                    <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
-                      City of Birth
-                    </p>
-                    <select
-                      name="city"
-                      id="city"
-                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
-                    >
-                      <option value="volvo">New York City</option>
-                      <option value="saab">Hannover</option>
-                      <option value="mercedes">Sidney</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className=" w-full flex gap-4 mb-4">
-                  <div className=" w-full">
-                    <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
-                      Zip/Postal Code
-                    </p>
-                    <select
-                      name="gender"
-                      id="gender"
-                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
-                    >
-                      <option value="volvo">---None---</option>
-                      <option value="saab">---None---</option>
-                      <option value="mercedes">---None---</option>
-                    </select>
-                  </div>
-                  <div className=" w-full">
-                    <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
-                      State/Province
-                    </p>
-                    <select
-                      name="gender"
-                      id="gender"
-                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
-                    >
-                      <option value="volvo">---None---</option>
-                      <option value="saab">---None---</option>
-                      <option value="mercedes">---None---</option>
-                    </select>
-                  </div>
-                </div>
-
                 <div className=" w-full flex gap-4 mb-9">
-                  <div className=" w-full">
-                    <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
-                      Street
+                  <div className=" w-1/2">
+                    <p className=" text-[#0A0A0A] font-semibold text-base leading-6 mb-2">
+                      Country of Residence
                     </p>
-                    <select
-                      name="gender"
-                      id="gender"
-                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
-                    >
-                      <option value="volvo">
-                        Broadway 10012, New York, NY, USA
-                      </option>
-                      <option value="saab">
-                        Broadway 10012, New York, NY, USA
-                      </option>
-                      <option value="mercedes">
-                        Broadway 10012, New York, NY, USA
-                      </option>
-                    </select>
+                    <input
+                      type="text"
+                      value={customer.countryofresidence}
+                      placeholder="USA"
+                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 text-[#717171]"
+                    />
                   </div>
                 </div>
               </div>
+
               {/* END FORM */}
               <div className=" w-full py-5 px-6 rounded-[16px] shadow-lastTransaction mb-9">
                 <p className=" text-[#333B69] text-[26px] font-bold leading-9 mb-6">
@@ -751,6 +842,48 @@ const CustomerViewDetails: React.FC<CustomerViewDetailsProps> = ({
           </div>
         </>
       )}
+      {/* Popup Component */}
+      <Popup open={isPopupOpen} onClose={handleClosePopup} modal nested>
+        <div className="p-6 bg-white rounded shadow-lg h-[80vh]">
+          <h2 className="text-xl font-bold mb-4">Customer Details</h2>
+          {usersignatureUrl && (
+            <Image
+              src={usersignatureUrl}
+              alt="User Signature Image"
+              width={600}
+              height={600}
+            />
+          )}
+          {userShortVideo && (
+            <video controls className="w-3/4 rounded-lg shadow-lg">
+              <source src={userShortVideo} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          )}
+          {userIdCardFront && (
+            <Image
+              src={userIdCardFront}
+              alt="User ID card front"
+              width={600}
+              height={600}
+            />
+          )}
+          {userIdCardBack && (
+            <Image
+              src={userIdCardBack}
+              alt="User ID card back"
+              width={600}
+              height={600}
+            />
+          )}
+          <button
+            onClick={handleClosePopup}
+            className="mt-4 bg-customBlue text-white px-4 py-2 rounded"
+          >
+            Close
+          </button>
+        </div>
+      </Popup>
     </div>
   );
 };
