@@ -124,7 +124,12 @@ export default function OtpHome() {
       setLoading(false);
     }
   };
-
+ // Focus on the first input when the component is loaded
+ useEffect(() => {
+  if (inputRefs.current[0]) {
+    inputRefs.current[0].focus();
+  }
+}, []); // Empty dependency array ensures it runs only once when the component is mounted
   return (
     <>
       <div className="bg-[#F5F5F5]">

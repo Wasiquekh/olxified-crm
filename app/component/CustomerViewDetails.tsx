@@ -10,6 +10,7 @@ import { appCheck } from "../firebase-config";
 import { getToken } from "firebase/app-check";
 import { toast } from "react-toastify";
 import { auth } from "firebase-admin";
+import { consumers } from "stream";
 
 const axiosProvider = new AxiosProvider();
 
@@ -55,7 +56,6 @@ const CustomerViewDetails: React.FC<CustomerViewDetailsProps> = ({
   const [userIdCardFront, setUserIdCardFrond] = useState<string>("");
   const [userIdCardBack, setUserIdCardBack] = useState<string>("");
 
-
   const [isPopupOpen, setPopupOpen] = useState(false);
   const handleOpenPopup = () => {
     setPopupOpen(true);
@@ -67,9 +67,10 @@ const CustomerViewDetails: React.FC<CustomerViewDetailsProps> = ({
   //api call for user signiture
   const handleUserSigniture = async () => {
     setUserShortVideo("");
-    setUserIdCardFrond('');
-    setUserIdCardBack('');
+    setUserIdCardFrond("");
+    setUserIdCardBack("");
     const usersignature = customer.usersignature;
+    console.log("user signiture", usersignature);
     const fileName = usersignature.split("/").pop();
 
     handleOpenPopup();
@@ -102,8 +103,8 @@ const CustomerViewDetails: React.FC<CustomerViewDetailsProps> = ({
   // api call for user short video
   const handleUserShortVideo = async () => {
     setUserSignitureUrl("");
-    setUserIdCardFrond('');
-    setUserIdCardBack('');
+    setUserIdCardFrond("");
+    setUserIdCardBack("");
     const uservideo = customer.shortintrovideo;
     const fileName = uservideo.split("/").pop();
 
@@ -136,9 +137,9 @@ const CustomerViewDetails: React.FC<CustomerViewDetailsProps> = ({
   };
   //api call for id card front side
   const handleIdCardFront = async () => {
-    setUserSignitureUrl('');
-    setUserShortVideo('');
-    setUserIdCardBack('');
+    setUserSignitureUrl("");
+    setUserShortVideo("");
+    setUserIdCardBack("");
     const idFrontUrl = customer.idcardrecto;
     const fileName = idFrontUrl.split("/").pop();
     console.log("File Name:", fileName); // This will log the file name "Kenne Thierry.jpeg"
@@ -174,9 +175,9 @@ const CustomerViewDetails: React.FC<CustomerViewDetailsProps> = ({
 
   //api call for id card back side
   const handleIdCardBack = async () => {
-    setUserSignitureUrl('');
-    setUserShortVideo('');
-    setUserIdCardFrond('');
+    setUserSignitureUrl("");
+    setUserShortVideo("");
+    setUserIdCardFrond("");
     const idBackUrl = customer.idcardverso;
     const fileName = idBackUrl.split("/").pop();
     handleOpenPopup();
@@ -316,32 +317,72 @@ const CustomerViewDetails: React.FC<CustomerViewDetailsProps> = ({
                     Card Details
                   </p>
                   <div className="w-full flex gap-4 mb-4">
-                    <button
-                      onClick={handleIdCardFront}
-                      className="w-full bg-customBlue rounded p-3 text-white"
-                    >
-                      ID Card Ecto
-                    </button>
-                    <button
-                      onClick={handleIdCardBack}
-                      className="w-full bg-customBlue rounded p-3 text-white"
-                    >
-                      ID Card Verso
-                    </button>
+                    {customer.idcardrecto ? (
+                      <button
+                        onClick={handleIdCardFront}
+                        className="w-full bg-customBlue rounded p-3 text-white"
+                      >
+                        ID Card Ecto
+                      </button>
+                    ) : (
+                      <button
+                        disabled
+                        onClick={handleIdCardFront}
+                        className="w-full bg-customBlue rounded p-3 text-white opacity-60 cursor-not-allowed "
+                      >
+                        No ID Card Ecto
+                      </button>
+                    )}
+                    {customer.idcardverso ? (
+                      <button
+                        onClick={handleIdCardBack}
+                        className="w-full bg-customBlue rounded p-3 text-white"
+                      >
+                        ID Card Verso
+                      </button>
+                    ) : (
+                      <button
+                        onClick={handleIdCardBack}
+                        disabled
+                        className="w-full bg-customBlue rounded p-3 text-white opacity-60 cursor-not-allowed"
+                      >
+                        No ID Card Verso
+                      </button>
+                    )}
                   </div>
                   <div className=" w-full flex gap-4">
-                    <button
-                      onClick={handleUserSigniture}
-                      className=" w-full bg-customBlue rounded p-3 text-white"
-                    >
-                      User signiture
-                    </button>
-                    <button
-                      onClick={handleUserShortVideo}
-                      className=" w-full bg-customBlue rounded p-3 text-white"
-                    >
-                      User short video
-                    </button>
+                    {customer.usersignature ? (
+                      <button
+                        onClick={handleUserSigniture}
+                        className=" w-full bg-customBlue rounded p-3 text-white"
+                      >
+                        User signiture
+                      </button>
+                    ) : (
+                      <button
+                        onClick={handleUserSigniture}
+                        disabled
+                        className=" w-full bg-customBlue rounded p-3 text-white opacity-60 cursor-not-allowed"
+                      >
+                        No User signiture
+                      </button>
+                    )}
+                    {customer.shortintrovideo ? (
+                      <button
+                        onClick={handleUserShortVideo}
+                        className=" w-full bg-customBlue rounded p-3 text-white"
+                      >
+                        User short video
+                      </button>
+                    ) : (
+                      <button
+                        onClick={handleUserShortVideo}
+                        disabled
+                        className=" w-full bg-customBlue rounded p-3 text-white opacity-60 cursor-not-allowed"
+                      >
+                        No User short video
+                      </button>
+                    )}
                   </div>
                 </div>
                 <p className=" text-[#333B69] text-[22px] leading-normal font-semibold mt-4">
@@ -850,8 +891,8 @@ const CustomerViewDetails: React.FC<CustomerViewDetailsProps> = ({
             <Image
               src={usersignatureUrl}
               alt="User Signature Image"
-              width={600}
-              height={600}
+              width={400}
+              height={400}
             />
           )}
           {userShortVideo && (
@@ -864,16 +905,16 @@ const CustomerViewDetails: React.FC<CustomerViewDetailsProps> = ({
             <Image
               src={userIdCardFront}
               alt="User ID card front"
-              width={600}
-              height={600}
+              width={400}
+              height={400}
             />
           )}
           {userIdCardBack && (
             <Image
               src={userIdCardBack}
               alt="User ID card back"
-              width={600}
-              height={600}
+              width={400}
+              height={400}
             />
           )}
           <button

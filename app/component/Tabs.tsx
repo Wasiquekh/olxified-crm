@@ -1,8 +1,14 @@
 'use client'
-// components/Tabs.js
+// components/Tabs.tsx
 import { useState } from 'react';
 
-const Tab = ({ label, isActive, onClick }) => (
+interface TabProps {
+  label: string;
+  isActive: boolean;
+  onClick: () => void;
+}
+
+const Tab: React.FC<TabProps> = ({ label, isActive, onClick }) => (
   <button
     className={`py-2 px-2 text-base font-medium mx-3 leading-normal transition-colors duration-200 ${
       isActive
@@ -15,19 +21,31 @@ const Tab = ({ label, isActive, onClick }) => (
   </button>
 );
 
-const TabPanel = ({ children, isActive }) => (
+interface TabPanelProps {
+  children: React.ReactNode;
+  isActive: boolean;
+}
+
+const TabPanel: React.FC<TabPanelProps> = ({ children, isActive }) => (
   <div className={`p-4 ${isActive ? 'block' : 'hidden'}`}>
     {children}
   </div>
 );
 
-const Tabs = ({ tabs }) => {
-  const [activeTab, setActiveTab] = useState(tabs[0].label);
+interface TabsProps {
+  tabs: {
+    label: string;
+    content: React.ReactNode;
+  }[];
+}
+
+const Tabs: React.FC<TabsProps> = ({ tabs }) => {
+  const [activeTab, setActiveTab] = useState<string>(tabs[0].label);
 
   return (
     <div>
       <div className="flex border-b border-[#F4F5F7]">
-        {tabs.map(tab => (
+        {tabs.map((tab) => (
           <Tab
             key={tab.label}
             label={tab.label}
@@ -37,7 +55,7 @@ const Tabs = ({ tabs }) => {
         ))}
       </div>
       <div>
-        {tabs.map(tab => (
+        {tabs.map((tab) => (
           <TabPanel key={tab.label} isActive={tab.label === activeTab}>
             {tab.content}
           </TabPanel>
