@@ -69,12 +69,7 @@ export default function Home() {
     console.log(values);
     try {
       const appCheckToken = await getToken(appCheck, true);
-      const res = await axiosProvider.post("/register", values, {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          "X-Firebase-AppCheck": appCheckToken.token,
-        },
-      });
+      const res = await axiosProvider.post("/register", values);
 
       if (res.status === 200) {
         toast.success("Form submitted successfully!");

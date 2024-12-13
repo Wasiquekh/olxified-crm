@@ -68,11 +68,7 @@ export default function OtpHome() {
         const res = await axiosProvider.post(
           "/generateqrcode",
           {},
-          {
-            headers: {
-              "X-Firebase-AppCheck": appCheckToken.token,
-            },
-          }
+
         );
         if (res.status === 200) {
           setQrCode(res.data.data.qrCodeDataURL);
@@ -107,11 +103,7 @@ export default function OtpHome() {
           secretKey: secretKey,
           userId:userId,
         },
-        {
-          headers: {
-            "X-Firebase-AppCheck": appCheckToken.token,
-          }
-        }
+ 
       );
       setAccessToken(res.data.data.token);
       storage.saveAccessToken(res.data.data.token);

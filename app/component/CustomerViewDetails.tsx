@@ -82,13 +82,6 @@ const CustomerViewDetails: React.FC<CustomerViewDetailsProps> = ({
         "/getsignature",
         {
           filename: fileName,
-        },
-        {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            "X-Firebase-AppCheck": appCheckToken,
-            Authorization: `Bearer ${accessToken}`,
-          },
         }
       );
       setUserSignitureUrl(res.data.data.url);
@@ -117,13 +110,6 @@ const CustomerViewDetails: React.FC<CustomerViewDetailsProps> = ({
         "/getvedio",
         {
           filename: fileName,
-        },
-        {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            "X-Firebase-AppCheck": appCheckToken,
-            Authorization: `Bearer ${accessToken}`,
-          },
         }
       );
       setUserShortVideo(res.data.data.url);
@@ -153,13 +139,6 @@ const CustomerViewDetails: React.FC<CustomerViewDetailsProps> = ({
         "/getsubmitocr",
         {
           frontImageFilename: fileName,
-        },
-        {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            "X-Firebase-AppCheck": appCheckToken,
-            Authorization: `Bearer ${accessToken}`,
-          },
         }
       );
       setUserIdCardFrond(res.data.data.frontImageUrl);
@@ -191,13 +170,6 @@ const CustomerViewDetails: React.FC<CustomerViewDetailsProps> = ({
           frontImageFilename: fileName,
           backImageFilename: fileName,
         },
-        {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            "X-Firebase-AppCheck": appCheckToken,
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
       );
       setUserIdCardBack(res.data.data.backImageUrl);
       // setUserShortVideo(res.data.data.url);

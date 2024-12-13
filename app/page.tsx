@@ -1,7 +1,5 @@
 "use client";
 import Image from "next/image";
-import { appCheck } from "./firebase-config";
-import { getToken } from "firebase/app-check";
 import { useState, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { AppContext } from "./AppContext";
@@ -37,20 +35,9 @@ export default function LoginHome() {
   const handleSubmitLogin = async (values: FormValues) => {
     setLoading(true);
     try {
-      const appCheckToken = await getToken(appCheck, true);
-     // console.log(appCheckToken);
-      if (!appCheckToken) {
-        console.error("Failed to retrieve App Check token");
-        return;
-      }
       const res = await axiosProvider.post(
         "/login",
-        { email: values.email, password: values.password },
-        {
-          headers: {
-            "X-Firebase-AppCheck": appCheckToken.token,
-          },
-        }
+        { email: values.email, password: values.password }
       );
       if (res.status !== 200) {
         console.error("Login failed", res.status, res.data);

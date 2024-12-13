@@ -37,7 +37,7 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
   setShouldRefetch,
 }) => {
   const [userDescription, setUserDescription] = useState<string | null>(null);
-  console.log('user desc',userDescription)
+  //console.log('user desc',userDescription)
   const [isVisible, setIsVisible] = useState<boolean>(true);
   const { accessToken } = useContext(AppContext);
 
@@ -54,13 +54,6 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
             "/fetchsecret",
             {
               userId: currentUserData.id, // Send currentUserData.id to the API
-            },
-            {
-              headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-                "X-Firebase-AppCheck": appCheckToken,
-                Authorization: `Bearer ${accessToken}`,
-              },
             }
           );
 
@@ -94,13 +87,6 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
           "/deletesecert",
           {
             userId: currentUserData.id, // Send currentUserData.id to the API
-          },
-          {
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-              "X-Firebase-AppCheck": appCheckToken,
-              Authorization: `Bearer ${accessToken}`,
-            },
           }
         );
         //console.log("%%%%%%%%%%%%%%%%%%%%%%%% ssucess api", res);
@@ -177,13 +163,7 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
                 const appCheckToken = tokenResponse.token;
                 const accessToken = storage.getAccessToken();
 
-                const res = await axiosProvider.post("/updateuser", values, {
-                  headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                    "X-Firebase-AppCheck": appCheckToken,
-                    Authorization: `Bearer ${accessToken}`,
-                  },
-                });
+                const res = await axiosProvider.post("/updateuser", values);
 
                 if (res.status === 200) {
                   toast.success("User updated successfully!");

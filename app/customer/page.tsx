@@ -63,7 +63,6 @@ interface Customer {
   updated_at?: string;
 }
 
-
 export default function Home() {
   const [isFlyoutOpen, setFlyoutOpen] = useState<boolean>(false);
   const [isFlyoutFilterOpen, setFlyoutFilterOpen] = useState<boolean>(false);
@@ -78,15 +77,17 @@ export default function Home() {
   });
   const [isError, setIsError] = useState<boolean>(false);
   const [appliedFilters, setAppliedFilters] = useState<string[]>([]);
-  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);     
+  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(
+    null
+  );
   const storage = new StorageManager();
   const { accessToken } = useContext(AppContext);
-  console.log('Get all user Data',data)
+  //console.log("Get all user Data", data);
 
- const handleViewDetails = (customer: Customer) => {
-  setSelectedCustomer(customer);  // Set the selected customer when the button is clicked
-  toggleFlyout();
-};
+  const handleViewDetails = (customer: Customer) => {
+    setSelectedCustomer(customer); // Set the selected customer when the button is clicked
+    toggleFlyout();
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -98,7 +99,8 @@ export default function Home() {
 
   useEffect(() => {
     const filters: string[] = [];
-    if (filterData.firstname) filters.push(`First Name: ${filterData.firstname}`);
+    if (filterData.firstname)
+      filters.push(`First Name: ${filterData.firstname}`);
     if (filterData.lastname) filters.push(`Last Name: ${filterData.lastname}`);
     setAppliedFilters(filters);
   }, [filterData]);
@@ -112,13 +114,7 @@ export default function Home() {
       const appCheckToken = tokenResponse.token;
       const accessToken = storage.getAccessToken();
 
-      const response = await axiosProvider.post("/filter", filterData, {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          "X-Firebase-AppCheck": appCheckToken,
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      const response = await axiosProvider.post("/filter", filterData);
 
       const result = response.data;
       if (result.success && result.data && result.data.customers) {
@@ -137,13 +133,7 @@ export default function Home() {
       const tokenResponse = await getToken(appCheck, true);
       const appCheckToken = tokenResponse.token;
       //console.log(appCheckToken)
-      const response = await axiosProvider.get("/getallcrmuser", {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          "X-Firebase-AppCheck": appCheckToken,
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      const response = await axiosProvider.get("/getallcrmuser");
 
       const result = response.data;
       setData(result.data);
@@ -178,7 +168,7 @@ export default function Home() {
   const handleError = (error: any) => {
     if (error.response && error.response.status === 404) {
       setIsError(true);
-      console.log("Data not found");
+      //console.log("Data not found");
     }
     console.error("Error fetching data:", error);
     if (error.response && error.response.status === 401) {
@@ -208,13 +198,7 @@ export default function Home() {
       const tokenResponse = await getToken(appCheck, true);
       const appCheckToken = tokenResponse.token;
 
-      const response = await axiosProvider.post("/filter", updatedFilterData, {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          "X-Firebase-AppCheck": appCheckToken,
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      });
+const response = await axiosProvider.post("/filter", updatedFilterData);
 
       const result = response.data;
       if (result.success && result.data && result.data.customers) {
@@ -443,10 +427,11 @@ export default function Home() {
                         <RiAccountCircleLine className="text-[#1814F3]" />
                         {filter}
                         <RxCross2
-                        onClick={()=>{
-                          removeFilter(filter)
-                        }}
-                         className="text-[#1814F3] cursor-pointer" />
+                          onClick={() => {
+                            removeFilter(filter);
+                          }}
+                          className="text-[#1814F3] cursor-pointer"
+                        />
                       </li>
                     ))}
                   </ul>
@@ -611,8 +596,8 @@ export default function Home() {
                       </td>
                       <td>
                         <button
-                         // onClick={toggleFlyout}
-                         onClick={()=>handleViewDetails(item)}
+                          // onClick={toggleFlyout}
+                          onClick={() => handleViewDetails(item)}
                           className=" py-[6px] px-4 bg-[#C6F7FE] m-2 flex gap-[10px] items-center rounded-full"
                         >
                           <MdRemoveRedEye className=" text-customBlue w-4 h-4" />
@@ -662,8 +647,6 @@ export default function Home() {
           {/* ----------------End table--------------------------- */}
         </div>
       </div>
-
-
 
       {/* FITLER FLYOUT */}
       {isFlyoutFilterOpen && (
@@ -781,12 +764,11 @@ export default function Home() {
         </>
       )}
       <CustomerViewDetails
-         isFlyoutOpen={isFlyoutOpen}
-         toggleFlyout={toggleFlyout}
-         setFlyoutOpen={setFlyoutOpen}
-         customer={selectedCustomer}
+        isFlyoutOpen={isFlyoutOpen}
+        toggleFlyout={toggleFlyout}
+        setFlyoutOpen={setFlyoutOpen}
+        customer={selectedCustomer}
       />
-      
     </>
   );
 }
