@@ -1,6 +1,8 @@
 import CryptoJS from 'crypto-js';
 
 class StorageManager {
+  private cacheKeys: Record<string, string>;
+
   constructor() {
     this.cacheKeys = {
       userEmail: 'userEmail',
@@ -11,7 +13,7 @@ class StorageManager {
     };
   }
 
-  async saveUserEmail(email) {
+  async saveUserEmail(email: string): Promise<boolean> {
     if (typeof window !== "undefined") {
       localStorage.setItem(this.cacheKeys.userEmail, email);
       return true;
@@ -19,20 +21,20 @@ class StorageManager {
     throw new Error("localStorage is not available");
   }
 
-  getUserEmail() {
+  getUserEmail(): string | null {
     if (typeof window !== "undefined") {
       return localStorage.getItem(this.cacheKeys.userEmail);
     }
     return null;
   }
 
-  async removeUserEmail() {
+  async removeUserEmail(): Promise<void> {
     if (typeof window !== "undefined") {
       localStorage.removeItem(this.cacheKeys.userEmail);
     }
   }
 
-  async saveUserMobile(mobile) {
+  async saveUserMobile(mobile: string): Promise<boolean> {
     if (typeof window !== "undefined") {
       localStorage.setItem(this.cacheKeys.userMobile, mobile);
       return true;
@@ -40,20 +42,20 @@ class StorageManager {
     throw new Error("localStorage is not available");
   }
 
-  getUserMobile() {
+  getUserMobile(): string | null {
     if (typeof window !== "undefined") {
       return localStorage.getItem(this.cacheKeys.userMobile);
     }
     return null;
   }
 
-  async removeUserMobile() {
+  async removeUserMobile(): Promise<void> {
     if (typeof window !== "undefined") {
       localStorage.removeItem(this.cacheKeys.userMobile);
     }
   }
 
-  async saveUserId(userId) {
+  async saveUserId(userId: string): Promise<boolean> {
     if (typeof window !== "undefined") {
       localStorage.setItem(this.cacheKeys.userId, userId);
       return true;
@@ -61,27 +63,27 @@ class StorageManager {
     throw new Error("localStorage is not available");
   }
 
-  getUserId() {
+  getUserId(): string | null {
     if (typeof window !== "undefined") {
       return localStorage.getItem(this.cacheKeys.userId);
     }
     return null;
   }
 
-  async removeUserId() {
+  async removeUserId(): Promise<void> {
     if (typeof window !== "undefined") {
       localStorage.removeItem(this.cacheKeys.userId);
     }
   }
 
-  getAccessToken() {
+  getAccessToken(): string | null {
     if (typeof window !== "undefined") {
       return localStorage.getItem(this.cacheKeys.accessToken);
     }
     return null;
   }
 
-  async saveAccessToken(token) {
+  async saveAccessToken(token: string): Promise<boolean> {
     if (typeof window !== "undefined") {
       localStorage.setItem(this.cacheKeys.accessToken, token);
       return true;
@@ -89,13 +91,13 @@ class StorageManager {
     throw new Error("localStorage is not available");
   }
 
-  async removeAccessToken() {
+  async removeAccessToken(): Promise<void> {
     if (typeof window !== "undefined") {
       localStorage.removeItem(this.cacheKeys.accessToken);
     }
   }
 
-  async saveUserSecretKey(secretKey) {
+  async saveUserSecretKey(secretKey: string): Promise<boolean> {
     if (typeof window !== "undefined") {
       const encryptedData = CryptoJS.AES.encrypt(secretKey, "secret_key").toString();
       localStorage.setItem(this.cacheKeys.userSecretKey, encryptedData);
@@ -104,20 +106,20 @@ class StorageManager {
     throw new Error("localStorage is not available");
   }
 
-  getUserSecretKey() {
+  getUserSecretKey(): string | null {
     if (typeof window !== "undefined") {
       return localStorage.getItem(this.cacheKeys.userSecretKey);
     }
     return null;
   }
 
-  async removeUserSecretKey() {
+  async removeUserSecretKey(): Promise<void> {
     if (typeof window !== "undefined") {
       localStorage.removeItem(this.cacheKeys.userSecretKey);
     }
   }
 
-  getDecryptedUserSecretKey() {
+  getDecryptedUserSecretKey(): string {
     if (typeof window !== "undefined") {
       const encryptedData = this.getUserSecretKey();
       if (encryptedData) {
@@ -128,9 +130,9 @@ class StorageManager {
     return "";
   }
 
-  async resetAll() {
+  async resetAll(): Promise<void> {
     if (typeof window !== "undefined") {
-      Object.values(this.cacheKeys).forEach(key => localStorage.removeItem(key));
+      Object.values(this.cacheKeys).forEach((key) => localStorage.removeItem(key));
     }
   }
 }
