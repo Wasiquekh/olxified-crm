@@ -89,14 +89,7 @@ export default function Home() {
 
           await axiosProvider.post(
             "/deleteuser",
-            { id: userID },
-            {
-              headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-                "X-Firebase-AppCheck": appCheckToken,
-                Authorization: `Bearer ${accessToken}`,
-              },
-            }
+            { id: userID }
           );
 
           toast.success("Successfully Deleted");
@@ -120,13 +113,7 @@ export default function Home() {
         const tokenResponse = await getToken(appCheck, true);
         const appCheckToken = tokenResponse.token;
 
-        const response = await axiosProvider.get<ResponseData>("/getalluser", {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            "X-Firebase-AppCheck": appCheckToken,
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+        const response = await axiosProvider.get<ResponseData>("/getalluser");
 
         const result = response.data;
         setData(result.data);
