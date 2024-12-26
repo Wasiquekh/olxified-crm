@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useState, useContext } from "react";
 import { useRouter } from "next/navigation";
-import { AppContext } from "./AppContext";
+//import { AppContext } from "./AppContext";
 import AxiosProvider from "../provider/AxiosProvider";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -25,7 +25,7 @@ export default function LoginHome() {
   const router = useRouter();
   const storage = new StorageManager();
   const axiosProvider = new AxiosProvider();
-  const { setAccessToken } = useContext(AppContext);
+  //const { setAccessToken } = useContext(AppContext);
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().required("Email or User ID is required"),
@@ -45,6 +45,7 @@ export default function LoginHome() {
      // console.log(res.data.data.secretKey);
       storage.saveUserId(res.data.data.userId);
       storage.saveUserSecretKey(res.data.data.secretKey);
+      storage.saveUserName(res.data.data.name);
       router.push('/qrcode');
     } catch (error) {
       console.log(error);

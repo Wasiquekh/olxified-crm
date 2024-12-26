@@ -2,16 +2,16 @@
 import Image from "next/image";
 import { useState, useRef, useEffect, ChangeEvent, KeyboardEvent } from "react";
 import { useRouter } from "next/navigation";
-import { appCheck } from "../firebase-config";
-import { getToken } from "firebase/app-check";
+//import { appCheck } from "../firebase-config";
+//import { getToken } from "firebase/app-check";
 import { toast } from "react-toastify";
 import AxiosProvider from "../../provider/AxiosProvider";
 import StorageManager from "../../provider/StorageManager";
 import { useContext } from "react";
 import { AppContext } from "../AppContext";
+import UserActivityLogger from '../../provider/UserActivityLogger';
 
 const axiosProvider = new AxiosProvider();
-
 
 export default function OtpHome() {
   const storage = new StorageManager();
@@ -23,9 +23,7 @@ export default function OtpHome() {
   const [secretKey, setSecretKey] = useState<string | null>(
     storage.getDecryptedUserSecretKey()
   );
-  const [userId, setuserId] = useState<string | undefined>(
-    storage.getUserId()
-  );
+  const [userId, setuserId] = useState<string | undefined>(storage.getUserId());
 
   const { setAccessToken } = useContext(AppContext);
 
@@ -57,19 +55,15 @@ export default function OtpHome() {
   }, []);
 
   useEffect(() => {
-    console.log("Secret key:", secretKey);
+    // console.log("Secret key:", secretKey);
   }, [secretKey]);
 
   const fetchData = async () => {
     try {
       if (!secretKey) {
         // Getting App Check token
-        const appCheckToken = await getToken(appCheck, true);
-        const res = await axiosProvider.post(
-          "/generateqrcode",
-          {},
-
-        );
+        // const appCheckToken = await getToken(appCheck, true);
+        const res = await axiosProvider.post("/generateqrcode", {});
         if (res.status === 200) {
           setQrCode(res.data.data.qrCodeDataURL);
 
@@ -95,19 +89,23 @@ export default function OtpHome() {
     }
 
     try {
-      const appCheckToken = await getToken(appCheck, true);
-      const res = await axiosProvider.post(
-        "/verifytotp",
-        {
-          token: codeValue,
-          secretKey: secretKey,
-          userId:userId,
-        },
- 
-      );
+      // First API call - Verify TOTP
+      const res = await axiosProvider.post("/verifytotp", {
+        token: codeValue,
+        secretKey: secretKey,
+        userId: userId,
+      });
+
+      // Store token and navigate
       setAccessToken(res.data.data.token);
       storage.saveAccessToken(res.data.data.token);
+      const userID = storage.getUserId();
       router.push("/customer");
+
+      // Create instance and log activity
+      const activityLogger = new UserActivityLogger(axiosProvider, storage);
+      await activityLogger.userLogin();
+
     } catch (error) {
       console.error("Network error:", error);
       toast.error("Invalid Code. Please try again.");
@@ -116,12 +114,12 @@ export default function OtpHome() {
       setLoading(false);
     }
   };
- // Focus on the first input when the component is loaded
- useEffect(() => {
-  if (inputRefs.current[0]) {
-    inputRefs.current[0].focus();
-  }
-}, []); // Empty dependency array ensures it runs only once when the component is mounted
+  // Focus on the first input when the component is loaded
+  useEffect(() => {
+    if (inputRefs.current[0]) {
+      inputRefs.current[0].focus();
+    }
+  }, []); // Empty dependency array ensures it runs only once when the component is mounted
   return (
     <>
       <div className="bg-[#F5F5F5]">
@@ -170,7 +168,7 @@ export default function OtpHome() {
                 onKeyDown={(e) => handleKeyDown(e, index)}
                 ref={(el) => {
                   inputRefs.current[index] = el; // Assign the element to the ref array
-                }}                
+                }}
                 className="w-[54px] h-14 py-4 px-5 border-b border-[#BDD1E0] text-black text-xl font-semibold leading-normal focus:outline-none focus:border-b-2 focus-within:border-[#0E6874]"
               />
             ))}

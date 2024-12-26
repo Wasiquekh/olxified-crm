@@ -10,7 +10,30 @@ class StorageManager {
       userSecretKey: 'userSecretKey',
       accessToken: 'accessToken',
       userId: 'userId',
+      userName: 'userName',
     };
+  }
+
+
+  async saveUserName(userName: string): Promise<boolean> {
+    if (typeof window !== "undefined") {
+      localStorage.setItem(this.cacheKeys.userName, userName);
+      return true;
+    }
+    throw new Error("localStorage is not available");
+  }
+
+  getUserName(): string | null {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem(this.cacheKeys.userName);
+    }
+    return null;
+  }
+
+  async removeUserName(): Promise<void> {
+    if (typeof window !== "undefined") {
+      localStorage.removeItem(this.cacheKeys.userName);
+    }
   }
 
   async saveUserEmail(email: string): Promise<boolean> {
