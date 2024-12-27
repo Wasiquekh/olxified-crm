@@ -103,7 +103,7 @@ export default function OtpHome() {
       router.push("/customer");
 
       // Create instance and log activity
-      const activityLogger = new UserActivityLogger(axiosProvider, storage);
+      const activityLogger = new UserActivityLogger();
       await activityLogger.userLogin();
 
     } catch (error) {

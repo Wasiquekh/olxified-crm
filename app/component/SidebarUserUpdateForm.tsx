@@ -8,9 +8,12 @@ import AxiosProvider from "../../provider/AxiosProvider";
 import StorageManager from "../../provider/StorageManager";
 import { AppContext } from "../AppContext";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import UserActivityLogger from "../../provider/UserActivityLogger";
+import { identity } from "firebase-functions/v2";
 
 const axiosProvider = new AxiosProvider();
 const storage = new StorageManager();
+const activityLogger = new UserActivityLogger();
 
 // Interface for Current User Data
 interface CurrentUserData {
@@ -50,25 +53,22 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
           const appCheckToken = tokenResponse.token;
 
           // Send user ID along with other data to the API
-          const res = await axiosProvider.post(
-            "/fetchsecret",
-            {
-              userId: currentUserData.id, // Send currentUserData.id to the API
-            }
-          );
+          const res = await axiosProvider.post("/fetchsecret", {
+            userId: currentUserData.id, // Send currentUserData.id to the API
+          });
 
           setUserDescription(res.data.data.description);
         } else {
           console.log("User ID not found or currentUserData is missing");
         }
       } catch (error: any) {
-        console.log('Error occurred:', error);
-      
+        console.log("Error occurred:", error);
+
         // Check if error response exists and handle the error message
         if (error.response && error.response.data) {
-          toast.error(error.response.data.msg || 'An error occurred'); // Display the error message from the API response
+          toast.error(error.response.data.msg || "An error occurred"); // Display the error message from the API response
         } else {
-          toast.error('An unexpected error occurred'); // Fallback error message
+          toast.error("An unexpected error occurred"); // Fallback error message
         }
       }
     };
@@ -83,12 +83,9 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
         const tokenResponse = await getToken(appCheck, true);
         const appCheckToken = tokenResponse.token;
 
-        const res = await axiosProvider.post(
-          "/deletesecert",
-          {
-            userId: currentUserData.id, // Send currentUserData.id to the API
-          }
-        );
+        const res = await axiosProvider.post("/deletesecert", {
+          userId: currentUserData.id, // Send currentUserData.id to the API
+        });
         //console.log("%%%%%%%%%%%%%%%%%%%%%%%% ssucess api", res);
         toast.success("Secret Key Deleted");
       }
@@ -174,6 +171,8 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
                 } else {
                   toast.error(`Unexpected response: ${res.status}`);
                 }
+                // Create instance and log activity
+                await activityLogger.userUpdate(currentUserData.id);
               } catch (error) {
                 console.error("Error during user update:", error);
 
@@ -322,7 +321,6 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
             )}
           </Formik>
         ) : (
-          
           <div className=" w-full">
             <div className=" flex justify-between">
               <p>Name</p>
