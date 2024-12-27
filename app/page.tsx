@@ -46,6 +46,7 @@ export default function LoginHome() {
       storage.saveUserId(res.data.data.userId);
       storage.saveUserSecretKey(res.data.data.secretKey);
       storage.saveUserName(res.data.data.name);
+      storage.saveUserRole(res.data.data.role)
       router.push('/qrcode');
     } catch (error) {
       console.log(error);

@@ -1,19 +1,40 @@
-import CryptoJS from 'crypto-js';
+import CryptoJS from "crypto-js";
 
 class StorageManager {
   private cacheKeys: Record<string, string>;
 
   constructor() {
     this.cacheKeys = {
-      userEmail: 'userEmail',
-      userMobile: 'userMobile',
-      userSecretKey: 'userSecretKey',
-      accessToken: 'accessToken',
-      userId: 'userId',
-      userName: 'userName',
+      userEmail: "userEmail",
+      userMobile: "userMobile",
+      userSecretKey: "userSecretKey",
+      accessToken: "accessToken",
+      userId: "userId",
+      userName: "userName",
+      role: "role",
     };
   }
 
+  async saveUserRole(role: string): Promise<boolean> {
+    if (typeof window !== "undefined") {
+      localStorage.setItem(this.cacheKeys.role, role);
+      return true;
+    }
+    throw new Error("localStorage is not available");
+  }
+
+  getUserRole(): string | null {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem(this.cacheKeys.role);
+    }
+    return null;
+  }
+
+  async removeUserRole(): Promise<void> {
+    if (typeof window !== "undefined") {
+      localStorage.removeItem(this.cacheKeys.role);
+    }
+  }
 
   async saveUserName(userName: string): Promise<boolean> {
     if (typeof window !== "undefined") {
@@ -122,7 +143,10 @@ class StorageManager {
 
   async saveUserSecretKey(secretKey: string): Promise<boolean> {
     if (typeof window !== "undefined") {
-      const encryptedData = CryptoJS.AES.encrypt(secretKey, "secret_key").toString();
+      const encryptedData = CryptoJS.AES.encrypt(
+        secretKey,
+        "secret_key"
+      ).toString();
       localStorage.setItem(this.cacheKeys.userSecretKey, encryptedData);
       return true;
     }
@@ -155,7 +179,9 @@ class StorageManager {
 
   async resetAll(): Promise<void> {
     if (typeof window !== "undefined") {
-      Object.values(this.cacheKeys).forEach((key) => localStorage.removeItem(key));
+      Object.values(this.cacheKeys).forEach((key) =>
+        localStorage.removeItem(key)
+      );
     }
   }
 }

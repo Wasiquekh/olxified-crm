@@ -30,7 +30,7 @@ import StorageManager from "../../provider/StorageManager";
 import React from "react";
 import LeftSideBar from "../component/LeftSideBar";
 import UserActivityLogger from "../../provider/UserActivityLogger";
-//import { console } from "inspector";
+import { useRouter } from 'next/navigation'
 
 interface User {
   id: string;
@@ -54,6 +54,7 @@ const axiosProvider = new AxiosProvider();
 const storage = new StorageManager();
 const activityLogger = new UserActivityLogger();
 
+
 export default function Home() {
   const [data, setData] = useState<User[] | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -64,6 +65,15 @@ export default function Home() {
   const [currentUserData, setCurrentUserData] = useState<User | null>(null);
   const [shouldRefetch, setShouldRefetch] = useState(false);
   const { accessToken } = useContext(AppContext);
+  const router = useRouter()
+
+  useEffect(() => {
+    const userRole = storage.getUserRole();
+    if (userRole === "Non Admin") {
+      router.push('/customer');
+    }
+  }, []);
+  
 
   const toggleEditFlyout = () => {
     setIsEditFlyoutOpen(!isEditFlyoutOpen);
