@@ -76,11 +76,12 @@ export default function Home() {
       if (res.status === 200) {
         toast.success("Form submitted successfully!");
         resetForm();
-        window.location.reload();
+       // window.location.reload();
       }
+      //console.log('user register',res.data.data.userId)
       // Create instance and log activity
       const activityLogger = new UserActivityLogger();
-      await activityLogger.userRegister();
+      await activityLogger.userRegister(res.data.data.userId);
     } catch (error: any) {
       if (error.response && error.response.status === 409) {
         toast.error(error.response.data.msg || "Conflict error occurred.");

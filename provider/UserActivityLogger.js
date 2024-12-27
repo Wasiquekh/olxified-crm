@@ -30,8 +30,8 @@ class UserActivityLogger {
       async userLogin() {
         await this.log("Login");
       }
-      async userRegister(){
-        await this.log('Registered a user');
+      async userRegister(userId){
+        await this.log(`Registered a user #${userId}`);
       }
       async userUpdate(userId){
         await this.log(`Update user #${userId}`);

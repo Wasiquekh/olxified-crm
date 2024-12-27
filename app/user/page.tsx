@@ -84,12 +84,6 @@ export default function Home() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const tokenResponse = await getToken(appCheck, true);
-          const appCheckToken = tokenResponse.token;
-
-          const accessToken = localStorage.getItem("accessToken");
-          console.log(accessToken);
-
           await axiosProvider.post(
             "/deleteuser",
             { id: userID }
@@ -114,11 +108,7 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const tokenResponse = await getToken(appCheck, true);
-        const appCheckToken = tokenResponse.token;
-
         const response = await axiosProvider.get<ResponseData>("/getalluser");
-
         const result = response.data;
         setData(result.data);
       } catch (error) {
