@@ -10,9 +10,12 @@ import { BsCreditCard2Back } from "react-icons/bs";
 import { BiSolidUser } from "react-icons/bi";
 import { IoMdSettings } from "react-icons/io";
 import { usePathname } from "next/navigation";
+import StorageManager from "../../provider/StorageManager";
 
+const storage = new StorageManager();
 const LeftSideBar: React.FC = () => {
   const pathname = usePathname();
+  const userRole = storage.getUserRole();
 
   return (
     <div className=" w-[15%]  flex flex-col justify-between py-4 px-4 border-r-2 border-customBorder shadow-borderShadow mt-2">
@@ -114,23 +117,26 @@ const LeftSideBar: React.FC = () => {
             </div>
           )}
         </Link>
-        <Link href="/user">
-          {(pathname === '/user' || pathname === '/usermanagement') ? (
-            <div className=" mb-9 flex gap-6 items-center group">
-              <BiSolidUser className=" w-6 h-6 text-customBlue group-hover:text-customBlue" />
-              <p className=" text-customBlue text-base leading-normal font-medium group-hover:text-customBlue">
-                User Management
-              </p>
-            </div>
-          ) : (
-            <div className=" mb-9 flex gap-6 items-center group">
-              <BiSolidUser className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
-              <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
-                User Management
-              </p>
-            </div>
-          )}
-        </Link>
+        {userRole === "Admin" && (
+          <Link href="/user">
+            {pathname === "/user" || pathname === "/usermanagement" ? (
+              <div className=" mb-9 flex gap-6 items-center group">
+                <BiSolidUser className=" w-6 h-6 text-customBlue group-hover:text-customBlue" />
+                <p className=" text-customBlue text-base leading-normal font-medium group-hover:text-customBlue">
+                  User Management
+                </p>
+              </div>
+            ) : (
+              <div className=" mb-9 flex gap-6 items-center group">
+                <BiSolidUser className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
+                <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
+                  User Management
+                </p>
+              </div>
+            )}
+          </Link>
+        )}
+
         <Link href="/user">
           <div className=" mb-9 flex gap-6 items-center group">
             <BiSolidUser className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
