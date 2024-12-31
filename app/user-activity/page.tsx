@@ -296,8 +296,8 @@ const response = await axiosProvider.post("/filter", updatedFilterData);
               </div>
               <div className=" flex justify-center items-center gap-4">
                 <div
-                  className=" flex gap-2 py-3 px-4 rounded-[16px] border border-[#E7E7E7] cursor-pointer"
-                  onClick={toggleFilterFlyout}
+                  className=" flex gap-2 py-3 px-4 rounded-[16px] border border-[#E7E7E7] cursor-not-allowed"
+                  // onClick={toggleFilterFlyout}
                 >
                   <FiFilter className=" w-6 h-6" />
                   <p className=" text-[#0A0A0A] text-base font-medium">
