@@ -11,28 +11,30 @@ class StorageManager {
       accessToken: "accessToken",
       userId: "userId",
       userName: "userName",
-      role: "role",
+      userPermissions: "userPermissions",
     };
   }
 
-  async saveUserRole(role: string): Promise<boolean> {
+  async saveUserPermissions(permissions: Array<any>): Promise<boolean> {
     if (typeof window !== "undefined") {
-      localStorage.setItem(this.cacheKeys.role, role);
+      const permissionsString = JSON.stringify(permissions);
+      localStorage.setItem(this.cacheKeys.userPermissions, permissionsString);
       return true;
     }
     throw new Error("localStorage is not available");
   }
 
-  getUserRole(): string | null {
+  getUserPermissions(): Array<any> | null {
     if (typeof window !== "undefined") {
-      return localStorage.getItem(this.cacheKeys.role);
+      const permissionsString = localStorage.getItem(this.cacheKeys.userPermissions);
+      return permissionsString ? JSON.parse(permissionsString) : null;
     }
     return null;
   }
 
-  async removeUserRole(): Promise<void> {
+  async removeUserPermissions(): Promise<void> {
     if (typeof window !== "undefined") {
-      localStorage.removeItem(this.cacheKeys.role);
+      localStorage.removeItem(this.cacheKeys.userPermissions);
     }
   }
 

@@ -22,6 +22,7 @@ import StorageManager from "../../provider/StorageManager";
 import { AppContext } from "../AppContext";
 import CustomerViewDetails from "../component/CustomerViewDetails";
 import LeftSideBar from '../component/LeftSideBar'
+import { useRouter } from 'next/navigation'
 
 
 const axiosProvider = new AxiosProvider();
@@ -81,7 +82,14 @@ export default function Home() {
   const storage = new StorageManager();
   const { accessToken } = useContext(AppContext);
   //console.log("Get all user Data", data);
-
+  const router = useRouter();
+  useEffect(() => {
+    const permissions = storage.getUserPermissions();
+    const hasUserActivityView = permissions?.some(perm => perm.name === 'useractivity.view');
+    if (!hasUserActivityView) {
+      router.push('/customer');
+    }
+  }, []);
   const handleViewDetails = (customer: Customer) => {
     setSelectedCustomer(customer); // Set the selected customer when the button is clicked
     toggleFlyout();
@@ -336,7 +344,7 @@ const response = await axiosProvider.post("/filter", updatedFilterData);
                 <tr className=" border border-tableBorder">
                   <th
                     scope="col"
-                    className="px-2 py-0 border border-tableBorder"
+                    className="p-4 border border-tableBorder"
                   >
                     <div className=" flex items-center gap-2">
                       <RxAvatar className=" w-6 h-6" />

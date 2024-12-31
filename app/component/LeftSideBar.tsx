@@ -15,7 +15,18 @@ import StorageManager from "../../provider/StorageManager";
 const storage = new StorageManager();
 const LeftSideBar: React.FC = () => {
   const pathname = usePathname();
-  const userRole = storage.getUserRole();
+  const permissions = storage.getUserPermissions();
+  const hasCustomerView = permissions?.some(perm => perm.name === 'customer.view');
+  const hasCustomerAdd = permissions?.some(perm => perm.name === 'customer.add');
+  const hasCustomerDelete = permissions?.some(perm => perm.name === 'customer.delete');
+  const hasCustomerEdit = permissions?.some(perm => perm.name === 'customer.edit');
+  const hasCustomerAudit = permissions?.some(perm => perm.name === 'customer.audit');
+  const hasSystemUserView = permissions?.some(perm => perm.name === 'systemuser.view');
+  const hasSystemUserAdd = permissions?.some(perm => perm.name === 'systemuser.add');
+  const hasSystemUserDelete = permissions?.some(perm => perm.name === 'systemuser.delete');
+  const hasSystemUserEdit = permissions?.some(perm => perm.name === 'systemuser.edit');
+  const hasSystemUserAudit = permissions?.some(perm => perm.name === 'systemuser.audit');
+  const hasUserActivityView = permissions?.some(perm => perm.name === 'useractivity.view');
 
   return (
     <div className=" w-[15%]  flex flex-col justify-between py-4 px-4 border-r-2 border-customBorder shadow-borderShadow mt-2">
@@ -50,23 +61,26 @@ const LeftSideBar: React.FC = () => {
             </p>
           </div>
         </Link>
-        <Link href="/customer">
-          {pathname === "/customer" ? (
-            <div className=" mb-9 flex gap-6 items-center group">
-              <MdOutlineBarChart className=" w-6 h-6 text-customBlue group-hover:text-customBlue " />
-              <p className=" text-customBlue text-base leading-normal font-medium group-hover:text-customBlue">
-                Customers
-              </p>
-            </div>
-          ) : (
-            <div className=" mb-9 flex gap-6 items-center group">
-              <MdOutlineBarChart className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue " />
-              <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
-                Customers
-              </p>
-            </div>
-          )}
-        </Link>
+        {
+          hasCustomerView && 
+          (        <Link href="/customer">
+            {pathname === "/customer" ? (
+              <div className=" mb-9 flex gap-6 items-center group">
+                <MdOutlineBarChart className=" w-6 h-6 text-customBlue group-hover:text-customBlue " />
+                <p className=" text-customBlue text-base leading-normal font-medium group-hover:text-customBlue">
+                  Customers
+                </p>
+              </div>
+            ) : (
+              <div className=" mb-9 flex gap-6 items-center group">
+                <MdOutlineBarChart className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue " />
+                <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
+                  Customers
+                </p>
+              </div>
+            )}
+          </Link>)
+        }
         <Link href="/transaction">
           {pathname === "/transaction" ? (
             <div className=" mb-9 flex gap-6 items-center group">
@@ -117,8 +131,10 @@ const LeftSideBar: React.FC = () => {
             </div>
           )}
         </Link>
-        {userRole === "Admin" && (
-          <Link href="/user">
+        {
+          hasSystemUserView && 
+          (
+            <Link href="/user">
             {pathname === "/user" || pathname === "/usermanagement" ? (
               <div className=" mb-9 flex gap-6 items-center group">
                 <BiSolidUser className=" w-6 h-6 text-customBlue group-hover:text-customBlue" />
@@ -135,28 +151,27 @@ const LeftSideBar: React.FC = () => {
               </div>
             )}
           </Link>
-        )}
-
+          )
+        }
+        {hasUserActivityView && 
+        <Link href="/user-activity">
         {pathname === "/user-activity" ? (
-          <Link href="/user-activity">
             <div className=" mb-9 flex gap-6 items-center group">
               <BiSolidUser className=" w-6 h-6 text-customBlue group-hover:text-customBlue" />
               <p className=" text-customBlue text-base leading-normal font-medium group-hover:text-customBlue">
                 User Activity
               </p>
             </div>
-          </Link>
         ) : (
-          <Link href="/user-activity">
             <div className=" mb-9 flex gap-6 items-center group">
               <BiSolidUser className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
               <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
                 User Activity
               </p>
             </div>
-          </Link>
         )}
-
+        </Link>
+        }
         <div className=" mb-9 flex gap-6 items-center group">
           <IoMdSettings className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
           <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">

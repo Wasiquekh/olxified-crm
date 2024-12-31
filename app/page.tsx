@@ -42,12 +42,12 @@ export default function LoginHome() {
       if (res.status !== 200) {
         console.error("Login failed", res.status, res.data);
       }
-      console.log('LOG IN',res)
+      //console.log('LOG IN',res)
      // console.log(res.data.data.secretKey);
       storage.saveUserId(res.data.data.id);
       storage.saveUserSecretKey(res.data.data.secretKey);
       storage.saveUserName(res.data.data.name);
-      storage.saveUserRole(res.data.data.role)
+      await storage.saveUserPermissions(res.data.data.permissions);
       router.push('/qrcode');
     } catch (error) {
       console.log(error);

@@ -30,7 +30,7 @@ import StorageManager from "../../provider/StorageManager";
 import React from "react";
 import LeftSideBar from "../component/LeftSideBar";
 import UserActivityLogger from "../../provider/UserActivityLogger";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 
 interface User {
   id: string;
@@ -54,7 +54,6 @@ const axiosProvider = new AxiosProvider();
 const storage = new StorageManager();
 const activityLogger = new UserActivityLogger();
 
-
 export default function Home() {
   const [data, setData] = useState<User[] | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -65,15 +64,26 @@ export default function Home() {
   const [currentUserData, setCurrentUserData] = useState<User | null>(null);
   const [shouldRefetch, setShouldRefetch] = useState(false);
   const { accessToken } = useContext(AppContext);
-  const router = useRouter()
-
+  const router = useRouter();
+  const permissions = storage.getUserPermissions();
+  const hasSystemUserView = permissions?.some(
+    (perm) => perm.name === "systemuser.view"
+  );
+  const hasSystemUserDelete = permissions?.some(
+    (perm) => perm.name === "systemuser.delete"
+  );
+  const hasSystemUserAdd = permissions?.some(
+    (perm) => perm.name === "systemuser.add"
+  );
   useEffect(() => {
-    const userRole = storage.getUserRole();
-    if (userRole === "Non Admin") {
-      router.push('/customer');
+    const hasSystemUserView = permissions?.some(
+      (perm) => perm.name === "systemuser.view"
+    );
+    if (!hasSystemUserView) {
+      router.push("/customer");
     }
   }, []);
-  
+
   const toggleEditFlyout = () => {
     setIsEditFlyoutOpen(!isEditFlyoutOpen);
   };
@@ -93,10 +103,7 @@ export default function Home() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axiosProvider.post(
-            "/deleteuser",
-            { id: userID }
-          );
+          await axiosProvider.post("/deleteuser", { id: userID });
 
           toast.success("Successfully Deleted");
           setShouldRefetch((prev) => !prev);
@@ -119,6 +126,7 @@ export default function Home() {
       try {
         const response = await axiosProvider.get<ResponseData>("/getalluser");
         const result = response.data;
+        // console.log('BBBBBBBBBBBBBBBB',result)
         setData(result.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -171,7 +179,6 @@ export default function Home() {
     );
   }
 
-  
   return (
     <>
       <div className=" flex  min-h-screen">
@@ -219,14 +226,23 @@ export default function Home() {
               </div>
             </div>
             <div>
-              <Link href="/usermanagement">
-                <button className=" flex items-center gap-[10px] bg-[#fff]  h-12 px-3 py-[6px] rounded-2xl  border border-[#E7E7E7] shadow-borderShadow">
-                  <FaPlus className=" h-[20px] w-[20px] text-[#0A0A0A]" />
-                  <p className=" text-[#0A0A0A] text-base leading-normal">
-                    Create User
-                  </p>
-                </button>
-              </Link>
+              {hasSystemUserAdd ? (
+                <Link href="/usermanagement">
+                  <button className=" flex items-center gap-[10px] bg-[#fff]  h-12 px-3 py-[6px] rounded-2xl  border border-[#E7E7E7] shadow-borderShadow">
+                    <FaPlus className=" h-[20px] w-[20px] text-[#0A0A0A]" />
+                    <p className=" text-[#0A0A0A] text-base leading-normal">
+                      Create User
+                    </p>
+                  </button>
+                </Link>
+              ) : (
+                  <button className=" flex items-center gap-[10px] bg-[#fff]  h-12 px-3 py-[6px] rounded-2xl  border border-[#E7E7E7] shadow-borderShadow cursor-not-allowed">
+                    <FaPlus className=" h-[20px] w-[20px] text-[#0A0A0A]" />
+                    <p className=" text-[#0A0A0A] text-base leading-normal">
+                      Not Access
+                    </p>
+                  </button>
+              )}
             </div>
           </div>
 
@@ -350,24 +366,50 @@ export default function Home() {
                       </td>
                       <td className="px-2 py-0 border border-tableBorder">
                         <div className=" flex gap-1.5">
-                          <button
-                            onClick={() => changeCurrentUserData(item)}
-                            className=" py-[6px] px-4 bg-[#C6F7FE]  flex gap-1.5 items-center rounded-full"
-                          >
-                            <MdRemoveRedEye className=" text-customBlue w-4 h-4" />
-                            <p className=" text-sm leading-normal text-customBlue">
-                              View
-                            </p>
-                          </button>
-                          <button
-                            onClick={() => deleteUserData(item)}
-                            className=" py-[6px] px-4 bg-[#FFD0D1]  flex gap-1.5 items-center rounded-full"
-                          >
-                            <RiDeleteBin6Line className=" text-[#FF1C1F] w-4 h-4" />
-                            <p className=" text-sm leading-normal text-[#FF1C1F]">
-                              Delete
-                            </p>
-                          </button>
+                          {hasSystemUserView ? (
+                            <button
+                              onClick={() => changeCurrentUserData(item)}
+                              className=" py-[6px] px-4 bg-[#C6F7FE]  flex gap-1.5 items-center rounded-full"
+                            >
+                              <MdRemoveRedEye className=" text-customBlue w-4 h-4" />
+                              <p className=" text-sm leading-normal text-customBlue">
+                                View
+                              </p>
+                            </button>
+                          ) : (
+                            <button
+                              disabled
+                              onClick={() => changeCurrentUserData(item)}
+                              className=" py-[6px] px-4 bg-[#C6F7FE]  flex gap-1.5 items-center rounded-full cursor-not-allowed"
+                            >
+                              <MdRemoveRedEye className=" text-customBlue w-4 h-4" />
+                              <p className=" text-sm leading-normal text-customBlue">
+                                Not Access
+                              </p>
+                            </button>
+                          )}
+                          {hasSystemUserDelete ? (
+                            <button
+                              onClick={() => deleteUserData(item)}
+                              className=" py-[6px] px-4 bg-[#FFD0D1]  flex gap-1.5 items-center rounded-full"
+                            >
+                              <RiDeleteBin6Line className=" text-[#FF1C1F] w-4 h-4" />
+                              <p className=" text-sm leading-normal text-[#FF1C1F]">
+                                Delete
+                              </p>
+                            </button>
+                          ) : (
+                            <button
+                              onClick={() => deleteUserData(item)}
+                              disabled
+                              className=" py-[6px] px-4 bg-[#FFD0D1]  flex gap-1.5 items-center rounded-full cursor-not-allowed"
+                            >
+                              <RiDeleteBin6Line className=" text-[#FF1C1F] w-4 h-4" />
+                              <p className=" text-sm leading-normal text-[#FF1C1F]">
+                                Not Access
+                              </p>
+                            </button>
+                          )}
                         </div>
                       </td>
                     </tr>

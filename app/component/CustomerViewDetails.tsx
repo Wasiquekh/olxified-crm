@@ -328,7 +328,7 @@ const CustomerViewDetails: React.FC<CustomerViewDetailsProps> = ({
                         onClick={handleUserSigniture}
                         className=" w-full bg-customBlue rounded p-3 text-white"
                       >
-                        User signiture
+                        User Signiture
                       </button>
                     ) : (
                       <button
@@ -336,7 +336,7 @@ const CustomerViewDetails: React.FC<CustomerViewDetailsProps> = ({
                         disabled
                         className=" w-full bg-customBlue rounded p-3 text-white opacity-60 cursor-not-allowed"
                       >
-                        No User signiture
+                        No User Signiture
                       </button>
                     )}
                     {customer.shortintrovideo ? (
@@ -344,7 +344,7 @@ const CustomerViewDetails: React.FC<CustomerViewDetailsProps> = ({
                         onClick={handleUserShortVideo}
                         className=" w-full bg-customBlue rounded p-3 text-white"
                       >
-                        User short video
+                        User Short Video
                       </button>
                     ) : (
                       <button
@@ -352,7 +352,7 @@ const CustomerViewDetails: React.FC<CustomerViewDetailsProps> = ({
                         disabled
                         className=" w-full bg-customBlue rounded p-3 text-white opacity-60 cursor-not-allowed"
                       >
-                        No User short video
+                        No User Short Video
                       </button>
                     )}
                   </div>

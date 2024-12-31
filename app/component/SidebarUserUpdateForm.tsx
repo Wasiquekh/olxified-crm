@@ -10,6 +10,7 @@ import { AppContext } from "../AppContext";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import UserActivityLogger from "../../provider/UserActivityLogger";
 import { identity } from "firebase-functions/v2";
+import Swal from "sweetalert2";
 
 const axiosProvider = new AxiosProvider();
 const storage = new StorageManager();
@@ -43,7 +44,10 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
   //console.log('user desc',userDescription)
   const [isVisible, setIsVisible] = useState<boolean>(true);
   const { accessToken } = useContext(AppContext);
-
+  const permissions = storage.getUserPermissions();
+  const hasSystemUserEdit = permissions?.some(
+    (perm) => perm.name === "systemuser.edit"
+  );
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -56,13 +60,13 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
           const res = await axiosProvider.post("/fetchsecret", {
             userId: currentUserData.id, // Send currentUserData.id to the API
           });
-
           setUserDescription(res.data.data.description);
         } else {
           console.log("User ID not found or currentUserData is missing");
         }
       } catch (error: any) {
         console.log("Error occurred:", error);
+        setUserDescription('');
 
         // Check if error response exists and handle the error message
         if (error.response && error.response.data) {
@@ -78,24 +82,32 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
 
   const hanldleDelete = async () => {
     setIsEditFlyoutOpen(false);
-    try {
-      if (currentUserData && currentUserData.id) {
-        const tokenResponse = await getToken(appCheck, true);
-        const appCheckToken = tokenResponse.token;
-
-        const res = await axiosProvider.post("/deletesecert", {
-          userId: currentUserData.id, // Send currentUserData.id to the API
-        });
-        //console.log("%%%%%%%%%%%%%%%%%%%%%%%% ssucess api", res);
-        toast.success("Secret Key Deleted");
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to delete this user?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await axiosProvider.post("/deletesecert", {
+            userId: currentUserData.id, // Send currentUserData.id to the API
+          });
+          //console.log("%%%%%%%%%%%%%%%%%%%%%%%% ssucess api", res);
+          toast.success("Secret Key Deleted");
+        } catch (error: any) {
+          // Check if error response exists and handle the error message
+          if (error.res && error.res) {
+            const errorMsg = error.res.msg || "An error occurred.";
+            toast.error(errorMsg); // Display the error message in the toast
+          }
+        }
       }
-    } catch (error: any) {
-      // Check if error response exists and handle the error message
-      if (error.res && error.res) {
-        const errorMsg = error.res.msg || "An error occurred.";
-        toast.error(errorMsg); // Display the error message in the toast
-      }
-    }
+    });
   };
 
   return (
@@ -119,16 +131,24 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
             X
           </button>
         </div>
-        <div className=" flex gap-20 mb-4">
+        <div className="flex gap-20 mb-4">
           <p
             onClick={() => setIsVisible(true)}
-            className="text-[#333B69] text-[16px] font-medium leading-9 hover:cursor-pointer"
+            className={`text-[16px] font-medium leading-9 hover:cursor-pointer ${
+              isVisible
+                ? "text-customBlue border-b-2 border-customBlue"
+                : "text-gray-500"
+            }`}
           >
             Personal Details
           </p>
           <p
             onClick={() => setIsVisible(false)}
-            className="text-[#333B69] text-[16px] font-medium leading-9 hover:cursor-pointer"
+            className={`text-[16px] font-medium leading-9 hover:cursor-pointer ${
+              !isVisible
+                ? "text-customBlue border-b-2 border-customBlue"
+                : "text-gray-500"
+            }`}
           >
             MF 2 Device
           </p>
@@ -308,14 +328,25 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
                   >
                     Cancel
                   </button>
-                  <button
-                    type="submit"
-                    onClick={() => setIsEditFlyoutOpen(false)}
-                    disabled={isSubmitting}
-                    className="py-[13px] px-[26px] bg-customBlue rounded-2xl text-base font-medium leading-6 text-white"
-                  >
-                    {isSubmitting ? "Updating Details" : "Update Details"}
-                  </button>
+                  {hasSystemUserEdit ? (
+                    <button
+                      type="submit"
+                      onClick={() => setIsEditFlyoutOpen(false)}
+                      disabled={isSubmitting}
+                      className="py-[13px] px-[26px] bg-customBlue rounded-2xl text-base font-medium leading-6 text-white"
+                    >
+                      {isSubmitting ? "Updating Details" : "Update Details"}
+                    </button>
+                  ) : (
+                    <button
+                      type="submit"
+                      onClick={() => setIsEditFlyoutOpen(false)}
+                      disabled
+                      className="py-[13px] px-[26px] bg-customBlue rounded-2xl text-base font-medium leading-6 text-white cursor-not-allowed"
+                    >
+                      Not Access
+                    </button>
+                  )}
                 </div>
               </Form>
             )}
@@ -329,14 +360,33 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
             </div>
             <div className=" flex justify-between">
               <p>{currentUserData.name}</p>
-              <input type="text" value={userDescription} className=" border" />
-              <button
-                onClick={hanldleDelete}
-                className=" py-[6px] px-4 bg-[#FFD0D1]  flex gap-1.5 items-center rounded-full"
-              >
-                <RiDeleteBin6Line className=" text-[#FF1C1F] w-4 h-4" />
-                <p className=" text-sm leading-normal text-[#FF1C1F]">Delete</p>
-              </button>
+              <input
+                type="text"
+                value={userDescription ? userDescription : "No Description"}
+                className=" border"
+              />
+              {userDescription ? (
+                <button
+                  onClick={hanldleDelete}
+                  className=" py-[6px] px-4 bg-[#FFD0D1]  flex gap-1.5 items-center rounded-full"
+                >
+                  <RiDeleteBin6Line className=" text-[#FF1C1F] w-4 h-4" />
+                  <p className=" text-sm leading-normal text-[#FF1C1F]">
+                    Delete
+                  </p>
+                </button>
+              ) : (
+                <button
+                  onClick={hanldleDelete}
+                  disabled
+                  className=" py-[6px] px-4 bg-[#FFD0D1]  flex gap-1.5 items-center rounded-full cursor-not-allowed opacity-85"
+                >
+                  <RiDeleteBin6Line className=" text-[#FF1C1F] w-4 h-4" />
+                  <p className=" text-sm leading-normal text-[#FF1C1F]">
+                    Deleted
+                  </p>
+                </button>
+              )}
             </div>
           </div>
         )}
