@@ -137,14 +137,26 @@ const LeftSideBar: React.FC = () => {
           </Link>
         )}
 
-        <Link href="/user">
-          <div className=" mb-9 flex gap-6 items-center group">
-            <BiSolidUser className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
-            <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
-              User Activity
-            </p>
-          </div>
-        </Link>
+        {pathname === "/user-activity" ? (
+          <Link href="/user-activity">
+            <div className=" mb-9 flex gap-6 items-center group">
+              <BiSolidUser className=" w-6 h-6 text-customBlue group-hover:text-customBlue" />
+              <p className=" text-customBlue text-base leading-normal font-medium group-hover:text-customBlue">
+                User Activity
+              </p>
+            </div>
+          </Link>
+        ) : (
+          <Link href="/user-activity">
+            <div className=" mb-9 flex gap-6 items-center group">
+              <BiSolidUser className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
+              <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">
+                User Activity
+              </p>
+            </div>
+          </Link>
+        )}
+
         <div className=" mb-9 flex gap-6 items-center group">
           <IoMdSettings className=" w-6 h-6 text-[#B1B1B1] group-hover:text-customBlue" />
           <p className=" text-[#B1B1B1] text-base leading-normal font-medium group-hover:text-customBlue">

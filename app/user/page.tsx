@@ -74,7 +74,6 @@ export default function Home() {
     }
   }, []);
   
-
   const toggleEditFlyout = () => {
     setIsEditFlyoutOpen(!isEditFlyoutOpen);
   };

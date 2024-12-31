@@ -54,6 +54,11 @@ interface Customer {
   usersignature?: string | null;
   created_at?: string;
   updated_at?: string;
+  user_activity?: string;
+  uuid?: string;
+  activity_timestamp? : string;
+  module? : string;
+  type? :string;
 }
 
 export default function Home() {
@@ -126,10 +131,10 @@ export default function Home() {
       const tokenResponse = await getToken(appCheck, true);
       const appCheckToken = tokenResponse.token;
       //console.log(appCheckToken)
-      const response = await axiosProvider.get("/getallcrmuser");
-
-      const result = response.data;
-      setData(result.data);
+      const response = await axiosProvider.get("/getallactivites");
+      const result = response.data.data.activities;
+      console.log('@@@@@@@@@',result)
+      setData(result);
     } catch (error: any) {
       handleError(error);
     }
@@ -251,7 +256,7 @@ const response = await axiosProvider.post("/filter", updatedFilterData);
           <div className="w-full flex justify-between items-center h-[74px] mt-3 mb-8">
             <div>
               <p className=" text-[#0A0A0A] text-[32px] font-semibold leading-[41.6px]">
-                Customers
+                User Activity
               </p>
               <div className=" flex gap-2 ml-[1px] items-center">
                 <p className=" text-[#717171] text-xl ">Customers</p>
@@ -329,18 +334,6 @@ const response = await axiosProvider.post("/filter", updatedFilterData);
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
               <thead className="text-xs text-[#999999]">
                 <tr className=" border border-tableBorder">
-                  <th scope="col" className="p-4 border border-tableBorder">
-                    <div className="flex items-center">
-                      <input
-                        id="checkbox-all-search"
-                        type="checkbox"
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label htmlFor="checkbox-all-search" className="sr-only">
-                        checkbox
-                      </label>
-                    </div>
-                  </th>
                   <th
                     scope="col"
                     className="px-2 py-0 border border-tableBorder"
@@ -348,7 +341,7 @@ const response = await axiosProvider.post("/filter", updatedFilterData);
                     <div className=" flex items-center gap-2">
                       <RxAvatar className=" w-6 h-6" />
                       <div className="font-medium text-[#717171] text-base leading-normal">
-                        Name - Birth Date{" "}
+                        Name and User Activity{" "}
                       </div>
                     </div>
                   </th>
@@ -359,7 +352,7 @@ const response = await axiosProvider.post("/filter", updatedFilterData);
                     <div className=" flex items-center gap-2">
                       <HiOutlineBookOpen className=" w-6 h-6" />
                       <div className="font-medium text-[#717171] text-base leading-normal">
-                        Birth Country
+                        User's uuid
                       </div>
                     </div>
                   </th>
@@ -370,7 +363,7 @@ const response = await axiosProvider.post("/filter", updatedFilterData);
                     <div className=" flex items-center gap-2">
                       <HiOutlineBookOpen className=" w-6 h-6" />
                       <div className="font-medium text-[#717171] text-base leading-normal">
-                        Gender
+                        Date
                       </div>
                     </div>
                   </th>
@@ -379,9 +372,9 @@ const response = await axiosProvider.post("/filter", updatedFilterData);
                     className="px-2 py-0 border border-tableBorder"
                   >
                     <div className=" flex items-center gap-2">
-                      <SiHomeassistantcommunitystore className=" w-6 h-6" />
+                      <HiOutlineBookOpen className=" w-6 h-6" />
                       <div className="font-medium text-[#717171] text-base leading-normal">
-                        Country of Residence
+                        Module
                       </div>
                     </div>
                   </th>
@@ -390,20 +383,9 @@ const response = await axiosProvider.post("/filter", updatedFilterData);
                     className="px-2 py-0 border border-tableBorder"
                   >
                     <div className=" flex items-center gap-2">
-                      <MdOutlineCall className=" w-6 h-6" />
+                      <HiOutlineBookOpen className=" w-6 h-6" />
                       <div className="font-medium text-[#717171] text-base leading-normal">
-                        Phone
-                      </div>
-                    </div>
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-2 py-0 border border-tableBorder"
-                  >
-                    <div className=" flex items-center gap-2">
-                      <LiaArrowCircleDownSolid className="w-6 h-6" />
-                      <div className="font-medium text-[#717171] text-base leading-normal">
-                        Action
+                        Type
                       </div>
                     </div>
                   </th>
@@ -423,76 +405,32 @@ const response = await axiosProvider.post("/filter", updatedFilterData);
                       className=" border border-tableBorder bg-white"
                       key={index}
                     >
-                      <td className="w-4  px-4 py-0 border border-tableBorder">
-                        <div className="flex items-center">
-                          <input
-                            id="checkbox-table-search-1"
-                            type="checkbox"
-                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                          />
-                          <label
-                            htmlFor="checkbox-table-search-1"
-                            className="sr-only"
-                          >
-                            checkbox
-                          </label>
-                        </div>
-                      </td>
                       <td className=" px-2 py-2 border border-tableBorder flex items-center gap-2">
-                        <div className="">
-                          <Image
-                            src="/images/tableImage.png"
-                            alt="Table image"
-                            sizes="100vw"
-                            style={{
-                              width: "100%",
-                              height: "auto",
-                            }}
-                            width={44}
-                            height={44}
-                          />
-                        </div>
                         <div>
                           <p className=" text-[#0A0A0A] text-base font-semibold leading-normal">
-                            {item.firstname} {item.lastname}
-                            {/* ({item.gender}) */}
-                          </p>
-                          <p className=" text-[#717171] text-sm leading-normal">
-                            {item.birthdate}
-                          </p>
+                            {item.user_activity} 
+                            </p>
                         </div>
                       </td>
                       <td className=" px-2 py-2 border border-tableBorder">
                         <p className=" text-[#717171] text-base leading-normal">
-                          {item.countryofbirth}
+                          {item.uuid}
                         </p>
                       </td>
-                      <td className="px-2 py-0 border border-tableBorder">
+                      <td className=" px-2 py-2 border border-tableBorder">
                         <p className=" text-[#717171] text-base leading-normal">
-                          {item.gender}
+                          {item.activity_timestamp}
                         </p>
                       </td>
-                      <td className="px-2 py-0 border border-tableBorder">
+                      <td className=" px-2 py-2 border border-tableBorder">
                         <p className=" text-[#717171] text-base leading-normal">
-                          {item.countryofresidence}
+                          {item.module}
                         </p>
                       </td>
-                      <td className="px-2 py-0 border border-tableBorder">
+                      <td className=" px-2 py-2 border border-tableBorder">
                         <p className=" text-[#717171] text-base leading-normal">
-                          {item.mobilephonenumber}
+                          {item.type}
                         </p>
-                      </td>
-                      <td>
-                        <button
-                          // onClick={toggleFlyout}
-                          onClick={() => handleViewDetails(item)}
-                          className=" py-[6px] px-4 bg-[#C6F7FE] m-2 flex gap-[10px] items-center rounded-full"
-                        >
-                          <MdRemoveRedEye className=" text-customBlue w-4 h-4" />
-                          <p className=" text-sm leading-normal text-customBlue">
-                            View Details
-                          </p>
-                        </button>
                       </td>
                     </tr>
                   ))

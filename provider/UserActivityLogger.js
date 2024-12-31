@@ -14,11 +14,13 @@ class UserActivityLogger {
     //     this.userName = storage.getUserName();
     //   }
   
-      async log(activity) {
+      async log(activity, module, type) {
         try {
           await axiosProvider.post("/loguseractivity", {
             userId: userId,
             activity: `${userName} ${activity}`,
+            module:module,
+            type:type,
           });
          // console.log("User activity logged successfully");
         } catch (error) {
@@ -28,16 +30,16 @@ class UserActivityLogger {
       }
     
       async userLogin() {
-        await this.log("Login");
+        await this.log("Login","System","login");
       }
       async userRegister(userId){
-        await this.log(`Registered a user #${userId}`);
+        await this.log(`Registered a user #${userId},'',''`);
       }
       async userUpdate(userId){
-        await this.log(`Update user #${userId}`);
+        await this.log(`Update user #${userId}`,'User Managemenet','Update');
       }
       async userDelete(userId) {
-        await this.log(`Delete user #${userId}`);
+        await this.log(`Delete user #${userId}`,'User Managemenet','Delete');
     }
 
   }
