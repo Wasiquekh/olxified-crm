@@ -352,7 +352,7 @@ const response = await axiosProvider.post("/filter", updatedFilterData);
                     <div className=" flex items-center gap-2">
                       <HiOutlineBookOpen className=" w-6 h-6" />
                       <div className="font-medium text-[#717171] text-base leading-normal">
-                        User's uuid
+                        User&apos;s uuid
                       </div>
                     </div>
                   </th>
