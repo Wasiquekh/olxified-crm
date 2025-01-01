@@ -36,7 +36,7 @@ class UserActivityLogger {
         await this.log(`Registered a user #${userId},'',''`);
       }
       async userUpdate(userId){
-        await this.log(`Update user #${userId}`,'User Managemenet','Update');
+        await this.log(`Update user #${userId}`,'User Management','Update');
       }
       async userDelete(userId) {
         await this.log(`Delete user #${userId}`,'User Managemenet','Delete');
