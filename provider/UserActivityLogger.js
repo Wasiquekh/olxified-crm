@@ -39,7 +39,7 @@ class UserActivityLogger {
         await this.log(`Update user #${userId}`,'User Management','Update');
       }
       async userDelete(userId) {
-        await this.log(`Delete user #${userId}`,'User Managemenet','Delete');
+        await this.log(`Delete user #${userId}`,'User Management','Delete');
     }
 
   }
