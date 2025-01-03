@@ -18,7 +18,7 @@ class UserActivityLogger {
         try {
           await axiosProvider.post("/loguseractivity", {
             userId: userId,
-            activity: `${userName} ${activity}`,
+            userActivity: `#${userId} ${activity}`,
             module:module,
             type:type,
           });
@@ -30,16 +30,16 @@ class UserActivityLogger {
       }
     
       async userLogin() {
-        await this.log("Login","System","login");
+        await this.log("Login","System","Login");
       }
       async userRegister(userId){
         await this.log(`Registered a user #${userId},'',''`);
       }
       async userUpdate(userId){
-        await this.log(`Update user #${userId}`,'User Management','Update');
+        await this.log(`Updated user #${userId}`,'User Management','Update');
       }
       async userDelete(userId) {
-        await this.log(`Delete user #${userId}`,'User Management','Delete');
+        await this.log(`Deleted user #${userId}`,'User Management','Delete');
     }
 
   }

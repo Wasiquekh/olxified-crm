@@ -6,96 +6,69 @@ import { IoIosNotificationsOutline } from "react-icons/io";
 import { FaGreaterThan } from "react-icons/fa6";
 import { FiFilter } from "react-icons/fi";
 import { HiOutlineBookOpen } from "react-icons/hi2";
-import { SiHomeassistantcommunitystore } from "react-icons/si";
-import { MdOutlineCall } from "react-icons/md";
-import { LiaArrowCircleDownSolid } from "react-icons/lia";
-import { MdRemoveRedEye } from "react-icons/md";
 import { IoCloseOutline } from "react-icons/io5";
-import { HiOutlineWallet } from "react-icons/hi2";
 import { RxAvatar } from "react-icons/rx";
 import { appCheck } from "../firebase-config";
 import { getToken } from "firebase/app-check";
 import AxiosProvider from "../../provider/AxiosProvider";
-import { RiAccountCircleLine } from "react-icons/ri";
-import { RxCross2 } from "react-icons/rx";
 import StorageManager from "../../provider/StorageManager";
-import { AppContext } from "../AppContext";
-import CustomerViewDetails from "../component/CustomerViewDetails";
-import LeftSideBar from '../component/LeftSideBar'
-import { useRouter } from 'next/navigation'
-
+import LeftSideBar from "../component/LeftSideBar";
+import { useRouter } from "next/navigation";
+import { HiChevronDoubleLeft } from "react-icons/hi";
+import { HiChevronDoubleRight } from "react-icons/hi";
 
 const axiosProvider = new AxiosProvider();
 
 interface FilterData {
-  firstname: string;
-  lastname: string;
-  mobilephonenumber?: string;
-  birthdate?: string;
+  uuId?: string;
+  userActivity?: string;
+  startDate?: string;
+  endDate?: string;
+  module?: string;
+  type?: string;
+  name?: string;
 }
 
 interface Customer {
-  id: string; // Updated to string as per the API response
-  firstname: string;
-  lastname: string;
-  mobilephonenumber?: string | null; // Changed to optional with possible null value
-  mobilephonenumber_verified?: boolean | null;
-  birthdate: string;
-  countryofbirth?: string;
-  gender?: string;
-  countryofresidence?: string;
-  city?: string;
-  streetaddress?: string;
-  iddoctype?: string;
-  idcardrecto?: string | null;
-  idcardverso?: string | null;
-  password?: string;
-  shortintrovideo?: string | null;
-  fcmtoken?: string;
-  usersignature?: string | null;
-  created_at?: string;
-  updated_at?: string;
+  id: string;
   user_activity?: string;
   uuid?: string;
-  activity_timestamp? : string;
-  module? : string;
-  type? :string;
+  activity_timestamp?: string;
+  module?: string;
+  type?: string;
+  name?: string;
+}
+interface AllUserName {
+  name?: string;
+  uuid?: string;
 }
 
 export default function Home() {
   const [isFlyoutOpen, setFlyoutOpen] = useState<boolean>(false);
   const [isFlyoutFilterOpen, setFlyoutFilterOpen] = useState<boolean>(false);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [totalPages, setTotalPages] = useState<number>(1);
-  const itemsPerPage = 10; // Customize this as needed
-  const [paginatedData, setPaginatedData] = useState<Customer[]>([]);
   const [data, setData] = useState<Customer[]>([]);
+  const [dataUserName, setDataUserName] = useState<AllUserName[]>([]);
+  const [page, setPage] = useState<number>(1);
+  const [limit] = useState<number>(10);
+  const [totalPages, setTotalPages] = useState<number>(1);
   const [filterData, setFilterData] = useState<FilterData>({
-    firstname: "",
-    lastname: "",
+    uuId: "",
+    userActivity: "",
+    startDate: "",
+    endDate: "",
+    module: "",
+    type: "",
+    name: "",
   });
+  console.log("+++++++++++++++", filterData);
   const [isError, setIsError] = useState<boolean>(false);
-  const [appliedFilters, setAppliedFilters] = useState<string[]>([]);
-  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(
-    null
-  );
   const storage = new StorageManager();
-  const { accessToken } = useContext(AppContext);
   //console.log("Get all user Data", data);
   const router = useRouter();
-  useEffect(() => {
-    const permissions = storage.getUserPermissions();
-    const hasUserActivityView = permissions?.some(perm => perm.name === 'useractivity.view');
-    if (!hasUserActivityView) {
-      router.push('/customer');
-    }
-  }, []);
-  const handleViewDetails = (customer: Customer) => {
-    setSelectedCustomer(customer); // Set the selected customer when the button is clicked
-    toggleFlyout();
-  };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFilterData((prevData) => ({
       ...prevData,
@@ -103,30 +76,22 @@ export default function Home() {
     }));
   };
 
-  useEffect(() => {
-    const filters: string[] = [];
-    if (filterData.firstname)
-      filters.push(`First Name: ${filterData.firstname}`);
-    if (filterData.lastname) filters.push(`Last Name: ${filterData.lastname}`);
-    setAppliedFilters(filters);
-  }, [filterData]);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     toggleFilterFlyout();
-
+    // console.log('filterDATA',filterData)
     try {
-      const tokenResponse = await getToken(appCheck, true);
-      const appCheckToken = tokenResponse.token;
-      const accessToken = storage.getAccessToken();
-
-      const response = await axiosProvider.post("/filter", filterData);
-
-      const result = response.data;
-      if (result.success && result.data && result.data.customers) {
-        setData(result.data.customers);
-      }
+      const response = await axiosProvider.post(
+        "/filteruseractivites",
+        filterData
+      );
+      const result = response.data.data.filteredActivities;
+      console.log("FILTERED DATA", result);
+      // if (result.success && result.data && result.data.customers) {
+      setData(result);
+      //  }
     } catch (error: any) {
+      console.log("filter user activity error", error);
       handleError(error);
     }
   };
@@ -134,41 +99,40 @@ export default function Home() {
   const toggleFlyout = () => setFlyoutOpen(!isFlyoutOpen);
   const toggleFilterFlyout = () => setFlyoutFilterOpen(!isFlyoutFilterOpen);
 
-  const fetchData = async () => {
+  const fetchData = async (currentPage: number) => {
     try {
-      const tokenResponse = await getToken(appCheck, true);
-      const appCheckToken = tokenResponse.token;
-      //console.log(appCheckToken)
-      const response = await axiosProvider.get("/getallactivites");
+      const response = await axiosProvider.get(
+        `/getallactivites?page=${currentPage}&limit=${limit}`
+      );
       const result = response.data.data.activities;
-      console.log('@@@@@@@@@',result)
       setData(result);
+      setTotalPages(response.data.data.totalPages);
+      setIsError(false);
     } catch (error: any) {
-      handleError(error);
+      setIsError(true);
+      console.error("Error fetching data:", error);
+    }
+  };
+  const getAllUserName = async () => {
+    try {
+      const response = await axiosProvider.get("/getallusername");
+      setDataUserName(response.data.data.users);
+      // console.log('GET USER DATA',response.data.data.users)
+    } catch (error: any) {
+      setIsError(true);
+      console.error("Error fetching data:", error);
     }
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    getAllUserName();
+    fetchData(page);
+  }, [page]);
 
-  useEffect(() => {
-    if (data.length > 0) {
-      setTotalPages(Math.ceil(data.length / itemsPerPage));
-      const startIndex = (currentPage - 1) * itemsPerPage;
-      setPaginatedData(data.slice(startIndex, startIndex + itemsPerPage));
-    } else {
-      setPaginatedData([]);
-      setTotalPages(0);
+  const handlePageChange = (newPage: number) => {
+    if (newPage > 0 && newPage <= totalPages) {
+      setPage(newPage);
     }
-  }, [currentPage, data]);
-
-  const handlePrevPage = () => {
-    if (currentPage > 1) setCurrentPage(currentPage - 1);
-  };
-
-  const handleNextPage = () => {
-    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
   };
 
   const handleError = (error: any) => {
@@ -179,39 +143,6 @@ export default function Home() {
     console.error("Error fetching data:", error);
     if (error.response && error.response.status === 401) {
       console.error("Unauthorized: Check App Check token and Bearer token.");
-    }
-  };
-
-  const removeFilter = async (filter: string) => {
-    setAppliedFilters((prevFilters) => prevFilters.filter((f) => f !== filter));
-
-    setFilterData((prev) => {
-      const newFilterData = { ...prev };
-
-      if (filter.startsWith("First Name")) {
-        newFilterData.firstname = "";
-      } else if (filter.startsWith("Last Name")) {
-        newFilterData.lastname = "";
-      }
-
-      callApiWithUpdatedFilters(newFilterData);
-      return newFilterData;
-    });
-  };
-
-  const callApiWithUpdatedFilters = async (updatedFilterData: FilterData) => {
-    try {
-      const tokenResponse = await getToken(appCheck, true);
-      const appCheckToken = tokenResponse.token;
-
-const response = await axiosProvider.post("/filter", updatedFilterData);
-
-      const result = response.data;
-      if (result.success && result.data && result.data.customers) {
-        setData(result.data.customers);
-      }
-    } catch (error: any) {
-      handleError(error);
     }
   };
 
@@ -234,7 +165,7 @@ const response = await axiosProvider.post("/filter", updatedFilterData);
   return (
     <>
       <div className=" flex  min-h-screen">
-      <LeftSideBar />
+        <LeftSideBar />
         {/* Main content right section */}
         <div className=" w-[85%] bg-white min-h-[500px]  rounded p-4 mt-2">
           {/* left section top row */}
@@ -274,14 +205,7 @@ const response = await axiosProvider.post("/filter", updatedFilterData);
                 </p>
               </div>
             </div>
-            <div>
-              {/* <button className=" flex items-center gap-[10px] bg-[#fff]  h-12 px-3 py-[6px] rounded-2xl  border border-[#E7E7E7] shadow-borderShadow">
-                <FaPlus className=" h-[20px] w-[20px] text-customBlue" />
-                <p className=" text-customBlue text-base leading-normal">
-                  Add New Customer
-                </p>
-              </button> */}
-            </div>
+            <div></div>
           </div>
           {/* ----------------Table----------------------- */}
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -296,60 +220,35 @@ const response = await axiosProvider.post("/filter", updatedFilterData);
               </div>
               <div className=" flex justify-center items-center gap-4">
                 <div
-                  className=" flex gap-2 py-3 px-4 rounded-[16px] border border-[#E7E7E7] cursor-not-allowed"
-                  // onClick={toggleFilterFlyout}
+                  className=" flex gap-2 py-3 px-4 rounded-[16px] border border-[#E7E7E7] cursor-pointer"
+                  onClick={toggleFilterFlyout}
                 >
                   <FiFilter className=" w-6 h-6" />
                   <p className=" text-[#0A0A0A] text-base font-medium">
                     Filter
                   </p>
                 </div>
-                {/* <div className=" flex gap-2 py-3 px-4 rounded-[16px] border border-[#E7E7E7]">
-                  <LuPencilLine className=" w-6 h-6" />
-                  <p className=" text-[#0A0A0A] text-base font-medium">
-                    Filter
-                  </p>
-                </div> */}
               </div>
-            </div>
-            {/* End search and filter row */}
-            {/* Show Applied Filters */}
-            <div className="w-[99%] mx-auto mb-3">
-              {appliedFilters.length > 0 && (
-                <div>
-                  <ul>
-                    {" "}
-                    {/* Add gap for spacing between items */}
-                    {appliedFilters.map((filter, index) => (
-                      <li
-                        className=" items-center text-[#1814F3] bg-[#EDF2FE] inline-flex  p-2 rounded gap-1 text-xs ml-2"
-                        key={index}
-                      >
-                        <RiAccountCircleLine className="text-[#1814F3]" />
-                        {filter}
-                        <RxCross2
-                          onClick={() => {
-                            removeFilter(filter);
-                          }}
-                          className="text-[#1814F3] cursor-pointer"
-                        />
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
             </div>
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
               <thead className="text-xs text-[#999999]">
                 <tr className=" border border-tableBorder">
-                  <th
-                    scope="col"
-                    className="p-4 border border-tableBorder"
-                  >
+                  <th scope="col" className="p-4 border border-tableBorder">
                     <div className=" flex items-center gap-2">
                       <RxAvatar className=" w-6 h-6" />
                       <div className="font-medium text-[#717171] text-base leading-normal">
                         Name and User Activity{" "}
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-2 py-0 border border-tableBorder"
+                  >
+                    <div className=" flex items-center gap-2">
+                      <HiOutlineBookOpen className=" w-6 h-6" />
+                      <div className="font-medium text-[#717171] text-base leading-normal">
+                        User&apos;s Name
                       </div>
                     </div>
                   </th>
@@ -407,18 +306,23 @@ const response = await axiosProvider.post("/filter", updatedFilterData);
                     </td>
                   </tr>
                 ) : (
-                  paginatedData &&
-                  paginatedData.map((item, index) => (
+                  data &&
+                  data.map((item, index) => (
                     <tr
                       className=" border border-tableBorder bg-white"
                       key={index}
                     >
                       <td className=" px-2 py-2 border border-tableBorder flex items-center gap-2">
                         <div>
-                          <p className=" text-[#0A0A0A] text-base font-semibold leading-normal">
-                            {item.user_activity} 
-                            </p>
+                          <p className=" text-[#717171] text-base font-semibold leading-normal">
+                            {item.user_activity}
+                          </p>
                         </div>
+                      </td>
+                      <td className=" px-2 py-2 border border-tableBorder">
+                        <p className=" text-[#717171] text-base leading-normal">
+                          {item.name}
+                        </p>
                       </td>
                       <td className=" px-2 py-2 border border-tableBorder">
                         <p className=" text-[#717171] text-base leading-normal">
@@ -446,42 +350,30 @@ const response = await axiosProvider.post("/filter", updatedFilterData);
               </tbody>
             </table>
             {/* Pagination Controls */}
-            <div className="flex justify-center gap-5 items-center my-8">
+            <div className="flex justify-center items-center my-6">
               <button
-                className="px-1 py-1 bg-customBlue text-white rounded disabled:opacity-50"
-                onClick={handlePrevPage}
-                disabled={currentPage === 1}
+                onClick={() => handlePageChange(page - 1)}
+                disabled={page === 1}
+                className="px-2 py-2 mx-2 border rounded bg-customBlue text-white disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <Image
-                  src="/images/pre.svg"
-                  alt="Table image"
-                  width={32}
-                  height={32}
-                  style={{ width: "32px", height: "auto" }} // Maintain aspect ratio
-                />
+                <HiChevronDoubleLeft className=" w-6 h-auto" />
               </button>
               <span className="text-[#717171] text-sm">
-                Page {currentPage} of {totalPages}
+                Page {page} of {totalPages}
               </span>
               <button
-                className="px-1 py-1 bg-customBlue text-white rounded disabled:opacity-50"
-                onClick={handleNextPage}
-                disabled={currentPage === totalPages}
+                onClick={() => handlePageChange(page + 1)}
+                disabled={page === totalPages}
+                className="px-2 py-2 mx-2 border rounded bg-customBlue text-white disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <Image
-                  src="/images/next.svg"
-                  alt="Table image"
-                  width={32}
-                  height={32}
-                  style={{ width: "32px", height: "auto" }} // Maintain aspect ratio
-                />
+                <HiChevronDoubleRight className=" w-6 h-auto" />
               </button>
             </div>
+            {/* ------------------- */}
           </div>
           {/* ----------------End table--------------------------- */}
         </div>
       </div>
-
       {/* FITLER FLYOUT */}
       {isFlyoutFilterOpen && (
         <>
@@ -498,7 +390,7 @@ const response = await axiosProvider.post("/filter", updatedFilterData);
               {/* Flyout content here */}
               <div className=" flex justify-between mb-8">
                 <p className=" text-[#333B69] text-[26px] font-bold leading-9">
-                  User Details
+                  User Filter
                 </p>
                 <IoCloseOutline
                   onClick={toggleFilterFlyout}
@@ -520,58 +412,85 @@ const response = await axiosProvider.post("/filter", updatedFilterData);
                   <div className=" w-full flex gap-4 mb-4">
                     <div className=" w-full">
                       <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
-                        First Name
+                        User Name
                       </p>
-                      <input
-                        type="text"
-                        value={filterData.firstname}
-                        name="firstname"
+                      <select
+                        value={filterData.uuId}
+                        name="uuId"
                         onChange={handleChange}
-                        placeholder="Alexandre"
-                        className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
-                      />
-                    </div>
-                    <div className=" w-full">
-                      <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
-                        Last Name
-                      </p>
-                      <input
-                        type="text"
-                        value={filterData.lastname}
-                        onChange={handleChange}
-                        name="lastname"
-                        placeholder="Prot"
-                        className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
-                      />
+                        className="focus:outline-none w-full border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                      >
+                        <option value="" disabled>
+                          Select User ID
+                        </option>
+                        {dataUserName.map((user) => (
+                          <option key={user.uuid} value={user.uuid}>
+                            {user.name}
+                          </option>
+                        ))}
+                      </select>
                     </div>
                   </div>
 
                   <div className=" w-full flex gap-4 mb-4">
                     <div className=" w-full">
                       <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
-                        Phone
+                        Start Date
                       </p>
                       <input
-                        type="number"
-                        value={filterData.mobilephonenumber}
+                        type="date"
+                        value={filterData.startDate}
                         onChange={handleChange}
-                        name="mobilephonenumber"
-                        placeholder="1 (800) 667-6389"
+                        name="startDate"
+                        placeholder="2025-12-01"
                         className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
                       />
                     </div>
                     <div className=" w-full">
                       <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
-                        Birth Date
+                        End Date
                       </p>
                       <input
                         type="date"
-                        value={filterData.birthdate}
+                        value={filterData.endDate}
                         onChange={handleChange}
-                        name="birthdate"
+                        name="endDate"
                         placeholder=""
                         className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
                       />
+                    </div>
+                  </div>
+                  <div className=" w-full flex gap-4 mb-4">
+                    <div className=" w-full">
+                      <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
+                        Module
+                      </p>
+                      <select
+                        value={filterData.module}
+                        onChange={handleChange}
+                        name="module"
+                        className="focus:outline-none w-full border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium text-[#0A0A0A] py-4 px-4"
+                      >
+                        <option value="">Select Module</option>
+                        <option value="System">System</option>
+                        <option value="User Management">User Management</option>
+                      </select>
+                    </div>
+                    <div className="w-full">
+                      <p className="text-[#0A0A0A] font-medium text-base leading-6 mb-2">
+                        Type
+                      </p>
+                      <select
+                        value={filterData.type}
+                        onChange={handleChange}
+                        name="type"
+                        className="focus:outline-none w-full border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium text-[#0A0A0A] py-4 px-4"
+                      >
+                        <option value="">Select Type</option>
+                        <option value="Login">Login</option>
+                        <option value="Update">Update</option>
+                        <option value="Delete">Delete</option>
+                      </select>
                     </div>
                   </div>
                 </div>
@@ -589,7 +508,7 @@ const response = await axiosProvider.post("/filter", updatedFilterData);
                     type="submit"
                     className=" py-[13px] px-[26px] bg-customBlue rounded-2xl text-base font-medium leading-6 text-white "
                   >
-                    Update Details
+                    Filter Now
                   </button>
                 </div>
               </form>
@@ -597,12 +516,7 @@ const response = await axiosProvider.post("/filter", updatedFilterData);
           </div>
         </>
       )}
-      <CustomerViewDetails
-        isFlyoutOpen={isFlyoutOpen}
-        toggleFlyout={toggleFlyout}
-        setFlyoutOpen={setFlyoutOpen}
-        customer={selectedCustomer}
-      />
+      {/* FITLER FLYOUT END */}
     </>
   );
 }

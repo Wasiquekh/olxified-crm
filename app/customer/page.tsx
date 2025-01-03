@@ -21,8 +21,9 @@ import { RxCross2 } from "react-icons/rx";
 import StorageManager from "../../provider/StorageManager";
 import { AppContext } from "../AppContext";
 import CustomerViewDetails from "../component/CustomerViewDetails";
-import LeftSideBar from '../component/LeftSideBar'
-
+import LeftSideBar from "../component/LeftSideBar";
+import { HiChevronDoubleLeft } from "react-icons/hi";
+import { HiChevronDoubleRight } from "react-icons/hi";
 
 const axiosProvider = new AxiosProvider();
 
@@ -59,11 +60,11 @@ interface Customer {
 export default function Home() {
   const [isFlyoutOpen, setFlyoutOpen] = useState<boolean>(false);
   const [isFlyoutFilterOpen, setFlyoutFilterOpen] = useState<boolean>(false);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [totalPages, setTotalPages] = useState<number>(1);
-  const itemsPerPage = 10; // Customize this as needed
-  const [paginatedData, setPaginatedData] = useState<Customer[]>([]);
   const [data, setData] = useState<Customer[]>([]);
+  const [page, setPage] = useState<number>(1);
+  const [limit] = useState<number>(10);
+  const [totalPages, setTotalPages] = useState<number>(1);
+
   const [filterData, setFilterData] = useState<FilterData>({
     firstname: "",
     lastname: "",
@@ -103,12 +104,7 @@ export default function Home() {
     toggleFilterFlyout();
 
     try {
-      const tokenResponse = await getToken(appCheck, true);
-      const appCheckToken = tokenResponse.token;
-      const accessToken = storage.getAccessToken();
-
       const response = await axiosProvider.post("/filter", filterData);
-
       const result = response.data;
       if (result.success && result.data && result.data.customers) {
         setData(result.data.customers);
@@ -121,41 +117,27 @@ export default function Home() {
   const toggleFlyout = () => setFlyoutOpen(!isFlyoutOpen);
   const toggleFilterFlyout = () => setFlyoutFilterOpen(!isFlyoutFilterOpen);
 
-  const fetchData = async () => {
+  const fetchData = async (currentPage: number) => {
     try {
-      const tokenResponse = await getToken(appCheck, true);
-      const appCheckToken = tokenResponse.token;
-      //console.log(appCheckToken)
-      const response = await axiosProvider.get("/getallcrmuser");
-
-      const result = response.data;
-      setData(result.data);
+      const response = await axiosProvider.get(
+        `/getallcrmuser?page=${currentPage}&limit=${limit}`
+      );
+      setTotalPages(response.data.data.totalPages);
+      const result = response.data.data.customers;
+      setData(result);
     } catch (error: any) {
       handleError(error);
     }
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData(page);
+  }, [page]);
 
-  useEffect(() => {
-    if (data.length > 0) {
-      setTotalPages(Math.ceil(data.length / itemsPerPage));
-      const startIndex = (currentPage - 1) * itemsPerPage;
-      setPaginatedData(data.slice(startIndex, startIndex + itemsPerPage));
-    } else {
-      setPaginatedData([]);
-      setTotalPages(0);
+  const handlePageChange = (newPage: number) => {
+    if (newPage > 0 && newPage <= totalPages) {
+      setPage(newPage);
     }
-  }, [currentPage, data]);
-
-  const handlePrevPage = () => {
-    if (currentPage > 1) setCurrentPage(currentPage - 1);
-  };
-
-  const handleNextPage = () => {
-    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
   };
 
   const handleError = (error: any) => {
@@ -191,7 +173,7 @@ export default function Home() {
       const tokenResponse = await getToken(appCheck, true);
       const appCheckToken = tokenResponse.token;
 
-const response = await axiosProvider.post("/filter", updatedFilterData);
+      const response = await axiosProvider.post("/filter", updatedFilterData);
 
       const result = response.data;
       if (result.success && result.data && result.data.customers) {
@@ -221,7 +203,7 @@ const response = await axiosProvider.post("/filter", updatedFilterData);
   return (
     <>
       <div className=" flex  min-h-screen">
-      <LeftSideBar />
+        <LeftSideBar />
         {/* Main content right section */}
         <div className=" w-[85%] bg-white min-h-[500px]  rounded p-4 mt-2">
           {/* left section top row */}
@@ -417,8 +399,8 @@ const response = await axiosProvider.post("/filter", updatedFilterData);
                     </td>
                   </tr>
                 ) : (
-                  paginatedData &&
-                  paginatedData.map((item, index) => (
+                  data &&
+                  data.map((item, index) => (
                     <tr
                       className=" border border-tableBorder bg-white"
                       key={index}
@@ -500,35 +482,23 @@ const response = await axiosProvider.post("/filter", updatedFilterData);
               </tbody>
             </table>
             {/* Pagination Controls */}
-            <div className="flex justify-center gap-5 items-center my-8">
+            <div className="flex justify-center items-center my-6">
               <button
-                className="px-1 py-1 bg-customBlue text-white rounded disabled:opacity-50"
-                onClick={handlePrevPage}
-                disabled={currentPage === 1}
+                onClick={() => handlePageChange(page - 1)}
+                disabled={page === 1}
+                className="px-2 py-2 mx-2 border rounded bg-customBlue text-white disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <Image
-                  src="/images/pre.svg"
-                  alt="Table image"
-                  width={32}
-                  height={32}
-                  style={{ width: "32px", height: "auto" }} // Maintain aspect ratio
-                />
+                <HiChevronDoubleLeft className=" w-6 h-auto" />
               </button>
               <span className="text-[#717171] text-sm">
-                Page {currentPage} of {totalPages}
+                Page {page} of {totalPages}
               </span>
               <button
-                className="px-1 py-1 bg-customBlue text-white rounded disabled:opacity-50"
-                onClick={handleNextPage}
-                disabled={currentPage === totalPages}
+                onClick={() => handlePageChange(page + 1)}
+                disabled={page === totalPages}
+                className="px-2 py-2 mx-2 border rounded bg-customBlue text-white disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <Image
-                  src="/images/next.svg"
-                  alt="Table image"
-                  width={32}
-                  height={32}
-                  style={{ width: "32px", height: "auto" }} // Maintain aspect ratio
-                />
+                <HiChevronDoubleRight className=" w-6 h-auto" />
               </button>
             </div>
           </div>
@@ -651,6 +621,7 @@ const response = await axiosProvider.post("/filter", updatedFilterData);
           </div>
         </>
       )}
+      {/* FITLER FLYOUT END */}
       <CustomerViewDetails
         isFlyoutOpen={isFlyoutOpen}
         toggleFlyout={toggleFlyout}

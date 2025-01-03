@@ -11,7 +11,10 @@ import { BiSolidUser } from "react-icons/bi";
 import { IoMdSettings } from "react-icons/io";
 import { usePathname } from "next/navigation";
 import StorageManager from "../../provider/StorageManager";
+import AxiosProvider from "../../provider/AxiosProvider";
+import { useRouter } from 'next/navigation';
 
+const axiosProvider = new AxiosProvider();
 const storage = new StorageManager();
 const LeftSideBar: React.FC = () => {
   const pathname = usePathname();
@@ -27,7 +30,16 @@ const LeftSideBar: React.FC = () => {
   const hasSystemUserEdit = permissions?.some(perm => perm.name === 'systemuser.edit');
   const hasSystemUserAudit = permissions?.some(perm => perm.name === 'systemuser.audit');
   const hasUserActivityView = permissions?.some(perm => perm.name === 'useractivity.view');
+  const router = useRouter();
 
+  const handleLogout = async()=>{
+    try {
+      const response = await axiosProvider.post("/logout",{});
+      router.push('/');
+    } catch (error) {
+      console.error("Error fetching data:", error);
+  }
+  }
   return (
     <div className=" w-[15%]  flex flex-col justify-between py-4 px-4 border-r-2 border-customBorder shadow-borderShadow mt-2">
       {/* SIDE LEFT BAR TOP SECTION */}
@@ -134,8 +146,8 @@ const LeftSideBar: React.FC = () => {
         {
           hasSystemUserView && 
           (
-            <Link href="/user">
-            {pathname === "/user" || pathname === "/usermanagement" ? (
+            <Link href="/usermanagement">
+            {pathname === "/usermanagement" || pathname === "/usermanagement" ? (
               <div className=" mb-9 flex gap-6 items-center group">
                 <BiSolidUser className=" w-6 h-6 text-customBlue group-hover:text-customBlue" />
                 <p className=" text-customBlue text-base leading-normal font-medium group-hover:text-customBlue">
@@ -191,7 +203,9 @@ const LeftSideBar: React.FC = () => {
             height={24}
           />
         </div>
-        <div className=" text-base font-semibold leading-normal text-[#EB5757]">
+        <div className=" text-base font-semibold leading-normal text-[#EB5757] cursor-pointer"
+        onClick={handleLogout}
+        >
           Logout
         </div>
       </div>

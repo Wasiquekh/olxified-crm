@@ -1,408 +1,170 @@
 "use client";
 import Image from "next/image";
-import Tabs from "../component/Tabs";
-import { BiSolidHome } from "react-icons/bi";
-import { MdOutlineBarChart } from "react-icons/md";
-import { TbDeviceMobileDollar } from "react-icons/tb";
-import { HiWrenchScrewdriver } from "react-icons/hi2";
-import { FaMoneyCheckDollar } from "react-icons/fa6";
-import { BsCreditCard2Back } from "react-icons/bs";
-import { BiSolidUser } from "react-icons/bi";
-import { IoMdSettings } from "react-icons/io";
+import { RxAvatar } from "react-icons/rx";
 import { CiSettings } from "react-icons/ci";
 import { IoIosNotificationsOutline } from "react-icons/io";
+import { FaPlus } from "react-icons/fa6";
+import { MdOutlineCall } from "react-icons/md";
+import { LiaArrowCircleDownSolid } from "react-icons/lia";
+import { MdRemoveRedEye, MdModeEdit } from "react-icons/md";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { IoCloseOutline } from "react-icons/io5";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { appCheck } from "../firebase-config";
-import { getToken } from "firebase/app-check";
-import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
-import * as Yup from "yup";
+import { useEffect, useState, useContext } from "react";
 import AxiosProvider from "../../provider/AxiosProvider";
-import { useContext } from "react";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
-import { FaRegEye } from "react-icons/fa";
-import { FaRegEyeSlash } from "react-icons/fa";
 import { AppContext } from "../AppContext";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
+import SidebarUserUpdateForm from "../component/SidebarUserUpdateForm";
+import StorageManager from "../../provider/StorageManager";
+import React from "react";
 import LeftSideBar from "../component/LeftSideBar";
 import UserActivityLogger from "../../provider/UserActivityLogger";
+import { useRouter } from "next/navigation";
+import { HiChevronDoubleLeft } from "react-icons/hi";
+import { HiChevronDoubleRight } from "react-icons/hi";
 
-const axiosProvider = new AxiosProvider();
-
-interface FormValues {
+interface User {
+  id: string;
   name: string;
   mobile_number: string;
   email: string;
-  password: string;
-  roleLevel: string;
+  role: string; // Add the role property
 }
-
-const validationSchema = Yup.object().shape({
-  name: Yup.string().required("Your name is required"),
-  mobile_number: Yup.string()
-    .matches(
-      /^\+\d{1,4}\d{10}$/,
-      "Enter a valid mobile number with country code"
-    ) // Regex for valid mobile number format
-    .required("Mobile number is required"),
-  email: Yup.string()
-    .email("Invalid email address")
-    .required("Email is required"),
-  password: Yup.string()
-    .min(6, "Password must be at least 6 characters")
-    .required("Password is required"),
-});
+interface CurrentUserData {
+  id: string;
+  name: string;
+  mobile_number: string;
+  email: string;
+  role: string;
+}
+const axiosProvider = new AxiosProvider();
+const storage = new StorageManager();
+const activityLogger = new UserActivityLogger();
 
 export default function Home() {
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const { accessToken } = useContext(AppContext);
-  //console.log('access token############',accessToken)
+  const [data, setData] = useState<User[] | null>(null);
+  const [page, setPage] = useState<number>(1);
+  const [limit] = useState<number>(10);
+  const [totalPages, setTotalPages] = useState<number>(1);
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
+  const [isEditFlyoutOpen, setIsEditFlyoutOpen] = useState<boolean>(false);
+  const [currentUserData, setCurrentUserData] = useState<User | null>(null);
+  const [shouldRefetch, setShouldRefetch] = useState(false);
+  const { accessToken } = useContext(AppContext);
+  const router = useRouter();
+  const permissions = storage.getUserPermissions();
+  const hasSystemUserView = permissions?.some(
+    (perm) => perm.name === "systemuser.view"
+  );
+  const hasSystemUserDelete = permissions?.some(
+    (perm) => perm.name === "systemuser.delete"
+  );
+  const hasSystemUserAdd = permissions?.some(
+    (perm) => perm.name === "systemuser.add"
+  );
+  useEffect(() => {
+    const hasSystemUserView = permissions?.some(
+      (perm) => perm.name === "systemuser.view"
+    );
+    if (!hasSystemUserView) {
+      router.push("/customer");
+    }
+  }, []);
+
+  const toggleEditFlyout = () => {
+    setIsEditFlyoutOpen(!isEditFlyoutOpen);
   };
 
-  const handleSubmit = async (
-    values: FormValues,
-    { resetForm }: FormikHelpers<FormValues>
-  ) => {
-    console.log(values);
-    try {
-      const appCheckToken = await getToken(appCheck, true);
-      const res = await axiosProvider.post("/register", values);
+  const deleteUserData = async (item: User) => {
+    const userID = item.id;
 
-      if (res.status === 200) {
-        toast.success("Form submitted successfully!");
-        resetForm();
-       // window.location.reload();
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to delete this user?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await axiosProvider.post("/deleteuser", { id: userID });
+
+          toast.success("Successfully Deleted");
+          setShouldRefetch((prev) => !prev);
+          await activityLogger.userDelete(userID);
+        } catch (error) {
+          console.error("Error deleting user:", error);
+          toast.error("Failed to delete user");
+        }
       }
-      //console.log('user register',res.data.data.userId)
-      // Create instance and log activity
-      const activityLogger = new UserActivityLogger();
-      await activityLogger.userRegister(res.data.data.userId);
-    } catch (error: any) {
-      if (error.response && error.response.status === 409) {
-        toast.error(error.response.data.msg || "Conflict error occurred.");
-      } else {
-        console.error("Error during registration:", error);
-        toast.error("Failed to submit the form.");
+    });
+  };
+
+  const changeCurrentUserData = (item: User) => {
+    setCurrentUserData(item);
+    toggleEditFlyout();
+  };
+
+  const fetchData = async (currentPage: number) => {
+    try {
+      const response = await axiosProvider.get(
+        `/getalluser?page=${currentPage}&limit=${limit}`
+      );
+      // console.log('get all user',response.data.data.users);
+      const result = response.data.data.users;
+      // console.log('BBBBBBBBBBBBBBBB',result)
+      setTotalPages(response.data.data.totalPages);
+      setData(result);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      if (error.response?.status === 401) {
+        console.error("Unauthorized: Check App Check token and Bearer token.");
       }
     }
   };
+  useEffect(() => {
+    fetchData(page);
+  }, [shouldRefetch, page]);
 
-  const tabs = [
-    {
-      label: "Create New User",
-      content: (
-        <>
-          <div className="flex gap-8 pt-8">
-            <div>
-              <Image
-                src="/images/user.png"
-                alt="Orizon profile"
-                width={150}
-                height={150}
-                className="rounded-full"
-              />
-            </div>
-            <Formik
-              initialValues={{
-                name: "",
-                mobile_number: "",
-                email: "",
-                password: "",
-                roleLevel: "1",
-              }}
-              validationSchema={validationSchema}
-              onSubmit={handleSubmit}
-            >
-              {({ setFieldValue, isSubmitting, values }) => (
-                <Form className="w-9/12">
-                  <div className="w-full">
-                    <div className="w-full flex gap-6">
-                      <div className="w-full relative">
-                        <p className="text-[#232323] text-base leading-normal mb-2">
-                          Your Name
-                        </p>
-                        <Field
-                          type="text"
-                          name="name"
-                          placeholder="Charlene Reed"
-                          className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-6 text-[#718EBF]"
-                        />
-                        <ErrorMessage
-                          name="name"
-                          component="div"
-                          className="text-red-500 absolute top-[90px] text-xs"
-                        />
-                      </div>
+  const handlePageChange = (newPage: number) => {
+    if (newPage > 0 && newPage <= totalPages) {
+      setPage(newPage);
+    }
+  };
 
-                      {/* Mobile Number Field */}
-                      <div className="w-full relative mb-6">
-                        <div className="w-full relative mb-6">
-                          <p className="text-[#232323] text-base leading-normal mb-2">
-                            Mobile Number
-                          </p>
-                          <PhoneInput
-                            country={"in"}
-                            value={values.mobile_number}
-                            onChange={(phone: string) => {
-                              const formattedPhone = phone
-                                ? phone.startsWith("+")
-                                  ? phone
-                                  : `+${phone}`
-                                : "";
-                              setFieldValue("mobile_number", formattedPhone);
-                            }}
-                            placeholder="Mobile Number"
-                          />
-                          <ErrorMessage
-                            name="mobile_number"
-                            component="div"
-                            className="text-red-500 absolute top-[90px] text-xs"
-                          />
-                        </div>
-                      </div>
-                    </div>
+  if (!data) {
+    return (
+      <div className="h-screen flex flex-col gap-5 justify-center items-center">
+        <Image
+          src="/images/orizonIcon.svg"
+          alt="Table image"
+          width={500}
+          height={500}
+          style={{ width: "150px", height: "auto" }}
+          className="animate-pulse rounded"
+        />
+        <p className="text-black text-xl font-medium">Data Loading...</p>
+      </div>
+    );
+  }
 
-                    <div className="w-full flex gap-6">
-                      <div className="w-full relative">
-                        <p className="text-[#232323] text-base leading-normal mb-2">
-                          Email
-                        </p>
-                        <Field
-                          type="email"
-                          name="email"
-                          placeholder="Janedoe@gmail.com"
-                          className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-6 text-[#718EBF]"
-                        />
-                        <ErrorMessage
-                          name="email"
-                          component="div"
-                          className="text-red-500 absolute top-[90px] text-xs"
-                        />
-                      </div>
-
-                      <div className="w-full relative">
-                        <p className="text-[#232323] text-base leading-normal mb-2">
-                          Password
-                        </p>
-                        <Field
-                          type={showPassword ? "text" : "password"}
-                          name="password"
-                          placeholder="********"
-                          className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-6 text-[#718EBF]"
-                        />
-                        {showPassword ? (
-                          <FaRegEye
-                            onClick={togglePasswordVisibility}
-                            className="absolute top-12 right-4 text-[#718EBF] text-[15px] cursor-pointer"
-                          />
-                        ) : (
-                          <FaRegEyeSlash
-                            onClick={togglePasswordVisibility}
-                            className="absolute top-12 right-4 text-[#718EBF] text-[15px] cursor-pointer"
-                          />
-                        )}
-                        <ErrorMessage
-                          name="password"
-                          component="div"
-                          className="text-red-500 absolute top-[90px] text-xs"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="w-full flex gap-6">
-                      <div className="w-full">
-                        <p className="text-[#232323] text-base leading-normal mb-2">
-                          Role
-                        </p>
-                        <Field
-                          as="select"
-                          name="roleLevel"
-                          className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-6 text-[#718EBF]"
-                        >
-                          <option value="1">Admin</option>
-                          <option value="2">Non-Admin</option>
-                        </Field>
-                      </div>
-                    </div>
-
-                    <div className="w-full flex gap-6">
-                      <div className="w-full">
-                        <button
-                          type="submit"
-                          disabled={isSubmitting}
-                          className="w-[190px] h-[50px] bg-customBlue rounded-[15px] text-white text-lg leading-normal font-medium"
-                        >
-                          {isSubmitting ? "Submitting..." : "Submit"}
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </Form>
-              )}
-            </Formik>
-            <ToastContainer />
-          </div>
-        </>
-      ),
-    },
-    {
-      label: "Preferences",
-      content: (
-        <>
-          {/* //   Tab 2 content */}
-          <div className=" flex gap-8 pt-8">
-            <div className=" w-full">
-              <div className=" w-full flex gap-6">
-                <div className=" w-full">
-                  <p className=" text-[#232323] text-base leading-normal mb-2">
-                    Currency
-                  </p>
-                  <input
-                    type="text"
-                    placeholder="USD"
-                    className=" focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-6"
-                  />
-                </div>
-                <div className=" w-full">
-                  <p className=" text-[#232323] text-base leading-normal mb-2">
-                    Time Zone
-                  </p>
-                  <input
-                    type="text"
-                    placeholder="(GMT-12:00) International Date Line West"
-                    className=" focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-6"
-                  />
-                </div>
-              </div>
-              <div className=" w-full flex gap-6">
-                <div className=" w-full">
-                  <p className=" text-[#333B69] text-[17px] font-medium leading-normal mb-2">
-                    Controlls
-                  </p>
-                  <label className="inline-flex items-center cursor-pointer mt-4">
-                    <input
-                      type="checkbox"
-                      value=""
-                      className="sr-only peer"
-                      readOnly
-                    />
-                    <div className="relative w-14 h-[30.71px] bg-gray-200 peer-focus:outline-none   rounded-full peer dark:bg-[#DFEAF2] peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[3px] after:start-[4px] after:bg-white   after:rounded-full after:h-6 after:w-6 after:transition-all  peer-checked:bg-[#16DBCC]"></div>
-                    <span className="ms-3 text-base  text-[#232323] leading-normal">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                    </span>
-                  </label>
-                  <label className="inline-flex items-center cursor-pointer mt-4">
-                    <input type="checkbox" value="" className="sr-only peer" />
-                    <div className="relative w-14 h-[30.71px] bg-gray-200 peer-focus:outline-none   rounded-full peer dark:bg-[#DFEAF2] peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[3px] after:start-[4px] after:bg-white   after:rounded-full after:h-6 after:w-6 after:transition-all  peer-checked:bg-[#16DBCC]"></div>
-                    <span className="ms-3 text-base  text-[#232323] leading-normal">
-                      Delete User Detais
-                    </span>
-                  </label>
-                  <label className="inline-flex items-center cursor-pointer mt-4">
-                    <input
-                      type="checkbox"
-                      value=""
-                      className="sr-only peer"
-                      readOnly
-                    />
-                    <div className="relative w-14 h-[30.71px] bg-gray-200 peer-focus:outline-none   rounded-full peer dark:bg-[#DFEAF2] peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[3px] after:start-[4px] after:bg-white   after:rounded-full after:h-6 after:w-6 after:transition-all  peer-checked:bg-[#16DBCC]"></div>
-                    <span className="ms-3 text-base  text-[#232323] leading-normal">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                    </span>
-                  </label>
-                </div>
-                <div className=" w-full"></div>
-              </div>
-              <div className=" w-full flex gap-6">
-                <div className=" w-full"></div>
-                <div className=" w-full flex justify-end">
-                  <button className=" w-[190px] h-[50px] bg-customBlue rounded-[15px] text-white text-lg leading-normal font-medium">
-                    Save
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </>
-      ),
-      // End Tab content 2
-    },
-    {
-      label: "Security",
-      content: (
-        <>
-          {/* Tab content 3 */}
-          <div className=" w-full flex gap-6">
-            <div className=" w-full">
-              <p className=" text-[#333B69] text-[17px] font-medium leading-normal mb-2">
-                Controlls
-              </p>
-              <label className="inline-flex items-center cursor-pointer mt-4">
-                <input
-                  type="checkbox"
-                  value=""
-                  className="sr-only peer"
-                  readOnly
-                />
-                <div className="relative w-14 h-[30.71px] bg-gray-200 peer-focus:outline-none   rounded-full peer dark:bg-[#DFEAF2] peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[3px] after:start-[4px] after:bg-white   after:rounded-full after:h-6 after:w-6 after:transition-all  peer-checked:bg-[#16DBCC]"></div>
-                <span className="ms-3 text-base  text-[#232323] leading-normal">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                </span>
-              </label>
-            </div>
-            <div className=" w-full"></div>
-          </div>
-          <p className=" text-[#333B69] text-[17px] font-medium leading-normal mb-2 mt-4">
-            Change Password
-          </p>
-          <div className=" w-full">
-            <div className=" w-full flex gap-6">
-              <div className=" w-full">
-                <p className=" text-[#232323] text-base leading-normal mb-2">
-                  Current Password
-                </p>
-                <input
-                  type="password"
-                  placeholder="********"
-                  className=" focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-6"
-                />
-              </div>
-              <div className=" w-full"></div>
-            </div>
-            <div className=" w-full flex gap-6">
-              <div className=" w-full">
-                <p className=" text-[#232323] text-base leading-normal mb-2">
-                  New Password
-                </p>
-                <input
-                  type="password"
-                  placeholder="********"
-                  className=" focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-6"
-                />
-              </div>
-              <div className=" w-full"></div>
-            </div>
-          </div>
-
-          {/* End Tab content 3 */}
-        </>
-      ),
-    },
-  ];
   return (
     <>
       <div className=" flex  min-h-screen">
         {/* Left sidebar */}
         <LeftSideBar />
         {/* Main content right section */}
-        <div className=" w-[85%] bg-white min-h-[500px]  rounded p-0 mt-2">
+        <div className=" w-[85%] bg-white min-h-[500px]  rounded p-4 mt-2">
+          {/* {data && data.map((item) => (
+            <li key={item.email}>{item.name}</li>
+          ))} */}
+
           {/* right section top row */}
-          <div className=" w-full flex justify-end items-center gap-7 mb-3 p-4">
+          <div className=" w-full flex justify-end items-center gap-7 mb-8">
             {/* SEARCH INPUT WITH ICON */}
             <input
               type="text"
@@ -424,15 +186,240 @@ export default function Home() {
               />
             </div>
           </div>
-          <div className=" w-full   bg-[#F5F7FA] flex justify-center p-8">
-            <div className=" w-[95%] min-h-[600px] bg-white rounded-[25px]">
-              <div className="p-6">
-                <Tabs tabs={tabs} />
+          {/* Main content middle section */}
+          <div className="w-full flex justify-between items-center h-[74px] mt-3 mb-8">
+            <div>
+              <p className=" text-[#0A0A0A] text-[26px] font-semibold leading-normal">
+                User Management
+              </p>
+              <div className=" flex gap-2 ml-[1px] items-center">
+                <p className=" text-[#717171] text-base leading-normal">
+                  2+ New User added today, sorted by name
+                </p>
               </div>
             </div>
+            <div>
+              {hasSystemUserAdd ? (
+                <Link href="/useradd">
+                  <button className=" flex items-center gap-[10px] bg-[#fff]  h-12 px-3 py-[6px] rounded-2xl  border border-[#E7E7E7] shadow-borderShadow">
+                    <FaPlus className=" h-[20px] w-[20px] text-[#0A0A0A]" />
+                    <p className=" text-[#0A0A0A] text-base leading-normal">
+                      Create User
+                    </p>
+                  </button>
+                </Link>
+              ) : (
+                <button className=" flex items-center gap-[10px] bg-[#fff]  h-12 px-3 py-[6px] rounded-2xl  border border-[#E7E7E7] shadow-borderShadow cursor-not-allowed">
+                  <FaPlus className=" h-[20px] w-[20px] text-[#0A0A0A]" />
+                  <p className=" text-[#0A0A0A] text-base leading-normal">
+                    Not Access
+                  </p>
+                </button>
+              )}
+            </div>
           </div>
+
+          {/* ----------------Table----------------------- */}
+          <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+              <thead className="text-xs text-[#999999]">
+                <tr className=" border border-tableBorder">
+                  <th scope="col" className="p-4 border border-tableBorder">
+                    <div className="flex items-center">
+                      <input
+                        id="checkbox-all-search"
+                        type="checkbox"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                      />
+                      <label htmlFor="checkbox-all-search" className="sr-only">
+                        checkbox
+                      </label>
+                    </div>
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-2 py-0 border border-tableBorder"
+                  >
+                    <div className=" flex items-center gap-2">
+                      <RxAvatar className=" w-5 h-5" />
+                      <div className="font-semibold text-[#717171] text-base leading-normal">
+                        Name - Mail{" "}
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-2 py-0 border border-tableBorder"
+                  >
+                    <div className=" flex items-center gap-2">
+                      <MdOutlineCall className=" w-5 h-5" />
+                      <div className="font-semibold text-[#717171] text-base leading-normal">
+                        Phone
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-2 py-0 border border-tableBorder"
+                  >
+                    <div className=" flex items-center gap-2">
+                      <LiaArrowCircleDownSolid className="w-5 h-5" />
+                      <div className="font-semibold text-[#717171] text-base leading-normal">
+                        Role
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-2 py-0 border border-tableBorder"
+                  >
+                    <div className=" flex items-center gap-2">
+                      <LiaArrowCircleDownSolid className="w-5 h-5" />
+                      <div className="font-semibold text-[#717171] text-base leading-normal">
+                        Action
+                      </div>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {data &&
+                  data.map((item, index) => (
+                    <tr
+                      className=" border border-tableBorder bg-white"
+                      key={index}
+                    >
+                      <td className="w-4  px-4 py-0 border border-tableBorder">
+                        <div className="flex items-center">
+                          <input
+                            id="checkbox-table-search-1"
+                            type="checkbox"
+                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          />
+                          <label
+                            htmlFor="checkbox-table-search-1"
+                            className="sr-only"
+                          >
+                            checkbox
+                          </label>
+                        </div>
+                      </td>
+                      <td className=" px-2 py-2 border border-tableBorder flex items-center gap-2">
+                        <div>
+                          <Image
+                            src="/images/tableImage.png"
+                            alt="Table image"
+                            width={44}
+                            height={44}
+                          />
+                        </div>
+                        <div>
+                          <p className=" text-[#0A0A0A] text-base font-semibold leading-normal mb-[6px]">
+                            {item.name}
+                          </p>
+                          <p
+                            key={item.email}
+                            className=" text-[#717171] text-sm leading-normal"
+                          >
+                            {item.email}
+                          </p>
+                        </div>
+                      </td>
+                      <td className="px-2 py-0 border border-tableBorder">
+                        <p className=" text-[#717171] text-base leading-normal">
+                          {item.mobile_number}
+                        </p>
+                      </td>
+                      <td className="px-2 py-0 border border-tableBorder">
+                        <button className=" py-[6px] px-8 bg-[#DCF8DC]    rounded-[16px]">
+                          <p className=" text-sm leading-normal text-[#0C390C]">
+                            {item.role}
+                          </p>
+                        </button>
+                      </td>
+                      <td className="px-2 py-0 border border-tableBorder">
+                        <div className=" flex gap-1.5">
+                          {hasSystemUserView ? (
+                            <button
+                              onClick={() => changeCurrentUserData(item)}
+                              className=" py-[6px] px-4 bg-[#C6F7FE]  flex gap-1.5 items-center rounded-full"
+                            >
+                              <MdRemoveRedEye className=" text-customBlue w-4 h-4" />
+                              <p className=" text-sm leading-normal text-customBlue">
+                                View
+                              </p>
+                            </button>
+                          ) : (
+                            <button
+                              disabled
+                              onClick={() => changeCurrentUserData(item)}
+                              className=" py-[6px] px-4 bg-[#C6F7FE]  flex gap-1.5 items-center rounded-full cursor-not-allowed"
+                            >
+                              <MdRemoveRedEye className=" text-customBlue w-4 h-4" />
+                              <p className=" text-sm leading-normal text-customBlue">
+                                Not Access
+                              </p>
+                            </button>
+                          )}
+                          {hasSystemUserDelete ? (
+                            <button
+                              onClick={() => deleteUserData(item)}
+                              className=" py-[6px] px-4 bg-[#FFD0D1]  flex gap-1.5 items-center rounded-full"
+                            >
+                              <RiDeleteBin6Line className=" text-[#FF1C1F] w-4 h-4" />
+                              <p className=" text-sm leading-normal text-[#FF1C1F]">
+                                Delete
+                              </p>
+                            </button>
+                          ) : (
+                            <button
+                              onClick={() => deleteUserData(item)}
+                              disabled
+                              className=" py-[6px] px-4 bg-[#FFD0D1]  flex gap-1.5 items-center rounded-full cursor-not-allowed"
+                            >
+                              <RiDeleteBin6Line className=" text-[#FF1C1F] w-4 h-4" />
+                              <p className=" text-sm leading-normal text-[#FF1C1F]">
+                                Not Access
+                              </p>
+                            </button>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+            {/* Pagination Controls */}
+            <div className="flex justify-center items-center my-6">
+              <button
+                onClick={() => handlePageChange(page - 1)}
+                disabled={page === 1}
+                className="px-2 py-2 mx-2 border rounded bg-customBlue text-white disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <HiChevronDoubleLeft className=" w-6 h-auto" />
+              </button>
+              <span className="text-[#717171] text-sm">
+                Page {page} of {totalPages}
+              </span>
+              <button
+                onClick={() => handlePageChange(page + 1)}
+                disabled={page === totalPages}
+                className="px-2 py-2 mx-2 border rounded bg-customBlue text-white disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <HiChevronDoubleRight className=" w-6 h-auto" />
+              </button>
+            </div>
+          </div>
+          {/* ----------------End table--------------------------- */}
         </div>
       </div>
+
+      <SidebarUserUpdateForm
+        isEditFlyoutOpen={isEditFlyoutOpen}
+        setIsEditFlyoutOpen={setIsEditFlyoutOpen}
+        currentUserData={currentUserData}
+        setShouldRefetch={setShouldRefetch}
+      />
     </>
   );
 }
