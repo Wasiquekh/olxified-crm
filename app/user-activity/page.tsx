@@ -42,7 +42,15 @@ interface AllUserName {
   name?: string;
   uuid?: string;
 }
-
+const initialCustomerData: FilterData={
+  uuId: "",
+  userActivity: "",
+  startDate: "",
+  endDate: "",
+  module: "",
+  type: "",
+  name: "",
+}
 export default function Home() {
   const [isFlyoutOpen, setFlyoutOpen] = useState<boolean>(false);
   const [isFlyoutFilterOpen, setFlyoutFilterOpen] = useState<boolean>(false);
@@ -62,6 +70,7 @@ export default function Home() {
   });
   console.log("+++++++++++++++", filterData);
   const [isError, setIsError] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const storage = new StorageManager();
   //console.log("Get all user Data", data);
   const router = useRouter();
@@ -80,6 +89,7 @@ export default function Home() {
     e.preventDefault();
     toggleFilterFlyout();
     // console.log('filterDATA',filterData)
+    setIsLoading(true);
     try {
       const response = await axiosProvider.post(
         "/filteruseractivites",
@@ -91,8 +101,10 @@ export default function Home() {
       setData(result);
       //  }
     } catch (error: any) {
+      setIsError(true);
       console.log("filter user activity error", error);
-      handleError(error);
+    }finally {
+      setIsLoading(false);
     }
   };
 
@@ -100,6 +112,7 @@ export default function Home() {
   const toggleFilterFlyout = () => setFlyoutFilterOpen(!isFlyoutFilterOpen);
 
   const fetchData = async (currentPage: number) => {
+    setIsLoading(true);
     try {
       const response = await axiosProvider.get(
         `/getallactivites?page=${currentPage}&limit=${limit}`
@@ -111,9 +124,12 @@ export default function Home() {
     } catch (error: any) {
       setIsError(true);
       console.error("Error fetching data:", error);
+    }finally {
+      setIsLoading(false);
     }
   };
   const getAllUserName = async () => {
+    setIsLoading(true);
     try {
       const response = await axiosProvider.get("/getallusername");
       setDataUserName(response.data.data.users);
@@ -121,6 +137,8 @@ export default function Home() {
     } catch (error: any) {
       setIsError(true);
       console.error("Error fetching data:", error);
+    }finally {
+      setIsLoading(false);
     }
   };
 
@@ -145,8 +163,10 @@ export default function Home() {
       console.error("Unauthorized: Check App Check token and Bearer token.");
     }
   };
-
-  if (data.length === 0) {
+  const hadleClear = ()=>{
+    setFilterData(initialCustomerData);
+  }
+  if (isLoading) {
     return (
       <div className="h-screen flex flex-col gap-5 justify-center items-center">
         <Image
@@ -504,6 +524,12 @@ export default function Home() {
                   >
                     Cancel
                   </button>
+                  <div
+                    onClick={hadleClear}
+                    className=" py-[13px] px-[26px] bg-customBlue rounded-2xl text-base font-medium leading-6 text-white cursor-pointer "
+                  >
+                    Clear Data
+                  </div>
                   <button
                     type="submit"
                     className=" py-[13px] px-[26px] bg-customBlue rounded-2xl text-base font-medium leading-6 text-white "

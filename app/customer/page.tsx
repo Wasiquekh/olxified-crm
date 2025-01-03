@@ -33,6 +33,13 @@ interface FilterData {
   mobilephonenumber?: string;
   birthdate?: string;
 }
+// Initial state for the form
+const initialFilterData: FilterData = {
+  firstname: '',
+  lastname: '',
+  mobilephonenumber: '',
+  birthdate: '',
+};
 
 interface Customer {
   id: string; // Updated to string as per the API response
@@ -64,12 +71,12 @@ export default function Home() {
   const [page, setPage] = useState<number>(1);
   const [limit] = useState<number>(10);
   const [totalPages, setTotalPages] = useState<number>(1);
-
   const [filterData, setFilterData] = useState<FilterData>({
     firstname: "",
     lastname: "",
   });
   const [isError, setIsError] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [appliedFilters, setAppliedFilters] = useState<string[]>([]);
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(
     null
@@ -102,7 +109,7 @@ export default function Home() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     toggleFilterFlyout();
-
+    setIsLoading(true);
     try {
       const response = await axiosProvider.post("/filter", filterData);
       const result = response.data;
@@ -110,7 +117,8 @@ export default function Home() {
         setData(result.data.customers);
       }
     } catch (error: any) {
-      handleError(error);
+    }finally {
+      setIsLoading(false);
     }
   };
 
@@ -118,6 +126,7 @@ export default function Home() {
   const toggleFilterFlyout = () => setFlyoutFilterOpen(!isFlyoutFilterOpen);
 
   const fetchData = async (currentPage: number) => {
+    setIsLoading(true);
     try {
       const response = await axiosProvider.get(
         `/getallcrmuser?page=${currentPage}&limit=${limit}`
@@ -126,7 +135,9 @@ export default function Home() {
       const result = response.data.data.customers;
       setData(result);
     } catch (error: any) {
-      handleError(error);
+      setIsError(true);
+    }finally {
+      setIsLoading(false);
     }
   };
 
@@ -140,16 +151,6 @@ export default function Home() {
     }
   };
 
-  const handleError = (error: any) => {
-    if (error.response && error.response.status === 404) {
-      setIsError(true);
-      //console.log("Data not found");
-    }
-    console.error("Error fetching data:", error);
-    if (error.response && error.response.status === 401) {
-      console.error("Unauthorized: Check App Check token and Bearer token.");
-    }
-  };
 
   const removeFilter = async (filter: string) => {
     setAppliedFilters((prevFilters) => prevFilters.filter((f) => f !== filter));
@@ -169,10 +170,10 @@ export default function Home() {
   };
 
   const callApiWithUpdatedFilters = async (updatedFilterData: FilterData) => {
+    setIsLoading(true);
     try {
       const tokenResponse = await getToken(appCheck, true);
       const appCheckToken = tokenResponse.token;
-
       const response = await axiosProvider.post("/filter", updatedFilterData);
 
       const result = response.data;
@@ -180,11 +181,14 @@ export default function Home() {
         setData(result.data.customers);
       }
     } catch (error: any) {
-      handleError(error);
+    }finally {
+      setIsLoading(false);
     }
   };
-
-  if (data.length === 0) {
+  const hadleClear = ()=>{
+    setFilterData(initialFilterData);
+  }
+  if (isLoading) {
     return (
       <div className="h-screen flex flex-col gap-5 justify-center items-center">
         <Image
@@ -609,6 +613,12 @@ export default function Home() {
                   >
                     Cancel
                   </button>
+                  <div
+                    onClick={hadleClear}
+                    className=" py-[13px] px-[26px] bg-customBlue rounded-2xl text-base font-medium leading-6 text-white cursor-pointer "
+                  >
+                    Clear Data
+                  </div>
                   <button
                     type="submit"
                     className=" py-[13px] px-[26px] bg-customBlue rounded-2xl text-base font-medium leading-6 text-white "

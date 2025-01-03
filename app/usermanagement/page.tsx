@@ -51,6 +51,8 @@ export default function Home() {
   const [isEditFlyoutOpen, setIsEditFlyoutOpen] = useState<boolean>(false);
   const [currentUserData, setCurrentUserData] = useState<User | null>(null);
   const [shouldRefetch, setShouldRefetch] = useState(false);
+  const [isError, setIsError] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { accessToken } = useContext(AppContext);
   const router = useRouter();
   const permissions = storage.getUserPermissions();
@@ -110,6 +112,7 @@ export default function Home() {
   };
 
   const fetchData = async (currentPage: number) => {
+    setIsLoading(true);
     try {
       const response = await axiosProvider.get(
         `/getalluser?page=${currentPage}&limit=${limit}`
@@ -121,9 +124,9 @@ export default function Home() {
       setData(result);
     } catch (error) {
       console.error("Error fetching data:", error);
-      if (error.response?.status === 401) {
-        console.error("Unauthorized: Check App Check token and Bearer token.");
-      }
+      setIsError(true);
+    } finally {
+      setIsLoading(false);
     }
   };
   useEffect(() => {
@@ -136,7 +139,7 @@ export default function Home() {
     }
   };
 
-  if (!data) {
+  if (isLoading) {
     return (
       <div className="h-screen flex flex-col gap-5 justify-center items-center">
         <Image
@@ -151,7 +154,6 @@ export default function Home() {
       </div>
     );
   }
-
   return (
     <>
       <div className=" flex  min-h-screen">
@@ -283,13 +285,20 @@ export default function Home() {
                 </tr>
               </thead>
               <tbody>
-                {data &&
+                {isError ? (
+                  <tr className="">
+                    <td colSpan={8} className="text-center text-xl mt-5">
+                      <div className="mt-5">Data not found</div>
+                    </td>
+                  </tr>
+                ) : (
+                  data &&
                   data.map((item, index) => (
                     <tr
-                      className=" border border-tableBorder bg-white"
+                      className="border border-tableBorder bg-white"
                       key={index}
                     >
-                      <td className="w-4  px-4 py-0 border border-tableBorder">
+                      <td className="w-4 px-4 py-0 border border-tableBorder">
                         <div className="flex items-center">
                           <input
                             id="checkbox-table-search-1"
@@ -304,7 +313,7 @@ export default function Home() {
                           </label>
                         </div>
                       </td>
-                      <td className=" px-2 py-2 border border-tableBorder flex items-center gap-2">
+                      <td className="px-2 py-2 border border-tableBorder flex items-center gap-2">
                         <div>
                           <Image
                             src="/images/tableImage.png"
@@ -314,38 +323,38 @@ export default function Home() {
                           />
                         </div>
                         <div>
-                          <p className=" text-[#0A0A0A] text-base font-semibold leading-normal mb-[6px]">
+                          <p className="text-[#0A0A0A] text-base font-semibold leading-normal mb-[6px]">
                             {item.name}
                           </p>
                           <p
                             key={item.email}
-                            className=" text-[#717171] text-sm leading-normal"
+                            className="text-[#717171] text-sm leading-normal"
                           >
                             {item.email}
                           </p>
                         </div>
                       </td>
                       <td className="px-2 py-0 border border-tableBorder">
-                        <p className=" text-[#717171] text-base leading-normal">
+                        <p className="text-[#717171] text-base leading-normal">
                           {item.mobile_number}
                         </p>
                       </td>
                       <td className="px-2 py-0 border border-tableBorder">
-                        <button className=" py-[6px] px-8 bg-[#DCF8DC]    rounded-[16px]">
-                          <p className=" text-sm leading-normal text-[#0C390C]">
+                        <button className="py-[6px] px-8 bg-[#DCF8DC] rounded-[16px]">
+                          <p className="text-sm leading-normal text-[#0C390C]">
                             {item.role}
                           </p>
                         </button>
                       </td>
                       <td className="px-2 py-0 border border-tableBorder">
-                        <div className=" flex gap-1.5">
+                        <div className="flex gap-1.5">
                           {hasSystemUserView ? (
                             <button
                               onClick={() => changeCurrentUserData(item)}
-                              className=" py-[6px] px-4 bg-[#C6F7FE]  flex gap-1.5 items-center rounded-full"
+                              className="py-[6px] px-4 bg-[#C6F7FE] flex gap-1.5 items-center rounded-full"
                             >
-                              <MdRemoveRedEye className=" text-customBlue w-4 h-4" />
-                              <p className=" text-sm leading-normal text-customBlue">
+                              <MdRemoveRedEye className="text-customBlue w-4 h-4" />
+                              <p className="text-sm leading-normal text-customBlue">
                                 View
                               </p>
                             </button>
@@ -353,10 +362,10 @@ export default function Home() {
                             <button
                               disabled
                               onClick={() => changeCurrentUserData(item)}
-                              className=" py-[6px] px-4 bg-[#C6F7FE]  flex gap-1.5 items-center rounded-full cursor-not-allowed"
+                              className="py-[6px] px-4 bg-[#C6F7FE] flex gap-1.5 items-center rounded-full cursor-not-allowed"
                             >
-                              <MdRemoveRedEye className=" text-customBlue w-4 h-4" />
-                              <p className=" text-sm leading-normal text-customBlue">
+                              <MdRemoveRedEye className="text-customBlue w-4 h-4" />
+                              <p className="text-sm leading-normal text-customBlue">
                                 Not Access
                               </p>
                             </button>
@@ -364,10 +373,10 @@ export default function Home() {
                           {hasSystemUserDelete ? (
                             <button
                               onClick={() => deleteUserData(item)}
-                              className=" py-[6px] px-4 bg-[#FFD0D1]  flex gap-1.5 items-center rounded-full"
+                              className="py-[6px] px-4 bg-[#FFD0D1] flex gap-1.5 items-center rounded-full"
                             >
-                              <RiDeleteBin6Line className=" text-[#FF1C1F] w-4 h-4" />
-                              <p className=" text-sm leading-normal text-[#FF1C1F]">
+                              <RiDeleteBin6Line className="text-[#FF1C1F] w-4 h-4" />
+                              <p className="text-sm leading-normal text-[#FF1C1F]">
                                 Delete
                               </p>
                             </button>
@@ -375,10 +384,10 @@ export default function Home() {
                             <button
                               onClick={() => deleteUserData(item)}
                               disabled
-                              className=" py-[6px] px-4 bg-[#FFD0D1]  flex gap-1.5 items-center rounded-full cursor-not-allowed"
+                              className="py-[6px] px-4 bg-[#FFD0D1] flex gap-1.5 items-center rounded-full cursor-not-allowed"
                             >
-                              <RiDeleteBin6Line className=" text-[#FF1C1F] w-4 h-4" />
-                              <p className=" text-sm leading-normal text-[#FF1C1F]">
+                              <RiDeleteBin6Line className="text-[#FF1C1F] w-4 h-4" />
+                              <p className="text-sm leading-normal text-[#FF1C1F]">
                                 Not Access
                               </p>
                             </button>
@@ -386,7 +395,8 @@ export default function Home() {
                         </div>
                       </td>
                     </tr>
-                  ))}
+                  ))
+                )}
               </tbody>
             </table>
             {/* Pagination Controls */}
