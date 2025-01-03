@@ -74,7 +74,9 @@ export default function Home() {
   const [filterData, setFilterData] = useState<FilterData>({
     firstname: "",
     lastname: "",
+   // birthdate: "",
   });
+  console.log('TTTTTTTTTTTTTTTTTTTTTTTT',filterData)
   const [isError, setIsError] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [appliedFilters, setAppliedFilters] = useState<string[]>([]);
@@ -92,11 +94,16 @@ export default function Home() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+  
+    // Directly set date input value, as it is already in YYYY-MM-DD format
+    const formattedValue = name === 'birthdate' ? value : value;
+  
     setFilterData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: formattedValue,
     }));
   };
+  
 
   useEffect(() => {
     const filters: string[] = [];
@@ -143,7 +150,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchData(page);
-  }, [page]);
+  }, [page, initialFilterData]);
 
   const handlePageChange = (newPage: number) => {
     if (newPage > 0 && newPage <= totalPages) {
