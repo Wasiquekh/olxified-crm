@@ -108,31 +108,29 @@ export default function Home() {
     setIsFilter(true);
     e.preventDefault();
     toggleFilterFlyout();
-    // console.log('filterDATA',filterData)
-    fetchFilteredUserActivities();
+    fetchFilteredUserActivities(filterPage);  // Pass filterPage directly
   };
-const fetchFilteredUserActivities = async ()=>{
-  setIsLoading(true);
-  try {
-    const response = await axiosProvider.post(
-      `/filteruseractivites?page=${filterPage}&limit=${limit}`, // for filter data
-      filterData
-    );
-    console.log("9999999999999999999999999999999", response);
-    const result = response.data.data.filteredActivities;
-    console.log("FILTERED DATA", result);
-    // if (result.success && result.data && result.data.customers) {
-    setData(result);
-    setTotalPagesFilter(response.data.data.totalPages);
-    setIsError(false);
-    //  }
-  } catch (error: any) {
-    setIsError(true);
-    console.log("filter user activity error", error);
-  } finally {
-    setIsLoading(false);
-  }
-}
+  
+  const fetchFilteredUserActivities = async (page: number) => {
+    setIsLoading(true);
+    try {
+      const response = await axiosProvider.post(
+        `/filteruseractivites?page=${page}&limit=${limit}`,  // Use passed page value
+        filterData
+      );
+      console.log("9999999999999999999999999999999", response);
+      const result = response.data.data.filteredActivities;
+      console.log("FILTERED DATA", result);
+      setData(result);
+      setTotalPagesFilter(response.data.data.totalPages);
+      setIsError(false);
+    } catch (error: any) {
+      setIsError(true);
+      console.log("filter user activity error", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
   const toggleFlyout = () => setFlyoutOpen(!isFlyoutOpen);
   const toggleFilterFlyout = () => setFlyoutFilterOpen(!isFlyoutFilterOpen);
 
@@ -166,7 +164,7 @@ const fetchFilteredUserActivities = async ()=>{
   const handlePageChangeFilter = (newPage: number) => {
     if (newPage > 0 && newPage <= totalPagesFilter) {
       setFilterPage(newPage);
-      fetchFilteredUserActivities();
+      fetchFilteredUserActivities(newPage); 
     }
   };
 
