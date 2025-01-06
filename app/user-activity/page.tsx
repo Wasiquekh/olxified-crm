@@ -16,6 +16,8 @@ import LeftSideBar from "../component/LeftSideBar";
 import { useRouter } from "next/navigation";
 import { HiChevronDoubleLeft } from "react-icons/hi";
 import { HiChevronDoubleRight } from "react-icons/hi";
+import { number, setLocale } from "yup";
+import { RiFilterFill } from "react-icons/ri";
 
 const axiosProvider = new AxiosProvider();
 
@@ -42,7 +44,7 @@ interface AllUserName {
   name?: string;
   uuid?: string;
 }
-const initialCustomerData: FilterData={
+const initialCustomerData: FilterData = {
   uuId: "",
   userActivity: "",
   startDate: "",
@@ -50,15 +52,17 @@ const initialCustomerData: FilterData={
   module: "",
   type: "",
   name: "",
-}
+};
 export default function Home() {
   const [isFlyoutOpen, setFlyoutOpen] = useState<boolean>(false);
   const [isFlyoutFilterOpen, setFlyoutFilterOpen] = useState<boolean>(false);
   const [data, setData] = useState<Customer[]>([]);
   const [dataUserName, setDataUserName] = useState<AllUserName[]>([]);
   const [page, setPage] = useState<number>(1);
+  const [filterPage, setFilterPage] = useState<number>(1);
   const [limit] = useState<number>(10);
   const [totalPages, setTotalPages] = useState<number>(1);
+  const [totalPagesFilter, setTotalPagesFilter] = useState<number>(1);
   const [filterData, setFilterData] = useState<FilterData>({
     uuId: "",
     userActivity: "",
@@ -71,6 +75,7 @@ export default function Home() {
   console.log("+++++++++++++++", filterData);
   const [isError, setIsError] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isFilter, setIsFilter] = useState<boolean>(false);
   const storage = new StorageManager();
   //console.log("Get all user Data", data);
   const router = useRouter();
@@ -85,29 +90,49 @@ export default function Home() {
     }));
   };
 
+  const getAllUserName = async () => {
+    // setIsLoading(true);
+    try {
+      const response = await axiosProvider.get("/getallusername"); //for name drop down
+      setDataUserName(response.data.data.users);
+      // console.log('GET USER DATA',response.data.data.users)
+    } catch (error: any) {
+      setIsError(true);
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    getAllUserName();
+  }, []);
   const handleSubmit = async (e: React.FormEvent) => {
+    setIsFilter(true);
     e.preventDefault();
     toggleFilterFlyout();
     // console.log('filterDATA',filterData)
-    setIsLoading(true);
-    try {
-      const response = await axiosProvider.post(
-        "/filteruseractivites",
-        filterData
-      );
-      const result = response.data.data.filteredActivities;
-      console.log("FILTERED DATA", result);
-      // if (result.success && result.data && result.data.customers) {
-      setData(result);
-      //  }
-    } catch (error: any) {
-      setIsError(true);
-      console.log("filter user activity error", error);
-    }finally {
-      setIsLoading(false);
-    }
+    fetchFilteredUserActivities();
   };
-
+const fetchFilteredUserActivities = async ()=>{
+  setIsLoading(true);
+  try {
+    const response = await axiosProvider.post(
+      `/filteruseractivites?page=${filterPage}&limit=${limit}`, // for filter data
+      filterData
+    );
+    console.log("9999999999999999999999999999999", response);
+    const result = response.data.data.filteredActivities;
+    console.log("FILTERED DATA", result);
+    // if (result.success && result.data && result.data.customers) {
+    setData(result);
+    setTotalPagesFilter(response.data.data.totalPages);
+    setIsError(false);
+    //  }
+  } catch (error: any) {
+    setIsError(true);
+    console.log("filter user activity error", error);
+  } finally {
+    setIsLoading(false);
+  }
+}
   const toggleFlyout = () => setFlyoutOpen(!isFlyoutOpen);
   const toggleFilterFlyout = () => setFlyoutFilterOpen(!isFlyoutFilterOpen);
 
@@ -117,6 +142,7 @@ export default function Home() {
       const response = await axiosProvider.get(
         `/getallactivites?page=${currentPage}&limit=${limit}`
       );
+      console.log("888888888888888888", response);
       const result = response.data.data.activities;
       setData(result);
       setTotalPages(response.data.data.totalPages);
@@ -124,32 +150,23 @@ export default function Home() {
     } catch (error: any) {
       setIsError(true);
       console.error("Error fetching data:", error);
-    }finally {
+    } finally {
       setIsLoading(false);
     }
   };
-  const getAllUserName = async () => {
-    setIsLoading(true);
-    try {
-      const response = await axiosProvider.get("/getallusername");
-      setDataUserName(response.data.data.users);
-      // console.log('GET USER DATA',response.data.data.users)
-    } catch (error: any) {
-      setIsError(true);
-      console.error("Error fetching data:", error);
-    }finally {
-      setIsLoading(false);
-    }
-  };
-
   useEffect(() => {
-    getAllUserName();
     fetchData(page);
   }, [page]);
 
   const handlePageChange = (newPage: number) => {
     if (newPage > 0 && newPage <= totalPages) {
       setPage(newPage);
+    }
+  };
+  const handlePageChangeFilter = (newPage: number) => {
+    if (newPage > 0 && newPage <= totalPagesFilter) {
+      setFilterPage(newPage);
+      fetchFilteredUserActivities();
     }
   };
 
@@ -163,9 +180,9 @@ export default function Home() {
       console.error("Unauthorized: Check App Check token and Bearer token.");
     }
   };
-  const hadleClear = ()=>{
+  const hadleClear = () => {
     setFilterData(initialCustomerData);
-  }
+  };
   if (isLoading) {
     return (
       <div className="h-screen flex flex-col gap-5 justify-center items-center">
@@ -370,25 +387,47 @@ export default function Home() {
               </tbody>
             </table>
             {/* Pagination Controls */}
-            <div className="flex justify-center items-center my-6">
-              <button
-                onClick={() => handlePageChange(page - 1)}
-                disabled={page === 1}
-                className="px-2 py-2 mx-2 border rounded bg-customBlue text-white disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <HiChevronDoubleLeft className=" w-6 h-auto" />
-              </button>
-              <span className="text-[#717171] text-sm">
-                Page {page} of {totalPages}
-              </span>
-              <button
-                onClick={() => handlePageChange(page + 1)}
-                disabled={page === totalPages}
-                className="px-2 py-2 mx-2 border rounded bg-customBlue text-white disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <HiChevronDoubleRight className=" w-6 h-auto" />
-              </button>
-            </div>
+            {isFilter ? (
+              <div className="flex justify-center items-center my-6">
+                <button
+                  onClick={() => handlePageChangeFilter(filterPage - 1)}
+                  disabled={filterPage === 1}
+                  className="px-2 py-2 mx-2 border rounded bg-customBlue text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <HiChevronDoubleLeft className=" w-6 h-auto" />
+                </button>
+                <span className="text-[#717171] text-sm">
+                  Page {filterPage} of {totalPagesFilter}
+                </span>
+                <button
+                  onClick={() => handlePageChangeFilter(filterPage + 1)}
+                  disabled={filterPage === totalPagesFilter}
+                  className="px-2 py-2 mx-2 border rounded bg-customBlue text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <HiChevronDoubleRight className=" w-6 h-auto" />
+                </button>
+              </div>
+            ) : (
+              <div className="flex justify-center items-center my-6">
+                <button
+                  onClick={() => handlePageChange(page - 1)}
+                  disabled={page === 1}
+                  className="px-2 py-2 mx-2 border rounded bg-customBlue text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <HiChevronDoubleLeft className=" w-6 h-auto" />
+                </button>
+                <span className="text-[#717171] text-sm">
+                  Page {page} of {totalPages}
+                </span>
+                <button
+                  onClick={() => handlePageChange(page + 1)}
+                  disabled={page === totalPages}
+                  className="px-2 py-2 mx-2 border rounded bg-customBlue text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <HiChevronDoubleRight className=" w-6 h-auto" />
+                </button>
+              </div>
+            )}
             {/* ------------------- */}
           </div>
           {/* ----------------End table--------------------------- */}
@@ -427,7 +466,7 @@ export default function Home() {
               </div>
               <div className=" w-full border-b border-[#E7E7E7] mb-4"></div>
               {/* FORM */}
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={(e) => handleSubmit(e)}>
                 <div className=" w-full">
                   <div className=" w-full flex gap-4 mb-4">
                     <div className=" w-full">
