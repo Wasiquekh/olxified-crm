@@ -29,16 +29,9 @@ const axiosProvider = new AxiosProvider();
 
 interface FilterData {
   name: string;
-  phone?: string
+  mobilephonenumber?: string;
   birthdate?: string;
 }
-// Initial state for the form
-// const initialFilterData: FilterData = {
-//   firstname: '',
-//   lastname: '',
-//   mobilephonenumber: '',
-//   birthdate: '',
-// };
 
 interface Customer {
   id: string; // Updated to string as per the API response
@@ -72,9 +65,7 @@ export default function Home() {
   const [totalPages, setTotalPages] = useState<number>(1);
   const [filterData, setFilterData] = useState<FilterData>({
     name: "",
-    phone: "",
-
-    // birthdate: "",
+    mobilephonenumber: "",
   });
   console.log("TTTTTTTTTTTTTTTTTTTTTTTT", filterData);
   const [isError, setIsError] = useState<boolean>(false);
@@ -107,14 +98,17 @@ export default function Home() {
   useEffect(() => {
     const filters: string[] = [];
     if (filterData.name) filters.push(`Name: ${filterData.name}`);
-    if (filterData.phone) filters.push(`Phone: ${filterData.phone}`);
+    if (filterData.mobilephonenumber) filters.push(`Phone: ${filterData.mobilephonenumber}`);
     setAppliedFilters(filters);
   }, [filterData]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     toggleFilterFlyout();
-    userFilterData(filterData);
+    const filteredData = Object.fromEntries(
+      Object.entries(filterData).filter(([_, value]) => value !== "")
+    );
+    userFilterData(filteredData);
   };
   const userFilterData = async (data: any) => {
     setIsLoading(true);
@@ -160,14 +154,12 @@ export default function Home() {
   const removeFilter = async (filter: string) => {
     setAppliedFilters((prevFilters) => prevFilters.filter((f) => f !== filter));
 
-    //setFilterData((prev) => {
-    // const newFilterData = { ...prev };
 
     if (filter.startsWith("Name")) {
       filterData.name = "";
     }
     if (filter.startsWith("Phone")) {
-      filterData.phone = "";
+      filterData.mobilephonenumber = "";
     }
 
     if (Object.keys(filterData).length === 0) {
@@ -175,29 +167,10 @@ export default function Home() {
     } else {
       fetchData(page);
     }
-    // callApiWithUpdatedFilters(newFilterData);
-    // return newFilterData;
   };
-
-  // const callApiWithUpdatedFilters = async (updatedFilterData: FilterData) => {
-  //   setIsLoading(true);
-  //   try {
-  //     const tokenResponse = await getToken(appCheck, true);
-  //     const appCheckToken = tokenResponse.token;
-  //     const response = await axiosProvider.post("/filter", updatedFilterData);
-
-  //     const result = response.data;
-  //     if (result.success && result.data && result.data.customers) {
-  //       setData(result.data.customers);
-  //     }
-  //   } catch (error: any) {
-  //   }finally {
-  //     setIsLoading(false);
-  //   }
-  // };
-  // const hadleClear = ()=>{
-  //   setFilterData(filterData.firstname='');
-  // }
+  const hadleClear = () => {
+    setFilterData({...filterData, name: "", mobilephonenumber: ""});
+}
   if (isLoading) {
     return (
       <div className="h-screen flex flex-col gap-5 justify-center items-center">
@@ -578,9 +551,9 @@ export default function Home() {
                       </p>
                       <input
                         type="number"
-                        value={filterData.phone}
+                        value={filterData.mobilephonenumber}
                         onChange={handleChange}
-                        name="phone"
+                        name="mobilephonenumber"
                         placeholder="1 (800) 667-6389"
                         className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
                       />
@@ -593,9 +566,10 @@ export default function Home() {
                         type="date"
                         value={filterData.birthdate}
                         onChange={handleChange}
+                        disabled
                         name="birthdate"
                         placeholder=""
-                        className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                        className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 cursor-not-allowed"
                       />
                     </div>
                   </div>
@@ -611,7 +585,7 @@ export default function Home() {
                     Cancel
                   </button>
                   <div
-                    //onClick={hadleClear}
+                    onClick={hadleClear}
                     className=" py-[13px] px-[26px] bg-customBlue rounded-2xl text-base font-medium leading-6 text-white cursor-pointer "
                   >
                     Clear Data
