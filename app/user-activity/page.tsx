@@ -102,7 +102,7 @@ export default function Home() {
     setIsFilter(true);
     e.preventDefault();
     toggleFilterFlyout();
-    fetchFilteredUserActivities(filterPage);  // Pass filterPage directly
+    fetchFilteredUserActivities(filterPage);
   };
   
   const fetchFilteredUserActivities = async (page: number) => {

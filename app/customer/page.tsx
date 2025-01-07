@@ -61,8 +61,10 @@ export default function Home() {
   const [isFlyoutFilterOpen, setFlyoutFilterOpen] = useState<boolean>(false);
   const [data, setData] = useState<Customer[]>([]);
   const [page, setPage] = useState<number>(1);
+  const [filterPage, setFilterPage] = useState<number>(1);
   const [limit] = useState<number>(10);
   const [totalPages, setTotalPages] = useState<number>(1);
+  const [totalPagesFilter, setTotalPagesFilter] = useState<number>(1);
   const [filterData, setFilterData] = useState<FilterData>({
     name: "",
     mobilephonenumber: "",
@@ -74,6 +76,7 @@ export default function Home() {
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(
     null
   );
+  const [isFilter, setIsFilter] = useState<boolean>(false);
   const storage = new StorageManager();
   const { accessToken } = useContext(AppContext);
   //console.log("Get all user Data", data);
@@ -98,25 +101,30 @@ export default function Home() {
   useEffect(() => {
     const filters: string[] = [];
     if (filterData.name) filters.push(`Name: ${filterData.name}`);
-    if (filterData.mobilephonenumber) filters.push(`Phone: ${filterData.mobilephonenumber}`);
+    if (filterData.mobilephonenumber)
+      filters.push(`Phone: ${filterData.mobilephonenumber}`);
     setAppliedFilters(filters);
   }, [filterData]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsFilter(true);
     toggleFilterFlyout();
     const filteredData = Object.fromEntries(
       Object.entries(filterData).filter(([_, value]) => value !== "")
     );
-    userFilterData(filteredData);
+    userFilterData(filteredData, filterPage);
   };
-  const userFilterData = async (data: any) => {
+  const userFilterData = async (data: any, page: number) => {
     setIsLoading(true);
     try {
-      const response = await axiosProvider.post("/filter", data);
-      console.log('VVVVVVVVVVVVVVVVV',response.data)
-      const result = response.data;
-      setData(result.data.customers);
+      const response = await axiosProvider.post(`/filter?page=${page}&limit=${limit}`, 
+        data
+      );
+      console.log("VVVVVVVVVVVVVVVVV", response.data.data);
+      const result = response.data.data;
+      setData(result.customers);
+      setTotalPagesFilter(result.totalPages);
     } catch (error: any) {
     } finally {
       setIsLoading(false);
@@ -154,7 +162,6 @@ export default function Home() {
   const removeFilter = async (filter: string) => {
     setAppliedFilters((prevFilters) => prevFilters.filter((f) => f !== filter));
 
-
     if (filter.startsWith("Name")) {
       filterData.name = "";
     }
@@ -163,14 +170,20 @@ export default function Home() {
     }
 
     if (Object.keys(filterData).length === 0) {
-      userFilterData(filterData);
+      userFilterData(filterData,filterPage);
     } else {
       fetchData(page);
     }
   };
   const hadleClear = () => {
-    setFilterData({...filterData, name: "", mobilephonenumber: ""});
-}
+    setFilterData({ ...filterData, name: "", mobilephonenumber: "" });
+  };
+  const handlePageChangeFilter = (newPage: number) => {
+    if (newPage > 0 && newPage <= totalPagesFilter) {
+      setFilterPage(newPage);
+      userFilterData(newPage, filterPage); 
+    }
+  };
   if (isLoading) {
     return (
       <div className="h-screen flex flex-col gap-5 justify-center items-center">
@@ -230,14 +243,7 @@ export default function Home() {
                 </p>
               </div>
             </div>
-            <div>
-              {/* <button className=" flex items-center gap-[10px] bg-[#fff]  h-12 px-3 py-[6px] rounded-2xl  border border-[#E7E7E7] shadow-borderShadow">
-                <FaPlus className=" h-[20px] w-[20px] text-customBlue" />
-                <p className=" text-customBlue text-base leading-normal">
-                  Add New Customer
-                </p>
-              </button> */}
-            </div>
+            <div></div>
           </div>
           {/* ----------------Table----------------------- */}
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -260,12 +266,6 @@ export default function Home() {
                     Filter
                   </p>
                 </div>
-                {/* <div className=" flex gap-2 py-3 px-4 rounded-[16px] border border-[#E7E7E7]">
-                  <LuPencilLine className=" w-6 h-6" />
-                  <p className=" text-[#0A0A0A] text-base font-medium">
-                    Filter
-                  </p>
-                </div> */}
               </div>
             </div>
             {/* End search and filter row */}
@@ -469,25 +469,47 @@ export default function Home() {
               </tbody>
             </table>
             {/* Pagination Controls */}
-            <div className="flex justify-center items-center my-6">
-              <button
-                onClick={() => handlePageChange(page - 1)}
-                disabled={page === 1}
-                className="px-2 py-2 mx-2 border rounded bg-customBlue text-white disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <HiChevronDoubleLeft className=" w-6 h-auto" />
-              </button>
-              <span className="text-[#717171] text-sm">
-                Page {page} of {totalPages}
-              </span>
-              <button
-                onClick={() => handlePageChange(page + 1)}
-                disabled={page === totalPages}
-                className="px-2 py-2 mx-2 border rounded bg-customBlue text-white disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <HiChevronDoubleRight className=" w-6 h-auto" />
-              </button>
-            </div>
+            {isFilter ? (
+              <div className="flex justify-center items-center my-6">
+                <button
+                  onClick={() => handlePageChangeFilter(filterPage - 1)}
+                  disabled={filterPage === 1}
+                  className="px-2 py-2 mx-2 border rounded bg-customBlue text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <HiChevronDoubleLeft className=" w-6 h-auto" />
+                </button>
+                <span className="text-[#717171] text-sm">
+                  Page {filterPage} of {totalPagesFilter}
+                </span>
+                <button
+                  onClick={() => handlePageChangeFilter(filterPage + 1)}
+                  disabled={filterPage === totalPagesFilter}
+                  className="px-2 py-2 mx-2 border rounded bg-customBlue text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <HiChevronDoubleRight className=" w-6 h-auto" />
+                </button>
+              </div>
+            ) : (
+              <div className="flex justify-center items-center my-6">
+                <button
+                  onClick={() => handlePageChange(page - 1)}
+                  disabled={page === 1}
+                  className="px-2 py-2 mx-2 border rounded bg-customBlue text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <HiChevronDoubleLeft className=" w-6 h-auto" />
+                </button>
+                <span className="text-[#717171] text-sm">
+                  Page {page} of {totalPages}
+                </span>
+                <button
+                  onClick={() => handlePageChange(page + 1)}
+                  disabled={page === totalPages}
+                  className="px-2 py-2 mx-2 border rounded bg-customBlue text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <HiChevronDoubleRight className=" w-6 h-auto" />
+                </button>
+              </div>
+            )}
           </div>
           {/* ----------------End table--------------------------- */}
         </div>
