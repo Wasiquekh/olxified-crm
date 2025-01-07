@@ -18,6 +18,7 @@ import { HiChevronDoubleLeft } from "react-icons/hi";
 import { HiChevronDoubleRight } from "react-icons/hi";
 import { number, setLocale } from "yup";
 import { RiFilterFill } from "react-icons/ri";
+import { toast } from "react-toastify";
 
 const axiosProvider = new AxiosProvider();
 
@@ -63,15 +64,7 @@ export default function Home() {
   const [limit] = useState<number>(10);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [totalPagesFilter, setTotalPagesFilter] = useState<number>(1);
-  const [filterData, setFilterData] = useState<FilterData>({
-    uuId: "",
-    userActivity: "",
-    startDate: "",
-    endDate: "",
-    module: "",
-    type: "",
-    name: "",
-  });
+  const [filterData, setFilterData] = useState<FilterData>(initialCustomerData);
   console.log("+++++++++++++++", filterData);
   const [isError, setIsError] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -104,6 +97,7 @@ export default function Home() {
   useEffect(() => {
     getAllUserName();
   }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     setIsFilter(true);
     e.preventDefault();

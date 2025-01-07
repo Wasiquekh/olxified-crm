@@ -28,18 +28,17 @@ import { HiChevronDoubleRight } from "react-icons/hi";
 const axiosProvider = new AxiosProvider();
 
 interface FilterData {
-  firstname: string;
-  lastname: string;
-  mobilephonenumber?: string;
+  name: string;
+  phone?: string
   birthdate?: string;
 }
 // Initial state for the form
-const initialFilterData: FilterData = {
-  firstname: '',
-  lastname: '',
-  mobilephonenumber: '',
-  birthdate: '',
-};
+// const initialFilterData: FilterData = {
+//   firstname: '',
+//   lastname: '',
+//   mobilephonenumber: '',
+//   birthdate: '',
+// };
 
 interface Customer {
   id: string; // Updated to string as per the API response
@@ -72,11 +71,12 @@ export default function Home() {
   const [limit] = useState<number>(10);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [filterData, setFilterData] = useState<FilterData>({
-    firstname: "",
-    lastname: "",
-   // birthdate: "",
+    name: "",
+    phone: "",
+
+    // birthdate: "",
   });
-  console.log('TTTTTTTTTTTTTTTTTTTTTTTT',filterData)
+  console.log("TTTTTTTTTTTTTTTTTTTTTTTT", filterData);
   const [isError, setIsError] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [appliedFilters, setAppliedFilters] = useState<string[]>([]);
@@ -94,41 +94,40 @@ export default function Home() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-  
+
     // Directly set date input value, as it is already in YYYY-MM-DD format
-    const formattedValue = name === 'birthdate' ? value : value;
-  
+    // const formattedValue = name === 'birthdate' ? value : value;
+
     setFilterData((prevData) => ({
       ...prevData,
-      [name]: formattedValue,
+      [name]: value,
     }));
   };
-  
 
   useEffect(() => {
     const filters: string[] = [];
-    if (filterData.firstname)
-      filters.push(`First Name: ${filterData.firstname}`);
-    if (filterData.lastname) filters.push(`Last Name: ${filterData.lastname}`);
+    if (filterData.name) filters.push(`Name: ${filterData.name}`);
+    if (filterData.phone) filters.push(`Phone: ${filterData.phone}`);
     setAppliedFilters(filters);
   }, [filterData]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     toggleFilterFlyout();
+    userFilterData(filterData);
+  };
+  const userFilterData = async (data: any) => {
     setIsLoading(true);
     try {
-      const response = await axiosProvider.post("/filter", filterData);
+      const response = await axiosProvider.post("/filter", data);
+      console.log('VVVVVVVVVVVVVVVVV',response.data)
       const result = response.data;
-      if (result.success && result.data && result.data.customers) {
-        setData(result.data.customers);
-      }
+      setData(result.data.customers);
     } catch (error: any) {
-    }finally {
+    } finally {
       setIsLoading(false);
     }
   };
-
   const toggleFlyout = () => setFlyoutOpen(!isFlyoutOpen);
   const toggleFilterFlyout = () => setFlyoutFilterOpen(!isFlyoutFilterOpen);
 
@@ -143,14 +142,14 @@ export default function Home() {
       setData(result);
     } catch (error: any) {
       setIsError(true);
-    }finally {
+    } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
     fetchData(page);
-  }, [page, initialFilterData]);
+  }, [page]);
 
   const handlePageChange = (newPage: number) => {
     if (newPage > 0 && newPage <= totalPages) {
@@ -158,43 +157,47 @@ export default function Home() {
     }
   };
 
-
   const removeFilter = async (filter: string) => {
     setAppliedFilters((prevFilters) => prevFilters.filter((f) => f !== filter));
 
-    setFilterData((prev) => {
-      const newFilterData = { ...prev };
+    //setFilterData((prev) => {
+    // const newFilterData = { ...prev };
 
-      if (filter.startsWith("First Name")) {
-        newFilterData.firstname = "";
-      } else if (filter.startsWith("Last Name")) {
-        newFilterData.lastname = "";
-      }
-
-      callApiWithUpdatedFilters(newFilterData);
-      return newFilterData;
-    });
-  };
-
-  const callApiWithUpdatedFilters = async (updatedFilterData: FilterData) => {
-    setIsLoading(true);
-    try {
-      const tokenResponse = await getToken(appCheck, true);
-      const appCheckToken = tokenResponse.token;
-      const response = await axiosProvider.post("/filter", updatedFilterData);
-
-      const result = response.data;
-      if (result.success && result.data && result.data.customers) {
-        setData(result.data.customers);
-      }
-    } catch (error: any) {
-    }finally {
-      setIsLoading(false);
+    if (filter.startsWith("Name")) {
+      filterData.name = "";
     }
+    if (filter.startsWith("Phone")) {
+      filterData.phone = "";
+    }
+
+    if (Object.keys(filterData).length === 0) {
+      userFilterData(filterData);
+    } else {
+      fetchData(page);
+    }
+    // callApiWithUpdatedFilters(newFilterData);
+    // return newFilterData;
   };
-  const hadleClear = ()=>{
-    setFilterData(initialFilterData);
-  }
+
+  // const callApiWithUpdatedFilters = async (updatedFilterData: FilterData) => {
+  //   setIsLoading(true);
+  //   try {
+  //     const tokenResponse = await getToken(appCheck, true);
+  //     const appCheckToken = tokenResponse.token;
+  //     const response = await axiosProvider.post("/filter", updatedFilterData);
+
+  //     const result = response.data;
+  //     if (result.success && result.data && result.data.customers) {
+  //       setData(result.data.customers);
+  //     }
+  //   } catch (error: any) {
+  //   }finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+  // const hadleClear = ()=>{
+  //   setFilterData(filterData.firstname='');
+  // }
   if (isLoading) {
     return (
       <div className="h-screen flex flex-col gap-5 justify-center items-center">
@@ -559,23 +562,10 @@ export default function Home() {
                       </p>
                       <input
                         type="text"
-                        value={filterData.firstname}
-                        name="firstname"
+                        value={filterData.name}
+                        name="name"
                         onChange={handleChange}
                         placeholder="Alexandre"
-                        className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
-                      />
-                    </div>
-                    <div className=" w-full">
-                      <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
-                        Last Name
-                      </p>
-                      <input
-                        type="text"
-                        value={filterData.lastname}
-                        onChange={handleChange}
-                        name="lastname"
-                        placeholder="Prot"
                         className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
                       />
                     </div>
@@ -588,9 +578,9 @@ export default function Home() {
                       </p>
                       <input
                         type="number"
-                        value={filterData.mobilephonenumber}
+                        value={filterData.phone}
                         onChange={handleChange}
-                        name="mobilephonenumber"
+                        name="phone"
                         placeholder="1 (800) 667-6389"
                         className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
                       />
@@ -621,7 +611,7 @@ export default function Home() {
                     Cancel
                   </button>
                   <div
-                    onClick={hadleClear}
+                    //onClick={hadleClear}
                     className=" py-[13px] px-[26px] bg-customBlue rounded-2xl text-base font-medium leading-6 text-white cursor-pointer "
                   >
                     Clear Data
