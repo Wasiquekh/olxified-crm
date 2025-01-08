@@ -113,12 +113,20 @@ export default function Home() {
     const filteredData = Object.fromEntries(
       Object.entries(filterData).filter(([_, value]) => value !== "")
     );
-    userFilterData(filteredData, filterPage);
+    if (Object.keys(filteredData).length === 0) {
+      setPage(1);
+      fetchData(page);
+    } else {
+      userFilterData(filteredData, filterPage);
+    }
+  
   };
   const userFilterData = async (data: any, page: number) => {
+    setIsFilter(true);
     setIsLoading(true);
     try {
-      const response = await axiosProvider.post(`/filter?page=${page}&limit=${limit}`, 
+      const response = await axiosProvider.post(
+        `/filter?page=${page}&limit=${limit}`,
         data
       );
       console.log("VVVVVVVVVVVVVVVVV", response.data.data);
@@ -135,6 +143,7 @@ export default function Home() {
 
   const fetchData = async (currentPage: number) => {
     setIsLoading(true);
+    setIsFilter(false);
     try {
       const response = await axiosProvider.get(
         `/getallcrmuser?page=${currentPage}&limit=${limit}`
@@ -169,9 +178,10 @@ export default function Home() {
       filterData.mobilephonenumber = "";
     }
 
-    if (Object.keys(filterData).length === 0) {
-      userFilterData(filterData,filterPage);
+    if (appliedFilters.length === 0) {
+      userFilterData(filterData, filterPage);
     } else {
+      setPage(1);
       fetchData(page);
     }
   };
@@ -181,7 +191,7 @@ export default function Home() {
   const handlePageChangeFilter = (newPage: number) => {
     if (newPage > 0 && newPage <= totalPagesFilter) {
       setFilterPage(newPage);
-      userFilterData(newPage, filterPage); 
+      userFilterData(newPage, filterPage);
     }
   };
   if (isLoading) {
