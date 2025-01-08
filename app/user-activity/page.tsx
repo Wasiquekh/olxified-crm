@@ -111,6 +111,7 @@ export default function Home() {
       fetchData(page);
     } else {
       setIsFilter(true);
+      setFilterPage(1);
       fetchFilteredUserActivities(filteredData, filterPage);
     }
 
@@ -169,7 +170,10 @@ export default function Home() {
   const handlePageChangeFilter = (newPage: number) => {
     if (newPage > 0 && newPage <= totalPagesFilter) {
       setFilterPage(newPage);
-      fetchFilteredUserActivities(filterData, newPage);
+      const filteredData = Object.fromEntries(
+        Object.entries(filterData).filter(([_, value]) => value !== "")
+      );
+      fetchFilteredUserActivities(filteredData, newPage);
     }
   };
 
