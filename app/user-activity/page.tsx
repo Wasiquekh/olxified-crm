@@ -19,6 +19,8 @@ import { HiChevronDoubleRight } from "react-icons/hi";
 import { number, setLocale } from "yup";
 import { RiFilterFill } from "react-icons/ri";
 import { toast } from "react-toastify";
+import { RiAccountCircleLine } from "react-icons/ri";
+import { RxCross2 } from "react-icons/rx";
 
 const axiosProvider = new AxiosProvider();
 
@@ -68,6 +70,8 @@ export default function Home() {
   const [isError, setIsError] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isFilter, setIsFilter] = useState<boolean>(false);
+  const [appliedFilters, setAppliedFilters] = useState<string[]>([]);
+  console.log("USER ACTIVITY APPLIED FILTER", appliedFilters);
   const storage = new StorageManager();
   //console.log("Get all user Data", data);
   const router = useRouter();
@@ -97,6 +101,19 @@ export default function Home() {
     getAllUserName();
   }, []);
 
+  useEffect(() => {
+    const filters: string[] = [];
+    if (filterData.uuId) filters.push(`uuid: ${filterData.uuId}`);
+    if (filterData.userActivity)
+      filters.push(`User Activity: ${filterData.name}`);
+    if (filterData.startDate)
+      filters.push(`Start Date: ${filterData.startDate}`);
+    if (filterData.endDate) filters.push(`End Date: ${filterData.endDate}`);
+    if (filterData.module) filters.push(`Module: ${filterData.module}`);
+    if (filterData.type) filters.push(`Type: ${filterData.type}`);
+    setAppliedFilters(filters);
+  }, [filterData]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     setIsFilter(true);
     e.preventDefault();
@@ -104,7 +121,7 @@ export default function Home() {
     const filteredData = Object.fromEntries(
       Object.entries(filterData).filter(([_, value]) => value !== "")
     );
-    console.log('FILTERED DATA',filteredData)
+    console.log("FILTERED DATA", filteredData);
     if (Object.keys(filteredData).length === 0) {
       setIsFilter(false);
       setPage(1);
@@ -114,10 +131,10 @@ export default function Home() {
       setFilterPage(1);
       fetchFilteredUserActivities(filteredData, filterPage);
     }
-
   };
 
-  const fetchFilteredUserActivities = async (data:any, page: number) => {
+  const fetchFilteredUserActivities = async (data: any, page: number) => {
+    console.log('filter data call hua')
     setIsLoading(true);
     try {
       const response = await axiosProvider.post(
@@ -141,6 +158,8 @@ export default function Home() {
   const toggleFilterFlyout = () => setFlyoutFilterOpen(!isFlyoutFilterOpen);
 
   const fetchData = async (currentPage: number) => {
+    console.log('fetch data call hua')
+    setIsFilter(false);
     setIsLoading(true);
     try {
       const response = await axiosProvider.get(
@@ -198,6 +217,33 @@ export default function Home() {
       type: "",
       name: "",
     });
+  };
+  const removeFilter = async (filter: string) => {
+    setAppliedFilters((prevFilters) => prevFilters.filter((f) => f !== filter));
+
+    if (filter.startsWith("uuid")) {
+      filterData.uuId = "";
+    }
+    if (filter.startsWith("Start Date")) {
+      filterData.startDate = "";
+    }
+    if (filter.startsWith("End Date")) {
+      filterData.endDate = "";
+    }
+    if (filter.startsWith("Module")) {
+      filterData.module = "";
+    }
+    if (filter.startsWith("Type")) {
+      filterData.type = "";
+    }
+
+    if (appliedFilters.length === 0) {
+      fetchFilteredUserActivities(filterData, filterPage);
+    } else {
+
+      setPage(1);
+      fetchData(page);
+    }
   };
   if (isLoading) {
     return (
@@ -282,6 +328,32 @@ export default function Home() {
                   </p>
                 </div>
               </div>
+            </div>
+            {/* Show Applied Filters */}
+            <div className="w-[99%] mx-auto mb-3">
+              {appliedFilters.length > 0 && (
+                <div>
+                  <ul>
+                    {" "}
+                    {/* Add gap for spacing between items */}
+                    {appliedFilters.map((filter, index) => (
+                      <li
+                        className=" items-center text-[#1814F3] bg-[#EDF2FE] inline-flex  p-2 rounded gap-1 text-xs ml-2"
+                        key={index}
+                      >
+                        <RiAccountCircleLine className="text-[#1814F3]" />
+                        {filter}
+                        <RxCross2
+                          onClick={() => {
+                             removeFilter(filter);
+                          }}
+                          className="text-[#1814F3] cursor-pointer"
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
               <thead className="text-xs text-[#999999]">
