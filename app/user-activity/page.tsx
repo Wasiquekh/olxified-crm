@@ -45,15 +45,6 @@ interface AllUserName {
   name?: string;
   uuid?: string;
 }
-const initialCustomerData: FilterData = {
-  uuId: "",
-  userActivity: "",
-  startDate: "",
-  endDate: "",
-  module: "",
-  type: "",
-  name: "",
-};
 export default function Home() {
   const [isFlyoutOpen, setFlyoutOpen] = useState<boolean>(false);
   const [isFlyoutFilterOpen, setFlyoutFilterOpen] = useState<boolean>(false);
@@ -64,7 +55,15 @@ export default function Home() {
   const [limit] = useState<number>(10);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [totalPagesFilter, setTotalPagesFilter] = useState<number>(1);
-  const [filterData, setFilterData] = useState<FilterData>(initialCustomerData);
+  const [filterData, setFilterData] = useState<FilterData>({
+    uuId: "",
+    userActivity: "",
+    startDate: "",
+    endDate: "",
+    module: "",
+    type: "",
+    name: "",
+  });
   console.log("+++++++++++++++", filterData);
   const [isError, setIsError] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -102,15 +101,27 @@ export default function Home() {
     setIsFilter(true);
     e.preventDefault();
     toggleFilterFlyout();
-    fetchFilteredUserActivities(filterPage);
+    const filteredData = Object.fromEntries(
+      Object.entries(filterData).filter(([_, value]) => value !== "")
+    );
+    console.log('FILTERED DATA',filteredData)
+    if (Object.keys(filteredData).length === 0) {
+      setIsFilter(false);
+      setPage(1);
+      fetchData(page);
+    } else {
+      setIsFilter(true);
+      fetchFilteredUserActivities(filteredData, filterPage);
+    }
+
   };
-  
-  const fetchFilteredUserActivities = async (page: number) => {
+
+  const fetchFilteredUserActivities = async (data:any, page: number) => {
     setIsLoading(true);
     try {
       const response = await axiosProvider.post(
-        `/filteruseractivites?page=${page}&limit=${limit}`,  // Use passed page value
-        filterData
+        `/filteruseractivites?page=${page}&limit=${limit}`, // Use passed page value
+        data
       );
       console.log("9999999999999999999999999999999", response);
       const result = response.data.data.filteredActivities;
@@ -158,7 +169,7 @@ export default function Home() {
   const handlePageChangeFilter = (newPage: number) => {
     if (newPage > 0 && newPage <= totalPagesFilter) {
       setFilterPage(newPage);
-      fetchFilteredUserActivities(newPage); 
+      fetchFilteredUserActivities(filterData, newPage);
     }
   };
 
@@ -173,7 +184,16 @@ export default function Home() {
     }
   };
   const hadleClear = () => {
-    setFilterData(initialCustomerData);
+    setFilterData({
+      ...filterData,
+      uuId: "",
+      userActivity: "",
+      startDate: "",
+      endDate: "",
+      module: "",
+      type: "",
+      name: "",
+    });
   };
   if (isLoading) {
     return (
