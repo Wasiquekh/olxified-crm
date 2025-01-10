@@ -543,7 +543,7 @@ export default function Home() {
                         About
                       </th>
                       <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px] py-3">
-                        We're open to partnerships, guest posts, and more. Join
+                        We&apos;re open to partnerships, guest posts, and more. Join
                         us to share your insights and grow your audience.
                       </th>
                       <th className="w-[20%] text-[#1B84FF] text-xs font-medium leading-3 cursor-pointer"></th>
