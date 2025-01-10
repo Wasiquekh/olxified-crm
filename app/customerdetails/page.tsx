@@ -314,46 +314,242 @@ export default function Home() {
                 </table>
               </div>
             </div>
+            {/* SKILLS */}
             <div className="w-1/2">
-            <div className="border border-[#F1F1F4] rounded-[12px] w-full">
-                <div className="py-4 px-4 border-b border-[#F1F1F4]">
-                  <p className="text-base font-semibold leading-4">
-                    Community Badges
+              <div className="border border-[#F1F1F4] rounded-[12px] w-full mb-4">
+                <div className="py-4 px-4 border-b border-[#F1F1F4] flex justify-between">
+                  <p className="text-base font-semibold leading-4">Skills</p>
+                  <p className="text-[13px] font-medium leading-4 text-[#1B84FF]">
+                    Skills
                   </p>
                 </div>
                 <table className="w-full pl-8">
                   <thead className=" h-[100px]">
                     <tr className="border-b border-[#F1F1F4]">
                       <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
-                        <div className=" flex items-center gap-3">
-                          <Image
-                            src="/images/1.png"
-                            alt="Orizon profile"
-                            width={50}
-                            height={50}
-                          />
-                          <Image
-                            src="/images/2.png"
-                            alt="Orizon profile"
-                            width={50}
-                            height={50}
-                          />
-                          <Image
-                            src="/images/3.png"
-                            alt="Orizon profile"
-                            width={50}
-                            height={50}
-                          />
-                          <Image
-                            src="/images/4.png"
-                            alt="Orizon profile"
-                            width={50}
-                            height={50}
-                          />
+                        <div className="w-[80%] flex flex-wrap flex-row gap-2">
+                          <div className=" bg-[#F1F1F4] px-[10px] py-[4px] rounded inline">
+                            <span className="text-[11px] font-medium text-[#4B5675]">
+                              web Design
+                            </span>
+                          </div>
+                          <div className=" bg-[#F1F1F4] px-[10px] py-[4px] rounded inline">
+                            <span className="text-[11px] font-medium text-[#4B5675]">
+                              code Review
+                            </span>
+                          </div>
+                          <div className=" bg-[#F1F1F4] px-[10px] py-[4px] rounded inline">
+                            <span className="text-[11px] font-medium text-[#4B5675]">
+                              Figma
+                            </span>
+                          </div>
+                          <div className=" bg-[#F1F1F4] px-[10px] py-[4px] rounded inline">
+                            <span className="text-[11px] font-medium text-[#4B5675]">
+                              Product Development
+                            </span>
+                          </div>
+                          <div className=" bg-[#F1F1F4] px-[10px] py-[4px] rounded inline">
+                            <span className="text-[11px] font-medium text-[#4B5675]">
+                              web flow
+                            </span>
+                          </div>
+                          <div className=" bg-[#F1F1F4] px-[10px] py-[4px] rounded inline">
+                            <span className="text-[11px] font-medium text-[#4B5675]">
+                              AI
+                            </span>
+                          </div>
                         </div>
                       </th>
                     </tr>
                   </thead>
+                </table>
+              </div>
+              {/* MY FILES */}
+              <div className="border border-[#F1F1F4] rounded-[12px] w-full mb-4">
+                <div className="py-4 px-4 border-b border-[#F1F1F4] flex justify-between">
+                  <p className="text-base font-semibold leading-4">My Files</p>
+                </div>
+                <table className="w-full pl-8">
+                  <thead className=" h-[100px]">
+                    <tr className="border-b border-[#F1F1F4]">
+                      <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
+                        <div className="flex flex-col gap-5 my-7">
+                          <div className=" flex items-center gap-3">
+                            <div>
+                              <Image
+                                src="/images/pdf.png"
+                                alt="Orizon profile"
+                                width={24}
+                                height={24}
+                              />
+                            </div>
+                            <div>
+                              <p className="text-[#071437] text-sm font-medium leading-5">
+                                Id Proof.pdf
+                              </p>
+                              <p className="text-[#4B5675] text-xs leading-4">
+                                4.7 MB 26 Sep 2024 3:20 PM
+                              </p>
+                            </div>
+                          </div>
+                          <div className=" flex items-center gap-3">
+                            <div>
+                              <Image
+                                src="/images/pdf.png"
+                                alt="Orizon profile"
+                                width={24}
+                                height={24}
+                              />
+                            </div>
+                            <div>
+                              <p className="text-[#071437] text-sm font-medium leading-5">
+                                Id Proof.pdf
+                              </p>
+                              <p className="text-[#4B5675] text-xs leading-4">
+                                4.7 MB 26 Sep 2024 3:20 PM
+                              </p>
+                            </div>
+                          </div>
+                          <div className=" flex items-center gap-3">
+                            <div>
+                              <Image
+                                src="/images/pdf.png"
+                                alt="Orizon profile"
+                                width={24}
+                                height={24}
+                              />
+                            </div>
+                            <div>
+                              <p className="text-[#071437] text-sm font-medium leading-5">
+                                Id Proof.pdf
+                              </p>
+                              <p className="text-[#4B5675] text-xs leading-4">
+                                4.7 MB 26 Sep 2024 3:20 PM
+                              </p>
+                            </div>
+                          </div>
+                          <div className=" flex items-center gap-3">
+                            <div>
+                              <Image
+                                src="/images/pdf.png"
+                                alt="Orizon profile"
+                                width={24}
+                                height={24}
+                              />
+                            </div>
+                            <div>
+                              <p className="text-[#071437] text-sm font-medium leading-5">
+                                Id Proof.pdf
+                              </p>
+                              <p className="text-[#4B5675] text-xs leading-4">
+                                4.7 MB 26 Sep 2024 3:20 PM
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </th>
+                    </tr>
+                  </thead>
+                </table>
+                <div className="py-4 px-4 border-b border-[#F1F1F4] flex justify-center">
+                  <p className="text-[13px] font-medium leading-[13px] text-[#1B84FF]">
+                    My Files
+                  </p>
+                </div>
+              </div>
+              <div className="border border-[#F1F1F4] rounded-[12px] w-full mb-4">
+                <div className="py-4 px-4 border-b border-[#F1F1F4]">
+                  <p className="text-base font-semibold leading-4">Work</p>
+                </div>
+                <table className="w-full pl-8">
+                  <thead className=" h-[57px]">
+                    <tr className="border-b border-[#F1F1F4]">
+                      <th className="w-[20%]  text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
+                        Language
+                      </th>
+                      <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
+                        {" "}
+                        English -Fluent
+                      </th>
+                    </tr>
+                  </thead>
+                  <thead className="h-[57px]">
+                    <tr className="border-b border-[#F1F1F4]">
+                      <th className="w-[20%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
+                        Hourly Rate
+                      </th>
+                      <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
+                        Hourly Rate
+                      </th>
+                    </tr>
+                  </thead>
+                  <thead className="h-[57px]">
+                    <tr className="border-b border-[#F1F1F4]">
+                      <th className="w-[20%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
+                        Avaibilaty
+                      </th>
+                      <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
+                        32 hours a week
+                      </th>
+                      <th className="w-[20%] text-[#1B84FF] text-xs font-medium leading-3 cursor-pointer"></th>
+                    </tr>
+                  </thead>
+                  <thead className="">
+                    <tr className="border-b border-[#F1F1F4]">
+                      <th className="w-[20%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
+                        Skills
+                      </th>
+                      <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
+                        <div className="w-full flex flex-wrap flex-row gap-2 py-3">
+                          <div className=" bg-[#F1F1F4] px-[10px] py-[4px] rounded inline">
+                            <span className="text-[11px] font-medium text-[#4B5675]">
+                              web Design
+                            </span>
+                          </div>
+                          <div className=" bg-[#F1F1F4] px-[10px] py-[4px] rounded inline">
+                            <span className="text-[11px] font-medium text-[#4B5675]">
+                              code Review
+                            </span>
+                          </div>
+                          <div className=" bg-[#F1F1F4] px-[10px] py-[4px] rounded inline">
+                            <span className="text-[11px] font-medium text-[#4B5675]">
+                              Figma
+                            </span>
+                          </div>
+                          <div className=" bg-[#F1F1F4] px-[10px] py-[4px] rounded inline">
+                            <span className="text-[11px] font-medium text-[#4B5675]">
+                              Product Development
+                            </span>
+                          </div>
+                          <div className=" bg-[#F1F1F4] px-[10px] py-[4px] rounded inline">
+                            <span className="text-[11px] font-medium text-[#4B5675]">
+                              web flow
+                            </span>
+                          </div>
+                          <div className=" bg-[#F1F1F4] px-[10px] py-[4px] rounded inline">
+                            <span className="text-[11px] font-medium text-[#4B5675]">
+                              AI
+                            </span>
+                          </div>
+                        </div>
+                      </th>
+                      <th className="w-[20%] text-[#1B84FF] text-xs font-medium leading-3 cursor-pointer"></th>
+                    </tr>
+                  </thead>
+             
+                  <thead className="">
+                    <tr className="border-b border-[#F1F1F4]">
+                      <th className="w-[20%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
+                        About
+                      </th>
+                      <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px] py-3">
+                        We're open to partnerships, guest posts, and more. Join
+                        us to share your insights and grow your audience.
+                      </th>
+                      <th className="w-[20%] text-[#1B84FF] text-xs font-medium leading-3 cursor-pointer"></th>
+                    </tr>
+                  </thead>
+               
                 </table>
               </div>
             </div>
