@@ -24,6 +24,7 @@ import CustomerViewDetails from "../component/CustomerViewDetails";
 import LeftSideBar from "../component/LeftSideBar";
 import { HiChevronDoubleLeft } from "react-icons/hi";
 import { HiChevronDoubleRight } from "react-icons/hi";
+import Link from "next/link";
 
 const axiosProvider = new AxiosProvider();
 
@@ -462,9 +463,10 @@ export default function Home() {
                         </p>
                       </td>
                       <td>
+                        <Link href='customerdetails'>
                         <button
                           // onClick={toggleFlyout}
-                          onClick={() => handleViewDetails(item)}
+                         // onClick={() => handleViewDetails(item)
                           className=" py-[6px] px-4 bg-[#C6F7FE] m-2 flex gap-[10px] items-center rounded-full"
                         >
                           <MdRemoveRedEye className=" text-customBlue w-4 h-4" />
@@ -472,6 +474,7 @@ export default function Home() {
                             View Details
                           </p>
                         </button>
+                        </Link>
                       </td>
                     </tr>
                   ))
