@@ -165,10 +165,10 @@ export default function Home() {
                     </td>
                   </tr>
                 ) :
-               ( data.map((item) => (
+               ( data.map((item, index) => (
                   <tr
                     className="border border-tableBorder bg-white"
-                    // key={index}
+                     key={index}
                   >
                     <td className="w-4 px-4 py-0 border border-tableBorder">
                       <div className="flex items-center">
