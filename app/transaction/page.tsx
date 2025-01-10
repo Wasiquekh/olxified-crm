@@ -10,7 +10,6 @@ import { useEffect, useState } from "react";
 import { HiChevronDoubleLeft } from "react-icons/hi";
 import { HiChevronDoubleRight } from "react-icons/hi";
 
-
 const axiosProvider = new AxiosProvider();
 
 interface Tab {
@@ -34,7 +33,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
   const fetchData = async () => {
-     setIsLoading(true);
+    setIsLoading(true);
     // setIsFilter(false);
     try {
       const response = await axiosProvider.get(
@@ -47,7 +46,7 @@ export default function Home() {
     } catch (error: any) {
       setIsError(true);
     } finally {
-        setIsLoading(false);
+      setIsLoading(false);
     }
   };
   useEffect(() => {
@@ -158,97 +157,98 @@ export default function Home() {
                 </tr>
               </thead>
               <tbody>
-              {isError ? (
+                {isError ? (
                   <tr className="">
                     <td colSpan={8} className="text-center text-xl mt-5">
                       <div className=" mt-5">Data not found</div>
                     </td>
                   </tr>
-                ) :
-               ( data.map((item, index) => (
-                  <tr
-                    className="border border-tableBorder bg-white"
-                     key={index}
-                  >
-                    <td className="w-4 px-4 py-0 border border-tableBorder">
-                      <div className="flex items-center">
-                        <input
-                          id="checkbox-table-search-1"
-                          type="checkbox"
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                        />
-                        <label
-                          htmlFor="checkbox-table-search-1"
-                          className="sr-only"
-                        >
-                          checkbox
-                        </label>
-                      </div>
-                    </td>
-                    <td className="px-2 py-2 border border-tableBorder flex items-center gap-2">
-                      <div>
-                        <PiArrowCircleUp className="w-[30px] h-[30px] text-[#718EBF] my-2" />
-                      </div>
-                      <div>
+                ) : (
+                  data.map((item, index) => (
+                    <tr
+                      className="border border-tableBorder bg-white"
+                      key={index}
+                    >
+                      <td className="w-4 px-4 py-0 border border-tableBorder">
+                        <div className="flex items-center">
+                          <input
+                            id="checkbox-table-search-1"
+                            type="checkbox"
+                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          />
+                          <label
+                            htmlFor="checkbox-table-search-1"
+                            className="sr-only"
+                          >
+                            checkbox
+                          </label>
+                        </div>
+                      </td>
+                      <td className="px-2 py-2 border border-tableBorder flex items-center gap-2">
+                        <div>
+                          <PiArrowCircleUp className="w-[30px] h-[30px] text-[#718EBF] my-2" />
+                        </div>
+                        <div>
+                          <p className="text-[#232323] text-base leading-normal">
+                            {item.description}
+                          </p>
+                        </div>
+                      </td>
+                      <td className="px-2 py-0 border border-tableBorder">
                         <p className="text-[#232323] text-base leading-normal">
-                          {item.description}
+                          {item.transaction_id}
                         </p>
-                      </div>
-                    </td>
-                    <td className="px-2 py-0 border border-tableBorder">
-                      <p className="text-[#232323] text-base leading-normal">
-                        {item.transaction_id}
-                      </p>
-                    </td>
-                    <td className="px-2 py-0 border border-tableBorder">
-                      <p className="text-[#232323] text-base leading-normal">
-                        {item.type}
-                      </p>
-                    </td>
-                    <td className="px-2 py-0 border border-tableBorder">
-                      <div className="flex gap-1.5">
+                      </td>
+                      <td className="px-2 py-0 border border-tableBorder">
                         <p className="text-[#232323] text-base leading-normal">
-                         {item.card}
+                          {item.type}
                         </p>
-                      </div>
-                    </td>
-                    <td className="px-2 py-0 border border-tableBorder">
-                      <div className="flex gap-1.5">
-                        <p className="text-[#232323] text-base leading-normal">
-                       {item.date}
-                        </p>
-                      </div>
-                    </td>
-                    <td className="px-2 py-0 border border-tableBorder">
-                      <div className="flex gap-1.5">
-                        <p className="text-[#FE5C73] text-base font-medium leading-normal">
-                          {item.amount}
-                        </p>
-                      </div>
-                    </td>
-                  </tr>
-                )))}
+                      </td>
+                      <td className="px-2 py-0 border border-tableBorder">
+                        <div className="flex gap-1.5">
+                          <p className="text-[#232323] text-base leading-normal">
+                            {item.card}
+                          </p>
+                        </div>
+                      </td>
+                      <td className="px-2 py-0 border border-tableBorder">
+                        <div className="flex gap-1.5">
+                          <p className="text-[#232323] text-base leading-normal">
+                            {item.date}
+                          </p>
+                        </div>
+                      </td>
+                      <td className="px-2 py-0 border border-tableBorder">
+                        <div className="flex gap-1.5">
+                          <p className="text-[#FE5C73] text-base font-medium leading-normal">
+                            {item.amount}
+                          </p>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
-                          <div className="flex justify-center items-center my-6">
-                            <button
-                              onClick={() => handlePageChange(page - 1)}
-                              disabled={page === 1}
-                              className="px-2 py-2 mx-2 border rounded bg-customBlue text-white disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                              <HiChevronDoubleLeft className=" w-6 h-auto" />
-                            </button>
-                            <span className="text-[#717171] text-sm">
-                              Page {page} of {totalPages}
-                            </span>
-                            <button
-                              onClick={() => handlePageChange(page + 1)}
-                              disabled={page === totalPages}
-                              className="px-2 py-2 mx-2 border rounded bg-customBlue text-white disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                              <HiChevronDoubleRight className=" w-6 h-auto" />
-                            </button>
-                          </div>
+            <div className="flex justify-center items-center my-6">
+              <button
+                onClick={() => handlePageChange(page - 1)}
+                disabled={page === 1}
+                className="px-2 py-2 mx-2 border rounded bg-customBlue text-white disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <HiChevronDoubleLeft className=" w-6 h-auto" />
+              </button>
+              <span className="text-[#717171] text-sm">
+                Page {page} of {totalPages}
+              </span>
+              <button
+                onClick={() => handlePageChange(page + 1)}
+                disabled={page === totalPages}
+                className="px-2 py-2 mx-2 border rounded bg-customBlue text-white disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <HiChevronDoubleRight className=" w-6 h-auto" />
+              </button>
+            </div>
           </div>
           {/* ----------------End table--------------------------- */}
         </>
@@ -256,7 +256,246 @@ export default function Home() {
     },
     {
       label: "Income",
-      content: <>{/* Tab 2 content */}</>,
+      content: (
+        <>
+          <div className="flex flex-wrap flex-row gap-2">
+            <div className="w-[30%] h-[299px] p-6 bg-white rounded-xl flex-col justify-start items-start gap-4 inline-flex">
+              <div className="self-stretch justify-between items-center inline-flex">
+                <div className="h-[50px] relative">
+                  <Image
+                    src="/images/user.svg"
+                    alt="Orizon profile"
+                    width={50}
+                    height={50}
+                  />
+                  <div className="w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute bg-[#2db3ff] rounded-xl justify-center items-center gap-2.5 inline-flex">
+                    <div className="text-white text-sm font-semibold">
+                      On Progress
+                    </div>
+                  </div>
+                </div>
+                <div className="w-6 h-6 relative  overflow-hidden">
+                  <div className="w-[5px] h-6 left-[9.50px] top-0 absolute"></div>
+                </div>
+              </div>
+              <div className="self-stretch text-[#0e0e0e] text-base font-medium">
+                Liveness Detection
+              </div>
+              <div className="self-stretch h-[93px] rounded border border-[#232323] flex-col justify-start items-start gap-2.5 flex">
+                <div className="self-stretch h-[72px] pl-4 py-1 rounded-tl rounded-tr justify-start items-start gap-1 inline-flex">
+                  <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
+                    <div className="px-1 bg-[#ece6f0] justify-start items-center inline-flex relative bottom-[13px]">
+                      <div className="text-[#2953e8] text-xs font-normal leading-none tracking-wide">
+                        Admin Review
+                      </div>
+                    </div>
+                    <div className="self-stretch justify-start items-center inline-flex">
+                      <div className="w-[258px] h-12 text-[#414349] text-base font-normal leading-normal tracking-wide">
+                        the face value of live dtection score is less{" "}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="self-stretch justify-between items-center inline-flex">
+                <div className="w-[150px] h-9 relative">
+                  <div className="left-[121px] top-0 absolute text-[#3f3f3f] text-sm font-semibold">
+                    24%
+                  </div>
+                  <div className="left-0 top-0 absolute text-[#3f3f3f] text-sm font-medium">
+                    Liveness Code
+                  </div>
+                  <div className="w-[149px] h-[7px] left-0 top-[29px] absolute">
+                    <div className="w-[149px] h-[7px] left-0 top-0 absolute bg-[#e4e4e4] rounded-2xl" />
+                    <div className="w-[45px] h-[7px] left-0 top-0 absolute bg-[#2953e8] rounded-2xl" />
+                  </div>
+                </div>
+                <div className="px-2 py-1 bg-[#eef1ff] rounded-xl justify-center items-center gap-2.5 flex">
+                  <div className="text-[#2953e8] text-sm font-bold">
+                    Notify User
+                  </div>
+                  <div className="w-3 h-3 relative flex-col justify-start items-start inline-flex overflow-hidden" />
+                </div>
+              </div>
+            </div>
+            <div className="w-[30%] h-[299px] p-6 bg-white rounded-xl flex-col justify-start items-start gap-4 inline-flex">
+              <div className="self-stretch justify-between items-center inline-flex">
+                <div className="h-[50px] relative">
+                  <Image
+                    src="/images/user.svg"
+                    alt="Orizon profile"
+                    width={50}
+                    height={50}
+                  />
+                  <div className="w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute bg-[#379941] rounded-xl justify-center items-center gap-2.5 inline-flex">
+                    <div className="text-white text-sm font-semibold">
+                      Approved
+                    </div>
+                  </div>
+                </div>
+                <div className="w-6 h-6 relative  overflow-hidden">
+                  <div className="w-[5px] h-6 left-[9.50px] top-0 absolute"></div>
+                </div>
+              </div>
+              <div className="self-stretch text-[#0e0e0e] text-base font-medium">
+              Identity Matching
+              </div>
+              <div className="self-stretch h-[93px] rounded border border-[#232323] flex-col justify-start items-start gap-2.5 flex">
+                <div className="self-stretch h-[72px] pl-4 py-1 rounded-tl rounded-tr justify-start items-start gap-1 inline-flex">
+                  <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
+                    <div className="px-1 bg-[#ece6f0] justify-start items-center inline-flex relative bottom-[13px]">
+                      <div className="text-[#2953e8] text-xs font-normal leading-none tracking-wide">
+                        Admin Review
+                      </div>
+                    </div>
+                    <div className="self-stretch justify-start items-center inline-flex">
+                      <div className="w-[258px] h-12 text-[#414349] text-base font-normal leading-normal tracking-wide">
+                        the face value of live dtection score is less{" "}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="self-stretch justify-between items-center inline-flex">
+                <div className="w-[150px] h-9 relative">
+                  <div className="left-[121px] top-0 absolute text-[#3f3f3f] text-sm font-semibold">
+                    24%
+                  </div>
+                  <div className="left-0 top-0 absolute text-[#3f3f3f] text-sm font-medium">
+                    Liveness Code
+                  </div>
+                  <div className="w-[149px] h-[7px] left-0 top-[29px] absolute">
+                    <div className="w-[149px] h-[7px] left-0 top-0 absolute bg-[#e4e4e4] rounded-2xl" />
+                    <div className="w-[45px] h-[7px] left-0 top-0 absolute bg-[#2953e8] rounded-2xl" />
+                  </div>
+                </div>
+                <div className="px-2 py-1 bg-[#eef1ff] rounded-xl justify-center items-center gap-2.5 flex">
+                  <div className="text-[#2953e8] text-sm font-bold">
+                    Notify User
+                  </div>
+                  <div className="w-3 h-3 relative flex-col justify-start items-start inline-flex overflow-hidden" />
+                </div>
+              </div>
+            </div>
+            <div className="w-[30%] h-[299px] p-6 bg-white rounded-xl flex-col justify-start items-start gap-4 inline-flex">
+              <div className="self-stretch justify-between items-center inline-flex">
+                <div className="h-[50px] relative">
+                  <Image
+                    src="/images/user.svg"
+                    alt="Orizon profile"
+                    width={50}
+                    height={50}
+                  />
+                  <div className="w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute bg-[#D2843C] rounded-xl justify-center items-center gap-2.5 inline-flex">
+                    <div className="text-white text-sm font-semibold">
+                    Under Review
+                    </div>
+                  </div>
+                </div>
+                <div className="w-6 h-6 relative  overflow-hidden">
+                  <div className="w-[5px] h-6 left-[9.50px] top-0 absolute"></div>
+                </div>
+              </div>
+              <div className="self-stretch text-[#0e0e0e] text-base font-medium">
+              User Details Verification
+              </div>
+              <div className="self-stretch h-[93px] rounded border border-[#232323] flex-col justify-start items-start gap-2.5 flex">
+                <div className="self-stretch h-[72px] pl-4 py-1 rounded-tl rounded-tr justify-start items-start gap-1 inline-flex">
+                  <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
+                    <div className="px-1 bg-[#ece6f0] justify-start items-center inline-flex relative bottom-[13px]">
+                      <div className="text-[#2953e8] text-xs font-normal leading-none tracking-wide">
+                        Admin Review
+                      </div>
+                    </div>
+                    <div className="self-stretch justify-start items-center inline-flex">
+                      <div className="w-[258px] h-12 text-[#414349] text-base font-normal leading-normal tracking-wide">
+                        the face value of live dtection score is less{" "}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="self-stretch justify-between items-center inline-flex">
+                <div className="w-[150px] h-9 relative">
+                  <div className="left-[121px] top-0 absolute text-[#3f3f3f] text-sm font-semibold">
+                    24%
+                  </div>
+                  <div className="left-0 top-0 absolute text-[#3f3f3f] text-sm font-medium">
+                    Liveness Code
+                  </div>
+                  <div className="w-[149px] h-[7px] left-0 top-[29px] absolute">
+                    <div className="w-[149px] h-[7px] left-0 top-0 absolute bg-[#e4e4e4] rounded-2xl" />
+                    <div className="w-[45px] h-[7px] left-0 top-0 absolute bg-[#2953e8] rounded-2xl" />
+                  </div>
+                </div>
+                <div className="px-2 py-1 bg-[#eef1ff] rounded-xl justify-center items-center gap-2.5 flex">
+                  <div className="text-[#2953e8] text-sm font-bold">
+                    Notify User
+                  </div>
+                  <div className="w-3 h-3 relative flex-col justify-start items-start inline-flex overflow-hidden" />
+                </div>
+              </div>
+            </div>
+            <div className="w-[30%] h-[299px] p-6 bg-white rounded-xl flex-col justify-start items-start gap-4 inline-flex">
+              <div className="self-stretch justify-between items-center inline-flex">
+                <div className="h-[50px] relative">
+                  <Image
+                    src="/images/user.svg"
+                    alt="Orizon profile"
+                    width={50}
+                    height={50}
+                  />
+                  <div className="w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute bg-[#E52020] rounded-xl justify-center items-center gap-2.5 inline-flex">
+                    <div className="text-white text-sm font-semibold">
+                    Rejected
+                    </div>
+                  </div>
+                </div>
+                <div className="w-6 h-6 relative  overflow-hidden">
+                  <div className="w-[5px] h-6 left-[9.50px] top-0 absolute"></div>
+                </div>
+              </div>
+              <div className="self-stretch h-[93px] rounded border border-[#232323] flex-col justify-start items-start gap-2.5 flex">
+                <div className="self-stretch h-[72px] pl-4 py-1 rounded-tl rounded-tr justify-start items-start gap-1 inline-flex">
+                  <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
+                    <div className="px-1 bg-[#ece6f0] justify-start items-center inline-flex relative bottom-[13px]">
+                      <div className="text-[#2953e8] text-xs font-normal leading-none tracking-wide">
+                        Admin Review
+                      </div>
+                    </div>
+                    <div className="self-stretch justify-start items-center inline-flex">
+                      <div className="w-[258px] h-12 text-[#414349] text-base font-normal leading-normal tracking-wide">
+                        the face value of live dtection score is less{" "}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="self-stretch justify-between items-center inline-flex">
+                <div className="w-[150px] h-9 relative">
+                  <div className="left-[121px] top-0 absolute text-[#3f3f3f] text-sm font-semibold">
+                    24%
+                  </div>
+                  <div className="left-0 top-0 absolute text-[#3f3f3f] text-sm font-medium">
+                    Liveness Code
+                  </div>
+                  <div className="w-[149px] h-[7px] left-0 top-[29px] absolute">
+                    <div className="w-[149px] h-[7px] left-0 top-0 absolute bg-[#e4e4e4] rounded-2xl" />
+                    <div className="w-[45px] h-[7px] left-0 top-0 absolute bg-[#2953e8] rounded-2xl" />
+                  </div>
+                </div>
+                <div className="px-2 py-1 bg-[#eef1ff] rounded-xl justify-center items-center gap-2.5 flex">
+                  <div className="text-[#2953e8] text-sm font-bold">
+                    Notify User
+                  </div>
+                  <div className="w-3 h-3 relative flex-col justify-start items-start inline-flex overflow-hidden" />
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </>
+      ),
     },
     {
       label: "Expense",

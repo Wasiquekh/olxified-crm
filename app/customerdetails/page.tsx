@@ -536,20 +536,19 @@ export default function Home() {
                       <th className="w-[20%] text-[#1B84FF] text-xs font-medium leading-3 cursor-pointer"></th>
                     </tr>
                   </thead>
-             
+
                   <thead className="">
                     <tr className="border-b border-[#F1F1F4]">
                       <th className="w-[20%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
                         About
                       </th>
                       <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px] py-3">
-                        We&apos;re open to partnerships, guest posts, and more. Join
-                        us to share your insights and grow your audience.
+                        We&apos;re open to partnerships, guest posts, and more.
+                        Join us to share your insights and grow your audience.
                       </th>
                       <th className="w-[20%] text-[#1B84FF] text-xs font-medium leading-3 cursor-pointer"></th>
                     </tr>
                   </thead>
-               
                 </table>
               </div>
             </div>
@@ -563,75 +562,237 @@ export default function Home() {
       content: (
         <>
           {/* //   Tab 2 content */}
-          <div className=" flex gap-8 pt-8">
-            <div className=" w-full">
-              <div className=" w-full flex gap-6">
-                <div className=" w-full">
-                  <p className=" text-[#232323] text-base leading-normal mb-2">
-                    Currency
-                  </p>
-                  <input
-                    type="text"
-                    placeholder="USD"
-                    className=" focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-6"
+          <div className="flex flex-wrap flex-row gap-2">
+            <div className="w-[30%] h-[299px] p-6 bg-white rounded-xl flex-col justify-start items-start gap-4 inline-flex">
+              <div className="self-stretch justify-between items-center inline-flex">
+                <div className="h-[50px] relative">
+                  <Image
+                    src="/images/user.svg"
+                    alt="Orizon profile"
+                    width={50}
+                    height={50}
                   />
+                  <div className="w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute bg-[#2db3ff] rounded-xl justify-center items-center gap-2.5 inline-flex">
+                    <div className="text-white text-sm font-semibold">
+                      On Progress
+                    </div>
+                  </div>
                 </div>
-                <div className=" w-full">
-                  <p className=" text-[#232323] text-base leading-normal mb-2">
-                    Time Zone
-                  </p>
-                  <input
-                    type="text"
-                    placeholder="(GMT-12:00) International Date Line West"
-                    className=" focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-6"
-                  />
+                <div className="w-6 h-6 relative  overflow-hidden">
+                  <div className="w-[5px] h-6 left-[9.50px] top-0 absolute"></div>
                 </div>
               </div>
-              <div className=" w-full flex gap-6">
-                <div className=" w-full">
-                  <p className=" text-[#333B69] text-[17px] font-medium leading-normal mb-2">
-                    Controlls
-                  </p>
-                  <label className="inline-flex items-center cursor-pointer mt-4">
-                    <input
-                      type="checkbox"
-                      value=""
-                      className="sr-only peer"
-                      readOnly
-                    />
-                    <div className="relative w-14 h-[30.71px] bg-gray-200 peer-focus:outline-none   rounded-full peer dark:bg-[#DFEAF2] peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[3px] after:start-[4px] after:bg-white   after:rounded-full after:h-6 after:w-6 after:transition-all  peer-checked:bg-[#16DBCC]"></div>
-                    <span className="ms-3 text-base  text-[#232323] leading-normal">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                    </span>
-                  </label>
-                  <label className="inline-flex items-center cursor-pointer mt-4">
-                    <input type="checkbox" value="" className="sr-only peer" />
-                    <div className="relative w-14 h-[30.71px] bg-gray-200 peer-focus:outline-none   rounded-full peer dark:bg-[#DFEAF2] peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[3px] after:start-[4px] after:bg-white   after:rounded-full after:h-6 after:w-6 after:transition-all  peer-checked:bg-[#16DBCC]"></div>
-                    <span className="ms-3 text-base  text-[#232323] leading-normal">
-                      Delete User Detais
-                    </span>
-                  </label>
-                  <label className="inline-flex items-center cursor-pointer mt-4">
-                    <input
-                      type="checkbox"
-                      value=""
-                      className="sr-only peer"
-                      readOnly
-                    />
-                    <div className="relative w-14 h-[30.71px] bg-gray-200 peer-focus:outline-none   rounded-full peer dark:bg-[#DFEAF2] peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[3px] after:start-[4px] after:bg-white   after:rounded-full after:h-6 after:w-6 after:transition-all  peer-checked:bg-[#16DBCC]"></div>
-                    <span className="ms-3 text-base  text-[#232323] leading-normal">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                    </span>
-                  </label>
-                </div>
-                <div className=" w-full"></div>
+              <div className="self-stretch text-[#0e0e0e] text-base font-medium">
+                Liveness Detection
               </div>
-              <div className=" w-full flex gap-6">
-                <div className=" w-full"></div>
-                <div className=" w-full flex justify-end">
-                  <button className=" w-[190px] h-[50px] bg-customBlue rounded-[15px] text-white text-lg leading-normal font-medium">
-                    Save
-                  </button>
+              <div className="self-stretch h-[93px] rounded border border-[#232323] flex-col justify-start items-start gap-2.5 flex">
+                <div className="self-stretch h-[72px] pl-4 py-1 rounded-tl rounded-tr justify-start items-start gap-1 inline-flex">
+                  <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
+                    <div className="px-1 bg-[#ece6f0] justify-start items-center inline-flex relative bottom-[13px]">
+                      <div className="text-[#2953e8] text-xs font-normal leading-none tracking-wide">
+                        Admin Review
+                      </div>
+                    </div>
+                    <div className="self-stretch justify-start items-center inline-flex">
+                      <div className="w-[258px] h-12 text-[#414349] text-base font-normal leading-normal tracking-wide">
+                        the face value of live dtection score is less{" "}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="self-stretch justify-between items-center inline-flex">
+                <div className="w-[150px] h-9 relative">
+                  <div className="left-[121px] top-0 absolute text-[#3f3f3f] text-sm font-semibold">
+                    24%
+                  </div>
+                  <div className="left-0 top-0 absolute text-[#3f3f3f] text-sm font-medium">
+                    Liveness Code
+                  </div>
+                  <div className="w-[149px] h-[7px] left-0 top-[29px] absolute">
+                    <div className="w-[149px] h-[7px] left-0 top-0 absolute bg-[#e4e4e4] rounded-2xl" />
+                    <div className="w-[45px] h-[7px] left-0 top-0 absolute bg-[#2953e8] rounded-2xl" />
+                  </div>
+                </div>
+                <div className="px-2 py-1 bg-[#eef1ff] rounded-xl justify-center items-center gap-2.5 flex">
+                  <div className="text-[#2953e8] text-sm font-bold">
+                    Notify User
+                  </div>
+                  <div className="w-3 h-3 relative flex-col justify-start items-start inline-flex overflow-hidden" />
+                </div>
+              </div>
+            </div>
+            <div className="w-[30%] h-[299px] p-6 bg-white rounded-xl flex-col justify-start items-start gap-4 inline-flex">
+              <div className="self-stretch justify-between items-center inline-flex">
+                <div className="h-[50px] relative">
+                  <Image
+                    src="/images/user.svg"
+                    alt="Orizon profile"
+                    width={50}
+                    height={50}
+                  />
+                  <div className="w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute bg-[#379941] rounded-xl justify-center items-center gap-2.5 inline-flex">
+                    <div className="text-white text-sm font-semibold">
+                      Approved
+                    </div>
+                  </div>
+                </div>
+                <div className="w-6 h-6 relative  overflow-hidden">
+                  <div className="w-[5px] h-6 left-[9.50px] top-0 absolute"></div>
+                </div>
+              </div>
+              <div className="self-stretch text-[#0e0e0e] text-base font-medium">
+                Identity Matching
+              </div>
+              <div className="self-stretch h-[93px] rounded border border-[#232323] flex-col justify-start items-start gap-2.5 flex">
+                <div className="self-stretch h-[72px] pl-4 py-1 rounded-tl rounded-tr justify-start items-start gap-1 inline-flex">
+                  <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
+                    <div className="px-1 bg-[#ece6f0] justify-start items-center inline-flex relative bottom-[13px]">
+                      <div className="text-[#2953e8] text-xs font-normal leading-none tracking-wide">
+                        Admin Review
+                      </div>
+                    </div>
+                    <div className="self-stretch justify-start items-center inline-flex">
+                      <div className="w-[258px] h-12 text-[#414349] text-base font-normal leading-normal tracking-wide">
+                        the face value of live dtection score is less{" "}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="self-stretch justify-between items-center inline-flex">
+                <div className="w-[150px] h-9 relative">
+                  <div className="left-[121px] top-0 absolute text-[#3f3f3f] text-sm font-semibold">
+                    24%
+                  </div>
+                  <div className="left-0 top-0 absolute text-[#3f3f3f] text-sm font-medium">
+                    Liveness Code
+                  </div>
+                  <div className="w-[149px] h-[7px] left-0 top-[29px] absolute">
+                    <div className="w-[149px] h-[7px] left-0 top-0 absolute bg-[#e4e4e4] rounded-2xl" />
+                    <div className="w-[45px] h-[7px] left-0 top-0 absolute bg-[#2953e8] rounded-2xl" />
+                  </div>
+                </div>
+                <div className="px-2 py-1 bg-[#eef1ff] rounded-xl justify-center items-center gap-2.5 flex">
+                  <div className="text-[#2953e8] text-sm font-bold">
+                    Notify User
+                  </div>
+                  <div className="w-3 h-3 relative flex-col justify-start items-start inline-flex overflow-hidden" />
+                </div>
+              </div>
+            </div>
+            <div className="w-[30%] h-[299px] p-6 bg-white rounded-xl flex-col justify-start items-start gap-4 inline-flex">
+              <div className="self-stretch justify-between items-center inline-flex">
+                <div className="h-[50px] relative">
+                  <Image
+                    src="/images/user.svg"
+                    alt="Orizon profile"
+                    width={50}
+                    height={50}
+                  />
+                  <div className="w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute bg-[#D2843C] rounded-xl justify-center items-center gap-2.5 inline-flex">
+                    <div className="text-white text-sm font-semibold">
+                      Under Review
+                    </div>
+                  </div>
+                </div>
+                <div className="w-6 h-6 relative  overflow-hidden">
+                  <div className="w-[5px] h-6 left-[9.50px] top-0 absolute"></div>
+                </div>
+              </div>
+              <div className="self-stretch text-[#0e0e0e] text-base font-medium">
+                User Details Verification
+              </div>
+              <div className="self-stretch h-[93px] rounded border border-[#232323] flex-col justify-start items-start gap-2.5 flex">
+                <div className="self-stretch h-[72px] pl-4 py-1 rounded-tl rounded-tr justify-start items-start gap-1 inline-flex">
+                  <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
+                    <div className="px-1 bg-[#ece6f0] justify-start items-center inline-flex relative bottom-[13px]">
+                      <div className="text-[#2953e8] text-xs font-normal leading-none tracking-wide">
+                        Admin Review
+                      </div>
+                    </div>
+                    <div className="self-stretch justify-start items-center inline-flex">
+                      <div className="w-[258px] h-12 text-[#414349] text-base font-normal leading-normal tracking-wide">
+                        the face value of live dtection score is less{" "}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="self-stretch justify-between items-center inline-flex">
+                <div className="w-[150px] h-9 relative">
+                  <div className="left-[121px] top-0 absolute text-[#3f3f3f] text-sm font-semibold">
+                    24%
+                  </div>
+                  <div className="left-0 top-0 absolute text-[#3f3f3f] text-sm font-medium">
+                    Liveness Code
+                  </div>
+                  <div className="w-[149px] h-[7px] left-0 top-[29px] absolute">
+                    <div className="w-[149px] h-[7px] left-0 top-0 absolute bg-[#e4e4e4] rounded-2xl" />
+                    <div className="w-[45px] h-[7px] left-0 top-0 absolute bg-[#2953e8] rounded-2xl" />
+                  </div>
+                </div>
+                <div className="px-2 py-1 bg-[#eef1ff] rounded-xl justify-center items-center gap-2.5 flex">
+                  <div className="text-[#2953e8] text-sm font-bold">
+                    Notify User
+                  </div>
+                  <div className="w-3 h-3 relative flex-col justify-start items-start inline-flex overflow-hidden" />
+                </div>
+              </div>
+            </div>
+            <div className="w-[30%] h-[299px] p-6 bg-white rounded-xl flex-col justify-start items-start gap-4 inline-flex">
+              <div className="self-stretch justify-between items-center inline-flex">
+                <div className="h-[50px] relative">
+                  <Image
+                    src="/images/user.svg"
+                    alt="Orizon profile"
+                    width={50}
+                    height={50}
+                  />
+                  <div className="w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute bg-[#E52020] rounded-xl justify-center items-center gap-2.5 inline-flex">
+                    <div className="text-white text-sm font-semibold">
+                      Rejected
+                    </div>
+                  </div>
+                </div>
+                <div className="w-6 h-6 relative  overflow-hidden">
+                  <div className="w-[5px] h-6 left-[9.50px] top-0 absolute"></div>
+                </div>
+              </div>
+              <div className="self-stretch h-[93px] rounded border border-[#232323] flex-col justify-start items-start gap-2.5 flex">
+                <div className="self-stretch h-[72px] pl-4 py-1 rounded-tl rounded-tr justify-start items-start gap-1 inline-flex">
+                  <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
+                    <div className="px-1 bg-[#ece6f0] justify-start items-center inline-flex relative bottom-[13px]">
+                      <div className="text-[#2953e8] text-xs font-normal leading-none tracking-wide">
+                        Admin Review
+                      </div>
+                    </div>
+                    <div className="self-stretch justify-start items-center inline-flex">
+                      <div className="w-[258px] h-12 text-[#414349] text-base font-normal leading-normal tracking-wide">
+                        the face value of live dtection score is less{" "}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="self-stretch justify-between items-center inline-flex">
+                <div className="w-[150px] h-9 relative">
+                  <div className="left-[121px] top-0 absolute text-[#3f3f3f] text-sm font-semibold">
+                    24%
+                  </div>
+                  <div className="left-0 top-0 absolute text-[#3f3f3f] text-sm font-medium">
+                    Liveness Code
+                  </div>
+                  <div className="w-[149px] h-[7px] left-0 top-[29px] absolute">
+                    <div className="w-[149px] h-[7px] left-0 top-0 absolute bg-[#e4e4e4] rounded-2xl" />
+                    <div className="w-[45px] h-[7px] left-0 top-0 absolute bg-[#2953e8] rounded-2xl" />
+                  </div>
+                </div>
+                <div className="px-2 py-1 bg-[#eef1ff] rounded-xl justify-center items-center gap-2.5 flex">
+                  <div className="text-[#2953e8] text-sm font-bold">
+                    Notify User
+                  </div>
+                  <div className="w-3 h-3 relative flex-col justify-start items-start inline-flex overflow-hidden" />
                 </div>
               </div>
             </div>
