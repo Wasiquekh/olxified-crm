@@ -1,15 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { appCheck } from "../firebase-config";
-import { getToken } from "firebase/app-check";
 import { toast } from "react-toastify";
 import AxiosProvider from "../../provider/AxiosProvider";
 import StorageManager from "../../provider/StorageManager";
 import { AppContext } from "../AppContext";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import UserActivityLogger from "../../provider/UserActivityLogger";
-import { identity } from "firebase-functions/v2";
 import Swal from "sweetalert2";
 
 const axiosProvider = new AxiosProvider();
@@ -53,9 +50,6 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
       try {
         // Check if currentUserData and currentUserData.id are valid
         if (currentUserData && currentUserData.id) {
-          const tokenResponse = await getToken(appCheck, true);
-          const appCheckToken = tokenResponse.token;
-
           // Send user ID along with other data to the API
           const res = await axiosProvider.post("/fetchsecret", {
             userId: currentUserData.id, // Send currentUserData.id to the API
@@ -66,19 +60,13 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
         }
       } catch (error: any) {
         console.log("Error occurred:", error);
-        setUserDescription('');
-
-        // Check if error response exists and handle the error message
-        if (error.response && error.response.data) {
-          toast.error(error.response.data.msg || "An error occurred"); // Display the error message from the API response
-        } else {
-          toast.error("An unexpected error occurred"); // Fallback error message
-        }
+        setUserDescription("");
+        toast.error(error.response.data.msg || "An error occurred"); // Display the error message from the API response
       }
     };
 
     fetchData(); // Call fetchData only if currentUserData.id exists
-  }, [currentUserData, accessToken]); // Adding accessToken as a dependency if it changes
+  }, [currentUserData]); // Adding accessToken as a dependency if it changes
 
   const hanldleDelete = async () => {
     setIsEditFlyoutOpen(false);
@@ -176,12 +164,7 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
             })}
             onSubmit={async (values, { setSubmitting }) => {
               try {
-                const tokenResponse = await getToken(appCheck, true);
-                const appCheckToken = tokenResponse.token;
-                const accessToken = storage.getAccessToken();
-
                 const res = await axiosProvider.post("/updateuser", values);
-
                 if (res.status === 200) {
                   toast.success("User updated successfully!");
                   setIsEditFlyoutOpen(false);

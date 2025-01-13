@@ -563,7 +563,7 @@ export default function Home() {
         <>
           {/* //   Tab 2 content */}
           <div className="flex flex-wrap flex-row gap-2">
-            <div className="w-[30%] h-[299px] p-6 bg-white rounded-xl flex-col justify-start items-start gap-4 inline-flex">
+            <div className="w-[30%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400">
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="h-[50px] relative">
                   <Image
@@ -622,7 +622,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="w-[30%] h-[299px] p-6 bg-white rounded-xl flex-col justify-start items-start gap-4 inline-flex">
+            <div className="w-[30%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400">
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="h-[50px] relative">
                   <Image
@@ -681,7 +681,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="w-[30%] h-[299px] p-6 bg-white rounded-xl flex-col justify-start items-start gap-4 inline-flex">
+            <div className="w-[30%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400">
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="h-[50px] relative">
                   <Image
@@ -740,7 +740,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="w-[30%] h-[299px] p-6 bg-white rounded-xl flex-col justify-start items-start gap-4 inline-flex">
+            <div className="w-[30%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400">
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="h-[50px] relative">
                   <Image

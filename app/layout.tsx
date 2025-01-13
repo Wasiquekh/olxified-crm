@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import dynamic from "next/dynamic";
 import { ReactNode } from "react";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -13,12 +15,18 @@ export const metadata = {
 
 // Dynamically import the ErrorBoundary and AppProvider to disable SSR
 const ErrorBoundary = dynamic(() => import("./ErrorBoundary"), { ssr: false });
-const AppProvider = dynamic(() => import("./AppContext").then((mod) => mod.AppProvider), { ssr: false });
+const AppProvider = dynamic(
+  () => import("./AppContext").then((mod) => mod.AppProvider),
+  { ssr: false }
+);
 
 // Dynamically import ToastContainer to avoid SSR
-const ToastContainer = dynamic(() => import("react-toastify").then((mod) => mod.ToastContainer), {
-  ssr: false,
-});
+const ToastContainer = dynamic(
+  () => import("react-toastify").then((mod) => mod.ToastContainer),
+  {
+    ssr: false,
+  }
+);
 
 type RootLayoutProps = {
   children: ReactNode;
