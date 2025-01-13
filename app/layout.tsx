@@ -1,10 +1,7 @@
 // app/layout.tsx (or wherever your RootLayout is located)
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { AppProvider } from "./AppContext"; // Adjust the import path accordingly
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import ErrorBoundary from "./ErrorBoundary";
+import dynamic from "next/dynamic";
 import { ReactNode } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -13,6 +10,15 @@ export const metadata = {
   title: "Orizon",
   description: "CRM",
 };
+
+// Dynamically import the ErrorBoundary and AppProvider to disable SSR
+const ErrorBoundary = dynamic(() => import("./ErrorBoundary"), { ssr: false });
+const AppProvider = dynamic(() => import("./AppContext").then((mod) => mod.AppProvider), { ssr: false });
+
+// Dynamically import ToastContainer to avoid SSR
+const ToastContainer = dynamic(() => import("react-toastify").then((mod) => mod.ToastContainer), {
+  ssr: false,
+});
 
 type RootLayoutProps = {
   children: ReactNode;

@@ -11,10 +11,7 @@ import { MdOutlineCall } from "react-icons/md";
 import { LiaArrowCircleDownSolid } from "react-icons/lia";
 import { MdRemoveRedEye } from "react-icons/md";
 import { IoCloseOutline } from "react-icons/io5";
-import { HiOutlineWallet } from "react-icons/hi2";
 import { RxAvatar } from "react-icons/rx";
-import { appCheck } from "../firebase-config";
-import { getToken } from "firebase/app-check";
 import AxiosProvider from "../../provider/AxiosProvider";
 import { RiAccountCircleLine } from "react-icons/ri";
 import { RxCross2 } from "react-icons/rx";
@@ -99,16 +96,17 @@ export default function Home() {
     }));
   };
 
-  useEffect(() => {
-    const filters: string[] = [];
-    if (filterData.name) filters.push(`Name: ${filterData.name}`);
-    if (filterData.mobilephonenumber)
-      filters.push(`Phone: ${filterData.mobilephonenumber}`);
-    setAppliedFilters(filters);
-  }, [filterData]);
+const filterDataValue = ()=>{
+  const filters: string[] = [];
+  if (filterData.name) filters.push(`Name: ${filterData.name}`);
+  if (filterData.mobilephonenumber)
+    filters.push(`Phone: ${filterData.mobilephonenumber}`);
+  setAppliedFilters(filters);
+}
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    filterDataValue();
     setIsFilter(true);
     toggleFilterFlyout();
     const filteredData = Object.fromEntries(
