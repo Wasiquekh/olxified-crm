@@ -96,13 +96,13 @@ export default function Home() {
     }));
   };
 
-const filterDataValue = ()=>{
-  const filters: string[] = [];
-  if (filterData.name) filters.push(`Name: ${filterData.name}`);
-  if (filterData.mobilephonenumber)
-    filters.push(`Phone: ${filterData.mobilephonenumber}`);
-  setAppliedFilters(filters);
-}
+  const filterDataValue = () => {
+    const filters: string[] = [];
+    if (filterData.name) filters.push(`Name: ${filterData.name}`);
+    if (filterData.mobilephonenumber)
+      filters.push(`Phone: ${filterData.mobilephonenumber}`);
+    setAppliedFilters(filters);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -118,7 +118,6 @@ const filterDataValue = ()=>{
     } else {
       userFilterData(filteredData, filterPage);
     }
-  
   };
   const userFilterData = async (data: any, page: number) => {
     setIsFilter(true);
@@ -192,6 +191,11 @@ const filterDataValue = ()=>{
       setFilterPage(newPage);
       userFilterData(newPage, filterPage);
     }
+  };
+  const clearAllFilteredData = () => {
+    setAppliedFilters([]);
+    setPage(1);
+    fetchData(page);
   };
   if (isLoading) {
     return (
@@ -281,7 +285,7 @@ const filterDataValue = ()=>{
             {/* Show Applied Filters */}
             <div className="w-[99%] mx-auto mb-3">
               {appliedFilters.length > 0 && (
-                <div>
+                <div className="flex gap-3">
                   <ul>
                     {" "}
                     {/* Add gap for spacing between items */}
@@ -301,6 +305,14 @@ const filterDataValue = ()=>{
                       </li>
                     ))}
                   </ul>
+                  <span className="items-center text-[#1814F3] bg-[#EDF2FE] inline-flex  p-2 rounded gap-1 text-xs ml-2">
+                    Clear All
+                    <RxCross2
+                      className="text-[#1814F3] cursor-pointer"
+                    onClick={clearAllFilteredData}
+                    >
+                    </RxCross2>
+                  </span>
                 </div>
               )}
             </div>
@@ -461,17 +473,17 @@ const filterDataValue = ()=>{
                         </p>
                       </td>
                       <td>
-                        <Link href='customerdetails'>
-                        <button
-                          // onClick={toggleFlyout}
-                         // onClick={() => handleViewDetails(item)
-                          className=" py-[6px] px-4 bg-[#C6F7FE] m-2 flex gap-[10px] items-center rounded-full"
-                        >
-                          <MdRemoveRedEye className=" text-customBlue w-4 h-4" />
-                          <p className=" text-sm leading-normal text-customBlue">
-                            View Details
-                          </p>
-                        </button>
+                        <Link href="customerdetails">
+                          <button
+                            // onClick={toggleFlyout}
+                            // onClick={() => handleViewDetails(item)
+                            className=" py-[6px] px-4 bg-[#C6F7FE] m-2 flex gap-[10px] items-center rounded-full"
+                          >
+                            <MdRemoveRedEye className=" text-customBlue w-4 h-4" />
+                            <p className=" text-sm leading-normal text-customBlue">
+                              View Details
+                            </p>
+                          </button>
                         </Link>
                       </td>
                     </tr>

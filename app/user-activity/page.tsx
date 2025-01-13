@@ -101,7 +101,7 @@ export default function Home() {
     getAllUserName();
   }, []);
 
-  useEffect(() => {
+  const filterDataValue = () => {
     const filters: string[] = [];
     if (filterData.uuId) filters.push(`uuid: ${filterData.uuId}`);
     if (filterData.userActivity)
@@ -112,11 +112,12 @@ export default function Home() {
     if (filterData.module) filters.push(`Module: ${filterData.module}`);
     if (filterData.type) filters.push(`Type: ${filterData.type}`);
     setAppliedFilters(filters);
-  }, [filterData]);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     setIsFilter(true);
     e.preventDefault();
+    filterDataValue();
     toggleFilterFlyout();
     const filteredData = Object.fromEntries(
       Object.entries(filterData).filter(([_, value]) => value !== "")
@@ -134,7 +135,7 @@ export default function Home() {
   };
 
   const fetchFilteredUserActivities = async (data: any, page: number) => {
-    console.log('filter data call hua')
+    console.log("filter data call hua");
     setIsLoading(true);
     try {
       const response = await axiosProvider.post(
@@ -158,7 +159,7 @@ export default function Home() {
   const toggleFilterFlyout = () => setFlyoutFilterOpen(!isFlyoutFilterOpen);
 
   const fetchData = async (currentPage: number) => {
-    console.log('fetch data call hua')
+    console.log("fetch data call hua");
     setIsFilter(false);
     setIsLoading(true);
     try {
@@ -240,10 +241,14 @@ export default function Home() {
     if (appliedFilters.length === 0) {
       fetchFilteredUserActivities(filterData, filterPage);
     } else {
-
       setPage(1);
       fetchData(page);
     }
+  };
+  const clearAllFilteredData = () => {
+    setAppliedFilters([]);
+    setPage(1);
+    fetchData(page);
   };
   if (isLoading) {
     return (
@@ -332,7 +337,7 @@ export default function Home() {
             {/* Show Applied Filters */}
             <div className="w-[99%] mx-auto mb-3">
               {appliedFilters.length > 0 && (
-                <div>
+                <div className="flex gap-3">
                   <ul>
                     {" "}
                     {/* Add gap for spacing between items */}
@@ -345,13 +350,20 @@ export default function Home() {
                         {filter}
                         <RxCross2
                           onClick={() => {
-                             removeFilter(filter);
+                            removeFilter(filter);
                           }}
                           className="text-[#1814F3] cursor-pointer"
                         />
                       </li>
                     ))}
                   </ul>
+                  <span className="items-center text-[#1814F3] bg-[#EDF2FE] inline-flex  p-2 rounded gap-1 text-xs ml-2">
+                    Clear All
+                    <RxCross2
+                      className="text-[#1814F3] cursor-pointer"
+                      onClick={clearAllFilteredData}
+                    ></RxCross2>
+                  </span>
                 </div>
               )}
             </div>
