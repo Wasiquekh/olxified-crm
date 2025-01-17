@@ -4,11 +4,8 @@ import Tabs from "../component/Tabs";
 import { CiSettings } from "react-icons/ci";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { useEffect, useState } from "react";
-import { appCheck } from "../firebase-config";
-import { getToken } from "firebase/app-check";
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
-import AxiosProvider from "../../provider/AxiosProvider";
 import { useContext } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -23,13 +20,67 @@ import { MdVerified } from "react-icons/md";
 import { TbTopologyStarRing2 } from "react-icons/tb";
 import { PiMapPinLight } from "react-icons/pi";
 import { HiOutlineEnvelope } from "react-icons/hi2";
+import { useSearchParams } from "next/navigation";
+import AxiosProvider from "../../provider/AxiosProvider";
+
+interface CustomerType {
+  id: string;
+  firstname: string;
+  lastname: string;
+  birthdate: string;
+  gender: string;
+  mobilephonenumber: string;
+  email: string; // Added email field
+  streetaddress: string;
+  countryofbirth: string;
+  countryofresidence: string;
+  updated_at: string;
+  // Optional fields
+  city?: string | null;
+  created_at?: string | null;
+  fcmtoken?: string | null;
+  idcardrecto?: string | null;
+  idcardverso?: string | null;
+  iddoctype?: string | null;
+  mobilephonenumber_verified?: boolean | null;
+  password?: string | null;
+  shortintrovideo?: string | null;
+  usersignature?: string | null;
+  [key: string]: any; // To allow additional unknown fields
+}
+
 
 export default function Home() {
+  const [customer, setCustomer] = useState<CustomerType | null>(null); // Initial state as null
+  console.log("CUSTOMER",customer);
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
+  //console.log("Got Id",id);
+  const axiosProvider = new AxiosProvider();
+
+  useEffect(() => {
+
+    if (id) {
+    const fetchData = async () => {
+      try {
+        const res = await axiosProvider.post("/viewcustomer", { id }); // Use POST and pass `id` in the body
+        console.log('view customer details',res.data.data.customer);
+        setCustomer(res.data.data.customer);
+      } catch (error: any) {
+        console.log("Error occurred:", error);
+      }
+    };
+
+    fetchData();
+  }
+  }, [id]);
+ 
   const tabs = [
     {
       label: "User Home",
       content: (
         <>
+          {/* //   Tab 1 content */}
           <div className="flex gap-8 pt-8 w-full">
             <div className="w-1/2">
               {/* PERSONAL INFO */}
@@ -67,7 +118,7 @@ export default function Home() {
                         Name
                       </th>
                       <th className="w-[60%] text-sm font-medium leading-5 text-[#252F4A] text-left pl-[20px]">
-                        Alexandre Prot
+                      {customer ? `${customer.firstname} ${customer.lastname}` : "Loading..."}
                       </th>
                       <th className="w-[20%] text-[#1B84FF] text-xs font-medium leading-3 cursor-pointer">
                         Edit
@@ -96,8 +147,7 @@ export default function Home() {
                         Birthday
                       </th>
                       <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
-                        {" "}
-                        28 May 1996
+                       {customer ? `${customer.birthdate}` : "Loading..."}
                       </th>
                       <th className="w-[20%] text-[#1B84FF] text-xs font-medium leading-3 cursor-pointer">
                         Edit
@@ -111,7 +161,7 @@ export default function Home() {
                       </th>
                       <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
                         {" "}
-                        Male
+                        {customer ? `${customer.gender}` : "Loading..."}
                       </th>
                       <th className="w-[20%] text-[#1B84FF] text-xs font-medium leading-3 cursor-pointer">
                         Edit
@@ -125,7 +175,7 @@ export default function Home() {
                       </th>
                       <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
                         {" "}
-                        USA
+                        {customer ? `${customer.streetaddress}` : "Loading..."}
                       </th>
                       <th className="w-[20%] text-[#1B84FF] text-xs font-medium leading-3 cursor-pointer">
                         Edit
@@ -149,7 +199,7 @@ export default function Home() {
                       </th>
                       <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
                         {" "}
-                        jasontt@studio.co
+                        {customer ? `${customer.email}` : "Loading..."}
                       </th>
                     </tr>
                   </thead>
@@ -740,7 +790,10 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="w-[30%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400">
+            <div
+              className="w-[30%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-4
+            00"
+            >
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="h-[50px] relative">
                   <Image
@@ -907,7 +960,7 @@ export default function Home() {
                 </div>
                 <div className="flex items-center justify-center gap-1 mb-4">
                   <p className="text-[#071437] text-lg font-semibold leading-5">
-                    Jenny Klabber
+                  {customer ? `${customer.firstname} ${customer.lastname}` : "Loading..."}
                   </p>
                   <MdVerified className="w-4 h-4 text-[#1B84FF] relative top-[1.5px]" />
                 </div>

@@ -22,6 +22,7 @@ import LeftSideBar from "../component/LeftSideBar";
 import { HiChevronDoubleLeft } from "react-icons/hi";
 import { HiChevronDoubleRight } from "react-icons/hi";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const axiosProvider = new AxiosProvider();
 
@@ -67,7 +68,7 @@ export default function Home() {
     name: "",
     mobilephonenumber: "",
   });
-  console.log("TTTTTTTTTTTTTTTTTTTTTTTT", filterData);
+  //console.log("TTTTTTTTTTTTTTTTTTTTTTTT", filterData);
   const [isError, setIsError] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [appliedFilters, setAppliedFilters] = useState<string[]>([]);
@@ -76,13 +77,13 @@ export default function Home() {
   );
   const [isFilter, setIsFilter] = useState<boolean>(false);
   const storage = new StorageManager();
-  const { accessToken } = useContext(AppContext);
   //console.log("Get all user Data", data);
-
-  const handleViewDetails = (customer: Customer) => {
-    setSelectedCustomer(customer); // Set the selected customer when the button is clicked
-    toggleFlyout();
-  };
+  const router = useRouter();
+  
+  const handleClick = async(customer: Customer) => {
+   // console.log('Object customer data',customer.id)
+    router.push(`/customerdetails?id=${customer.id}`);
+};
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -473,10 +474,10 @@ export default function Home() {
                         </p>
                       </td>
                       <td>
-                        <Link href="customerdetails">
+                        {/* <Link href="customerdetails"> */}
                           <button
                             // onClick={toggleFlyout}
-                            // onClick={() => handleViewDetails(item)
+                           onClick={() => handleClick(item)}
                             className=" py-[6px] px-4 bg-[#C6F7FE] m-2 flex gap-[10px] items-center rounded-full"
                           >
                             <MdRemoveRedEye className=" text-customBlue w-4 h-4" />
@@ -484,7 +485,7 @@ export default function Home() {
                               View Details
                             </p>
                           </button>
-                        </Link>
+                        {/* </Link> */}
                       </td>
                     </tr>
                   ))
@@ -648,12 +649,12 @@ export default function Home() {
         </>
       )}
       {/* FITLER FLYOUT END */}
-      <CustomerViewDetails
+      {/* <CustomerViewDetails
         isFlyoutOpen={isFlyoutOpen}
         toggleFlyout={toggleFlyout}
         setFlyoutOpen={setFlyoutOpen}
         customer={selectedCustomer}
-      />
+      /> */}
     </>
   );
 }
