@@ -1,904 +1,613 @@
-import React, { useContext, useState } from "react";
-import { IoCloseOutline } from "react-icons/io5";
-import { HiOutlineWallet } from "react-icons/hi2";
-import Image from "next/image";
-import Popup from "reactjs-popup";
-import "reactjs-popup/dist/index.css";
-import { AppContext } from "../AppContext";
-import AxiosProvider from "../../provider/AxiosProvider";
-import { appCheck } from "../firebase-config";
-import { getToken } from "firebase/app-check";
+import React, { useContext, useEffect, useState } from "react";
+import { Formik, Field, Form, ErrorMessage } from "formik";
+import * as Yup from "yup";
 import { toast } from "react-toastify";
-import { auth } from "firebase-admin";
-import { consumers } from "stream";
+import AxiosProvider from "../../provider/AxiosProvider";
+import StorageManager from "../../provider/StorageManager";
+import { AppContext } from "../AppContext";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import UserActivityLogger from "../../provider/UserActivityLogger";
+import Swal from "sweetalert2";
 
 const axiosProvider = new AxiosProvider();
+const storage = new StorageManager();
+const activityLogger = new UserActivityLogger();
 
-interface Customer {
-  id: string;
-  firstname: string;
-  lastname: string;
-  mobilephonenumber?: string | null;
-  mobilephonenumber_verified?: boolean | null;
-  birthdate: string;
-  countryofbirth?: string;
-  gender?: string;
-  countryofresidence?: string;
-  city?: string;
-  streetaddress?: string;
-  iddoctype?: string;
-  idcardrecto?: string | null;
-  idcardverso?: string | null;
-  password?: string;
-  shortintrovideo?: string | null;
-  fcmtoken?: string;
-  usersignature?: string | null;
-  created_at?: string;
-  updated_at?: string;
+// Interface for Current User Data
+// interface CurrentUserData {
+//   id: string;
+//   name: string;
+//   mobile_number: string;
+//   email: string;
+//   role: string;
+// }
+
+// Props interface for SidebarUserUpdateForm
+interface SidebarUserUpdateFormProps {
+  isEditFlyoutOpen: boolean;
+  setIsEditFlyoutOpen: (open: boolean) => void;
 }
 
-// Define the prop types
-interface CustomerViewDetailsProps {
-  isFlyoutOpen: boolean;
-  toggleFlyout: () => void;
-  setFlyoutOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  customer: Customer; // Receive the selected customer as a prop
-}
-
-const CustomerViewDetails: React.FC<CustomerViewDetailsProps> = ({
-  isFlyoutOpen,
-  toggleFlyout,
-  setFlyoutOpen,
-  customer,
+// SidebarUserUpdateForm Component
+const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
+  isEditFlyoutOpen,
+  setIsEditFlyoutOpen,
 }) => {
-  const [usersignatureUrl, setUserSignitureUrl] = useState<string>("");
-  const [userShortVideo, setUserShortVideo] = useState<string>("");
-  const [userIdCardFront, setUserIdCardFrond] = useState<string>("");
-  const [userIdCardBack, setUserIdCardBack] = useState<string>("");
-
-  const [isPopupOpen, setPopupOpen] = useState(false);
-  const handleOpenPopup = () => {
-    setPopupOpen(true);
-  };
-  const handleClosePopup = () => {
-    setPopupOpen(false);
-  };
+  const [userDescription, setUserDescription] = useState<string | null>(null);
+  //console.log('user desc',userDescription)
   const { accessToken } = useContext(AppContext);
-  //api call for user signiture
-  const handleUserSigniture = async () => {
-    setUserShortVideo("");
-    setUserIdCardFrond("");
-    setUserIdCardBack("");
-    const usersignature = customer.usersignature;
-    console.log("user signiture", usersignature);
-    const fileName = usersignature.split("/").pop();
 
-    handleOpenPopup();
-    try {
-      const tokenResponse = await getToken(appCheck, true);
-      const appCheckToken = tokenResponse.token;
-
-      const res = await axiosProvider.post(
-        "/getsignature",
-        {
-          filename: fileName,
-        }
-      );
-      setUserSignitureUrl(res.data.data.url);
-    } catch (error: any) {
-      // Check if error response exists and handle the error message
-      if (error.res && error.res) {
-        const errorMsg = error.res.msg || "An error occurred.";
-        toast.error(errorMsg); // Display the error message in the toast
-      }
-    }
-  };
-  // api call for user short video
-  const handleUserShortVideo = async () => {
-    setUserSignitureUrl("");
-    setUserIdCardFrond("");
-    setUserIdCardBack("");
-    const uservideo = customer.shortintrovideo;
-    const fileName = uservideo.split("/").pop();
-
-    handleOpenPopup();
-    try {
-      const tokenResponse = await getToken(appCheck, true);
-      const appCheckToken = tokenResponse.token;
-
-      const res = await axiosProvider.post(
-        "/getvedio",
-        {
-          filename: fileName,
-        }
-      );
-      setUserShortVideo(res.data.data.url);
-    } catch (error: any) {
-      // Check if error response exists and handle the error message
-      if (error.res && error.res) {
-        const errorMsg = error.res.msg || "An error occurred.";
-        toast.error(errorMsg); // Display the error message in the toast
-      }
-    }
-  };
-  //api call for id card front side
-  const handleIdCardFront = async () => {
-    setUserSignitureUrl("");
-    setUserShortVideo("");
-    setUserIdCardBack("");
-    const idFrontUrl = customer.idcardrecto;
-    const fileName = idFrontUrl.split("/").pop();
-    console.log("File Name:", fileName); // This will log the file name "Kenne Thierry.jpeg"
-
-    handleOpenPopup();
-    try {
-      const tokenResponse = await getToken(appCheck, true);
-      const appCheckToken = tokenResponse.token;
-
-      const res = await axiosProvider.post(
-        "/getsubmitocr",
-        {
-          frontImageFilename: fileName,
-        }
-      );
-      setUserIdCardFrond(res.data.data.frontImageUrl);
-      // setUserShortVideo(res.data.data.url);
-    } catch (error: any) {
-      // Check if error response exists and handle the error message
-      if (error.res && error.res) {
-        const errorMsg = error.res.msg || "An error occurred.";
-        toast.error(errorMsg); // Display the error message in the toast
-      }
-    }
-  };
-
-  //api call for id card back side
-  const handleIdCardBack = async () => {
-    setUserSignitureUrl("");
-    setUserShortVideo("");
-    setUserIdCardFrond("");
-    const idBackUrl = customer.idcardverso;
-    const fileName = idBackUrl.split("/").pop();
-    handleOpenPopup();
-    try {
-      const tokenResponse = await getToken(appCheck, true);
-      const appCheckToken = tokenResponse.token;
-
-      const res = await axiosProvider.post(
-        "/getsubmitocr",
-        {
-          frontImageFilename: fileName,
-          backImageFilename: fileName,
-        },
-      );
-      setUserIdCardBack(res.data.data.backImageUrl);
-      // setUserShortVideo(res.data.data.url);
-    } catch (error: any) {
-      // Check if error response exists and handle the error message
-      if (error.res && error.res) {
-        const errorMsg = error.res.msg || "An error occurred.";
-        toast.error(errorMsg); // Display the error message in the toast
-      }
-    }
-  };
   return (
-    <div>
-      {isFlyoutOpen && (
-        <>
+    <>
+      {isEditFlyoutOpen && (
+        <div
+          className="  bg-[#1f1d1d80] fixed h-full w-full top-0 left-0  z-[1000]"
+          onClick={() => setIsEditFlyoutOpen(false)}
+        ></div>
+      )}
+      <div className={`filterflyout ${isEditFlyoutOpen ? "filteropen" : ""}`}>
+        <div className="flex justify-between mb-4">
+          <p className="text-[#333B69] text-[26px] font-bold leading-9 hover:cursor-pointer block">
+            User Details
+          </p>
+          <button
+            type="button"
+            onClick={() => setIsEditFlyoutOpen(false)}
+            className="h-8 w-8 border border-[#E7E7E7] text-[#0A0A0A] rounded cursor-pointer"
+          >
+            X
+          </button>
+        </div>
+        <div className="flex gap-20 mb-4">
+          <p>Personal Details</p>
+        </div>
+        <div className=" w-full">
           <div
-            className="bg-[#1f1d1d80] fixed h-full w-full top-0 left-0  z-[9]"
-            onClick={() => {
-              setFlyoutOpen(!isFlyoutOpen);
-            }}
-          ></div>
-          <div className={`flyout ${isFlyoutOpen ? "open" : ""}`}>
-            <div className=" w-full min-h-auto">
-              {/* Flyout content here */}
-              <div className=" flex justify-between mb-8">
-                <p className=" text-[#333B69] text-[26px] font-bold leading-9">
-                  User Details
-                </p>
-                <IoCloseOutline
-                  onClick={toggleFlyout}
-                  className=" h-8 w-8 border border-[#E7E7E7] text-[#0A0A0A] rounded cursor-pointer"
-                />
-              </div>
-              <div className=" flex flex-col gap-3 mb-[10px]">
-                <p className=" text-[#333] text-xl font-medium leading-6">
-                  Alexandre Prot
-                </p>
-                <p className=" text-[#999] text-[13px] leading-5">
-                  Edited 4hrs ago by Admin
-                </p>
-              </div>
-              <div className=" w-full border-b border-[#E7E7E7] mb-4"></div>
-              {/* FORM */}
-              <div className=" w-full">
-                <div className=" w-full flex gap-4 mb-4">
-                  <div className=" w-full">
-                    <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
-                      First Name
-                      <span className=" text-[#EB5757] text-base font-medium">
-                        {" "}
-                        *
-                      </span>
-                    </p>
-                    <input
-                      type="text"
-                      value={customer.firstname}
-                      placeholder="Alexandre"
-                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 text-[#717171]"
-                    />
-                  </div>
-                  <div className=" w-full">
-                    <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
-                      Last Name
-                    </p>
-                    <input
-                      type="text"
-                      value={customer.lastname}
-                      placeholder="Prot"
-                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 text-[#717171]"
-                    />
-                  </div>
-                </div>
-
-                <div className=" w-full flex gap-4 mb-4">
-                  <div className=" w-full">
-                    <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
-                      Phone
-                    </p>
-                    <input
-                      type="text"
-                      value={customer.mobilephonenumber}
-                      placeholder="1 (800) 667-6389"
-                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 text-[#717171]"
-                    />
-                  </div>
-                  <div className=" w-full">
-                    <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
-                      Birth Date
-                      <span className=" text-[#EB5757] text-base font-medium">
-                        {" "}
-                        *
-                      </span>
-                    </p>
-                    <input
-                      type="text"
-                      value={customer.birthdate}
-                      placeholder=""
-                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 text-[#717171]"
-                    />
-                  </div>
-                </div>
-                <div className=" w-full flex gap-4 mb-4">
-                  <div className=" w-1/2">
-                    <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
-                      Gender
-                    </p>
-                    <input
-                      type="text"
-                      value={customer.gender}
-                      placeholder="1 (800) 667-6389"
-                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 text-[#717171]"
-                    />
-                  </div>
-                </div>
-                <div className=" w-full  border border-[#DFEAF2] rounded-2xl mb-2 flex flex-col justify-center items-center p-7">
-                  <p className=" text-left w-full text-[#0A0A0A] text-[26px] font-semibold leading-8 mb-4">
-                    Card Details
-                  </p>
-                  <div className="w-full flex gap-4 mb-4">
-                    {customer.idcardrecto ? (
-                      <button
-                        onClick={handleIdCardFront}
-                        className="w-full bg-customBlue rounded p-3 text-white"
-                      >
-                        ID Card Ecto
-                      </button>
-                    ) : (
-                      <button
-                        disabled
-                        onClick={handleIdCardFront}
-                        className="w-full bg-customBlue rounded p-3 text-white opacity-60 cursor-not-allowed "
-                      >
-                        No ID Card Ecto
-                      </button>
-                    )}
-                    {customer.idcardverso ? (
-                      <button
-                        onClick={handleIdCardBack}
-                        className="w-full bg-customBlue rounded p-3 text-white"
-                      >
-                        ID Card Verso
-                      </button>
-                    ) : (
-                      <button
-                        onClick={handleIdCardBack}
-                        disabled
-                        className="w-full bg-customBlue rounded p-3 text-white opacity-60 cursor-not-allowed"
-                      >
-                        No ID Card Verso
-                      </button>
-                    )}
-                  </div>
-                  <div className=" w-full flex gap-4">
-                    {customer.usersignature ? (
-                      <button
-                        onClick={handleUserSigniture}
-                        className=" w-full bg-customBlue rounded p-3 text-white"
-                      >
-                        User Signiture
-                      </button>
-                    ) : (
-                      <button
-                        onClick={handleUserSigniture}
-                        disabled
-                        className=" w-full bg-customBlue rounded p-3 text-white opacity-60 cursor-not-allowed"
-                      >
-                        No User Signiture
-                      </button>
-                    )}
-                    {customer.shortintrovideo ? (
-                      <button
-                        onClick={handleUserShortVideo}
-                        className=" w-full bg-customBlue rounded p-3 text-white"
-                      >
-                        User Short Video
-                      </button>
-                    ) : (
-                      <button
-                        onClick={handleUserShortVideo}
-                        disabled
-                        className=" w-full bg-customBlue rounded p-3 text-white opacity-60 cursor-not-allowed"
-                      >
-                        No User Short Video
-                      </button>
-                    )}
-                  </div>
-                </div>
-                <p className=" text-[#333B69] text-[22px] leading-normal font-semibold mt-4">
-                  Address Information
-                </p>
-                <div className=" w-full border-b border-[#E7E7E7] mb-4 mt-2"></div>
-                <div className=" w-full flex gap-4 mb-4">
-                  <div className=" w-1/2">
-                    <p className=" text-[#0A0A0A] font-semibold text-base leading-6 mb-2">
-                      Country of Birth
-                    </p>
-                    <input
-                      type="text"
-                      value={customer.countryofbirth}
-                      placeholder="USA"
-                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 text-[#717171]"
-                    />
-                  </div>
-
-                  <div className=" w-1/2">
-                    <p className=" text-[#0A0A0A] font-semibold text-base leading-6 mb-2">
-                      Country
-                    </p>
-                    <input
-                      type="text"
-                      value={customer.city}
-                      placeholder="USA"
-                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 text-[#717171]"
-                    />
-                  </div>
-                </div>
-                <div className=" w-full flex gap-4 mb-4">
-                  <div className=" w-1/2">
-                    <p className=" text-[#0A0A0A] font-semibold text-base leading-6 mb-2">
-                      City
-                    </p>
-                    <input
-                      type="text"
-                      value={customer.streetaddress}
-                      placeholder="USA"
-                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 text-[#717171]"
-                    />
-                  </div>
-                  <div className=" w-1/2">
-                    <p className=" text-[#0A0A0A] font-semibold text-base leading-6 mb-2">
-                      Country of Residence
-                    </p>
-                    <input
-                      type="text"
-                      value={customer.countryofresidence}
-                      placeholder="USA"
-                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 text-[#717171]"
-                    />
-                  </div>
-                </div>
-                <div className=" w-full flex gap-4 mb-9">
-                  <div className=" w-1/2">
-                    <p className=" text-[#0A0A0A] font-semibold text-base leading-6 mb-2">
-                      Country of Residence
-                    </p>
-                    <input
-                      type="text"
-                      value={customer.countryofresidence}
-                      placeholder="USA"
-                      className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 text-[#717171]"
-                    />
-                  </div>
+            data-layer="Frame 1400001983"
+            className="Frame1400001983  px-0 py-6 bg-white rounded-xl flex-col justify-start items-start gap-5 inline-flex"
+          >
+            <div
+              data-layer="Frame 1400001979"
+              className="Frame1400001979 justify-center items-center gap-4 inline-flex"
+            >
+              <div
+                data-layer="Frame 19"
+                className="Frame19 w-[50px] h-[50px] p-2.5 bg-black rounded-[25px] justify-start items-center gap-2.5 flex"
+              >
+                <div
+                  data-layer="fi_3679997"
+                  className="Fi3679997 h-[30px] relative  overflow-hidden"
+                >
+                  <div
+                    data-layer="Group"
+                    className="Group w-[19.14px] h-[22.50px] left-[5.43px] top-[3.28px] absolute"
+                  ></div>
                 </div>
               </div>
-
-              {/* END FORM */}
-              <div className=" w-full py-5 px-6 rounded-[16px] shadow-lastTransaction mb-9">
-                <p className=" text-[#333B69] text-[26px] font-bold leading-9 mb-6">
-                  Last Transactions
-                </p>
-                <div className=" p-3 rounded-2xl shadow-lastTransactionList flex justify-between items-center mb-3">
-                  <div className=" flex gap-4 items-center">
-                    <div>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="45"
-                        height="46"
-                        viewBox="0 0 45 46"
-                        fill="none"
-                      >
-                        <rect
-                          y="0.629883"
-                          width="45"
-                          height="45"
-                          rx="15"
-                          fill="#FFE0EB"
-                        />
-                        <path
-                          d="M30.4933 29.2159C30.1909 29.9147 29.8328 30.5579 29.4181 31.1492C28.8526 31.9554 28.3897 32.5134 28.0329 32.8233C27.4798 33.3319 26.8873 33.5924 26.2527 33.6072C25.7972 33.6072 25.2478 33.4775 24.6083 33.2146C23.9667 32.9529 23.3771 32.8232 22.838 32.8232C22.2726 32.8232 21.6662 32.9529 21.0176 33.2146C20.368 33.4776 19.8446 33.6146 19.4445 33.6282C18.836 33.6541 18.2295 33.3862 17.6241 32.8232C17.2377 32.4862 16.7544 31.9085 16.1754 31.09C15.5541 30.2159 15.0434 29.2024 14.6433 28.0468C14.2148 26.7988 14 25.5901 14 24.4201C14 23.0797 14.2896 21.9237 14.8697 20.955C15.3256 20.1769 15.9322 19.563 16.6913 19.1125C17.4504 18.6618 18.2706 18.4322 19.1539 18.4175C19.6372 18.4175 20.271 18.567 21.0587 18.8609C21.8441 19.1557 22.3484 19.3052 22.5695 19.3052C22.7348 19.3052 23.295 19.1303 24.2447 18.7818C25.1429 18.4586 25.9009 18.3248 26.5218 18.3775C28.2045 18.5133 29.4687 19.1766 30.3094 20.3717C28.8045 21.2835 28.06 22.5606 28.0749 24.199C28.0885 25.4751 28.5514 26.537 29.4612 27.3802C29.8736 27.7716 30.3341 28.074 30.8464 28.2888C30.7353 28.611 30.618 28.9197 30.4933 29.216V29.2159ZM26.6342 14.03C26.6342 15.0302 26.2688 15.9641 25.5404 16.8286C24.6614 17.8562 23.5982 18.45 22.4453 18.3563C22.4299 18.2305 22.4221 18.104 22.4221 17.9773C22.4221 17.0171 22.8401 15.9894 23.5824 15.1492C23.953 14.7238 24.4244 14.3701 24.996 14.0879C25.5663 13.8099 26.1058 13.6562 26.6132 13.6299C26.628 13.7636 26.6342 13.8973 26.6342 14.03V14.03Z"
-                          fill="#FF82AC"
-                        />
-                      </svg>
-                    </div>
-                    <div>
-                      <p className=" text-[#232323] text-xs font-medium leading-normal">
-                        Apple Store
-                      </p>
-                      <p className=" text-[#718EBF] text-[11px] leading-normal">
-                        Transaction Time 10:00AM,21-08-24
-                      </p>
-                    </div>
-                  </div>
-                  <div>
-                    <p className=" text-[#FE5C73] text-xs font-medium leading-normal text-right">
-                      -30.96$
-                    </p>
-                    <p className=" py-[5.5px] px-2 bg-[#FFE0EB] rounded-[4px] text-[#FE5C73] text-[10px] font-medium leading-4">
-                      Debited
-                    </p>
-                  </div>
-                </div>
-                <div className=" p-3 rounded-2xl shadow-lastTransactionList flex justify-between items-center mb-3">
-                  <div className=" flex gap-4 items-center">
-                    <div>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="45"
-                        height="46"
-                        viewBox="0 0 45 46"
-                        fill="none"
-                      >
-                        <rect
-                          y="0.629883"
-                          width="45"
-                          height="45"
-                          rx="15"
-                          fill="#E7EDFF"
-                        />
-                        <path
-                          d="M32.6017 23.858C32.6026 23.1765 32.545 22.4963 32.4295 21.8247H22.9993V25.676H28.4005C28.29 26.2911 28.056 26.8774 27.7128 27.3997C27.3695 27.9219 26.9241 28.3693 26.4033 28.7148V31.2147H29.6268C31.5143 29.4745 32.6017 26.9009 32.6017 23.858Z"
-                          fill="#4471FF"
-                        />
-                        <path
-                          d="M22.9992 33.6298C25.6978 33.6298 27.9699 32.7437 29.6268 31.216L26.4033 28.7161C25.5061 29.3244 24.3506 29.6716 22.9992 29.6716C20.391 29.6716 18.1772 27.9133 17.3855 25.5439H14.0648V28.1202C14.8971 29.7764 16.1733 31.1687 17.751 32.1416C19.3287 33.1145 21.1457 33.6297 22.9992 33.6298Z"
-                          fill="#4471FF"
-                        />
-                        <path
-                          d="M17.3855 25.5441C16.967 24.3025 16.967 22.958 17.3855 21.7164V19.1401H14.0648C13.3646 20.5334 13 22.071 13 23.6303C13 25.1895 13.3646 26.7272 14.0648 28.1204L17.3855 25.5441Z"
-                          fill="#4471FF"
-                        />
-                        <path
-                          d="M22.9992 17.5887C24.4253 17.5654 25.8032 18.1042 26.8352 19.0887L29.6893 16.2346C27.8795 14.5348 25.482 13.6015 22.9992 13.6305C21.1457 13.6306 19.3287 14.1459 17.751 15.1188C16.1733 16.0917 14.8971 17.4839 14.0648 19.1401L17.3855 21.7164C18.1772 19.347 20.391 17.5887 22.9992 17.5887Z"
-                          fill="#4471FF"
-                        />
-                      </svg>
-                    </div>
-                    <div>
-                      <p className=" text-[#232323] text-xs font-medium leading-normal">
-                        Apple Store
-                      </p>
-                      <p className=" text-[#718EBF] text-[11px] leading-normal">
-                        Transaction Time 10:00AM,21-08-24
-                      </p>
-                    </div>
-                  </div>
-                  <div>
-                    <p className=" text-[#18356D] text-xs font-medium leading-normal text-right">
-                      $$
-                    </p>
-                    <p className=" py-[5.5px] px-2 bg-[#D1DFFB] rounded-[4px] text-[#143067] text-[10px] font-medium leading-4">
-                      Processing
-                    </p>
-                  </div>
-                </div>
-                <div className=" p-3 rounded-2xl shadow-lastTransactionList flex justify-between items-center mb-3">
-                  <div className=" flex gap-4 items-center">
-                    <div>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="45"
-                        height="46"
-                        viewBox="0 0 45 46"
-                        fill="none"
-                      >
-                        <rect
-                          y="0.629883"
-                          width="45"
-                          height="45"
-                          rx="15"
-                          fill="#FFE0EB"
-                        />
-                        <path
-                          d="M30.4933 29.2159C30.1909 29.9147 29.8328 30.5579 29.4181 31.1492C28.8526 31.9554 28.3897 32.5134 28.0329 32.8233C27.4798 33.3319 26.8873 33.5924 26.2527 33.6072C25.7972 33.6072 25.2478 33.4775 24.6083 33.2146C23.9667 32.9529 23.3771 32.8232 22.838 32.8232C22.2726 32.8232 21.6662 32.9529 21.0176 33.2146C20.368 33.4776 19.8446 33.6146 19.4445 33.6282C18.836 33.6541 18.2295 33.3862 17.6241 32.8232C17.2377 32.4862 16.7544 31.9085 16.1754 31.09C15.5541 30.2159 15.0434 29.2024 14.6433 28.0468C14.2148 26.7988 14 25.5901 14 24.4201C14 23.0797 14.2896 21.9237 14.8697 20.955C15.3256 20.1769 15.9322 19.563 16.6913 19.1125C17.4504 18.6618 18.2706 18.4322 19.1539 18.4175C19.6372 18.4175 20.271 18.567 21.0587 18.8609C21.8441 19.1557 22.3484 19.3052 22.5695 19.3052C22.7348 19.3052 23.295 19.1303 24.2447 18.7818C25.1429 18.4586 25.9009 18.3248 26.5218 18.3775C28.2045 18.5133 29.4687 19.1766 30.3094 20.3717C28.8045 21.2835 28.06 22.5606 28.0749 24.199C28.0885 25.4751 28.5514 26.537 29.4612 27.3802C29.8736 27.7716 30.3341 28.074 30.8464 28.2888C30.7353 28.611 30.618 28.9197 30.4933 29.216V29.2159ZM26.6342 14.03C26.6342 15.0302 26.2688 15.9641 25.5404 16.8286C24.6614 17.8562 23.5982 18.45 22.4453 18.3563C22.4299 18.2305 22.4221 18.104 22.4221 17.9773C22.4221 17.0171 22.8401 15.9894 23.5824 15.1492C23.953 14.7238 24.4244 14.3701 24.996 14.0879C25.5663 13.8099 26.1058 13.6562 26.6132 13.6299C26.628 13.7636 26.6342 13.8973 26.6342 14.03V14.03Z"
-                          fill="#FF82AC"
-                        />
-                      </svg>
-                    </div>
-                    <div>
-                      <p className=" text-[#232323] text-xs font-medium leading-normal">
-                        Apple Store
-                      </p>
-                      <p className=" text-[#718EBF] text-[11px] leading-normal">
-                        Transaction Time 10:00AM,21-08-24
-                      </p>
-                    </div>
-                  </div>
-                  <div>
-                    <p className=" text-[#FE5C73] text-xs font-medium leading-normal">
-                      -30.96$
-                    </p>
-                    <p className=" py-[5.5px] px-2 bg-[#FFE0EB] rounded-[4px] text-[#FE5C73] text-[10px] font-medium leading-4">
-                      Debited
-                    </p>
-                  </div>
-                </div>
-                <div className=" p-3 rounded-2xl shadow-lastTransactionList flex justify-between items-center mb-3">
-                  <div className=" flex gap-4 items-center">
-                    <div>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="45"
-                        height="46"
-                        viewBox="0 0 45 46"
-                        fill="none"
-                      >
-                        <rect
-                          y="0.629883"
-                          width="45"
-                          height="45"
-                          rx="15"
-                          fill="#E7EDFF"
-                        />
-                        <path
-                          d="M32.6017 23.858C32.6026 23.1765 32.545 22.4963 32.4295 21.8247H22.9993V25.676H28.4005C28.29 26.2911 28.056 26.8774 27.7128 27.3997C27.3695 27.9219 26.9241 28.3693 26.4033 28.7148V31.2147H29.6268C31.5143 29.4745 32.6017 26.9009 32.6017 23.858Z"
-                          fill="#4471FF"
-                        />
-                        <path
-                          d="M22.9992 33.6298C25.6978 33.6298 27.9699 32.7437 29.6268 31.216L26.4033 28.7161C25.5061 29.3244 24.3506 29.6716 22.9992 29.6716C20.391 29.6716 18.1772 27.9133 17.3855 25.5439H14.0648V28.1202C14.8971 29.7764 16.1733 31.1687 17.751 32.1416C19.3287 33.1145 21.1457 33.6297 22.9992 33.6298Z"
-                          fill="#4471FF"
-                        />
-                        <path
-                          d="M17.3855 25.5441C16.967 24.3025 16.967 22.958 17.3855 21.7164V19.1401H14.0648C13.3646 20.5334 13 22.071 13 23.6303C13 25.1895 13.3646 26.7272 14.0648 28.1204L17.3855 25.5441Z"
-                          fill="#4471FF"
-                        />
-                        <path
-                          d="M22.9992 17.5887C24.4253 17.5654 25.8032 18.1042 26.8352 19.0887L29.6893 16.2346C27.8795 14.5348 25.482 13.6015 22.9992 13.6305C21.1457 13.6306 19.3287 14.1459 17.751 15.1188C16.1733 16.0917 14.8971 17.4839 14.0648 19.1401L17.3855 21.7164C18.1772 19.347 20.391 17.5887 22.9992 17.5887Z"
-                          fill="#4471FF"
-                        />
-                      </svg>
-                    </div>
-                    <div>
-                      <p className=" text-[#232323] text-xs font-medium leading-normal">
-                        Apple Store
-                      </p>
-                      <p className=" text-[#718EBF] text-[11px] leading-normal">
-                        Transaction Time 10:00AM,21-08-24
-                      </p>
-                    </div>
-                  </div>
-                  <div>
-                    <p className=" text-[#18356D] text-xs font-medium leading-normal text-right">
-                      $$
-                    </p>
-                    <p className=" py-[5.5px] px-2 bg-[#D1DFFB] rounded-[4px] text-[#143067] text-[10px] font-medium leading-4">
-                      Processing
-                    </p>
-                  </div>
+              <div
+                data-layer="Frame 1400001975"
+                className="Frame1400001975 grow shrink basis-0 self-stretch px-3.5 py-2.5 bg-[#2db3ff] rounded-xl justify-center items-center gap-2.5 flex"
+              >
+                <div
+                  data-layer="On Progress"
+                  className="OnProgress text-white text-sm font-semibol"
+                >
+                  On Progress
                 </div>
               </div>
-              {/* CARD MANAGEMENT */}
-              <div className=" p-4 rounded-[16px] shadow-lastTransaction">
-                <p className=" text-[#333B69] text-[26px] font-bold leading-9 mb-8">
-                  Card Management
-                </p>
-                <p className=" text-[#343C6A] text-base font-semibold leading-normal mb-2">
-                  My Cards
-                </p>
-                {/* CARD */}
-                <div className=" w-[80%] h-[190px] bg-cardBg rounded-2xl p-4 relative mb-8">
-                  <div className=" flex justify-between items-center mb-5">
-                    <div>
-                      <p className=" text-white text-[11px] leading-normal">
-                        Balance
-                      </p>
-                      <p className=" text-white text-base font-semibold leading-normal">
-                        $5,756
-                      </p>
-                    </div>
-                    <div>
-                      <Image
-                        src="/images/Chip_Card.svg"
-                        width={0}
-                        height={0}
-                        alt="Picture of the author"
-                        className=" w-[29px] h-auto"
-                      />
-                    </div>
+            </div>
+            <div
+              data-layer="Liveness Detection"
+              className="LivenessDetection w-[279px] text-[#0e0e0e] text-base font-medium"
+            >
+              Liveness Detection
+            </div>
+            <div
+              data-layer="Group 1171275658"
+              className="Group1171275658 w-[423px] h-[195px] relative"
+            >
+              <div
+                data-layer="Rectangle 23880"
+                className="Rectangle23880 w-[423px] h-[195px] left-0 top-0 absolute bg-[#cfe3f7]"
+              ></div>
+              <div
+                data-layer="videocam"
+                className="Videocam w-6 h-6 left-[199px] top-[86px] absolute  overflow-hidden"
+              ></div>
+              <div
+                data-layer="Verify Video"
+                className="VerifyVideo w-[279px] left-[22px] top-[12px] absolute text-[#0e0e0e] text-base font-medium"
+              >
+                Verify Video
+              </div>
+            </div>
+            <div
+              data-layer="Frame 427320337"
+              className="Frame427320337 flex-col justify-between items-start flex"
+            >
+              <div
+                data-layer="Select Verification Status"
+                className="SelectVerificationStatus text-neutral-950 text-sm font-semibold font-['Source Sans Pro'] leading-[21px]"
+              >
+                Select Verification Status{" "}
+              </div>
+              <div
+                data-layer="Frame 427320335"
+                className="Frame427320335 w-[424px] px-4 py-2 bg-white rounded-xl border border-[#e7e7e7] justify-between items-center inline-flex"
+              >
+                <div
+                  data-layer="--None--"
+                  className="None text-[#717171] text-sm font-medium  leading-[21px]"
+                >
+                  {" "}
+                  --None--
+                </div>
+                <div
+                  data-layer="expand_more_FILL0_wght400_GRAD0_opsz48 2"
+                  className="ExpandMoreFill0Wght400Grad0Opsz482 w-6 h-6 relative rounded-lg border  overflow-hidden"
+                ></div>
+              </div>
+            </div>
+            <div
+              data-layer="Frame 1400001977"
+              className="Frame1400001977 self-stretch px-4 py-2 bg-white rounded-xl border border-[#e7e7e7] justify-between items-center inline-flex"
+            >
+              <div
+                data-layer="Frame 1400001984"
+                className="Frame1400001984 flex-col justify-start items-start gap-3 inline-flex"
+              >
+                <div
+                  data-layer="progressBar"
+                  className="Progressbar w-[386px] h-[41px] relative"
+                >
+                  <div
+                    data-layer="24%"
+                    className="left-[357px] top-0 absolute text-[#3f3f3f] text-sm font-semibold"
+                  >
+                    24%
                   </div>
-
-                  <div className=" flex justify-between items-center w-[80%]">
-                    <div>
-                      <p className=" text-white opacity-70 text-[10px] leading-normal">
-                        CARD HOLDER
-                      </p>
-                      <p className=" text-white text-[13px] font-semibold leading-normal">
-                        Eddy Cusuma
-                      </p>
-                    </div>
-                    <div>
-                      <p className=" text-white opacity-70 text-[10px] leading-normal">
-                        VALID THRU
-                      </p>
-                      <p className=" text-white text-[13px] font-semibold leading-normal">
-                        12/22
-                      </p>
-                    </div>
+                  <div
+                    data-layer="Liveness Code"
+                    className="LivenessCode left-0 top-0 absolute text-[#3f3f3f] text-sm font-light"
+                  >
+                    Liveness Code
                   </div>
-                  <div className=" flex justify-between items-center bg-cardFooter absolute bottom-0 left-0 right-0 w-full h-[51px] mx-auto p-4">
-                    <p className=" text-[15pox] font-semibold text-white">
-                      3778 **** **** 1234
-                    </p>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="27"
-                      height="20"
-                      viewBox="0 0 27 20"
-                      fill="none"
+                  <div
+                    data-layer="progressBar"
+                    className="Progressbar w-[386px] h-[18px] left-0 top-[23px] absolute"
+                  >
+                    <div
+                      data-layer="bar"
+                      className="Bar w-[386px] h-[7px] left-0 top-[6px] absolute bg-[#e4e4e4] rounded-2xl"
+                    ></div>
+                    <div
+                      data-layer="bar"
+                      className="Bar w-[122.62px] h-[7px] left-0 top-[6px] absolute bg-[#2953e8] rounded-2xl"
+                    ></div>
+                    <div
+                      data-layer="Knob"
+                      className="Knob w-[49.05px] h-[18px] left-[163.49px] top-0 absolute origin-top-left rotate-180 bg-white rounded-[100px] shadow-[0px_6px_13px_0px_rgba(0,0,0,0.12)] shadow-[0px_0.5px_4px_0px_rgba(0,0,0,0.12)]"
+                    ></div>
+                  </div>
+                </div>
+                <div
+                  data-layer="Score Now by sliding"
+                  className="ScoreNowBySliding self-stretch text-[#757575] text-base font-normal  leading-snug"
+                >
+                  Score Now by sliding
+                </div>
+              </div>
+            </div>
+            <div
+              data-layer="Container"
+              className="Container self-stretch h-[37px] justify-start items-center gap-3 inline-flex"
+            >
+              <div
+                data-layer="Container"
+                className="Container grow shrink basis-0 h-[37px] justify-start items-center gap-2.5 flex"
+              >
+                <div
+                  data-layer="pdf.svg"
+                  className="PdfSvg flex-col justify-start items-start inline-flex overflow-hidden"
+                >
+                  <div
+                    data-layer="pdf.svg fill"
+                    className="PdfSvgFill w-6 h-6 flex-col justify-center items-center flex overflow-hidden"
+                  >
+                    <div
+                      data-layer="Component 5"
+                      className="Component5 w-6 h-6 relative  overflow-hidden"
+                    ></div>
+                  </div>
+                </div>
+                <div
+                  data-layer="Container"
+                  className="Container flex-col justify-start items-start inline-flex"
+                >
+                  <div
+                    data-layer="Margin"
+                    className="Margin self-stretch h-[21px] pb-px flex-col justify-start items-start flex"
+                  >
+                    <div
+                      data-layer="Component 11"
+                      className="Component11 self-stretch h-5 flex-col justify-start items-start flex"
                     >
-                      <circle
-                        cx="9.20455"
-                        cy="9.83443"
-                        r="9.20455"
-                        fill="white"
-                        fillOpacity="0.5"
-                      />
-                      <circle
-                        cx="17.7955"
-                        cy="9.83443"
-                        r="9.20455"
-                        fill="white"
-                        fillOpacity="0.5"
-                      />
-                    </svg>
-                  </div>
-                </div>
-                {/* END  CARD */}
-                <p className="text-[#333B69] text-base font-semibold leading-normal mb-2">
-                  Card List
-                </p>
-                <div className=" p-[10px] h-[69px] rounded-[10px] shadow-lastTransaction flex justify-between items-center mb-3">
-                  <div className=" flex items-center">
-                    <div className="bg-[#E7EDFF] rounded-[12px] h-[45px] w-[45px] flex justify-center items-center mr-5">
-                      <HiOutlineWallet className=" h-5 w-5 text-[#396AFF]" />
-                    </div>
-                    <div className=" mr-8">
-                      <p className="text-[#232323] text-sm font-medium leading-normal">
-                        Card Type
-                      </p>
-                      <p className="text-[#718EBF] text-xs leading-normal">
-                        Secondary
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-[#232323] text-sm font-medium leading-normal">
-                        Bank
-                      </p>
-                      <p className="text-[#718EBF] text-xs leading-normal">
-                        DBL Bank
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="text-[#1814F3] text-[11px] font-medium leading-normal">
-                    View Details
-                  </div>
-                </div>
-                <div className=" p-[10px] h-[69px] rounded-[10px] shadow-lastTransaction flex justify-between items-center mb-3">
-                  <div className=" flex items-center">
-                    <div className="bg-[#FFE0EB] rounded-[12px] h-[45px] w-[45px] flex justify-center items-center mr-5">
-                      <HiOutlineWallet className=" h-5 w-5 text-[#FF82AC]" />
-                    </div>
-                    <div className=" mr-8">
-                      <p className="text-[#232323] text-sm font-medium leading-normal">
-                        Card Type
-                      </p>
-                      <p className="text-[#718EBF] text-xs leading-normal">
-                        Secondary
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-[#232323] text-sm font-medium leading-normal">
-                        Bank
-                      </p>
-                      <p className="text-[#718EBF] text-xs leading-normal">
-                        BRC Bank
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="text-[#1814F3] text-[11px] font-medium leading-normal">
-                    View Details
-                  </div>
-                </div>
-                <div className=" p-[10px] h-[69px] rounded-[10px] shadow-lastTransaction flex justify-between items-center mb-7">
-                  <div className=" flex items-center">
-                    <div className="bg-[#FFF5D9] rounded-[12px] h-[45px] w-[45px] flex justify-center items-center mr-5">
-                      <HiOutlineWallet className=" h-5 w-5 text-[#FFBB38]" />
-                    </div>
-                    <div className=" mr-8">
-                      <p className="text-[#232323] text-sm font-medium leading-normal">
-                        Card Type
-                      </p>
-                      <p className="text-[#718EBF] text-xs leading-normal">
-                        Secondary
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-[#232323] text-sm font-medium leading-normal">
-                        Bank
-                      </p>
-                      <p className="text-[#718EBF] text-xs leading-normal">
-                        ABM Bank
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="text-[#1814F3] text-[11px] font-medium leading-normal">
-                    View Details
-                  </div>
-                </div>
-                <p className="text-[#333B69] text-base font-semibold leading-normal mb-2">
-                  Card Setting
-                </p>
-                <div className=" p-[15px]  rounded-[10px] shadow-lastTransaction  mb-3">
-                  <div className=" w-full flex gap-2 justify-between items-center mb-4">
-                    <div className=" flex items-center">
-                      <div className=" bg-[#FFF5D9] rounded-xl w-[45px] h-[45px] flex items-center justify-center mr-2">
-                        <HiOutlineWallet className=" h-5 w-5 text-[#FFBB38]" />
-                      </div>
-                      <div>
-                        <p className=" text-[#232323] text-sm font-medium leading-normal">
-                          Block Card
-                        </p>
-                        <p className=" text-[#718EBF] text-xs leading-normal">
-                          Instantly block your card
-                        </p>
-                      </div>
-                    </div>
-                    <div className=" flex items-center">
-                      <div className=" bg-[#E7EDFF] rounded-xl w-[45px] h-[45px] flex items-center justify-center mr-2">
-                        <HiOutlineWallet className=" h-5 w-5 text-[#396AFF]" />
-                      </div>
-                      <div>
-                        <p className=" text-[#232323] text-sm font-medium leading-normal">
-                          Change Pic Code
-                        </p>
-                        <p className=" text-[#718EBF] text-xs leading-normal">
-                          Withdraw without any card
-                        </p>
+                      <div
+                        data-layer="Text"
+                        className="Text self-stretch text-[#071437] text-sm font-medium  leading-tight"
+                      >
+                        Id Proof
                       </div>
                     </div>
                   </div>
-                  <div className=" w-full flex gap-2 justify-between items-center">
-                    <div className=" flex items-center">
-                      <div className=" bg-[#FFE0EB] rounded-xl w-[45px] h-[45px] flex items-center justify-center mr-2">
-                        <HiOutlineWallet className=" h-5 w-5 text-[#FF82AC]" />
-                      </div>
-                      <div>
-                        <p className=" text-[#232323] text-sm font-medium leading-normal">
-                          Add to Google Pay
-                        </p>
-                        <p className=" text-[#718EBF] text-xs leading-normal">
-                          Withdraw without any card
-                        </p>
-                      </div>
-                    </div>
-                    <div className=" flex items-center">
-                      <div className=" bg-[#DCFAF8] rounded-xl w-[45px] h-[45px] flex items-center justify-center mr-2">
-                        <HiOutlineWallet className=" h-5 w-5 text-[#16DBCC]" />
-                      </div>
-                      <div>
-                        <p className=" text-[#232323] text-sm font-medium leading-normal">
-                          Add to Apple Pay
-                        </p>
-                        <p className=" text-[#718EBF] text-xs leading-normal">
-                          Withdraw without any card
-                        </p>
-                      </div>
+                  <div
+                    data-layer="Component 11"
+                    className="Component11 self-stretch h-4 flex-col justify-start items-start flex"
+                  >
+                    <div
+                      data-layer="Text"
+                      className="Text text-[#4b5675] text-xs font-normal  leading-none"
+                    >
+                      4.7 MB 26 Sep 2024 3:20 PM
                     </div>
                   </div>
                 </div>
               </div>
-              {/* END CARD MANAGEMENT */}
-              <div className="mt-10 w-full flex justify-end items-center gap-5">
-                <button className=" py-[13px] px-[26px] border border-[#E7E7E7] rounded-2xl text-[#0A0A0A] text-base font-medium leading-6">
-                  Cancel
-                </button>
-                <button className=" py-[13px] px-[26px] bg-customBlue rounded-2xl text-base font-medium leading-6 text-white ">
-                  Update Details
-                </button>
+              <div
+                data-layer="Component 4"
+                className="Component4 px-px pt-px pb-[4.25px] justify-start items-center flex"
+              >
+                <div data-layer="Text" className="Text">
+                  <span className="text-[#1b84ff] text-[13px] font-medium  leading-[13px]">
+                    V
+                  </span>
+                  <span className="text-[#1b84ff] text-[13px] font-medium  leading-[13px]">
+                    iew to verify
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div
+              data-layer="Container"
+              className="Container self-stretch h-[37px] justify-start items-center gap-3 inline-flex"
+            >
+              <div
+                data-layer="Container"
+                className="Container grow shrink basis-0 h-[37px] justify-start items-center gap-2.5 flex"
+              >
+                <div
+                  data-layer="doc.svg"
+                  className="DocSvg flex-col justify-start items-start inline-flex overflow-hidden"
+                >
+                  <div
+                    data-layer="doc.svg fill"
+                    className="DocSvgFill w-6 h-6 flex-col justify-center items-center flex overflow-hidden"
+                  >
+                    <div
+                      data-layer="Component 5"
+                      className="Component5 w-6 h-6 relative  overflow-hidden"
+                    ></div>
+                  </div>
+                </div>
+                <div
+                  data-layer="Container"
+                  className="Container flex-col justify-start items-start inline-flex"
+                >
+                  <div
+                    data-layer="Margin"
+                    className="Margin self-stretch h-[21px] pb-px flex-col justify-start items-start flex"
+                  >
+                    <div
+                      data-layer="Component 11"
+                      className="Component11 self-stretch h-5 flex-col justify-start items-start flex"
+                    >
+                      <div
+                        data-layer="Text"
+                        className="Text self-stretch text-[#071437] text-sm font-medium  leading-tight"
+                      >
+                        Address Proof
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    data-layer="Component 11"
+                    className="Component11 self-stretch h-4 flex-col justify-start items-start flex"
+                  >
+                    <div
+                      data-layer="Text"
+                      className="Text text-[#4b5675] text-xs font-normal  leading-none"
+                    >
+                      2.3 MB 1 Oct 2024 12:00 PM
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                data-layer="Component 5"
+                className="Component5 px-px pt-px pb-[4.25px] justify-start items-center flex"
+              >
+                <div data-layer="Text" className="Text">
+                  <span className="text-[#1b84ff] text-[13px] font-medium  leading-[13px]">
+                    V
+                  </span>
+                  <span className="text-[#1b84ff] text-[13px] font-medium  leading-[13px]">
+                    iew to verify
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div
+              data-layer="Frame 1400001980"
+              className="Frame1400001980 flex-col justify-start items-start gap-2 flex"
+            >
+              <div
+                data-layer="On Call Comments"
+                className="OnCallComments text-neutral-950 text-sm font-semibold font-['Source Sans Pro'] leading-[21px]"
+              >
+                On Call Comments
+              </div>
+              <div
+                data-layer="Frame 427320331"
+                className="Frame427320331 w-[408px] px-4 py-2 bg-white rounded-xl border border-[#e7e7e7] justify-between items-center inline-flex"
+              >
+                <div
+                  data-layer="Write your comments here"
+                  className="WriteYourCommentsHere grow shrink basis-0 h-[73px] text-[#717171] text-sm font-medium  leading-[21px]"
+                >
+                  Write your comments here
+                </div>
+              </div>
+            </div>
+            <div
+              data-layer="Frame 1400001982"
+              className="Frame1400001982 flex-col justify-between items-start flex"
+            >
+              <div
+                data-layer="Document Error Status"
+                className="DocumentErrorStatus text-neutral-950 text-sm font-semibold font-['Source Sans Pro'] leading-[21px]"
+              >
+                Document Error Status{" "}
+              </div>
+              <div
+                data-layer="Frame 427320335"
+                className="Frame427320335 w-[424px] px-4 py-2 bg-white rounded-xl border border-[#e7e7e7] justify-between items-center inline-flex"
+              >
+                <div
+                  data-layer="Blurred images"
+                  className="BlurredImages text-[#717171] text-sm font-medium  leading-[21px]"
+                >
+                  Blurred images
+                </div>
+                <div
+                  data-layer="expand_more_FILL0_wght400_GRAD0_opsz48 2"
+                  className="ExpandMoreFill0Wght400Grad0Opsz482 w-6 h-6 relative rounded-lg border  overflow-hidden"
+                ></div>
+              </div>
+            </div>
+            <div
+              data-layer="Frame 1400001983"
+              className="Frame1400001983 w-[424px] h-[289px] px-4 py-2 bg-white rounded-xl border border-[#e7e7e7] flex-col justify-between items-start flex"
+            >
+              <div
+                data-layer="Request Additional Information"
+                className="RequestAdditionalInformation text-neutral-950 text-sm font-semibold font-['Source Sans Pro'] leading-[21px]"
+              >
+                Request Additional Information
+              </div>
+              <div
+                data-layer="Frame 427320337"
+                className="Frame427320337 self-stretch px-4 py-2 bg-white rounded-xl border border-[#e7e7e7] justify-between items-center inline-flex"
+              >
+                <div
+                  data-layer="Yes"
+                  className="Yes text-[#717171] text-sm font-medium  leading-[21px]"
+                >
+                  Yes
+                </div>
+                <div
+                  data-layer="expand_more_FILL0_wght400_GRAD0_opsz48 2"
+                  className="ExpandMoreFill0Wght400Grad0Opsz482 w-6 h-6 relative rounded-lg border  overflow-hidden"
+                ></div>
+              </div>
+              <div
+                data-layer="Checkbox Field"
+                className="CheckboxField self-stretch h-11 flex-col justify-start items-start flex"
+              >
+                <div
+                  data-layer="Checkbox and Label"
+                  className="CheckboxAndLabel self-stretch justify-start items-center gap-3 inline-flex"
+                >
+                  <div
+                    data-layer="Checkbox"
+                    className="Checkbox w-4 h-4 bg-[#09549d] rounded justify-center items-center gap-2.5 flex overflow-hidden"
+                  >
+                    <div
+                      data-layer="Check"
+                      className="Check w-4 h-4 relative  overflow-hidden"
+                    ></div>
+                  </div>
+                  <div
+                    data-layer="Label"
+                    className="Label grow shrink basis-0 text-[#1e1e1e] text-base font-normal  leading-snug"
+                  >
+                    Label
+                  </div>
+                </div>
+                <div
+                  data-layer="Description Row"
+                  className="DescriptionRow self-stretch justify-start items-center gap-3 inline-flex"
+                >
+                  <div
+                    data-layer="Space"
+                    className="Space w-4 h-4 relative"
+                  ></div>
+                  <div
+                    data-layer="Description"
+                    className="Description grow shrink basis-0 text-[#757575] text-base font-normal  leading-snug"
+                  >
+                    Description
+                  </div>
+                </div>
+              </div>
+              <div
+                data-layer="Checkbox Field"
+                className="CheckboxField self-stretch h-11 flex-col justify-start items-start flex"
+              >
+                <div
+                  data-layer="Checkbox and Label"
+                  className="CheckboxAndLabel self-stretch justify-start items-center gap-3 inline-flex"
+                >
+                  <div
+                    data-layer="Checkbox"
+                    className="Checkbox w-4 h-4 bg-white rounded border border-[#757575]"
+                  ></div>
+                  <div
+                    data-layer="Label"
+                    className="Label grow shrink basis-0 text-[#1e1e1e] text-base font-normal  leading-snug"
+                  >
+                    Label
+                  </div>
+                </div>
+                <div
+                  data-layer="Description Row"
+                  className="DescriptionRow self-stretch justify-start items-center gap-3 inline-flex"
+                >
+                  <div
+                    data-layer="Space"
+                    className="Space w-4 h-4 relative"
+                  ></div>
+                  <div
+                    data-layer="Description"
+                    className="Description grow shrink basis-0 text-[#757575] text-base font-normal  leading-snug"
+                  >
+                    Description
+                  </div>
+                </div>
+              </div>
+              <div
+                data-layer="Checkbox Field"
+                className="CheckboxField self-stretch h-11 flex-col justify-start items-start flex"
+              >
+                <div
+                  data-layer="Checkbox and Label"
+                  className="CheckboxAndLabel self-stretch justify-start items-center gap-3 inline-flex"
+                >
+                  <div
+                    data-layer="Checkbox"
+                    className="Checkbox w-4 h-4 bg-[#09549d] rounded justify-center items-center gap-2.5 flex overflow-hidden"
+                  >
+                    <div
+                      data-layer="Check"
+                      className="Check w-4 h-4 relative  overflow-hidden"
+                    ></div>
+                  </div>
+                  <div
+                    data-layer="Label"
+                    className="Label grow shrink basis-0 text-[#1e1e1e] text-base font-normal  leading-snug"
+                  >
+                    Label
+                  </div>
+                </div>
+                <div
+                  data-layer="Description Row"
+                  className="DescriptionRow self-stretch justify-start items-center gap-3 inline-flex"
+                >
+                  <div
+                    data-layer="Space"
+                    className="Space w-4 h-4 relative"
+                  ></div>
+                  <div
+                    data-layer="Description"
+                    className="Description grow shrink basis-0 text-[#757575] text-base font-normal  leading-snug"
+                  >
+                    Description
+                  </div>
+                </div>
+              </div>
+              <div
+                data-layer="Checkbox Field"
+                className="CheckboxField self-stretch h-11 flex-col justify-start items-start flex"
+              >
+                <div
+                  data-layer="Checkbox and Label"
+                  className="CheckboxAndLabel self-stretch justify-start items-center gap-3 inline-flex"
+                >
+                  <div
+                    data-layer="Checkbox"
+                    className="Checkbox w-4 h-4 bg-[#09549d] rounded justify-center items-center gap-2.5 flex overflow-hidden"
+                  >
+                    <div
+                      data-layer="Check"
+                      className="Check w-4 h-4 relative  overflow-hidden"
+                    ></div>
+                  </div>
+                  <div
+                    data-layer="Label"
+                    className="Label grow shrink basis-0 text-[#1e1e1e] text-base font-normal  leading-snug"
+                  >
+                    Label
+                  </div>
+                </div>
+                <div
+                  data-layer="Description Row"
+                  className="DescriptionRow self-stretch justify-start items-center gap-3 inline-flex"
+                >
+                  <div
+                    data-layer="Space"
+                    className="Space w-4 h-4 relative"
+                  ></div>
+                  <div
+                    data-layer="Description"
+                    className="Description grow shrink basis-0 text-[#757575] text-base font-normal  leading-snug"
+                  >
+                    Description
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              data-layer="Frame 1400001984"
+              className="Frame1400001984 flex-col justify-start items-start gap-2 flex"
+            >
+              <div
+                data-layer="Final Review"
+                className="FinalReview text-neutral-950 text-sm font-semibold font-['Source Sans Pro'] leading-[21px]"
+              >
+                Final Review
+              </div>
+              <div
+                data-layer="Frame 427320331"
+                className="Frame427320331 w-[408px] px-4 py-2 bg-white rounded-xl border border-[#e7e7e7] justify-between items-center inline-flex"
+              >
+                <div
+                  data-layer="Write your comments here"
+                  className="WriteYourCommentsHere grow shrink basis-0 h-[73px] text-[#717171] text-sm font-medium  leading-[21px]"
+                >
+                  Write your comments here
+                </div>
+              </div>
+            </div>
+            <div
+              data-layer="Frame 427320188"
+              className="Frame427320188 self-stretch px-4 py-3 bg-[#09549d] rounded-2xl justify-center items-center gap-2.5 inline-flex"
+            >
+              <div
+                data-layer="Frame 427320187"
+                className="Frame427320187 justify-start items-center gap-2 flex"
+              >
+                <div
+                  data-layer="Update Status"
+                  className="UpdateStatus text-white text-sm font-semibold "
+                >
+                  Update Status
+                </div>
               </div>
             </div>
           </div>
-        </>
-      )}
-      {/* Popup Component */}
-      <Popup open={isPopupOpen} onClose={handleClosePopup} modal nested>
-        <div className="p-6 bg-white rounded shadow-lg h-[80vh]">
-          <h2 className="text-xl font-bold mb-4">Customer Details</h2>
-          {usersignatureUrl && (
-            <Image
-              src={usersignatureUrl}
-              alt="User Signature Image"
-              width={400}
-              height={400}
-            />
-          )}
-          {userShortVideo && (
-            <video controls className="w-3/4 rounded-lg shadow-lg">
-              <source src={userShortVideo} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          )}
-          {userIdCardFront && (
-            <Image
-              src={userIdCardFront}
-              alt="User ID card front"
-              width={400}
-              height={400}
-            />
-          )}
-          {userIdCardBack && (
-            <Image
-              src={userIdCardBack}
-              alt="User ID card back"
-              width={400}
-              height={400}
-            />
-          )}
-          <button
-            onClick={handleClosePopup}
-            className="mt-4 bg-customBlue text-white px-4 py-2 rounded"
-          >
-            Close
-          </button>
         </div>
-      </Popup>
-    </div>
+      </div>
+    </>
   );
 };
 
-export default CustomerViewDetails;
+export default SidebarUserUpdateForm;

@@ -22,8 +22,9 @@ import { PiMapPinLight } from "react-icons/pi";
 import { HiOutlineEnvelope } from "react-icons/hi2";
 import { useSearchParams } from "next/navigation";
 import AxiosProvider from "../../provider/AxiosProvider";
+import CustomerViewDetails from "../component/CustomerViewDetails";
 
-interface CustomerType {
+interface Customer {
   id: string;
   firstname: string;
   lastname: string;
@@ -49,32 +50,32 @@ interface CustomerType {
   [key: string]: any; // To allow additional unknown fields
 }
 
-
 export default function Home() {
-  const [customer, setCustomer] = useState<CustomerType | null>(null); // Initial state as null
-  console.log("CUSTOMER",customer);
+  const [customer, setCustomer] = useState<Customer | null>(null); // Initial state as null
+  console.log("CUSTOMER", customer);
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   //console.log("Got Id",id);
+  const [isCustomerViewDetailOpen, setIsCustomerViewDetailOpen] = useState<boolean>(false);
+
   const axiosProvider = new AxiosProvider();
 
   useEffect(() => {
-
     if (id) {
-    const fetchData = async () => {
-      try {
-        const res = await axiosProvider.post("/viewcustomer", { id }); // Use POST and pass `id` in the body
-        console.log('view customer details',res.data.data.customer);
-        setCustomer(res.data.data.customer);
-      } catch (error: any) {
-        console.log("Error occurred:", error);
-      }
-    };
+      const fetchData = async () => {
+        try {
+          const res = await axiosProvider.post("/viewcustomer", { id }); // Use POST and pass `id` in the body
+          console.log("view customer details", res.data.data.customer);
+          setCustomer(res.data.data.customer);
+        } catch (error: any) {
+          console.log("Error occurred:", error);
+        }
+      };
 
-    fetchData();
-  }
+      fetchData();
+    }
   }, [id]);
- 
+
   const tabs = [
     {
       label: "User Home",
@@ -118,7 +119,9 @@ export default function Home() {
                         Name
                       </th>
                       <th className="w-[60%] text-sm font-medium leading-5 text-[#252F4A] text-left pl-[20px]">
-                      {customer ? `${customer.firstname} ${customer.lastname}` : "Loading..."}
+                        {customer
+                          ? `${customer.firstname} ${customer.lastname}`
+                          : "Loading..."}
                       </th>
                       <th className="w-[20%] text-[#1B84FF] text-xs font-medium leading-3 cursor-pointer">
                         Edit
@@ -147,7 +150,7 @@ export default function Home() {
                         Birthday
                       </th>
                       <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
-                       {customer ? `${customer.birthdate}` : "Loading..."}
+                        {customer ? `${customer.birthdate}` : "Loading..."}
                       </th>
                       <th className="w-[20%] text-[#1B84FF] text-xs font-medium leading-3 cursor-pointer">
                         Edit
@@ -623,7 +626,10 @@ export default function Home() {
                     height={50}
                   />
                   <div className="w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute bg-[#2db3ff] rounded-xl justify-center items-center gap-2.5 inline-flex">
-                    <div className="text-white text-sm font-semibold">
+                    <div
+                      className="text-white text-sm font-semibold cursor-pointer"
+                      onClick={()=>setIsCustomerViewDetailOpen(!isCustomerViewDetailOpen)}
+                    >
                       On Progress
                     </div>
                   </div>
@@ -752,6 +758,183 @@ export default function Home() {
               </div>
               <div className="self-stretch text-[#0e0e0e] text-base font-medium">
                 User Details Verification
+              </div>
+              <div className="self-stretch h-[93px] rounded border border-[#232323] flex-col justify-start items-start gap-2.5 flex">
+                <div className="self-stretch h-[72px] pl-4 py-1 rounded-tl rounded-tr justify-start items-start gap-1 inline-flex">
+                  <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
+                    <div className="px-1 bg-[#ece6f0] justify-start items-center inline-flex relative bottom-[13px]">
+                      <div className="text-[#2953e8] text-xs font-normal leading-none tracking-wide">
+                        Admin Review
+                      </div>
+                    </div>
+                    <div className="self-stretch justify-start items-center inline-flex">
+                      <div className="w-[258px] h-12 text-[#414349] text-base font-normal leading-normal tracking-wide">
+                        the face value of live dtection score is less{" "}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="self-stretch justify-between items-center inline-flex">
+                <div className="w-[150px] h-9 relative">
+                  <div className="left-[121px] top-0 absolute text-[#3f3f3f] text-sm font-semibold">
+                    24%
+                  </div>
+                  <div className="left-0 top-0 absolute text-[#3f3f3f] text-sm font-medium">
+                    Liveness Code
+                  </div>
+                  <div className="w-[149px] h-[7px] left-0 top-[29px] absolute">
+                    <div className="w-[149px] h-[7px] left-0 top-0 absolute bg-[#e4e4e4] rounded-2xl" />
+                    <div className="w-[45px] h-[7px] left-0 top-0 absolute bg-[#2953e8] rounded-2xl" />
+                  </div>
+                </div>
+                <div className="px-2 py-1 bg-[#eef1ff] rounded-xl justify-center items-center gap-2.5 flex">
+                  <div className="text-[#2953e8] text-sm font-bold">
+                    Notify User
+                  </div>
+                  <div className="w-3 h-3 relative flex-col justify-start items-start inline-flex overflow-hidden" />
+                </div>
+              </div>
+            </div>
+            <div className="w-[30%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400">
+              <div className="self-stretch justify-between items-center inline-flex">
+                <div className="h-[50px] relative">
+                  <Image
+                    src="/images/user.svg"
+                    alt="Orizon profile"
+                    width={50}
+                    height={50}
+                  />
+                  <div className="w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute bg-[#D2843C] rounded-xl justify-center items-center gap-2.5 inline-flex">
+                    <div className="text-white text-sm font-semibold">
+                      Under Review
+                    </div>
+                  </div>
+                </div>
+                <div className="w-6 h-6 relative  overflow-hidden">
+                  <div className="w-[5px] h-6 left-[9.50px] top-0 absolute"></div>
+                </div>
+              </div>
+              <div className="self-stretch text-[#0e0e0e] text-base font-medium">
+                Scanned ID Card Verification
+              </div>
+              <div className="self-stretch h-[93px] rounded border border-[#232323] flex-col justify-start items-start gap-2.5 flex">
+                <div className="self-stretch h-[72px] pl-4 py-1 rounded-tl rounded-tr justify-start items-start gap-1 inline-flex">
+                  <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
+                    <div className="px-1 bg-[#ece6f0] justify-start items-center inline-flex relative bottom-[13px]">
+                      <div className="text-[#2953e8] text-xs font-normal leading-none tracking-wide">
+                        Admin Review
+                      </div>
+                    </div>
+                    <div className="self-stretch justify-start items-center inline-flex">
+                      <div className="w-[258px] h-12 text-[#414349] text-base font-normal leading-normal tracking-wide">
+                        the face value of live dtection score is less{" "}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="self-stretch justify-between items-center inline-flex">
+                <div className="w-[150px] h-9 relative">
+                  <div className="left-[121px] top-0 absolute text-[#3f3f3f] text-sm font-semibold">
+                    24%
+                  </div>
+                  <div className="left-0 top-0 absolute text-[#3f3f3f] text-sm font-medium">
+                    Liveness Code
+                  </div>
+                  <div className="w-[149px] h-[7px] left-0 top-[29px] absolute">
+                    <div className="w-[149px] h-[7px] left-0 top-0 absolute bg-[#e4e4e4] rounded-2xl" />
+                    <div className="w-[45px] h-[7px] left-0 top-0 absolute bg-[#2953e8] rounded-2xl" />
+                  </div>
+                </div>
+                <div className="px-2 py-1 bg-[#eef1ff] rounded-xl justify-center items-center gap-2.5 flex">
+                  <div className="text-[#2953e8] text-sm font-bold">
+                    Notify User
+                  </div>
+                  <div className="w-3 h-3 relative flex-col justify-start items-start inline-flex overflow-hidden" />
+                </div>
+              </div>
+            </div>
+            <div className="w-[30%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400">
+              <div className="self-stretch justify-between items-center inline-flex">
+                <div className="h-[50px] relative">
+                  <Image
+                    src="/images/user.svg"
+                    alt="Orizon profile"
+                    width={50}
+                    height={50}
+                  />
+                  <div className="w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute bg-[#D2843C] rounded-xl justify-center items-center gap-2.5 inline-flex">
+                    <div className="text-white text-sm font-semibold">
+                      Under Review
+                    </div>
+                  </div>
+                </div>
+                <div className="w-6 h-6 relative  overflow-hidden">
+                  <div className="w-[5px] h-6 left-[9.50px] top-0 absolute"></div>
+                </div>
+              </div>
+              <div className="self-stretch text-[#0e0e0e] text-base font-medium">
+                5-Second Face Video Verification
+              </div>
+              <div className="self-stretch h-[93px] rounded border border-[#232323] flex-col justify-start items-start gap-2.5 flex">
+                <div className="self-stretch h-[72px] pl-4 py-1 rounded-tl rounded-tr justify-start items-start gap-1 inline-flex">
+                  <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
+                    <div className="px-1 bg-[#ece6f0] justify-start items-center inline-flex relative bottom-[13px]">
+                      <div className="text-[#2953e8] text-xs font-normal leading-none tracking-wide">
+                        Admin Review
+                      </div>
+                    </div>
+                    <div className="self-stretch justify-start items-center inline-flex">
+                      <div className="w-[258px] h-12 text-[#414349] text-base font-normal leading-normal tracking-wide">
+                        the face value of live dtection score is less{" "}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="self-stretch justify-between items-center inline-flex">
+                <div className="w-[150px] h-9 relative">
+                  <div className="left-[121px] top-0 absolute text-[#3f3f3f] text-sm font-semibold">
+                    24%
+                  </div>
+                  <div className="left-0 top-0 absolute text-[#3f3f3f] text-sm font-medium">
+                    Liveness Code
+                  </div>
+                  <div className="w-[149px] h-[7px] left-0 top-[29px] absolute">
+                    <div className="w-[149px] h-[7px] left-0 top-0 absolute bg-[#e4e4e4] rounded-2xl" />
+                    <div className="w-[45px] h-[7px] left-0 top-0 absolute bg-[#2953e8] rounded-2xl" />
+                  </div>
+                </div>
+                <div className="px-2 py-1 bg-[#eef1ff] rounded-xl justify-center items-center gap-2.5 flex">
+                  <div className="text-[#2953e8] text-sm font-bold">
+                    Notify User
+                  </div>
+                  <div className="w-3 h-3 relative flex-col justify-start items-start inline-flex overflow-hidden" />
+                </div>
+              </div>
+            </div>
+            <div className="w-[30%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400">
+              <div className="self-stretch justify-between items-center inline-flex">
+                <div className="h-[50px] relative">
+                  <Image
+                    src="/images/user.svg"
+                    alt="Orizon profile"
+                    width={50}
+                    height={50}
+                  />
+                  <div className="w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute bg-[#D2843C] rounded-xl justify-center items-center gap-2.5 inline-flex">
+                    <div className="text-white text-sm font-semibold">
+                      Under Review
+                    </div>
+                  </div>
+                </div>
+                <div className="w-6 h-6 relative  overflow-hidden">
+                  <div className="w-[5px] h-6 left-[9.50px] top-0 absolute"></div>
+                </div>
+              </div>
+              <div className="self-stretch text-[#0e0e0e] text-base font-medium">
+                Signature Verification
               </div>
               <div className="self-stretch h-[93px] rounded border border-[#232323] flex-col justify-start items-start gap-2.5 flex">
                 <div className="self-stretch h-[72px] pl-4 py-1 rounded-tl rounded-tr justify-start items-start gap-1 inline-flex">
@@ -960,7 +1143,9 @@ export default function Home() {
                 </div>
                 <div className="flex items-center justify-center gap-1 mb-4">
                   <p className="text-[#071437] text-lg font-semibold leading-5">
-                  {customer ? `${customer.firstname} ${customer.lastname}` : "Loading..."}
+                    {customer
+                      ? `${customer.firstname} ${customer.lastname}`
+                      : "Loading..."}
                   </p>
                   <MdVerified className="w-4 h-4 text-[#1B84FF] relative top-[1.5px]" />
                 </div>
@@ -990,6 +1175,10 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <CustomerViewDetails
+        isEditFlyoutOpen={isCustomerViewDetailOpen}
+        setIsEditFlyoutOpen={setIsCustomerViewDetailOpen}
+      />
     </>
   );
 }
