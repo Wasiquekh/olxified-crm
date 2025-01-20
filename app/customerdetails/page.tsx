@@ -47,6 +47,7 @@ interface Customer {
   password?: string | null;
   shortintrovideo?: string | null;
   usersignature?: string | null;
+  face_id_url?: string | null;
   [key: string]: any; // To allow additional unknown fields
 }
 
@@ -57,6 +58,7 @@ export default function Home() {
   const id = searchParams.get("id");
   //console.log("Got Id",id);
   const [isCustomerViewDetailOpen, setIsCustomerViewDetailOpen] = useState<boolean>(false);
+
 
   const axiosProvider = new AxiosProvider();
 
@@ -611,7 +613,7 @@ export default function Home() {
       ),
     },
     {
-      label: "Preferences",
+      label: "User Verification",
       content: (
         <>
           {/* //   Tab 2 content */}
@@ -627,8 +629,7 @@ export default function Home() {
                   />
                   <div className="w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute bg-[#2db3ff] rounded-xl justify-center items-center gap-2.5 inline-flex">
                     <div
-                      className="text-white text-sm font-semibold cursor-pointer"
-                      onClick={()=>setIsCustomerViewDetailOpen(!isCustomerViewDetailOpen)}
+                      className="text-white text-sm font-semibold"
                     >
                       On Progress
                     </div>
@@ -646,12 +647,13 @@ export default function Home() {
                   <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
                     <div className="px-1 bg-[#ece6f0] justify-start items-center inline-flex relative bottom-[13px]">
                       <div className="text-[#2953e8] text-xs font-normal leading-none tracking-wide">
-                        Admin Review
+                        Indstructions
                       </div>
                     </div>
                     <div className="self-stretch justify-start items-center inline-flex">
-                      <div className="w-[258px] h-12 text-[#414349] text-base font-normal leading-normal tracking-wide">
-                        the face value of live dtection score is less{" "}
+                      <div className="w-[258px] h-12 text-[#414349] text-sm font-normal leading-normal tracking-wide">
+                        <li>The face should be clear</li>
+                        <li>Liveness score should be 90%</li>
                       </div>
                     </div>
                   </div>
@@ -659,22 +661,17 @@ export default function Home() {
               </div>
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="w-[150px] h-9 relative">
-                  <div className="left-[121px] top-0 absolute text-[#3f3f3f] text-sm font-semibold">
-                    24%
-                  </div>
-                  <div className="left-0 top-0 absolute text-[#3f3f3f] text-sm font-medium">
-                    Liveness Code
-                  </div>
-                  <div className="w-[149px] h-[7px] left-0 top-[29px] absolute">
-                    <div className="w-[149px] h-[7px] left-0 top-0 absolute bg-[#e4e4e4] rounded-2xl" />
-                    <div className="w-[45px] h-[7px] left-0 top-0 absolute bg-[#2953e8] rounded-2xl" />
-                  </div>
+             <button
+             className=" bg-customBlue text-white py-1.5 px-6 rounded text-base font-medium"
+             onClick={()=>setIsCustomerViewDetailOpen(!isCustomerViewDetailOpen)}
+             >
+              Verify User
+             </button>
                 </div>
-                <div className="px-2 py-1 bg-[#eef1ff] rounded-xl justify-center items-center gap-2.5 flex">
+                <div className="px-4 py-2 bg-[#eef1ff] rounded-xl justify-center items-center gap-2.5 flex">
                   <div className="text-[#2953e8] text-sm font-bold">
                     Notify User
                   </div>
-                  <div className="w-3 h-3 relative flex-col justify-start items-start inline-flex overflow-hidden" />
                 </div>
               </div>
             </div>
@@ -1178,6 +1175,7 @@ export default function Home() {
       <CustomerViewDetails
         isEditFlyoutOpen={isCustomerViewDetailOpen}
         setIsEditFlyoutOpen={setIsCustomerViewDetailOpen}
+        customer={customer}
       />
     </>
   );

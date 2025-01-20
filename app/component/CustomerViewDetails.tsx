@@ -8,34 +8,98 @@ import { AppContext } from "../AppContext";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import UserActivityLogger from "../../provider/UserActivityLogger";
 import Swal from "sweetalert2";
+import Image from "next/image";
+import { IoVideocam } from "react-icons/io5";
 
 const axiosProvider = new AxiosProvider();
 const storage = new StorageManager();
 const activityLogger = new UserActivityLogger();
 
-// Interface for Current User Data
-// interface CurrentUserData {
-//   id: string;
-//   name: string;
-//   mobile_number: string;
-//   email: string;
-//   role: string;
-// }
-
+interface Customer {
+  id: string;
+  firstname: string;
+  lastname: string;
+  birthdate: string;
+  gender: string;
+  mobilephonenumber: string;
+  email: string;
+  streetaddress: string;
+  countryofbirth: string;
+  countryofresidence: string;
+  updated_at: string;
+  city?: string | null;
+  created_at?: string | null;
+  fcmtoken?: string | null;
+  idcardrecto?: string | null;
+  idcardverso?: string | null;
+  iddoctype?: string | null;
+  mobilephonenumber_verified?: boolean | null;
+  password?: string | null;
+  shortintrovideo?: string | null;
+  usersignature?: string | null;
+  face_id_url?: string | null;
+  [key: string]: any;
+}
 // Props interface for SidebarUserUpdateForm
 interface SidebarUserUpdateFormProps {
   isEditFlyoutOpen: boolean;
   setIsEditFlyoutOpen: (open: boolean) => void;
+  customer: Customer | null;
 }
 
 // SidebarUserUpdateForm Component
 const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
   isEditFlyoutOpen,
   setIsEditFlyoutOpen,
+  customer,
 }) => {
   const [userDescription, setUserDescription] = useState<string | null>(null);
   //console.log('user desc',userDescription)
+
   const { accessToken } = useContext(AppContext);
+  const value = "a933fefd-9709-4114-8074-76ca7a00e3c9-download (15).jpg";
+    // Log only the 'city' key if the customer object exists
+    if (customer && customer.face_id_url !== undefined) {
+      console.log("Face id URL:", customer.face_id_url);
+    }
+useEffect(()=>{
+  console.log('This is console log')
+  const fetchData = async()=>{
+    if (customer && customer.face_id_url !== undefined) {
+      try {
+      const response =  await axiosProvider.post("/getfaceid", { id: customer.face_id_url });
+      console.log('IIIIIMMMMMMMMMMAGGGEEE',response)
+  
+        toast.success("Successfully get");
+  
+      } catch (error) {
+        console.error("Error deleting user:", error);
+        toast.error("Failed to get");
+      }
+    }
+  }
+   // Ensure that fetchData is called when the 'customer' prop is available
+   if (customer) {
+    fetchData();
+  }
+},[customer]);
+  const btnClick = async() => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to delete this user?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+
+            
+      }
+    });
+  };
 
   return (
     <>
@@ -46,108 +110,59 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
         ></div>
       )}
       <div className={`filterflyout ${isEditFlyoutOpen ? "filteropen" : ""}`}>
-        <div className="flex justify-between mb-4">
-          <p className="text-[#333B69] text-[26px] font-bold leading-9 hover:cursor-pointer block">
-            User Details
-          </p>
-          <button
-            type="button"
-            onClick={() => setIsEditFlyoutOpen(false)}
-            className="h-8 w-8 border border-[#E7E7E7] text-[#0A0A0A] rounded cursor-pointer"
-          >
-            X
-          </button>
-        </div>
-        <div className="flex gap-20 mb-4">
-          <p>Personal Details</p>
-        </div>
         <div className=" w-full">
-          <div
-            data-layer="Frame 1400001983"
-            className="Frame1400001983  px-0 py-6 bg-white rounded-xl flex-col justify-start items-start gap-5 inline-flex"
-          >
-            <div
-              data-layer="Frame 1400001979"
-              className="Frame1400001979 justify-center items-center gap-4 inline-flex"
-            >
-              <div
-                data-layer="Frame 19"
-                className="Frame19 w-[50px] h-[50px] p-2.5 bg-black rounded-[25px] justify-start items-center gap-2.5 flex"
-              >
-                <div
-                  data-layer="fi_3679997"
-                  className="Fi3679997 h-[30px] relative  overflow-hidden"
-                >
-                  <div
-                    data-layer="Group"
-                    className="Group w-[19.14px] h-[22.50px] left-[5.43px] top-[3.28px] absolute"
-                  ></div>
+          <div className="px-0 py-0 bg-white rounded-xl flex-col justify-start items-start gap-5 inline-flex w-full">
+            <div className=" flex justify-between items-center w-full ">
+              <div className=" justify-center items-center gap-4 inline-flex">
+                <Image
+                  src="/images/user.svg"
+                  alt="Orizon profile"
+                  width={50}
+                  height={50}
+                />
+                <div className=" px-7 py-3 bg-[#2db3ff] rounded-xl ">
+                  <div className="OnProgress text-white text-sm font-semibold">
+                    On Progress
+                  </div>
                 </div>
               </div>
-              <div
-                data-layer="Frame 1400001975"
-                className="Frame1400001975 grow shrink basis-0 self-stretch px-3.5 py-2.5 bg-[#2db3ff] rounded-xl justify-center items-center gap-2.5 flex"
-              >
-                <div
-                  data-layer="On Progress"
-                  className="OnProgress text-white text-sm font-semibol"
+              <div className="flex justify-end ">
+                <button
+                  type="button"
+                  onClick={() => setIsEditFlyoutOpen(false)}
+                  className="h-8 w-8 border border-[#E7E7E7] text-[#0A0A0A] rounded cursor-pointer"
                 >
-                  On Progress
-                </div>
+                  X
+                </button>
               </div>
             </div>
-            <div
-              data-layer="Liveness Detection"
-              className="LivenessDetection w-[279px] text-[#0e0e0e] text-base font-medium"
-            >
+
+            <div className="LivenessDetection w-[279px] text-[#0e0e0e] text-base font-medium">
               Liveness Detection
             </div>
-            <div
-              data-layer="Group 1171275658"
-              className="Group1171275658 w-[423px] h-[195px] relative"
-            >
-              <div
-                data-layer="Rectangle 23880"
-                className="Rectangle23880 w-[423px] h-[195px] left-0 top-0 absolute bg-[#cfe3f7]"
-              ></div>
-              <div
-                data-layer="videocam"
-                className="Videocam w-6 h-6 left-[199px] top-[86px] absolute  overflow-hidden"
-              ></div>
-              <div
-                data-layer="Verify Video"
-                className="VerifyVideo w-[279px] left-[22px] top-[12px] absolute text-[#0e0e0e] text-base font-medium"
-              >
-                Verify Video
-              </div>
-            </div>
+            <div>aergaet vhgertgweurgtiwyt</div>
             <div
               data-layer="Frame 427320337"
-              className="Frame427320337 flex-col justify-between items-start flex"
+              className="Frame427320337 flex-col justify-between items-start flex w-full"
             >
-              <div
-                data-layer="Select Verification Status"
-                className="SelectVerificationStatus text-neutral-950 text-sm font-semibold font-['Source Sans Pro'] leading-[21px]"
+              <label
+                className="text-neutral-950 text-sm font-semibold leading-[21px] mb-3"
+                htmlFor="verification-status"
               >
-                Select Verification Status{" "}
-              </div>
-              <div
-                data-layer="Frame 427320335"
-                className="Frame427320335 w-[424px] px-4 py-2 bg-white rounded-xl border border-[#e7e7e7] justify-between items-center inline-flex"
+                Select Verification Status
+              </label>
+              <select
+                id="verification-status"
+                name="verificationStatus"
+                className="w-full px-4 py-4 bg-white rounded-xl border border-[#e7e7e7] text-[#717171] text-sm font-medium leading-[21px] focus:outline-none"
               >
-                <div
-                  data-layer="--None--"
-                  className="None text-[#717171] text-sm font-medium  leading-[21px]"
-                >
-                  {" "}
-                  --None--
-                </div>
-                <div
-                  data-layer="expand_more_FILL0_wght400_GRAD0_opsz48 2"
-                  className="ExpandMoreFill0Wght400Grad0Opsz482 w-6 h-6 relative rounded-lg border  overflow-hidden"
-                ></div>
-              </div>
+                <option value="">--None--</option>
+                <option value="verified">Verified</option>
+                <option value="pending">Pending</option>
+                <option value="rejected">Rejected</option>
+              </select>
             </div>
+
             <div
               data-layer="Frame 1400001977"
               className="Frame1400001977 self-stretch px-4 py-2 bg-white rounded-xl border border-[#e7e7e7] justify-between items-center inline-flex"
@@ -174,19 +189,19 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
                   </div>
                   <div
                     data-layer="progressBar"
-                    className="Progressbar w-[386px] h-[18px] left-0 top-[23px] absolute"
+                    className="Progressbar w-full h-[18px] left-0 top-[23px] absolute"
                   >
                     <div
                       data-layer="bar"
-                      className="Bar w-[386px] h-[7px] left-0 top-[6px] absolute bg-[#e4e4e4] rounded-2xl"
+                      className="Bar w-full h-[7px] left-0 top-[6px] absolute bg-[#e4e4e4] rounded-2xl"
                     ></div>
                     <div
                       data-layer="bar"
-                      className="Bar w-[122.62px] h-[7px] left-0 top-[6px] absolute bg-[#2953e8] rounded-2xl"
+                      className="Bar w-full h-[7px] left-0 top-[6px] absolute bg-[#2953e8] rounded-2xl"
                     ></div>
                     <div
                       data-layer="Knob"
-                      className="Knob w-[49.05px] h-[18px] left-[163.49px] top-0 absolute origin-top-left rotate-180 bg-white rounded-[100px] shadow-[0px_6px_13px_0px_rgba(0,0,0,0.12)] shadow-[0px_0.5px_4px_0px_rgba(0,0,0,0.12)]"
+                      className="Knob w-full h-[18px] left-[163.49px] top-0 absolute origin-top-left rotate-180 bg-white rounded-[100px] shadow-[0px_6px_13px_0px_rgba(0,0,0,0.12)] shadow-[0px_0.5px_4px_0px_rgba(0,0,0,0.12)]"
                     ></div>
                   </div>
                 </div>
@@ -587,21 +602,16 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
                 </div>
               </div>
             </div>
-            <div
-              data-layer="Frame 427320188"
-              className="Frame427320188 self-stretch px-4 py-3 bg-[#09549d] rounded-2xl justify-center items-center gap-2.5 inline-flex"
-            >
-              <div
-                data-layer="Frame 427320187"
-                className="Frame427320187 justify-start items-center gap-2 flex"
+            <div className=" flex justify-between w-full">
+              <button
+                onClick={btnClick}
+                className="bg-[#379941] text-white w-[49%] p-3 rounded"
               >
-                <div
-                  data-layer="Update Status"
-                  className="UpdateStatus text-white text-sm font-semibold "
-                >
-                  Update Status
-                </div>
-              </div>
+                Approve
+              </button>
+              <button className="bg-[#E52020] text-white w-[49%] p-3 rounded">
+                Reject
+              </button>
             </div>
           </div>
         </div>
