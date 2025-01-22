@@ -57,8 +57,21 @@ export default function Home() {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   //console.log("Got Id",id);
-  const [isCustomerViewDetailOpen, setIsCustomerViewDetailOpen] = useState<boolean>(false);
-
+  const [isCustomerViewDetailOpen, setIsCustomerViewDetailOpen] =
+    useState<boolean>(false);
+  const [liveDetection, setLiveDetection] = useState<string | null>(null);
+  const [identityMatching, setIdentityMatching] = useState<string | null>(null);
+  const [userDetailsVerification, setUserDetailsVerification] = useState<
+    string | null
+  >(null);
+  const [scannedIdCardVerification, setScannedIdCardVerification] = useState<
+    string | null
+  >(null);
+  const [fiveSecondVideoVerification, setFiveSecondVideoVerification] =
+    useState<string | null>(null);
+  const [signatureVerification, setSignatureVerification] = useState<
+    string | null
+  >(null);
 
   const axiosProvider = new AxiosProvider();
 
@@ -76,7 +89,53 @@ export default function Home() {
       fetchData();
     }
   }, [id]);
+  const fetchUserStatus = async () => {
+    if (customer && customer.id !== undefined) {
+      try {
+        const response = await axiosProvider.post("/getuserstatus", {
+          customer_id: customer.id,
+        });
+        //setFaceImage(response.data.data.url);
+        //setFaceImage(response.data.data.url);
+        console.log("CUSTOMER STATUS", response.data.data);
+        setLiveDetection(response.data.data[0].liveness_detection.status);
+        setIdentityMatching(response.data.data[1].identity_matching.status);
+        setUserDetailsVerification(
+          response.data.data[2].user_details_verification.status
+        );
+        setScannedIdCardVerification(
+          response.data.data[3].scanned_id_card_verification.status
+        );
+        setFiveSecondVideoVerification(
+          response.data.data[4].five_second_face_video_verification.status
+        );
+        setSignatureVerification(
+          response.data.data[5].signature_verification.status
+        );
+        // toast.success("Successfully get");
+      } catch (error) {
+        console.error("Error deleting user:", error);
+        // toast.error("Failed to get Image");
+      }
+    }
+  };
+  useEffect(() => {
+    fetchUserStatus();
+  });
 
+  // Determine background color based on liveDetection value
+  const getBgColor = (status: string | null) => {
+    if (status === "Approved") return "bg-[#379941]";
+    if (status === "On Progress") return "bg-[#2DB3FF]";
+    if (status === "Rejected") return "bg-[#E52020]";
+    return ""; // Default background color
+  };
+  const liveDetectionBg = getBgColor(liveDetection);
+  const identityMatchingBg = getBgColor(identityMatching);
+  const userDetailsVerificationBg = getBgColor(userDetailsVerification);
+  const scannedIdCardVerificationBg = getBgColor(scannedIdCardVerification);
+  const fiveSecondVideoVerificationBg = getBgColor(fiveSecondVideoVerification);
+  const signatureVerificationBg = getBgColor(signatureVerification);
   const tabs = [
     {
       label: "User Home",
@@ -626,11 +685,13 @@ export default function Home() {
                     width={50}
                     height={50}
                   />
-                  <div className="w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute bg-[#2db3ff] rounded-xl justify-center items-center gap-2.5 inline-flex">
-                    <div
-                      className="text-white text-sm font-semibold"
-                    >
-                      On Progress
+                  <div
+                    className={`w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute rounded-xl justify-center items-center gap-2.5 inline-flex  ${
+                      liveDetectionBg ? liveDetectionBg : "bg-customBlue"
+                    }`}
+                  >
+                    <div className="text-white text-sm font-semibold">
+                      {liveDetection ? liveDetection : "Loading..."}
                     </div>
                   </div>
                 </div>
@@ -660,12 +721,15 @@ export default function Home() {
               </div>
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="w-[150px] h-9 relative">
-             <button
-             className=" bg-customBlue text-white py-1.5 px-6 rounded text-base font-medium"
-             onClick={()=>setIsCustomerViewDetailOpen(!isCustomerViewDetailOpen)}
-             >
-              Verify User
-             </button>
+                  <button
+                    className=" bg-customBlue text-white py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={liveDetection === "Approved"}
+                    onClick={() =>
+                      setIsCustomerViewDetailOpen(!isCustomerViewDetailOpen)
+                    }
+                  >
+                    Verify User
+                  </button>
                 </div>
                 <div className="px-4 py-2 bg-[#eef1ff] rounded-xl justify-center items-center gap-2.5 flex">
                   <div className="text-[#2953e8] text-sm font-bold">
@@ -683,9 +747,13 @@ export default function Home() {
                     width={50}
                     height={50}
                   />
-                  <div className="w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute bg-[#379941] rounded-xl justify-center items-center gap-2.5 inline-flex">
+                  <div
+                    className={`w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute rounded-xl justify-center items-center gap-2.5 inline-flex  ${
+                      identityMatchingBg ? identityMatchingBg : "bg-customBlue"
+                    }`}
+                  >
                     <div className="text-white text-sm font-semibold">
-                      Approved
+                      {identityMatching ? identityMatching : "Loading..."}
                     </div>
                   </div>
                 </div>
@@ -701,12 +769,13 @@ export default function Home() {
                   <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
                     <div className="px-1 bg-[#ece6f0] justify-start items-center inline-flex relative bottom-[13px]">
                       <div className="text-[#2953e8] text-xs font-normal leading-none tracking-wide">
-                        Admin Review
+                        Indstructions
                       </div>
                     </div>
                     <div className="self-stretch justify-start items-center inline-flex">
-                      <div className="w-[258px] h-12 text-[#414349] text-base font-normal leading-normal tracking-wide">
-                        the face value of live dtection score is less{" "}
+                      <div className="w-[258px] h-12 text-[#414349] text-sm font-normal leading-normal tracking-wide">
+                        <li>The face should be clear</li>
+                        <li>Liveness score should be 90%</li>
                       </div>
                     </div>
                   </div>
@@ -714,22 +783,20 @@ export default function Home() {
               </div>
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="w-[150px] h-9 relative">
-                  <div className="left-[121px] top-0 absolute text-[#3f3f3f] text-sm font-semibold">
-                    24%
-                  </div>
-                  <div className="left-0 top-0 absolute text-[#3f3f3f] text-sm font-medium">
-                    Liveness Code
-                  </div>
-                  <div className="w-[149px] h-[7px] left-0 top-[29px] absolute">
-                    <div className="w-[149px] h-[7px] left-0 top-0 absolute bg-[#e4e4e4] rounded-2xl" />
-                    <div className="w-[45px] h-[7px] left-0 top-0 absolute bg-[#2953e8] rounded-2xl" />
-                  </div>
+                  <button
+                    className=" bg-customBlue text-white py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={liveDetection === "Approved"}
+                    onClick={() =>
+                      setIsCustomerViewDetailOpen(!isCustomerViewDetailOpen)
+                    }
+                  >
+                    Verify User
+                  </button>
                 </div>
-                <div className="px-2 py-1 bg-[#eef1ff] rounded-xl justify-center items-center gap-2.5 flex">
+                <div className="px-4 py-2 bg-[#eef1ff] rounded-xl justify-center items-center gap-2.5 flex">
                   <div className="text-[#2953e8] text-sm font-bold">
                     Notify User
                   </div>
-                  <div className="w-3 h-3 relative flex-col justify-start items-start inline-flex overflow-hidden" />
                 </div>
               </div>
             </div>
@@ -742,9 +809,17 @@ export default function Home() {
                     width={50}
                     height={50}
                   />
-                  <div className="w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute bg-[#D2843C] rounded-xl justify-center items-center gap-2.5 inline-flex">
+                  <div
+                    className={`w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute rounded-xl justify-center items-center gap-2.5 inline-flex  ${
+                      userDetailsVerificationBg
+                        ? userDetailsVerificationBg
+                        : "bg-customBlue"
+                    }`}
+                  >
                     <div className="text-white text-sm font-semibold">
-                      Under Review
+                      {userDetailsVerification
+                        ? userDetailsVerification
+                        : "Loading..."}
                     </div>
                   </div>
                 </div>
@@ -753,19 +828,20 @@ export default function Home() {
                 </div>
               </div>
               <div className="self-stretch text-[#0e0e0e] text-base font-medium">
-                User Details Verification
+                User Detail Verification
               </div>
               <div className="self-stretch h-[93px] rounded border border-[#232323] flex-col justify-start items-start gap-2.5 flex">
                 <div className="self-stretch h-[72px] pl-4 py-1 rounded-tl rounded-tr justify-start items-start gap-1 inline-flex">
                   <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
                     <div className="px-1 bg-[#ece6f0] justify-start items-center inline-flex relative bottom-[13px]">
                       <div className="text-[#2953e8] text-xs font-normal leading-none tracking-wide">
-                        Admin Review
+                        Indstructions
                       </div>
                     </div>
                     <div className="self-stretch justify-start items-center inline-flex">
-                      <div className="w-[258px] h-12 text-[#414349] text-base font-normal leading-normal tracking-wide">
-                        the face value of live dtection score is less{" "}
+                      <div className="w-[258px] h-12 text-[#414349] text-sm font-normal leading-normal tracking-wide">
+                        <li>The face should be clear</li>
+                        <li>Liveness score should be 90%</li>
                       </div>
                     </div>
                   </div>
@@ -773,22 +849,20 @@ export default function Home() {
               </div>
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="w-[150px] h-9 relative">
-                  <div className="left-[121px] top-0 absolute text-[#3f3f3f] text-sm font-semibold">
-                    24%
-                  </div>
-                  <div className="left-0 top-0 absolute text-[#3f3f3f] text-sm font-medium">
-                    Liveness Code
-                  </div>
-                  <div className="w-[149px] h-[7px] left-0 top-[29px] absolute">
-                    <div className="w-[149px] h-[7px] left-0 top-0 absolute bg-[#e4e4e4] rounded-2xl" />
-                    <div className="w-[45px] h-[7px] left-0 top-0 absolute bg-[#2953e8] rounded-2xl" />
-                  </div>
+                  <button
+                    className=" bg-customBlue text-white py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={liveDetection === "Approved"}
+                    onClick={() =>
+                      setIsCustomerViewDetailOpen(!isCustomerViewDetailOpen)
+                    }
+                  >
+                    Verify User
+                  </button>
                 </div>
-                <div className="px-2 py-1 bg-[#eef1ff] rounded-xl justify-center items-center gap-2.5 flex">
+                <div className="px-4 py-2 bg-[#eef1ff] rounded-xl justify-center items-center gap-2.5 flex">
                   <div className="text-[#2953e8] text-sm font-bold">
                     Notify User
                   </div>
-                  <div className="w-3 h-3 relative flex-col justify-start items-start inline-flex overflow-hidden" />
                 </div>
               </div>
             </div>
@@ -801,9 +875,17 @@ export default function Home() {
                     width={50}
                     height={50}
                   />
-                  <div className="w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute bg-[#D2843C] rounded-xl justify-center items-center gap-2.5 inline-flex">
+                  <div
+                    className={`w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute rounded-xl justify-center items-center gap-2.5 inline-flex  ${
+                      scannedIdCardVerificationBg
+                        ? scannedIdCardVerificationBg
+                        : "bg-customBlue"
+                    }`}
+                  >
                     <div className="text-white text-sm font-semibold">
-                      Under Review
+                      {scannedIdCardVerification
+                        ? scannedIdCardVerification
+                        : "Loading..."}
                     </div>
                   </div>
                 </div>
@@ -819,12 +901,13 @@ export default function Home() {
                   <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
                     <div className="px-1 bg-[#ece6f0] justify-start items-center inline-flex relative bottom-[13px]">
                       <div className="text-[#2953e8] text-xs font-normal leading-none tracking-wide">
-                        Admin Review
+                        Indstructions
                       </div>
                     </div>
                     <div className="self-stretch justify-start items-center inline-flex">
-                      <div className="w-[258px] h-12 text-[#414349] text-base font-normal leading-normal tracking-wide">
-                        the face value of live dtection score is less{" "}
+                      <div className="w-[258px] h-12 text-[#414349] text-sm font-normal leading-normal tracking-wide">
+                        <li>The face should be clear</li>
+                        <li>Liveness score should be 90%</li>
                       </div>
                     </div>
                   </div>
@@ -832,22 +915,20 @@ export default function Home() {
               </div>
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="w-[150px] h-9 relative">
-                  <div className="left-[121px] top-0 absolute text-[#3f3f3f] text-sm font-semibold">
-                    24%
-                  </div>
-                  <div className="left-0 top-0 absolute text-[#3f3f3f] text-sm font-medium">
-                    Liveness Code
-                  </div>
-                  <div className="w-[149px] h-[7px] left-0 top-[29px] absolute">
-                    <div className="w-[149px] h-[7px] left-0 top-0 absolute bg-[#e4e4e4] rounded-2xl" />
-                    <div className="w-[45px] h-[7px] left-0 top-0 absolute bg-[#2953e8] rounded-2xl" />
-                  </div>
+                  <button
+                    className=" bg-customBlue text-white py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={liveDetection === "Approved"}
+                    onClick={() =>
+                      setIsCustomerViewDetailOpen(!isCustomerViewDetailOpen)
+                    }
+                  >
+                    Verify User
+                  </button>
                 </div>
-                <div className="px-2 py-1 bg-[#eef1ff] rounded-xl justify-center items-center gap-2.5 flex">
+                <div className="px-4 py-2 bg-[#eef1ff] rounded-xl justify-center items-center gap-2.5 flex">
                   <div className="text-[#2953e8] text-sm font-bold">
                     Notify User
                   </div>
-                  <div className="w-3 h-3 relative flex-col justify-start items-start inline-flex overflow-hidden" />
                 </div>
               </div>
             </div>
@@ -860,9 +941,17 @@ export default function Home() {
                     width={50}
                     height={50}
                   />
-                  <div className="w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute bg-[#D2843C] rounded-xl justify-center items-center gap-2.5 inline-flex">
+                  <div
+                    className={`w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute rounded-xl justify-center items-center gap-2.5 inline-flex  ${
+                      fiveSecondVideoVerificationBg
+                        ? fiveSecondVideoVerificationBg
+                        : "bg-customBlue"
+                    }`}
+                  >
                     <div className="text-white text-sm font-semibold">
-                      Under Review
+                      {fiveSecondVideoVerification
+                        ? fiveSecondVideoVerification
+                        : "Loading..."}
                     </div>
                   </div>
                 </div>
@@ -871,19 +960,20 @@ export default function Home() {
                 </div>
               </div>
               <div className="self-stretch text-[#0e0e0e] text-base font-medium">
-                5-Second Face Video Verification
+                Five Second Video Verification
               </div>
               <div className="self-stretch h-[93px] rounded border border-[#232323] flex-col justify-start items-start gap-2.5 flex">
                 <div className="self-stretch h-[72px] pl-4 py-1 rounded-tl rounded-tr justify-start items-start gap-1 inline-flex">
                   <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
                     <div className="px-1 bg-[#ece6f0] justify-start items-center inline-flex relative bottom-[13px]">
                       <div className="text-[#2953e8] text-xs font-normal leading-none tracking-wide">
-                        Admin Review
+                        Indstructions
                       </div>
                     </div>
                     <div className="self-stretch justify-start items-center inline-flex">
-                      <div className="w-[258px] h-12 text-[#414349] text-base font-normal leading-normal tracking-wide">
-                        the face value of live dtection score is less{" "}
+                      <div className="w-[258px] h-12 text-[#414349] text-sm font-normal leading-normal tracking-wide">
+                        <li>The face should be clear</li>
+                        <li>Liveness score should be 90%</li>
                       </div>
                     </div>
                   </div>
@@ -891,22 +981,20 @@ export default function Home() {
               </div>
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="w-[150px] h-9 relative">
-                  <div className="left-[121px] top-0 absolute text-[#3f3f3f] text-sm font-semibold">
-                    24%
-                  </div>
-                  <div className="left-0 top-0 absolute text-[#3f3f3f] text-sm font-medium">
-                    Liveness Code
-                  </div>
-                  <div className="w-[149px] h-[7px] left-0 top-[29px] absolute">
-                    <div className="w-[149px] h-[7px] left-0 top-0 absolute bg-[#e4e4e4] rounded-2xl" />
-                    <div className="w-[45px] h-[7px] left-0 top-0 absolute bg-[#2953e8] rounded-2xl" />
-                  </div>
+                  <button
+                    className=" bg-customBlue text-white py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={liveDetection === "Approved"}
+                    onClick={() =>
+                      setIsCustomerViewDetailOpen(!isCustomerViewDetailOpen)
+                    }
+                  >
+                    Verify User
+                  </button>
                 </div>
-                <div className="px-2 py-1 bg-[#eef1ff] rounded-xl justify-center items-center gap-2.5 flex">
+                <div className="px-4 py-2 bg-[#eef1ff] rounded-xl justify-center items-center gap-2.5 flex">
                   <div className="text-[#2953e8] text-sm font-bold">
                     Notify User
                   </div>
-                  <div className="w-3 h-3 relative flex-col justify-start items-start inline-flex overflow-hidden" />
                 </div>
               </div>
             </div>
@@ -919,9 +1007,17 @@ export default function Home() {
                     width={50}
                     height={50}
                   />
-                  <div className="w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute bg-[#D2843C] rounded-xl justify-center items-center gap-2.5 inline-flex">
+                  <div
+                    className={`w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute rounded-xl justify-center items-center gap-2.5 inline-flex  ${
+                      signatureVerificationBg
+                        ? signatureVerificationBg
+                        : "bg-customBlue"
+                    }`}
+                  >
                     <div className="text-white text-sm font-semibold">
-                      Under Review
+                      {signatureVerification
+                        ? signatureVerification
+                        : "Loading..."}
                     </div>
                   </div>
                 </div>
@@ -937,12 +1033,13 @@ export default function Home() {
                   <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
                     <div className="px-1 bg-[#ece6f0] justify-start items-center inline-flex relative bottom-[13px]">
                       <div className="text-[#2953e8] text-xs font-normal leading-none tracking-wide">
-                        Admin Review
+                        Indstructions
                       </div>
                     </div>
                     <div className="self-stretch justify-start items-center inline-flex">
-                      <div className="w-[258px] h-12 text-[#414349] text-base font-normal leading-normal tracking-wide">
-                        the face value of live dtection score is less{" "}
+                      <div className="w-[258px] h-12 text-[#414349] text-sm font-normal leading-normal tracking-wide">
+                        <li>The face should be clear</li>
+                        <li>Liveness score should be 90%</li>
                       </div>
                     </div>
                   </div>
@@ -950,81 +1047,20 @@ export default function Home() {
               </div>
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="w-[150px] h-9 relative">
-                  <div className="left-[121px] top-0 absolute text-[#3f3f3f] text-sm font-semibold">
-                    24%
-                  </div>
-                  <div className="left-0 top-0 absolute text-[#3f3f3f] text-sm font-medium">
-                    Liveness Code
-                  </div>
-                  <div className="w-[149px] h-[7px] left-0 top-[29px] absolute">
-                    <div className="w-[149px] h-[7px] left-0 top-0 absolute bg-[#e4e4e4] rounded-2xl" />
-                    <div className="w-[45px] h-[7px] left-0 top-0 absolute bg-[#2953e8] rounded-2xl" />
-                  </div>
+                  <button
+                    className=" bg-customBlue text-white py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={liveDetection === "Approved"}
+                    onClick={() =>
+                      setIsCustomerViewDetailOpen(!isCustomerViewDetailOpen)
+                    }
+                  >
+                    Verify User
+                  </button>
                 </div>
-                <div className="px-2 py-1 bg-[#eef1ff] rounded-xl justify-center items-center gap-2.5 flex">
+                <div className="px-4 py-2 bg-[#eef1ff] rounded-xl justify-center items-center gap-2.5 flex">
                   <div className="text-[#2953e8] text-sm font-bold">
                     Notify User
                   </div>
-                  <div className="w-3 h-3 relative flex-col justify-start items-start inline-flex overflow-hidden" />
-                </div>
-              </div>
-            </div>
-            <div
-              className="w-[30%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-4
-            00"
-            >
-              <div className="self-stretch justify-between items-center inline-flex">
-                <div className="h-[50px] relative">
-                  <Image
-                    src="/images/user.svg"
-                    alt="Orizon profile"
-                    width={50}
-                    height={50}
-                  />
-                  <div className="w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute bg-[#E52020] rounded-xl justify-center items-center gap-2.5 inline-flex">
-                    <div className="text-white text-sm font-semibold">
-                      Rejected
-                    </div>
-                  </div>
-                </div>
-                <div className="w-6 h-6 relative  overflow-hidden">
-                  <div className="w-[5px] h-6 left-[9.50px] top-0 absolute"></div>
-                </div>
-              </div>
-              <div className="self-stretch h-[93px] rounded border border-[#232323] flex-col justify-start items-start gap-2.5 flex">
-                <div className="self-stretch h-[72px] pl-4 py-1 rounded-tl rounded-tr justify-start items-start gap-1 inline-flex">
-                  <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
-                    <div className="px-1 bg-[#ece6f0] justify-start items-center inline-flex relative bottom-[13px]">
-                      <div className="text-[#2953e8] text-xs font-normal leading-none tracking-wide">
-                        Admin Review
-                      </div>
-                    </div>
-                    <div className="self-stretch justify-start items-center inline-flex">
-                      <div className="w-[258px] h-12 text-[#414349] text-base font-normal leading-normal tracking-wide">
-                        the face value of live dtection score is less{" "}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="self-stretch justify-between items-center inline-flex">
-                <div className="w-[150px] h-9 relative">
-                  <div className="left-[121px] top-0 absolute text-[#3f3f3f] text-sm font-semibold">
-                    24%
-                  </div>
-                  <div className="left-0 top-0 absolute text-[#3f3f3f] text-sm font-medium">
-                    Liveness Code
-                  </div>
-                  <div className="w-[149px] h-[7px] left-0 top-[29px] absolute">
-                    <div className="w-[149px] h-[7px] left-0 top-0 absolute bg-[#e4e4e4] rounded-2xl" />
-                    <div className="w-[45px] h-[7px] left-0 top-0 absolute bg-[#2953e8] rounded-2xl" />
-                  </div>
-                </div>
-                <div className="px-2 py-1 bg-[#eef1ff] rounded-xl justify-center items-center gap-2.5 flex">
-                  <div className="text-[#2953e8] text-sm font-bold">
-                    Notify User
-                  </div>
-                  <div className="w-3 h-3 relative flex-col justify-start items-start inline-flex overflow-hidden" />
                 </div>
               </div>
             </div>
