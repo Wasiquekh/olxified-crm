@@ -38,6 +38,7 @@ interface Customer {
   shortintrovideo?: string | null;
   usersignature?: string | null;
   face_id_url?: string | null;
+  liveness_score?: number | null;
   [key: string]: any;
 }
 // Props interface for SidebarUserUpdateForm
@@ -55,35 +56,45 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
 }) => {
   const [userDescription, setUserDescription] = useState<string | null>(null);
   //console.log('user desc',userDescription)
+  const [faceImage, setFaceImage] = useState<string | null>(null);
+  const [livenessScore, setLivenessScore] = useState<string | undefined>(
+    undefined
+  );
 
   const { accessToken } = useContext(AppContext);
-  const value = "a933fefd-9709-4114-8074-76ca7a00e3c9-download (15).jpg";
-    // Log only the 'city' key if the customer object exists
-    if (customer && customer.face_id_url !== undefined) {
-      console.log("Face id URL:", customer.face_id_url);
-    }
-useEffect(()=>{
-  console.log('This is console log')
-  const fetchData = async()=>{
-    if (customer && customer.face_id_url !== undefined) {
-      try {
-      const response =  await axiosProvider.post("/getfaceid", { id: customer.face_id_url });
-      console.log('IIIIIMMMMMMMMMMAGGGEEE',response)
-  
-        toast.success("Successfully get");
-  
-      } catch (error) {
-        console.error("Error deleting user:", error);
-        toast.error("Failed to get");
+  if (customer && customer.face_id_url !== undefined) {
+           console.log('customer id',customer.id);
+           console.log('system user id',storage.getUserId())
+  }
+  useEffect(() => {
+    const fetchData = async () => {
+      if (customer && customer.face_id_url !== undefined) {
+        const decimalValue = customer.liveness_score;
+        const percentage = (decimalValue * 100).toFixed(2);
+        setLivenessScore(percentage);
+        const fullUrl = customer.face_id_url;
+        const lastPart = fullUrl.split("/").pop();
+        try {
+          const response = await axiosProvider.post("/getfaceid", {
+            filename: lastPart,
+          });
+          //setFaceImage(response.data.data.url);
+          setFaceImage(response.data.data.url);
+
+          // toast.success("Successfully get");
+        } catch (error) {
+          console.error("Error deleting user:", error);
+          toast.error("Failed to get Image");
+        }
       }
+    };
+    // Ensure that fetchData is called when the 'customer' prop is available
+    if (customer) {
+      fetchData();
     }
-  }
-   // Ensure that fetchData is called when the 'customer' prop is available
-   if (customer) {
-    fetchData();
-  }
-},[customer]);
-  const btnClick = async() => {
+  }, [customer]);
+
+  const reject = async () => {
     Swal.fire({
       title: "Are you sure?",
       text: "Do you really want to delete this user?",
@@ -93,13 +104,39 @@ useEffect(()=>{
       cancelButtonText: "No",
       confirmButtonColor: "#d33",
       cancelButtonColor: "#3085d6",
+      input: "text", // Adds a text input field
+      inputPlaceholder: "Enter a reason for deletion", // Placeholder text for the input
+      inputValidator: (value) => {
+        if (!value) {
+          return "You need to provide a reason!";
+        }
+      },
     }).then(async (result) => {
       if (result.isConfirmed) {
+        const reason = result.value; // Get the value entered in the input field
+        console.log("Reason for deletion:", reason);
+        if (customer && customer.face_id_url !== undefined) {
+          console.log('customer id',customer.id);
+          console.log('system user id',storage.getUserId())
+          try {
+            const response = await axiosProvider.post("/rejectuser", {
+              customer_id: customer.id,
+              system_user_id: storage.getUserId(),
+              verification_type:'Liveness Detection',
+              reason_reject:reason, 
+            });
+            toast.success('Customer is rejected');
+            // toast.success("Successfully get");
+          } catch (error) {
+            console.error("Customer rejection is failed:", error);
+            toast.error("Customer rejection is failed");
+          }
+ }
 
-            
       }
     });
   };
+  
 
   return (
     <>
@@ -140,79 +177,32 @@ useEffect(()=>{
             <div className="LivenessDetection w-[279px] text-[#0e0e0e] text-base font-medium">
               Liveness Detection
             </div>
-            <div>aergaet vhgertgweurgtiwyt</div>
-            <div
-              data-layer="Frame 427320337"
-              className="Frame427320337 flex-col justify-between items-start flex w-full"
-            >
-              <label
-                className="text-neutral-950 text-sm font-semibold leading-[21px] mb-3"
-                htmlFor="verification-status"
-              >
-                Select Verification Status
-              </label>
-              <select
-                id="verification-status"
-                name="verificationStatus"
-                className="w-full px-4 py-4 bg-white rounded-xl border border-[#e7e7e7] text-[#717171] text-sm font-medium leading-[21px] focus:outline-none"
-              >
-                <option value="">--None--</option>
-                <option value="verified">Verified</option>
-                <option value="pending">Pending</option>
-                <option value="rejected">Rejected</option>
-              </select>
-            </div>
-
-            <div
-              data-layer="Frame 1400001977"
-              className="Frame1400001977 self-stretch px-4 py-2 bg-white rounded-xl border border-[#e7e7e7] justify-between items-center inline-flex"
-            >
-              <div
-                data-layer="Frame 1400001984"
-                className="Frame1400001984 flex-col justify-start items-start gap-3 inline-flex"
-              >
-                <div
-                  data-layer="progressBar"
-                  className="Progressbar w-[386px] h-[41px] relative"
-                >
+            {faceImage ? (
+              <Image
+                src={faceImage}
+                alt="Orizon profile"
+                width={200}
+                height={200}
+              />
+            ) : (
+              "Loading..."
+            )}
+            {livenessScore ? (
+              <div className="w-full">
+                <h1 className="text-xl font-semibold mb-2">
+                  Liveness Score: {livenessScore}%
+                </h1>
+                <div className="w-full bg-gray-200 rounded-lg h-6">
                   <div
-                    data-layer="24%"
-                    className="left-[357px] top-0 absolute text-[#3f3f3f] text-sm font-semibold"
-                  >
-                    24%
-                  </div>
-                  <div
-                    data-layer="Liveness Code"
-                    className="LivenessCode left-0 top-0 absolute text-[#3f3f3f] text-sm font-light"
-                  >
-                    Liveness Code
-                  </div>
-                  <div
-                    data-layer="progressBar"
-                    className="Progressbar w-full h-[18px] left-0 top-[23px] absolute"
-                  >
-                    <div
-                      data-layer="bar"
-                      className="Bar w-full h-[7px] left-0 top-[6px] absolute bg-[#e4e4e4] rounded-2xl"
-                    ></div>
-                    <div
-                      data-layer="bar"
-                      className="Bar w-full h-[7px] left-0 top-[6px] absolute bg-[#2953e8] rounded-2xl"
-                    ></div>
-                    <div
-                      data-layer="Knob"
-                      className="Knob w-full h-[18px] left-[163.49px] top-0 absolute origin-top-left rotate-180 bg-white rounded-[100px] shadow-[0px_6px_13px_0px_rgba(0,0,0,0.12)] shadow-[0px_0.5px_4px_0px_rgba(0,0,0,0.12)]"
-                    ></div>
-                  </div>
-                </div>
-                <div
-                  data-layer="Score Now by sliding"
-                  className="ScoreNowBySliding self-stretch text-[#757575] text-base font-normal  leading-snug"
-                >
-                  Score Now by sliding
+                    className="bg-blue-500 h-full rounded-lg"
+                    style={{ width: `${livenessScore}%`}}
+                  ></div>
                 </div>
               </div>
-            </div>
+            ) : (
+              "loading"
+            )}
+
             <div
               data-layer="Container"
               className="Container self-stretch h-[37px] justify-start items-center gap-3 inline-flex"
@@ -604,12 +594,13 @@ useEffect(()=>{
             </div>
             <div className=" flex justify-between w-full">
               <button
-                onClick={btnClick}
                 className="bg-[#379941] text-white w-[49%] p-3 rounded"
               >
                 Approve
               </button>
-              <button className="bg-[#E52020] text-white w-[49%] p-3 rounded">
+              <button 
+               onClick={reject}
+              className="bg-[#E52020] text-white w-[49%] p-3 rounded">
                 Reject
               </button>
             </div>

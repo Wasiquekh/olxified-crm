@@ -48,12 +48,12 @@ interface Customer {
   shortintrovideo?: string | null;
   usersignature?: string | null;
   face_id_url?: string | null;
+  liveness_score?: number | null;
   [key: string]: any; // To allow additional unknown fields
 }
 
 export default function Home() {
   const [customer, setCustomer] = useState<Customer | null>(null); // Initial state as null
-  console.log("CUSTOMER", customer);
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   //console.log("Got Id",id);
@@ -67,7 +67,6 @@ export default function Home() {
       const fetchData = async () => {
         try {
           const res = await axiosProvider.post("/viewcustomer", { id }); // Use POST and pass `id` in the body
-          console.log("view customer details", res.data.data.customer);
           setCustomer(res.data.data.customer);
         } catch (error: any) {
           console.log("Error occurred:", error);
