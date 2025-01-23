@@ -33,7 +33,7 @@ interface FilterData {
 }
 
 interface Customer {
-  id: string; // Updated to string as per the API response
+  customer_id: string; // Updated to string as per the API response
   firstname: string;
   lastname: string;
   mobilephonenumber?: string | null; // Changed to optional with possible null value
@@ -53,6 +53,7 @@ interface Customer {
   usersignature?: string | null;
   created_at?: string;
   updated_at?: string;
+  mainStatus?: string;
 }
 
 export default function Home() {
@@ -79,11 +80,11 @@ export default function Home() {
   const storage = new StorageManager();
   //console.log("Get all user Data", data);
   const router = useRouter();
-  
-  const handleClick = async(customer: Customer) => {
-   // console.log('Object customer data',customer.id)
-    router.push(`/customerdetails?id=${customer.id}`);
-};
+
+  const handleClick = async (customer: Customer) => {
+    // console.log('Object customer data',customer.id)
+    router.push(`/customerdetails?id=${customer.customer_id}`);
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -147,7 +148,8 @@ export default function Home() {
       const response = await axiosProvider.get(
         `/getallcrmuser?page=${currentPage}&limit=${limit}`
       );
-      setTotalPages(response.data.data.totalPages);
+      console.log("PEGINATION", response);
+      setTotalPages(response.data.data.pagination.totalPages);
       const result = response.data.data.customers;
       setData(result);
     } catch (error: any) {
@@ -310,9 +312,8 @@ export default function Home() {
                     Clear All
                     <RxCross2
                       className="text-[#1814F3] cursor-pointer"
-                    onClick={clearAllFilteredData}
-                    >
-                    </RxCross2>
+                      onClick={clearAllFilteredData}
+                    ></RxCross2>
                   </span>
                 </div>
               )}
@@ -384,6 +385,17 @@ export default function Home() {
                       <MdOutlineCall className=" w-6 h-6" />
                       <div className="font-medium text-[#717171] text-base leading-normal">
                         Phone
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-2 py-0 border border-tableBorder"
+                  >
+                    <div className=" flex items-center gap-2">
+                      <MdOutlineCall className=" w-6 h-6" />
+                      <div className="font-medium text-[#717171] text-base leading-normal">
+                        Status
                       </div>
                     </div>
                   </th>
@@ -473,18 +485,33 @@ export default function Home() {
                           {item.mobilephonenumber}
                         </p>
                       </td>
+                      <td className="px-2 py-0 border border-tableBorder">
+                        <p
+                          className={`text-[#fff] text-sm leading-normal flex justify-center items-center p-1 rounded-full ${
+                            item.mainStatus === "On Progress"
+                              ? "bg-[#2DB3FF]"
+                              : item.mainStatus === "Approved"
+                              ? "bg-[#379941]"
+                              : item.mainStatus === "Rejected"
+                              ? "bg-[#E52020]"
+                              : "bg-customBlue"
+                          }`}
+                        >
+                          {item.mainStatus}
+                        </p>
+                      </td>
                       <td>
                         {/* <Link href="customerdetails"> */}
-                          <button
-                            // onClick={toggleFlyout}
-                           onClick={() => handleClick(item)}
-                            className=" py-[6px] px-4 bg-[#C6F7FE] m-2 flex gap-[10px] items-center rounded-full"
-                          >
-                            <MdRemoveRedEye className=" text-customBlue w-4 h-4" />
-                            <p className=" text-sm leading-normal text-customBlue">
-                              View Details
-                            </p>
-                          </button>
+                        <button
+                          // onClick={toggleFlyout}
+                          onClick={() => handleClick(item)}
+                          className=" py-[6px] px-4 bg-[#C6F7FE] m-2 flex gap-[10px] items-center rounded-full"
+                        >
+                          <MdRemoveRedEye className=" text-customBlue w-4 h-4" />
+                          <p className=" text-sm leading-normal text-customBlue">
+                            View Details
+                          </p>
+                        </button>
                         {/* </Link> */}
                       </td>
                     </tr>

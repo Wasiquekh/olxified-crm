@@ -10,6 +10,9 @@ import UserActivityLogger from "../../provider/UserActivityLogger";
 import Swal from "sweetalert2";
 import Image from "next/image";
 import { IoVideocam } from "react-icons/io5";
+import { Dispatch, SetStateAction } from "react";
+import ReactPlayer from "react-player";
+import { useSearchParams } from "next/navigation";
 
 const axiosProvider = new AxiosProvider();
 const storage = new StorageManager();
@@ -39,20 +42,23 @@ interface Customer {
   usersignature?: string | null;
   face_id_url?: string | null;
   liveness_score?: number | null;
+  face_match_score?: number | null;
   [key: string]: any;
 }
 // Props interface for SidebarUserUpdateForm
-interface SidebarUserUpdateFormProps {
-  isEditFlyoutOpen: boolean;
-  setIsEditFlyoutOpen: (open: boolean) => void;
-  customer: Customer | null;
+interface CustomerViewDetailsProps {
+  isCustomerViewDetailOpen: boolean;
+  setIsEditFlyoutOpen: Dispatch<SetStateAction<boolean>>;
+  customer: Customer; // Add the customer property here
+  selectedButton: string | null; // Allow null as a possible value
 }
 
 // SidebarUserUpdateForm Component
-const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
-  isEditFlyoutOpen,
+const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
+  isCustomerViewDetailOpen,
   setIsEditFlyoutOpen,
   customer,
+  selectedButton,
 }) => {
   const [userDescription, setUserDescription] = useState<string | null>(null);
   //console.log('user desc',userDescription)
@@ -60,14 +66,73 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
   const [livenessScore, setLivenessScore] = useState<string | undefined>(
     undefined
   );
-
+  const [idCardEcto, setIdCardEcto] = useState<string | undefined>(undefined);
+  const [idCardVerso, setIdCardVerso] = useState<string | undefined>(undefined);
+  const [customerShortVideo, setCustomerShortVideo] = useState<
+    string | undefined
+  >(undefined);
+  const [customerSignature, setCustomerSignature] = useState<string | undefined>(undefined);
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
   const { accessToken } = useContext(AppContext);
-  // if (customer && customer.face_id_url !== undefined) {
-  //   console.log("customer id", customer.id);
-  //   console.log("system user id", storage.getUserId());
-  // }
+
+  const fetchUserSignature = async () => {
+    if (customer && customer.usersignature !== undefined && customer.usersignature !== null) {
+      const fullUrl = customer.usersignature;
+      const lastPart = fullUrl.split("/").pop();
+      try {
+        const response = await axiosProvider.post("/getsignature", {
+          filename: lastPart,
+        });
+   
+      setCustomerSignature(response.data.data.url);
+      } catch (error) {
+        console.error("Error deleting user:", error);
+      }
+    }
+  };
+  const fetchIdCard = async () => {
+    if (customer && customer.idcardrecto !== undefined && customer.idcardrecto !== null) {
+      const fullUrlEcto = customer.idcardrecto;
+      const lastPartEcto = fullUrlEcto.split("/").pop();
+      const fullUrlVerso = customer.idcardverso;
+      const lastPartVerso = fullUrlVerso.split("/").pop();
+      try {
+        const response = await axiosProvider.post("/getsubmitocr", {
+          frontImageFilename: lastPartEcto,
+          backImageFilename: lastPartVerso,
+        });
+        console.log("ID CARD ECTO", response);
+        setIdCardEcto(response.data.data.frontImageUrl);
+        setIdCardVerso(response.data.data.backImageUrl);
+
+        // toast.success("Successfully get");
+      } catch (error) {
+        console.error("Error deleting user:", error);
+        toast.error("Failed to get Id card Ecto");
+      }
+    }
+  };
+  const fetchDataVideo = async () => {
+    if (customer && customer.shortintrovideo !== undefined && customer.shortintrovideo !== null) {
+      const fullUrl = customer.shortintrovideo;
+      const lastPart = fullUrl.split("/").pop();
+      try {
+        const response = await axiosProvider.post("/getvideo", {
+          filename: lastPart,
+        });
+        //console.log('SHORT VIDEO',response.data.data.url);
+        setCustomerShortVideo(response.data.data.url);
+
+        // toast.success("Successfully get");
+      } catch (error) {
+        console.error("Error deleting user:", error);
+        toast.error("Failed to get Image");
+      }
+    }
+  };
   const fetchData = async () => {
-    if (customer && customer.face_id_url !== undefined) {
+    if (customer && customer.face_id_url !== undefined && customer.face_id_url !== null) {
       const decimalValue = customer.liveness_score;
       const percentage = (decimalValue * 100).toFixed(2);
       setLivenessScore(percentage);
@@ -92,10 +157,13 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
     // Ensure that fetchData is called when the 'customer' prop is available
     if (customer) {
       fetchData();
+      fetchIdCard();
+      fetchDataVideo();
+      fetchUserSignature();
     }
   }, [customer]);
 
-  const reject = async () => {
+  const reject = async (verification: string) => {
     Swal.fire({
       title: "Are you sure?",
       text: "Do you really want to reject this user?",
@@ -121,9 +189,9 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
           // console.log('system user id',storage.getUserId())
           try {
             const response = await axiosProvider.post("/rejectuser", {
-              customer_id: customer.id,
+              customer_id: id,
               system_user_id: storage.getUserId(),
-              verification_type: "liveness_detection",
+              verification_type: verification,
               reason_reject: reason,
             });
             toast.success("Customer is rejected");
@@ -136,7 +204,7 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
       }
     });
   };
-  const approve = async () => {
+  const approve = async (verification: string) => {
     Swal.fire({
       title: "Are you sure?",
       text: "Do you really want to approve this user?",
@@ -153,9 +221,9 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
           // console.log('system user id',storage.getUserId())
           try {
             const response = await axiosProvider.post("/approveuser", {
-              customer_id: customer.id,
+              customer_id: id,
               system_user_id: storage.getUserId(),
-              verification_type: "liveness_detection",
+              verification_type: verification,
             });
             toast.success("Customer is Approved");
             // toast.success("Successfully get");
@@ -170,86 +238,415 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
 
   return (
     <>
-      {isEditFlyoutOpen && (
+      {isCustomerViewDetailOpen && (
         <div
           className="  bg-[#1f1d1d80] fixed h-full w-full top-0 left-0  z-[1000]"
           onClick={() => setIsEditFlyoutOpen(false)}
         ></div>
       )}
-      <div className={`filterflyout ${isEditFlyoutOpen ? "filteropen" : ""}`}>
-        <div className=" w-full">
-          <div className="px-0 py-0 bg-white rounded-xl flex-col justify-start items-start gap-5 inline-flex w-full">
-            <div className=" flex justify-between items-center w-full ">
-              <div className=" justify-center items-center gap-4 inline-flex">
-                <Image
-                  src="/images/user.svg"
-                  alt="Orizon profile"
-                  width={50}
-                  height={50}
-                />
-                <div className=" px-7 py-3 bg-[#2db3ff] rounded-xl ">
-                  <div className="OnProgress text-white text-sm font-semibold">
-                    On Progress
+      <div
+        className={`filterflyout ${
+          isCustomerViewDetailOpen ? "filteropen" : ""
+        }`}
+      >
+        {selectedButton === "one" && (
+          <div className=" w-full">
+            <div className="px-0 py-0 bg-white rounded-xl flex-col justify-start items-start gap-5 inline-flex w-full">
+              <div className=" flex justify-between items-center w-full ">
+                <div className=" justify-center items-center gap-4 inline-flex">
+                  <Image
+                    src="/images/user.svg"
+                    alt="Orizon profile"
+                    width={50}
+                    height={50}
+                  />
+                  <div className=" px-7 py-3 bg-[#2db3ff] rounded-xl ">
+                    <div className="OnProgress text-white text-sm font-semibold">
+                      On Progress
+                    </div>
                   </div>
                 </div>
+                <div className="flex justify-end ">
+                  <button
+                    type="button"
+                    onClick={() => setIsEditFlyoutOpen(false)}
+                    className="h-8 w-8 border border-[#E7E7E7] text-[#0A0A0A] rounded cursor-pointer"
+                  >
+                    X
+                  </button>
+                </div>
               </div>
-              <div className="flex justify-end ">
+
+              <div className="LivenessDetection w-[279px] text-[#0e0e0e] text-base font-medium">
+                Liveness Detection
+              </div>
+              <p>Face Image</p>
+              {faceImage ? (
+                <Image
+                  src={faceImage}
+                  alt="Orizon profile"
+                  width={200}
+                  height={200}
+                />
+              ) : (
+                "Loading..."
+              )}
+              {livenessScore ? (
+                <div className="w-full">
+                  <h1 className="text-xl font-semibold mb-2">
+                    Liveness Score: {livenessScore}%
+                  </h1>
+                  <div className="w-full bg-gray-200 rounded-lg h-6">
+                    <div
+                      className="bg-blue-500 h-full rounded-lg"
+                      style={{ width: `${livenessScore}%` }}
+                    ></div>
+                  </div>
+                </div>
+              ) : (
+                "loading"
+              )}
+
+              <div className=" flex justify-between w-full">
                 <button
-                  type="button"
-                  onClick={() => setIsEditFlyoutOpen(false)}
-                  className="h-8 w-8 border border-[#E7E7E7] text-[#0A0A0A] rounded cursor-pointer"
+                  onClick={()=>approve('liveness_detection')}
+                  className="bg-[#379941] text-white w-[49%] p-3 rounded"
                 >
-                  X
+                  Approve
+                </button>
+                <button
+                  onClick={()=>reject('liveness_detection')}
+                  className="bg-[#E52020] text-white w-[49%] p-3 rounded"
+                >
+                  Reject
                 </button>
               </div>
             </div>
-
-            <div className="LivenessDetection w-[279px] text-[#0e0e0e] text-base font-medium">
-              Liveness Detection
-            </div>
-            {faceImage ? (
-              <Image
-                src={faceImage}
-                alt="Orizon profile"
-                width={200}
-                height={200}
-              />
-            ) : (
-              "Loading..."
-            )}
-            {livenessScore ? (
-              <div className="w-full">
-                <h1 className="text-xl font-semibold mb-2">
-                  Liveness Score: {livenessScore}%
-                </h1>
-                <div className="w-full bg-gray-200 rounded-lg h-6">
-                  <div
-                    className="bg-blue-500 h-full rounded-lg"
-                    style={{ width: `${livenessScore}%` }}
-                  ></div>
+          </div>
+        )}
+        {selectedButton === "two" && (
+          <div className=" w-full">
+            <div className="px-0 py-0 bg-white rounded-xl flex-col justify-start items-start gap-5 inline-flex w-full">
+              <div className=" flex justify-between items-center w-full ">
+                <div className=" justify-center items-center gap-4 inline-flex">
+                  <Image
+                    src="/images/user.svg"
+                    alt="Orizon profile"
+                    width={50}
+                    height={50}
+                  />
+                  <div className=" px-7 py-3 bg-[#2db3ff] rounded-xl ">
+                    <div className="OnProgress text-white text-sm font-semibold">
+                      On Progress
+                    </div>
+                  </div>
+                </div>
+                <div className="flex justify-end ">
+                  <button
+                    type="button"
+                    onClick={() => setIsEditFlyoutOpen(false)}
+                    className="h-8 w-8 border border-[#E7E7E7] text-[#0A0A0A] rounded cursor-pointer"
+                  >
+                    X
+                  </button>
                 </div>
               </div>
-            ) : (
-              "loading"
-            )}
 
+              <div className="LivenessDetection w-[279px] text-[#0e0e0e] text-base font-medium">
+                Identity Matching
+              </div>
+              <p>Id Card Ecto</p>
+              {idCardEcto ? (
+                <Image
+                  src={idCardEcto}
+                  alt="Orizon profile"
+                  width={200}
+                  height={200}
+                />
+              ) : (
+                "Loading..."
+              )}
+              <p>Face Image</p>
+              {faceImage ? (
+                <Image
+                  src={faceImage}
+                  alt="Orizon profile"
+                  width={200}
+                  height={200}
+                />
+              ) : (
+                "Loading..."
+              )}
+              {livenessScore ? (
+                <div className="w-full">
+                  <h1 className="text-xl font-semibold mb-2">
+                    Face Match Score: {customer.face_match_score}%
+                  </h1>
+                  <div className="w-full bg-gray-200 rounded-lg h-6">
+                    <div
+                      className="bg-blue-500 h-full rounded-lg"
+                      style={{ width: `${customer.face_match_score}%` }}
+                    ></div>
+                  </div>
+                </div>
+              ) : (
+                "loading"
+              )}
 
-            <div className=" flex justify-between w-full">
-              <button
-                onClick={approve}
-                className="bg-[#379941] text-white w-[49%] p-3 rounded"
-              >
-                Approve
-              </button>
-              <button
-                onClick={reject}
-                className="bg-[#E52020] text-white w-[49%] p-3 rounded"
-              >
-                Reject
-              </button>
+              <div className=" flex justify-between w-full">
+                <button
+                  onClick={()=>approve('identity_matching')}
+                  className="bg-[#379941] text-white w-[49%] p-3 rounded"
+                >
+                  Approve
+                </button>
+                <button
+                   onClick={()=>reject('identity_matching')}
+                  className="bg-[#E52020] text-white w-[49%] p-3 rounded"
+                >
+                  Reject
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        )}
+        {selectedButton === "three" && (
+          <div className=" w-full">
+            <div className="px-0 py-0 bg-white rounded-xl flex-col justify-start items-start gap-5 inline-flex w-full">
+              <div className=" flex justify-between items-center w-full ">
+                <div className=" justify-center items-center gap-4 inline-flex">
+                  <Image
+                    src="/images/user.svg"
+                    alt="Orizon profile"
+                    width={50}
+                    height={50}
+                  />
+                  <div className=" px-7 py-3 bg-[#2db3ff] rounded-xl ">
+                    <div className="OnProgress text-white text-sm font-semibold">
+                      On Progress
+                    </div>
+                  </div>
+                </div>
+                <div className="flex justify-end ">
+                  <button
+                    type="button"
+                    onClick={() => setIsEditFlyoutOpen(false)}
+                    className="h-8 w-8 border border-[#E7E7E7] text-[#0A0A0A] rounded cursor-pointer"
+                  >
+                    X
+                  </button>
+                </div>
+              </div>
+              <div className="LivenessDetection w-[279px] text-[#0e0e0e] text-base font-medium">
+                User Detail Verification
+              </div>
+             Full Name: {customer?.firstname || "loading"}&nbsp;
+             {customer?.lastname || "loading"} <br />
+             Date of Birth: {customer?.birthdate || "loading"} <br />
+             Mobile number {customer?.mobilephonenumber || "loading"} <br />
+             Country {customer?.streetaddress || "loading"} <br />
+              <div className=" flex justify-between w-full">
+                <button
+                  onClick={()=>approve('user_details_verification')}
+                  className="bg-[#379941] text-white w-[49%] p-3 rounded"
+                >
+                  Approve
+                </button>
+                <button
+                 onClick={()=>reject('user_details_verification')}
+                  className="bg-[#E52020] text-white w-[49%] p-3 rounded"
+                >
+                  Reject
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        {selectedButton === "four" && (
+          <div className=" w-full">
+            <div className="px-0 py-0 bg-white rounded-xl flex-col justify-start items-start gap-5 inline-flex w-full">
+              <div className=" flex justify-between items-center w-full ">
+                <div className=" justify-center items-center gap-4 inline-flex">
+                  <Image
+                    src="/images/user.svg"
+                    alt="Orizon profile"
+                    width={50}
+                    height={50}
+                  />
+                  <div className=" px-7 py-3 bg-[#2db3ff] rounded-xl ">
+                    <div className="OnProgress text-white text-sm font-semibold">
+                      On Progress
+                    </div>
+                  </div>
+                </div>
+                <div className="flex justify-end ">
+                  <button
+                    type="button"
+                    onClick={() => setIsEditFlyoutOpen(false)}
+                    className="h-8 w-8 border border-[#E7E7E7] text-[#0A0A0A] rounded cursor-pointer"
+                  >
+                    X
+                  </button>
+                </div>
+              </div>
+
+              <div className="LivenessDetection w-[279px] text-[#0e0e0e] text-base font-medium">
+                Scanned ID Card Verification
+              </div>
+              <p>Front Image</p>
+              {idCardEcto ? (
+                <Image
+                  src={idCardEcto}
+                  alt="Orizon profile"
+                  width={200}
+                  height={200}
+                />
+              ) : (
+                "Loading..."
+              )}
+              <br />
+              <p>Back Image</p>
+              {idCardVerso ? (
+                <Image
+                  src={idCardVerso}
+                  alt="Orizon profile"
+                  width={200}
+                  height={200}
+                />
+              ) : (
+                "Loading..."
+              )}
+
+              <div className=" flex justify-between w-full">
+                <button
+                 onClick={()=>approve('scanned_id_card_verification')}
+                  className="bg-[#379941] text-white w-[49%] p-3 rounded"
+                >
+                  Approve
+                </button>
+                <button
+                  onClick={()=>reject('scanned_id_card_verification')}
+                  className="bg-[#E52020] text-white w-[49%] p-3 rounded"
+                >
+                  Reject
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        {selectedButton === "five" && (
+          <div className=" w-full">
+            <div className="px-0 py-0 bg-white rounded-xl flex-col justify-start items-start gap-5 inline-flex w-full">
+              <div className=" flex justify-between items-center w-full ">
+                <div className=" justify-center items-center gap-4 inline-flex">
+                  <Image
+                    src="/images/user.svg"
+                    alt="Orizon profile"
+                    width={50}
+                    height={50}
+                  />
+                  <div className=" px-7 py-3 bg-[#2db3ff] rounded-xl ">
+                    <div className="OnProgress text-white text-sm font-semibold">
+                      On Progress
+                    </div>
+                  </div>
+                </div>
+                <div className="flex justify-end ">
+                  <button
+                    type="button"
+                    onClick={() => setIsEditFlyoutOpen(false)}
+                    className="h-8 w-8 border border-[#E7E7E7] text-[#0A0A0A] rounded cursor-pointer"
+                  >
+                    X
+                  </button>
+                </div>
+              </div>
+              <div className="LivenessDetection w-[279px] text-[#0e0e0e] text-base font-medium">
+                Five Second Video Verification
+              </div>
+              <div>
+                <ReactPlayer
+                 url={customerShortVideo}
+                 controls={true} 
+                 playing={true} 
+                 muted={false} 
+                  />
+              </div>
+              <div className=" flex justify-between w-full">
+                <button
+                   onClick={()=>approve('five_second_face_video_verification')}
+                  className="bg-[#379941] text-white w-[49%] p-3 rounded"
+                >
+                  Approve
+                </button>
+                <button
+                  onClick={()=>reject('five_second_face_video_verification')}
+                  className="bg-[#E52020] text-white w-[49%] p-3 rounded"
+                >
+                  Reject
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        {selectedButton === "six" && (
+          <div className=" w-full">
+            <div className="px-0 py-0 bg-white rounded-xl flex-col justify-start items-start gap-5 inline-flex w-full">
+              <div className=" flex justify-between items-center w-full ">
+                <div className=" justify-center items-center gap-4 inline-flex">
+                  <Image
+                    src="/images/user.svg"
+                    alt="Orizon profile"
+                    width={50}
+                    height={50}
+                  />
+                  <div className=" px-7 py-3 bg-[#2db3ff] rounded-xl ">
+                    <div className="OnProgress text-white text-sm font-semibold">
+                      On Progress
+                    </div>
+                  </div>
+                </div>
+                <div className="flex justify-end ">
+                  <button
+                    type="button"
+                    onClick={() => setIsEditFlyoutOpen(false)}
+                    className="h-8 w-8 border border-[#E7E7E7] text-[#0A0A0A] rounded cursor-pointer"
+                  >
+                    X
+                  </button>
+                </div>
+              </div>
+
+              <div className="LivenessDetection w-[279px] text-[#0e0e0e] text-base font-medium">
+              Signature Verification
+              </div>
+              {customerSignature ? (
+                <Image
+                  src={customerSignature}
+                  alt="Orizon profile"
+                  width={200}
+                  height={200}
+                />
+              ) : (
+                "Loading..."
+              )}
+              <div className=" flex justify-between w-full">
+                <button
+                    onClick={()=>approve('signature_verification')}
+                  className="bg-[#379941] text-white w-[49%] p-3 rounded"
+                >
+                  Approve
+                </button>
+                <button
+                  onClick={()=>reject('signature_verification')}
+                  className="bg-[#E52020] text-white w-[49%] p-3 rounded"
+                >
+                  Reject
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );

@@ -49,6 +49,7 @@ interface Customer {
   usersignature?: string | null;
   face_id_url?: string | null;
   liveness_score?: number | null;
+  face_match_score? : number | null;
   [key: string]: any; // To allow additional unknown fields
 }
 
@@ -72,14 +73,21 @@ export default function Home() {
   const [signatureVerification, setSignatureVerification] = useState<
     string | null
   >(null);
-
+  const [selectedButton, setSelectedButton] = useState<string | null>(null);
+  //console.log('SELECTED BUTTON',selectedButton)
   const axiosProvider = new AxiosProvider();
+
+  const handleButtonClick = (button: string)=>{
+    setSelectedButton(button);
+    setIsCustomerViewDetailOpen(!isCustomerViewDetailOpen);
+  }
 
   useEffect(() => {
     if (id) {
       const fetchData = async () => {
         try {
           const res = await axiosProvider.post("/viewcustomer", { id }); // Use POST and pass `id` in the body
+          console.log("VIEW CUSTOMER", res);
           setCustomer(res.data.data.customer);
         } catch (error: any) {
           console.log("Error occurred:", error);
@@ -90,27 +98,27 @@ export default function Home() {
     }
   }, [id]);
   const fetchUserStatus = async () => {
-    if (customer && customer.id !== undefined) {
+    if (customer && customer.customer_id !== undefined) {
       try {
         const response = await axiosProvider.post("/getuserstatus", {
-          customer_id: customer.id,
+          customer_id: customer.customer_id,
         });
         //setFaceImage(response.data.data.url);
         //setFaceImage(response.data.data.url);
-        console.log("CUSTOMER STATUS", response.data.data);
-        setLiveDetection(response.data.data[0].liveness_detection.status);
-        setIdentityMatching(response.data.data[1].identity_matching.status);
+       // console.log("CUSTOMER STATUS", response.data.data.verificationStatuses[0].status);
+        setLiveDetection(response.data.data.verificationStatuses[0].status);
+        setIdentityMatching(response.data.data.verificationStatuses[1].status);
         setUserDetailsVerification(
-          response.data.data[2].user_details_verification.status
+          response.data.data.verificationStatuses[2].status
         );
         setScannedIdCardVerification(
-          response.data.data[3].scanned_id_card_verification.status
+          response.data.data.verificationStatuses[3].status
         );
         setFiveSecondVideoVerification(
-          response.data.data[4].five_second_face_video_verification.status
+          response.data.data.verificationStatuses[4].status
         );
         setSignatureVerification(
-          response.data.data[5].signature_verification.status
+          response.data.data.verificationStatuses[5].status
         );
         // toast.success("Successfully get");
       } catch (error) {
@@ -723,10 +731,13 @@ export default function Home() {
                 <div className="w-[150px] h-9 relative">
                   <button
                     className=" bg-customBlue text-white py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled={liveDetection === "Approved"}
-                    onClick={() =>
-                      setIsCustomerViewDetailOpen(!isCustomerViewDetailOpen)
+                    disabled={
+                      liveDetection === "Approved" ||
+                      liveDetection === "Rejected"
                     }
+                    onClick={() => {
+                      handleButtonClick('one');
+                     }}
                   >
                     Verify User
                   </button>
@@ -785,10 +796,13 @@ export default function Home() {
                 <div className="w-[150px] h-9 relative">
                   <button
                     className=" bg-customBlue text-white py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled={liveDetection === "Approved"}
-                    onClick={() =>
-                      setIsCustomerViewDetailOpen(!isCustomerViewDetailOpen)
+                    disabled={
+                      identityMatching === "Approved" ||
+                      identityMatching === "Rejected"
                     }
+                    onClick={() => {
+                      handleButtonClick('two');
+                    }}
                   >
                     Verify User
                   </button>
@@ -851,10 +865,13 @@ export default function Home() {
                 <div className="w-[150px] h-9 relative">
                   <button
                     className=" bg-customBlue text-white py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled={liveDetection === "Approved"}
-                    onClick={() =>
-                      setIsCustomerViewDetailOpen(!isCustomerViewDetailOpen)
+                    disabled={
+                      userDetailsVerification === "Approved" ||
+                      userDetailsVerification === "Rejected"
                     }
+                    onClick={() => {
+                      handleButtonClick('three');
+                    }}
                   >
                     Verify User
                   </button>
@@ -917,10 +934,13 @@ export default function Home() {
                 <div className="w-[150px] h-9 relative">
                   <button
                     className=" bg-customBlue text-white py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled={liveDetection === "Approved"}
-                    onClick={() =>
-                      setIsCustomerViewDetailOpen(!isCustomerViewDetailOpen)
+                    disabled={
+                      scannedIdCardVerification === "Approved" ||
+                      scannedIdCardVerification === "Rejected"
                     }
+                    onClick={() => {
+                      handleButtonClick('four');
+                    }}
                   >
                     Verify User
                   </button>
@@ -983,10 +1003,13 @@ export default function Home() {
                 <div className="w-[150px] h-9 relative">
                   <button
                     className=" bg-customBlue text-white py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled={liveDetection === "Approved"}
-                    onClick={() =>
-                      setIsCustomerViewDetailOpen(!isCustomerViewDetailOpen)
+                    disabled={
+                      fiveSecondVideoVerification === "Approved" ||
+                      fiveSecondVideoVerification === "Rejected"
                     }
+                    onClick={() => {
+                      handleButtonClick('five');
+                    }}
                   >
                     Verify User
                   </button>
@@ -1049,10 +1072,13 @@ export default function Home() {
                 <div className="w-[150px] h-9 relative">
                   <button
                     className=" bg-customBlue text-white py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled={liveDetection === "Approved"}
-                    onClick={() =>
-                      setIsCustomerViewDetailOpen(!isCustomerViewDetailOpen)
+                    disabled={
+                      signatureVerification === "Approved" ||
+                      signatureVerification === "Rejected"
                     }
+                    onClick={() => {
+                      handleButtonClick('six');
+                    }}
                   >
                     Verify User
                   </button>
@@ -1208,9 +1234,10 @@ export default function Home() {
         </div>
       </div>
       <CustomerViewDetails
-        isEditFlyoutOpen={isCustomerViewDetailOpen}
+        isCustomerViewDetailOpen={isCustomerViewDetailOpen}
         setIsEditFlyoutOpen={setIsCustomerViewDetailOpen}
         customer={customer}
+        selectedButton={selectedButton} 
       />
     </>
   );
