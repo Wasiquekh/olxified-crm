@@ -397,7 +397,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                     />
                   ) : (
                     <Image
-                      src="images/dummy-image.jpg"
+                      src="/images/dummy-image.jpg"
                       alt="Orizon profile"
                       width={200}
                       height={200}
@@ -417,7 +417,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                     />
                   ) : (
                     <Image
-                      src="images/dummy-image.jpg"
+                      src="/images/dummy-image.jpg"
                       alt="Orizon profile"
                       width={200}
                       height={200}
@@ -589,7 +589,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                     />
                   ) : (
                     <Image
-                      src="images/dummy-image.jpg"
+                      src="/images/dummy-image.jpg"
                       alt="Orizon profile"
                       width={200}
                       height={200}
@@ -609,7 +609,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                     />
                   ) : (
                     <Image
-                      src="images/dummy-image.jpg"
+                      src="/images/dummy-image.jpg"
                       alt="Orizon profile"
                       width={200}
                       height={200}

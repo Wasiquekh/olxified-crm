@@ -58,7 +58,7 @@ interface CustomerHistoryItem {
   reason_reject: string | null;
   created_at: string;
   status: string;
-  system_user_id:string;
+  system_user_id: string;
 }
 
 export default function Home() {
@@ -1137,7 +1137,9 @@ export default function Home() {
             <table className="table-auto border-collapse border border-gray-300 w-full">
               <thead>
                 <tr>
-                  <th className="border border-gray-300 px-4 py-2">System user ID</th>
+                  <th className="border border-gray-300 px-4 py-2">
+                    System user ID
+                  </th>
                   <th className="border border-gray-300 px-4 py-2">
                     Verification Type
                   </th>
@@ -1165,8 +1167,18 @@ export default function Home() {
                     <td className="border border-gray-300 px-4 py-2">
                       {new Date(item.created_at).toLocaleString()}
                     </td>
-                    <td className="border border-gray-300 px-4 py-2">
-                      {item.status}
+                    <td className="border border-gray-300 px-4 py-3">
+                      <p
+                        className={`text-[#fff] text-sm px-4 pt-1 pb-1.5 rounded-full w-24 text-center ${
+                          item.status === "Approved"
+                            ? "bg-[#379941]"
+                            : item.status === "Rejected"
+                            ? "bg-[#E52020]"
+                            : "bg-customBlue"
+                        }`}
+                      >
+                        {item.status}
+                      </p>
                     </td>
                   </tr>
                 ))}

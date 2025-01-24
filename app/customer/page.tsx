@@ -264,14 +264,14 @@ export default function Home() {
           {/* ----------------Table----------------------- */}
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
             {/* Search and filter table row */}
-            <div className=" flex justify-between items-center mb-6  w-[98%] mx-auto">
-              <div>
+            <div className=" flex justify-end items-center mb-6  w-[98%] mx-auto">
+              {/* <div>
                 <input
                   type="text"
                   placeholder="Search..."
                   className=" w-[254px] px-4 py-3 rounded-2xl border border-[#E7E7E7]  focus:outline-none placeholder-[#717171] placeholder-font-weight-600 "
                 />
-              </div>
+              </div> */}
               <div className=" flex justify-center items-center gap-4">
                 <div
                   className=" flex gap-2 py-3 px-4 rounded-[16px] border border-[#E7E7E7] cursor-pointer"
@@ -321,18 +321,7 @@ export default function Home() {
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
               <thead className="text-xs text-[#999999]">
                 <tr className=" border border-tableBorder">
-                  <th scope="col" className="p-4 border border-tableBorder">
-                    <div className="flex items-center">
-                      <input
-                        id="checkbox-all-search"
-                        type="checkbox"
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label htmlFor="checkbox-all-search" className="sr-only">
-                        checkbox
-                      </label>
-                    </div>
-                  </th>
+
                   <th
                     scope="col"
                     className="px-2 py-0 border border-tableBorder"
@@ -426,24 +415,9 @@ export default function Home() {
                       className=" border border-tableBorder bg-white"
                       key={index}
                     >
-                      <td className="w-4  px-4 py-0 border border-tableBorder">
-                        <div className="flex items-center">
-                          <input
-                            id="checkbox-table-search-1"
-                            type="checkbox"
-                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                          />
-                          <label
-                            htmlFor="checkbox-table-search-1"
-                            className="sr-only"
-                          >
-                            checkbox
-                          </label>
-                        </div>
-                      </td>
                       <td className=" px-2 py-2 border border-tableBorder flex items-center gap-2">
                         <div className="">
-                          <Image
+                          {/* <Image
                             src="/images/tableImage.png"
                             alt="Table image"
                             sizes="100vw"
@@ -453,10 +427,10 @@ export default function Home() {
                             }}
                             width={44}
                             height={44}
-                          />
+                          /> */}
                         </div>
                         <div>
-                          <p className=" text-[#0A0A0A] text-base font-semibold leading-normal">
+                          <p className=" text-[#0A0A0A] text-base font-semibold leading-normal ml-1">
                             {item.firstname} {item.lastname}
                             {/* ({item.gender}) */}
                           </p>
