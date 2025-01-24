@@ -58,6 +58,7 @@ interface CustomerHistoryItem {
   reason_reject: string | null;
   created_at: string;
   status: string;
+  system_user_id:string;
 }
 
 export default function Home() {
@@ -1136,7 +1137,7 @@ export default function Home() {
             <table className="table-auto border-collapse border border-gray-300 w-full">
               <thead>
                 <tr>
-                  <th className="border border-gray-300 px-4 py-2">ID</th>
+                  <th className="border border-gray-300 px-4 py-2">System user ID</th>
                   <th className="border border-gray-300 px-4 py-2">
                     Verification Type
                   </th>
@@ -1153,7 +1154,7 @@ export default function Home() {
                 {customerHistory.map((item, index) => (
                   <tr key={index} className="">
                     <td className="border border-gray-300 px-4 py-2">
-                      {item.id}
+                      {item.system_user_id}
                     </td>
                     <td className="border border-gray-300 px-4 py-2">
                       {item.verification_type}
