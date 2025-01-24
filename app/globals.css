@@ -94,3 +94,17 @@ body {
   outline: none !important;
   color: #718EBF !important;
 }
+.custom-player-container {
+  width: 100% !important; /* Full width */
+  /* max-width: 500px;  */
+  /* Optional: Limit maximum width */
+  height: 100% !important; /* Set a fixed height */
+  border-radius: 5px !important; /* Apply rounded corners */
+  overflow: hidden; /* Ensure border radius affects the child content */
+  position: relative; /* Optional: For positioning adjustments */
+}
+
+.custom-player {
+  width: 100% !important; /* Fill the container */
+  height: 100% !important; /* Fill the container */
+}

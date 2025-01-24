@@ -51,6 +51,7 @@ interface CustomerViewDetailsProps {
   setIsEditFlyoutOpen: Dispatch<SetStateAction<boolean>>;
   customer: Customer; // Add the customer property here
   selectedButton: string | null; // Allow null as a possible value
+  setFaceImageFromChild: (value: string) => void;
 }
 
 // SidebarUserUpdateForm Component
@@ -59,6 +60,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
   setIsEditFlyoutOpen,
   customer,
   selectedButton,
+  setFaceImageFromChild,
 }) => {
   const [userDescription, setUserDescription] = useState<string | null>(null);
   //console.log('user desc',userDescription)
@@ -71,28 +73,39 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
   const [customerShortVideo, setCustomerShortVideo] = useState<
     string | undefined
   >(undefined);
-  const [customerSignature, setCustomerSignature] = useState<string | undefined>(undefined);
+  const [customerSignature, setCustomerSignature] = useState<
+    string | undefined
+  >(undefined);
+
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   const { accessToken } = useContext(AppContext);
 
   const fetchUserSignature = async () => {
-    if (customer && customer.usersignature !== undefined && customer.usersignature !== null) {
+    if (
+      customer &&
+      customer.usersignature !== undefined &&
+      customer.usersignature !== null
+    ) {
       const fullUrl = customer.usersignature;
       const lastPart = fullUrl.split("/").pop();
       try {
         const response = await axiosProvider.post("/getsignature", {
           filename: lastPart,
         });
-   
-      setCustomerSignature(response.data.data.url);
+
+        setCustomerSignature(response.data.data.url);
       } catch (error) {
         console.error("Error deleting user:", error);
       }
     }
   };
   const fetchIdCard = async () => {
-    if (customer && customer.idcardrecto !== undefined && customer.idcardrecto !== null) {
+    if (
+      customer &&
+      customer.idcardrecto !== undefined &&
+      customer.idcardrecto !== null
+    ) {
       const fullUrlEcto = customer.idcardrecto;
       const lastPartEcto = fullUrlEcto.split("/").pop();
       const fullUrlVerso = customer.idcardverso;
@@ -114,7 +127,11 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
     }
   };
   const fetchDataVideo = async () => {
-    if (customer && customer.shortintrovideo !== undefined && customer.shortintrovideo !== null) {
+    if (
+      customer &&
+      customer.shortintrovideo !== undefined &&
+      customer.shortintrovideo !== null
+    ) {
       const fullUrl = customer.shortintrovideo;
       const lastPart = fullUrl.split("/").pop();
       try {
@@ -132,7 +149,11 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
     }
   };
   const fetchData = async () => {
-    if (customer && customer.face_id_url !== undefined && customer.face_id_url !== null) {
+    if (
+      customer &&
+      customer.face_id_url !== undefined &&
+      customer.face_id_url !== null
+    ) {
       const decimalValue = customer.liveness_score;
       const percentage = (decimalValue * 100).toFixed(2);
       setLivenessScore(percentage);
@@ -144,6 +165,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
         });
         //setFaceImage(response.data.data.url);
         setFaceImage(response.data.data.url);
+        setFaceImageFromChild(response.data.data.url);
 
         // toast.success("Successfully get");
       } catch (error) {
@@ -287,16 +309,23 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                   alt="Orizon profile"
                   width={200}
                   height={200}
+                     className="!h-[200px] !w-[245px] rounded"
                 />
               ) : (
-                "Loading..."
+                <Image
+                  src="/images/dummy-image.jpg"
+                  alt="Orizon profile"
+                  width={200}
+                  height={200}
+                    className="!h-[200px] !w-[245px] rounded"
+                />
               )}
               {livenessScore ? (
                 <div className="w-full">
                   <h1 className="text-xl font-semibold mb-2">
                     Liveness Score: {livenessScore}%
                   </h1>
-                  <div className="w-full bg-gray-200 rounded-lg h-6">
+                  <div className="w-full bg-gray-200 rounded-lg h-4">
                     <div
                       className="bg-blue-500 h-full rounded-lg"
                       style={{ width: `${livenessScore}%` }}
@@ -309,13 +338,13 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
 
               <div className=" flex justify-between w-full">
                 <button
-                  onClick={()=>approve('liveness_detection')}
+                  onClick={() => approve("liveness_detection")}
                   className="bg-[#379941] text-white w-[49%] p-3 rounded"
                 >
                   Approve
                 </button>
                 <button
-                  onClick={()=>reject('liveness_detection')}
+                  onClick={() => reject("liveness_detection")}
                   className="bg-[#E52020] text-white w-[49%] p-3 rounded"
                 >
                   Reject
@@ -355,34 +384,54 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
               <div className="LivenessDetection w-[279px] text-[#0e0e0e] text-base font-medium">
                 Identity Matching
               </div>
-              <p>Id Card Ecto</p>
-              {idCardEcto ? (
-                <Image
-                  src={idCardEcto}
-                  alt="Orizon profile"
-                  width={200}
-                  height={200}
-                />
-              ) : (
-                "Loading..."
-              )}
-              <p>Face Image</p>
-              {faceImage ? (
-                <Image
-                  src={faceImage}
-                  alt="Orizon profile"
-                  width={200}
-                  height={200}
-                />
-              ) : (
-                "Loading..."
-              )}
+              <div className="flex gap-2">
+                <div>
+                  <p>Id Card Ecto</p>
+                  {idCardEcto ? (
+                    <Image
+                      src={idCardEcto}
+                      alt="Orizon profile"
+                      width={200}
+                      height={200}
+                      className="!h-[200px] !w-[245px] rounded"
+                    />
+                  ) : (
+                    <Image
+                      src="images/dummy-image.jpg"
+                      alt="Orizon profile"
+                      width={200}
+                      height={200}
+                      className="!h-[200px] !w-[245px] rounded"
+                    />
+                  )}
+                </div>
+                <div>
+                  <p>Face Image</p>
+                  {faceImage ? (
+                    <Image
+                      src={faceImage}
+                      alt="Orizon profile"
+                      width={200}
+                      height={200}
+                      className="!h-[200px] !w-[245px] rounded"
+                    />
+                  ) : (
+                    <Image
+                      src="images/dummy-image.jpg"
+                      alt="Orizon profile"
+                      width={200}
+                      height={200}
+                      className="!h-[200px] !w-[245px] rounded"
+                    />
+                  )}
+                </div>
+              </div>
               {livenessScore ? (
                 <div className="w-full">
                   <h1 className="text-xl font-semibold mb-2">
                     Face Match Score: {customer.face_match_score}%
                   </h1>
-                  <div className="w-full bg-gray-200 rounded-lg h-6">
+                  <div className="w-full bg-gray-200 rounded-lg h-4">
                     <div
                       className="bg-blue-500 h-full rounded-lg"
                       style={{ width: `${customer.face_match_score}%` }}
@@ -392,16 +441,15 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
               ) : (
                 "loading"
               )}
-
               <div className=" flex justify-between w-full">
                 <button
-                  onClick={()=>approve('identity_matching')}
+                  onClick={() => approve("identity_matching")}
                   className="bg-[#379941] text-white w-[49%] p-3 rounded"
                 >
                   Approve
                 </button>
                 <button
-                   onClick={()=>reject('identity_matching')}
+                  onClick={() => reject("identity_matching")}
                   className="bg-[#E52020] text-white w-[49%] p-3 rounded"
                 >
                   Reject
@@ -440,20 +488,55 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
               <div className="LivenessDetection w-[279px] text-[#0e0e0e] text-base font-medium">
                 User Detail Verification
               </div>
-             Full Name: {customer?.firstname || "loading"}&nbsp;
-             {customer?.lastname || "loading"} <br />
-             Date of Birth: {customer?.birthdate || "loading"} <br />
-             Mobile number {customer?.mobilephonenumber || "loading"} <br />
-             Country {customer?.streetaddress || "loading"} <br />
+              <div className="w-full">
+                <table className="min-w-full border border-gray-300 text-left text-sm">
+                  <tbody>
+                    <tr className="border-b">
+                      <th className="px-4 py-2 font-medium text-gray-700">
+                        Full Name
+                      </th>
+                      <td className="px-4 py-2">
+                        {customer?.firstname || "loading"}{" "}
+                        {customer?.lastname || "loading"}
+                      </td>
+                    </tr>
+                    <tr className="border-b">
+                      <th className="px-4 py-2 font-medium text-gray-700">
+                        Date of Birth
+                      </th>
+                      <td className="px-4 py-2">
+                        {customer?.birthdate || "loading"}
+                      </td>
+                    </tr>
+                    <tr className="border-b">
+                      <th className="px-4 py-2 font-medium text-gray-700">
+                        Mobile Number
+                      </th>
+                      <td className="px-4 py-2">
+                        {customer?.mobilephonenumber || "loading"}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th className="px-4 py-2 font-medium text-gray-700">
+                        Country
+                      </th>
+                      <td className="px-4 py-2">
+                        {customer?.streetaddress || "loading"}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
               <div className=" flex justify-between w-full">
                 <button
-                  onClick={()=>approve('user_details_verification')}
+                  onClick={() => approve("user_details_verification")}
                   className="bg-[#379941] text-white w-[49%] p-3 rounded"
                 >
                   Approve
                 </button>
                 <button
-                 onClick={()=>reject('user_details_verification')}
+                  onClick={() => reject("user_details_verification")}
                   className="bg-[#E52020] text-white w-[49%] p-3 rounded"
                 >
                   Reject
@@ -493,39 +576,57 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
               <div className="LivenessDetection w-[279px] text-[#0e0e0e] text-base font-medium">
                 Scanned ID Card Verification
               </div>
-              <p>Front Image</p>
-              {idCardEcto ? (
-                <Image
-                  src={idCardEcto}
-                  alt="Orizon profile"
-                  width={200}
-                  height={200}
-                />
-              ) : (
-                "Loading..."
-              )}
-              <br />
-              <p>Back Image</p>
-              {idCardVerso ? (
-                <Image
-                  src={idCardVerso}
-                  alt="Orizon profile"
-                  width={200}
-                  height={200}
-                />
-              ) : (
-                "Loading..."
-              )}
-
+              <div className="flex gap-2">
+                <div>
+                  <p className="mb-1">Front Image</p>
+                  {idCardEcto ? (
+                    <Image
+                      src={idCardEcto}
+                      alt="Orizon profile"
+                      width={200}
+                      height={200}
+                      className="!h-[200px] !w-[245px] rounded"
+                    />
+                  ) : (
+                    <Image
+                      src="images/dummy-image.jpg"
+                      alt="Orizon profile"
+                      width={200}
+                      height={200}
+                      className="!h-[200px] !w-[245px] rounded"
+                    />
+                  )}
+                </div>
+                <div>
+                  <p className="mb-1">Back Image</p>
+                  {idCardVerso ? (
+                    <Image
+                      src={idCardVerso}
+                      alt="Orizon profile"
+                      width={200}
+                      height={200}
+                      className="!h-[200px] !w-[245px] rounded"
+                    />
+                  ) : (
+                    <Image
+                      src="images/dummy-image.jpg"
+                      alt="Orizon profile"
+                      width={200}
+                      height={200}
+                      className="!h-[200px] !w-[245px] rounded"
+                    />
+                  )}
+                </div>
+              </div>
               <div className=" flex justify-between w-full">
                 <button
-                 onClick={()=>approve('scanned_id_card_verification')}
+                  onClick={() => approve("scanned_id_card_verification")}
                   className="bg-[#379941] text-white w-[49%] p-3 rounded"
                 >
                   Approve
                 </button>
                 <button
-                  onClick={()=>reject('scanned_id_card_verification')}
+                  onClick={() => reject("scanned_id_card_verification")}
                   className="bg-[#E52020] text-white w-[49%] p-3 rounded"
                 >
                   Reject
@@ -564,23 +665,26 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
               <div className="LivenessDetection w-[279px] text-[#0e0e0e] text-base font-medium">
                 Five Second Video Verification
               </div>
-              <div>
+              <div className="custom-player-container">
                 <ReactPlayer
-                 url={customerShortVideo}
-                 controls={true} 
-                 playing={true} 
-                 muted={false} 
-                  />
+                  url={customerShortVideo}
+                  controls={true}
+                  playing={true}
+                  muted={false}
+                  className="custom-player"
+                  width="100%" // Fill the container
+                  height="100%" // Fill the container
+                />
               </div>
               <div className=" flex justify-between w-full">
                 <button
-                   onClick={()=>approve('five_second_face_video_verification')}
+                  onClick={() => approve("five_second_face_video_verification")}
                   className="bg-[#379941] text-white w-[49%] p-3 rounded"
                 >
                   Approve
                 </button>
                 <button
-                  onClick={()=>reject('five_second_face_video_verification')}
+                  onClick={() => reject("five_second_face_video_verification")}
                   className="bg-[#E52020] text-white w-[49%] p-3 rounded"
                 >
                   Reject
@@ -618,7 +722,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
               </div>
 
               <div className="LivenessDetection w-[279px] text-[#0e0e0e] text-base font-medium">
-              Signature Verification
+                Signature Verification
               </div>
               {customerSignature ? (
                 <Image
@@ -626,19 +730,26 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                   alt="Orizon profile"
                   width={200}
                   height={200}
+                  className="!h-[200px] !w-[245px] rounded"
                 />
               ) : (
-                "Loading..."
+                <Image
+                src='images/dummy-image.jpg'
+                alt="Orizon profile"
+                width={200}
+                height={200}
+                className="!h-[200px] !w-[245px] rounded"
+              />
               )}
               <div className=" flex justify-between w-full">
                 <button
-                    onClick={()=>approve('signature_verification')}
+                  onClick={() => approve("signature_verification")}
                   className="bg-[#379941] text-white w-[49%] p-3 rounded"
                 >
                   Approve
                 </button>
                 <button
-                  onClick={()=>reject('signature_verification')}
+                  onClick={() => reject("signature_verification")}
                   className="bg-[#E52020] text-white w-[49%] p-3 rounded"
                 >
                   Reject

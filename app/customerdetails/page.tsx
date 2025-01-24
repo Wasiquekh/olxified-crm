@@ -49,8 +49,15 @@ interface Customer {
   usersignature?: string | null;
   face_id_url?: string | null;
   liveness_score?: number | null;
-  face_match_score? : number | null;
+  face_match_score?: number | null;
   [key: string]: any; // To allow additional unknown fields
+}
+interface CustomerHistoryItem {
+  id: string;
+  verification_type: string;
+  reason_reject: string | null;
+  created_at: string;
+  status: string;
 }
 
 export default function Home() {
@@ -74,20 +81,27 @@ export default function Home() {
     string | null
   >(null);
   const [selectedButton, setSelectedButton] = useState<string | null>(null);
+  const [faceImageFromChild, setFaceImageFromChild] = useState<string | null>(
+    null
+  );
+  const [customerHistory, setCustomerHistory] = useState<CustomerHistoryItem[]>(
+    []
+  );
+  //console.log('CUSTOMER HISTORY',customerHistory)
   //console.log('SELECTED BUTTON',selectedButton)
   const axiosProvider = new AxiosProvider();
 
-  const handleButtonClick = (button: string)=>{
+  const handleButtonClick = (button: string) => {
     setSelectedButton(button);
     setIsCustomerViewDetailOpen(!isCustomerViewDetailOpen);
-  }
+  };
 
   useEffect(() => {
     if (id) {
       const fetchData = async () => {
         try {
           const res = await axiosProvider.post("/viewcustomer", { id }); // Use POST and pass `id` in the body
-          console.log("VIEW CUSTOMER", res);
+          //console.log("VIEW CUSTOMER", res);
           setCustomer(res.data.data.customer);
         } catch (error: any) {
           console.log("Error occurred:", error);
@@ -98,38 +112,54 @@ export default function Home() {
     }
   }, [id]);
   const fetchUserStatus = async () => {
-    if (customer && customer.customer_id !== undefined) {
+    // console.log('USE EFFECT CUS ID',id);
+    try {
+      console.log("USE EFFECT CUS ID", id);
+      const response = await axiosProvider.post("/getuserstatus", {
+        customer_id: id,
+      });
+      //setFaceImage(response.data.data.url);
+      //setFaceImage(response.data.data.url);
+      console.log("CUSTOMER STATUS", response);
+      // console.log("CUSTOMER STATUS", response.data.data.verificationStatuses[0].status);
+      setLiveDetection(response.data.data.verificationStatuses[0].status);
+      setIdentityMatching(response.data.data.verificationStatuses[1].status);
+      setUserDetailsVerification(
+        response.data.data.verificationStatuses[2].status
+      );
+      setScannedIdCardVerification(
+        response.data.data.verificationStatuses[3].status
+      );
+      setFiveSecondVideoVerification(
+        response.data.data.verificationStatuses[4].status
+      );
+      setSignatureVerification(
+        response.data.data.verificationStatuses[5].status
+      );
+      // toast.success("Successfully get");
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      // toast.error("Failed to get Image");
+    }
+  };
+  const getUserHistory = async () => {
+    if (id !== null) {
       try {
-        const response = await axiosProvider.post("/getuserstatus", {
-          customer_id: customer.customer_id,
+        const response = await axiosProvider.post("/getuserhistory", {
+          customer_id: id,
         });
-        //setFaceImage(response.data.data.url);
-        //setFaceImage(response.data.data.url);
-       // console.log("CUSTOMER STATUS", response.data.data.verificationStatuses[0].status);
-        setLiveDetection(response.data.data.verificationStatuses[0].status);
-        setIdentityMatching(response.data.data.verificationStatuses[1].status);
-        setUserDetailsVerification(
-          response.data.data.verificationStatuses[2].status
-        );
-        setScannedIdCardVerification(
-          response.data.data.verificationStatuses[3].status
-        );
-        setFiveSecondVideoVerification(
-          response.data.data.verificationStatuses[4].status
-        );
-        setSignatureVerification(
-          response.data.data.verificationStatuses[5].status
-        );
-        // toast.success("Successfully get");
+        setCustomerHistory(response.data.data.history);
       } catch (error) {
-        console.error("Error deleting user:", error);
-        // toast.error("Failed to get Image");
+        console.error("Customer is not Approved:", error);
+        toast.error("Customer history is not fetched");
       }
     }
   };
+
   useEffect(() => {
     fetchUserStatus();
-  });
+    getUserHistory();
+  }, []);
 
   // Determine background color based on liveDetection value
   const getBgColor = (status: string | null) => {
@@ -170,14 +200,23 @@ export default function Home() {
                         150x150px JPEG, PNG Image
                       </th>
                       <th className="w-[20%]">
-                        {" "}
-                        <Image
-                          src="/images/Component 6.png"
-                          alt="Orizon profile"
-                          width={60}
-                          height={60}
-                          className="rounded-full m-auto border-2 border-[#17C653]"
-                        />
+                        {faceImageFromChild ? (
+                          <Image
+                            src={faceImageFromChild}
+                            alt="Orizon profile"
+                            width={60}
+                            height={60}
+                            className="rounded-full m-auto border-2 border-[#17C653] !w-[60px] !h-[60px]"
+                          />
+                        ) : (
+                          <Image
+                            src="/images/Component 6.png"
+                            alt="Orizon profile"
+                            width={60}
+                            height={60}
+                            className="rounded-full m-auto border-2 border-[#17C653]"
+                          />
+                        )}
                       </th>
                     </tr>
                   </thead>
@@ -736,8 +775,8 @@ export default function Home() {
                       liveDetection === "Rejected"
                     }
                     onClick={() => {
-                      handleButtonClick('one');
-                     }}
+                      handleButtonClick("one");
+                    }}
                   >
                     Verify User
                   </button>
@@ -801,7 +840,7 @@ export default function Home() {
                       identityMatching === "Rejected"
                     }
                     onClick={() => {
-                      handleButtonClick('two');
+                      handleButtonClick("two");
                     }}
                   >
                     Verify User
@@ -870,7 +909,7 @@ export default function Home() {
                       userDetailsVerification === "Rejected"
                     }
                     onClick={() => {
-                      handleButtonClick('three');
+                      handleButtonClick("three");
                     }}
                   >
                     Verify User
@@ -939,7 +978,7 @@ export default function Home() {
                       scannedIdCardVerification === "Rejected"
                     }
                     onClick={() => {
-                      handleButtonClick('four');
+                      handleButtonClick("four");
                     }}
                   >
                     Verify User
@@ -1008,7 +1047,7 @@ export default function Home() {
                       fiveSecondVideoVerification === "Rejected"
                     }
                     onClick={() => {
-                      handleButtonClick('five');
+                      handleButtonClick("five");
                     }}
                   >
                     Verify User
@@ -1077,7 +1116,7 @@ export default function Home() {
                       signatureVerification === "Rejected"
                     }
                     onClick={() => {
-                      handleButtonClick('six');
+                      handleButtonClick("six");
                     }}
                   >
                     Verify User
@@ -1090,6 +1129,48 @@ export default function Home() {
                 </div>
               </div>
             </div>
+          </div>
+          {/* USER HISTORY DATA */}
+          <div className="container mx-auto mt-6">
+            <h2 className="text-lg font-bold mb-4">Customer History</h2>
+            <table className="table-auto border-collapse border border-gray-300 w-full">
+              <thead>
+                <tr>
+                  <th className="border border-gray-300 px-4 py-2">ID</th>
+                  <th className="border border-gray-300 px-4 py-2">
+                    Verification Type
+                  </th>
+                  <th className="border border-gray-300 px-4 py-2">
+                    Reason Rejected
+                  </th>
+                  <th className="border border-gray-300 px-4 py-2">
+                    Created At
+                  </th>
+                  <th className="border border-gray-300 px-4 py-2">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {customerHistory.map((item, index) => (
+                  <tr key={index} className="">
+                    <td className="border border-gray-300 px-4 py-2">
+                      {item.id}
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2">
+                      {item.verification_type}
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2">
+                      {item.reason_reject || "N/A"}
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2">
+                      {new Date(item.created_at).toLocaleString()}
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2">
+                      {item.status}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </>
       ),
@@ -1191,13 +1272,23 @@ export default function Home() {
             <div className=" w-[95%] min-h-[600px] bg-white rounded-[25px]">
               <div className="p-6">
                 <div className="flex justify-center">
-                  <Image
-                    src="/images/300-1.png.png"
-                    alt="Orizon profile"
-                    width={100}
-                    height={100}
-                    className="rounded-full mb-4"
-                  />
+                  {faceImageFromChild ? (
+                    <Image
+                      src={faceImageFromChild}
+                      alt="Orizon profile"
+                      width={100}
+                      height={100}
+                      className="rounded-full mb-4 border-[3px] border-[#17C653] !w-[100px] !h-[95px]"
+                    />
+                  ) : (
+                    <Image
+                      src="/images/300-1.png.png"
+                      alt="Orizon profile"
+                      width={100}
+                      height={100}
+                      className="rounded-full mb-4 !w-[100px] !h-[100px]"
+                    />
+                  )}
                 </div>
                 <div className="flex items-center justify-center gap-1 mb-4">
                   <p className="text-[#071437] text-lg font-semibold leading-5">
@@ -1237,7 +1328,8 @@ export default function Home() {
         isCustomerViewDetailOpen={isCustomerViewDetailOpen}
         setIsEditFlyoutOpen={setIsCustomerViewDetailOpen}
         customer={customer}
-        selectedButton={selectedButton} 
+        selectedButton={selectedButton}
+        setFaceImageFromChild={setFaceImageFromChild}
       />
     </>
   );
