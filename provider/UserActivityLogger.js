@@ -41,6 +41,12 @@ class UserActivityLogger {
       async userDelete(userId) {
         await this.log(`Deleted user #${userId}`,'User Management','Delete');
     }
+    async approvedUser(userId,verification){
+      await this.log(`Approved User #${verification} #${userId}`,'Customer','Approved');
+    }
+    async rejectedUser(userId,verification){
+      await this.log(`Rejected User #${verification} #${userId}`,'Customer','Rejected');
+    }
 
   }
   

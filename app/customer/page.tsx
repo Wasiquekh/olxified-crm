@@ -324,7 +324,7 @@ export default function Home() {
 
                   <th
                     scope="col"
-                    className="px-2 py-0 border border-tableBorder"
+                    className="p-3 border border-tableBorder"
                   >
                     <div className=" flex items-center gap-2">
                       <RxAvatar className=" w-6 h-6" />
@@ -417,20 +417,9 @@ export default function Home() {
                     >
                       <td className=" px-2 py-2 border border-tableBorder flex items-center gap-2">
                         <div className="">
-                          {/* <Image
-                            src="/images/tableImage.png"
-                            alt="Table image"
-                            sizes="100vw"
-                            style={{
-                              width: "100%",
-                              height: "auto",
-                            }}
-                            width={44}
-                            height={44}
-                          /> */}
                         </div>
                         <div>
-                          <p className=" text-[#0A0A0A] text-base font-semibold leading-normal ml-1">
+                          <p className=" text-[#0A0A0A] text-base font-semibold leading-normal">
                             {item.firstname} {item.lastname}
                             {/* ({item.gender}) */}
                           </p>

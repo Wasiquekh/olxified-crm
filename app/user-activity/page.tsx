@@ -314,14 +314,7 @@ export default function Home() {
           {/* ----------------Table----------------------- */}
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
             {/* Search and filter table row */}
-            <div className=" flex justify-between items-center mb-6  w-[98%] mx-auto">
-              <div>
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  className=" w-[254px] px-4 py-3 rounded-2xl border border-[#E7E7E7]  focus:outline-none placeholder-[#717171] placeholder-font-weight-600 "
-                />
-              </div>
+            <div className=" flex justify-end items-center mb-6  w-[98%] mx-auto">
               <div className=" flex justify-center items-center gap-4">
                 <div
                   className=" flex gap-2 py-3 px-4 rounded-[16px] border border-[#E7E7E7] cursor-pointer"

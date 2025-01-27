@@ -152,7 +152,7 @@ export default function Home() {
         setCustomerHistory(response.data.data.history);
       } catch (error) {
         console.error("Customer is not Approved:", error);
-        toast.error("Customer history is not fetched");
+       // toast.error("Customer history is not fetched");
       }
     }
   };
@@ -1132,59 +1132,69 @@ export default function Home() {
             </div>
           </div>
           {/* USER HISTORY DATA */}
-          <div className="container mx-auto mt-6">
-            <h2 className="text-lg font-bold mb-4">Customer History</h2>
-            <table className="table-auto border-collapse border border-gray-300 w-full">
-              <thead>
-                <tr>
-                  <th className="border border-gray-300 px-4 py-2">
-                    System user ID
-                  </th>
-                  <th className="border border-gray-300 px-4 py-2">
-                    Verification Type
-                  </th>
-                  <th className="border border-gray-300 px-4 py-2">
-                    Reason Rejected
-                  </th>
-                  <th className="border border-gray-300 px-4 py-2">
-                    Created At
-                  </th>
-                  <th className="border border-gray-300 px-4 py-2">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {customerHistory.map((item, index) => (
-                  <tr key={index} className="">
-                    <td className="border border-gray-300 px-4 py-2">
-                      {item.system_user_id}
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2">
-                      {item.verification_type}
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2">
-                      {item.reason_reject || "N/A"}
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2">
-                      {new Date(item.created_at).toLocaleString()}
-                    </td>
-                    <td className="border border-gray-300 px-4 py-3">
-                      <p
-                        className={`text-[#fff] text-sm px-4 pt-1 pb-1.5 rounded-full w-24 text-center ${
-                          item.status === "Approved"
-                            ? "bg-[#379941]"
-                            : item.status === "Rejected"
-                            ? "bg-[#E52020]"
-                            : "bg-customBlue"
-                        }`}
-                      >
-                        {item.status}
-                      </p>
-                    </td>
+           {
+            customerHistory.length > 0  && 
+            (
+              <>
+              <div className="container mx-auto mt-6">
+              <h2 className="text-lg font-bold mb-4">Customer History</h2>
+              <table className="table-auto border-collapse border border-gray-300 w-full">
+                <thead>
+                  <tr>
+                    <th className="border border-gray-300 px-4 py-2">
+                      System user ID
+                    </th>
+                    <th className="border border-gray-300 px-4 py-2">
+                      Verification Type
+                    </th>
+                    <th className="border border-gray-300 px-4 py-2">
+                      Reason Rejected
+                    </th>
+                    <th className="border border-gray-300 px-4 py-2">
+                      Created At
+                    </th>
+                    <th className="border border-gray-300 px-4 py-2">Status</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {customerHistory.map((item, index) => (
+                    <tr key={index} className="">
+                      <td className="border border-gray-300 px-4 py-2">
+                        {item.system_user_id}
+                      </td>
+                      <td className="border border-gray-300 px-4 py-2">
+                        {item.verification_type}
+                      </td>
+                      <td className="border border-gray-300 px-4 py-2">
+                        {item.reason_reject || "N/A"}
+                      </td>
+                      <td className="border border-gray-300 px-4 py-2">
+                        {new Date(item.created_at).toLocaleString()}
+                      </td>
+                      <td className="border border-gray-300 px-4 py-3">
+                        <p
+                          className={`text-[#fff] text-sm px-4 pt-1 pb-1.5 rounded-full w-24 text-center ${
+                            item.status === "Approved"
+                              ? "bg-[#379941]"
+                              : item.status === "Rejected"
+                              ? "bg-[#E52020]"
+                              : "bg-customBlue"
+                          }`}
+                        >
+                          {item.status}
+                        </p>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            </>
+            )
+           }
+
+            {/* END USER HISTORY DATA */}
+              
         </>
       ),
       // End Tab content 2

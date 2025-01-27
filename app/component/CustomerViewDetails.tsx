@@ -186,6 +186,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
   }, [customer]);
 
   const reject = async (verification: string) => {
+    setIsEditFlyoutOpen(false);
     Swal.fire({
       title: "Are you sure?",
       text: "Do you really want to reject this user?",
@@ -218,6 +219,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
             });
             toast.success("Customer is rejected");
             // toast.success("Successfully get");
+            await activityLogger.rejectedUser(id,verification);
           } catch (error) {
             console.error("Customer rejection is failed:", error);
             toast.error("Customer rejection is failed");
@@ -227,6 +229,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
     });
   };
   const approve = async (verification: string) => {
+    setIsEditFlyoutOpen(false);
     Swal.fire({
       title: "Are you sure?",
       text: "Do you really want to approve this user?",
@@ -249,6 +252,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
             });
             toast.success("Customer is Approved");
             // toast.success("Successfully get");
+            await activityLogger.approvedUser(id,verification);
           } catch (error) {
             console.error("Customer is not Approved:", error);
             toast.error("Customer is not Approved");
