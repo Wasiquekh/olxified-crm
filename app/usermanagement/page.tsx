@@ -340,7 +340,7 @@ export default function Home() {
                         </p>
                       </td>
                       <td className="px-2 py-0 border border-tableBorder">
-                        <button className="py-[6px] px-8 bg-[#DCF8DC] rounded-[16px]">
+                        <button className="py-[6px] px-8 bg-[#DCF8DC] rounded-[16px] w-36">
                           <p className="text-sm leading-normal text-[#0C390C]">
                             {item.role}
                           </p>
