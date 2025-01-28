@@ -1167,8 +1167,10 @@ export default function Home() {
                         <td className="border border-gray-300 px-4 py-2">
                           {item.system_user_id}
                         </td>
-                        <td className="border border-gray-300 px-4 py-2">
+                        <td className="border border-gray-300 px-4 py-2 capitalize">
                           {item.verification_type.split("_").join(" ")}
+                          {/* {item.verification_type.split("_").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ")} */}
+
                         </td>
                         <td className="border border-gray-300 px-4 py-2">
                           {item.reason_reject || "N/A"}
