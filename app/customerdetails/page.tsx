@@ -24,6 +24,9 @@ import { useSearchParams } from "next/navigation";
 import AxiosProvider from "../../provider/AxiosProvider";
 import CustomerViewDetails from "../component/CustomerViewDetails";
 
+
+
+
 interface Customer {
   id: string;
   firstname: string;
@@ -50,6 +53,7 @@ interface Customer {
   face_id_url?: string | null;
   liveness_score?: number | null;
   face_match_score?: number | null;
+  mainStatus?: string;
   [key: string]: any; // To allow additional unknown fields
 }
 interface CustomerHistoryItem {
@@ -88,8 +92,10 @@ export default function Home() {
   const [customerHistory, setCustomerHistory] = useState<CustomerHistoryItem[]>(
     []
   );
+
   //console.log('CUSTOMER HISTORY',customerHistory)
   //console.log('SELECTED BUTTON',selectedButton)
+
   const axiosProvider = new AxiosProvider();
 
   const handleButtonClick = (button: string) => {
@@ -152,7 +158,7 @@ export default function Home() {
         setCustomerHistory(response.data.data.history);
       } catch (error) {
         console.error("Customer is not Approved:", error);
-       // toast.error("Customer history is not fetched");
+        // toast.error("Customer history is not fetched");
       }
     }
   };
@@ -198,16 +204,13 @@ export default function Home() {
                       </th>
                       <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
                         {" "}
-                        150x150px JPEG, PNG Image
-                      </th>
-                      <th className="w-[20%]">
                         {faceImageFromChild ? (
                           <Image
                             src={faceImageFromChild}
                             alt="Orizon profile"
                             width={60}
                             height={60}
-                            className="rounded-full m-auto border-2 border-[#17C653] !w-[60px] !h-[60px]"
+                            className="rounded-full  border-2 border-[#17C653] !w-[60px] !h-[60px]"
                           />
                         ) : (
                           <Image
@@ -215,10 +218,12 @@ export default function Home() {
                             alt="Orizon profile"
                             width={60}
                             height={60}
-                            className="rounded-full m-auto border-2 border-[#17C653]"
+                            className="rounded-full  border-2 border-[#17C653]"
                           />
                         )}
+                        {/* 150x150px JPEG, PNG Image */}
                       </th>
+                      <th className="w-[20%]"></th>
                     </tr>
                   </thead>
                   <thead className="h-[57px]">
@@ -545,9 +550,9 @@ export default function Home() {
                               />
                             </div>
                             <div>
-                              <p className="text-[#071437] text-sm font-medium leading-5">
+                              <button className="text-[#071437] text-sm font-medium leading-5">
                                 Id Proof.pdf
-                              </p>
+                              </button>
                               <p className="text-[#4B5675] text-xs leading-4">
                                 4.7 MB 26 Sep 2024 3:20 PM
                               </p>
@@ -1132,127 +1137,214 @@ export default function Home() {
             </div>
           </div>
           {/* USER HISTORY DATA */}
-           {
-            customerHistory.length > 0  && 
-            (
-              <>
+          {customerHistory.length > 0 && (
+            <>
               <div className="container mx-auto mt-6">
-              <h2 className="text-lg font-bold mb-4">Customer History</h2>
-              <table className="table-auto border-collapse border border-gray-300 w-full">
-                <thead>
-                  <tr>
-                    <th className="border border-gray-300 px-4 py-2">
-                      System user ID
-                    </th>
-                    <th className="border border-gray-300 px-4 py-2">
-                      Verification Type
-                    </th>
-                    <th className="border border-gray-300 px-4 py-2">
-                      Reason Rejected
-                    </th>
-                    <th className="border border-gray-300 px-4 py-2">
-                      Created At
-                    </th>
-                    <th className="border border-gray-300 px-4 py-2">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {customerHistory.map((item, index) => (
-                    <tr key={index} className="">
-                      <td className="border border-gray-300 px-4 py-2">
-                        {item.system_user_id}
-                      </td>
-                      <td className="border border-gray-300 px-4 py-2">
-                        {item.verification_type}
-                      </td>
-                      <td className="border border-gray-300 px-4 py-2">
-                        {item.reason_reject || "N/A"}
-                      </td>
-                      <td className="border border-gray-300 px-4 py-2">
-                        {new Date(item.created_at).toLocaleString()}
-                      </td>
-                      <td className="border border-gray-300 px-4 py-3">
-                        <p
-                          className={`text-[#fff] text-sm px-4 pt-1 pb-1.5 rounded-full w-24 text-center ${
-                            item.status === "Approved"
-                              ? "bg-[#379941]"
-                              : item.status === "Rejected"
-                              ? "bg-[#E52020]"
-                              : "bg-customBlue"
-                          }`}
-                        >
-                          {item.status}
-                        </p>
-                      </td>
+                <h2 className="text-lg font-bold mb-4">Customer History</h2>
+                <table className="table-auto border-collapse border border-gray-300 w-full">
+                  <thead>
+                    <tr>
+                      <th className="border border-gray-300 px-4 py-2">
+                        System User ID
+                      </th>
+                      <th className="border border-gray-300 px-4 py-2">
+                        Verification Type
+                      </th>
+                      <th className="border border-gray-300 px-4 py-2">
+                        Reason Rejected
+                      </th>
+                      <th className="border border-gray-300 px-4 py-2">
+                        Created At
+                      </th>
+                      <th className="border border-gray-300 px-4 py-2">
+                        Status
+                      </th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody>
+                    {customerHistory.map((item, index) => (
+                      <tr key={index} className="">
+                        <td className="border border-gray-300 px-4 py-2">
+                          {item.system_user_id}
+                        </td>
+                        <td className="border border-gray-300 px-4 py-2">
+                          {item.verification_type.split("_").join(" ")}
+                        </td>
+                        <td className="border border-gray-300 px-4 py-2">
+                          {item.reason_reject || "N/A"}
+                        </td>
+                        <td className="border border-gray-300 px-4 py-2">
+                          {new Date(item.created_at).toLocaleString()}
+                        </td>
+                        <td className="border border-gray-300 px-4 py-3">
+                          <p
+                            className={`text-[#fff] text-sm px-4 pt-1 pb-1.5 rounded-full w-24 text-center ${
+                              item.status === "Approved"
+                                ? "bg-[#379941]"
+                                : item.status === "Rejected"
+                                ? "bg-[#E52020]"
+                                : "bg-customBlue"
+                            }`}
+                          >
+                            {item.status}
+                          </p>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </>
-            )
-           }
+          )}
 
-            {/* END USER HISTORY DATA */}
-              
+          {/* END USER HISTORY DATA */}
         </>
       ),
       // End Tab content 2
     },
     {
-      label: "Security",
+      label: "Transaction",
       content: (
         <>
           {/* Tab content 3 */}
-          <div className=" w-full flex gap-6">
-            <div className=" w-full">
-              <p className=" text-[#333B69] text-[17px] font-medium leading-normal mb-2">
-                Controlls
-              </p>
-              <label className="inline-flex items-center cursor-pointer mt-4">
-                <input
-                  type="checkbox"
-                  value=""
-                  className="sr-only peer"
-                  readOnly
-                />
-                <div className="relative w-14 h-[30.71px] bg-gray-200 peer-focus:outline-none   rounded-full peer dark:bg-[#DFEAF2] peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[3px] after:start-[4px] after:bg-white   after:rounded-full after:h-6 after:w-6 after:transition-all  peer-checked:bg-[#16DBCC]"></div>
-                <span className="ms-3 text-base  text-[#232323] leading-normal">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                </span>
-              </label>
+          <div className="container mx-auto p-4">
+            <h2 className="text-xl font-semibold mb-4">Transaction History</h2>
+            <div className="overflow-x-auto rounded-lg shadow">
+              <table className="min-w-full bg-white">
+                <thead>
+                  <tr className="bg-blue-500 text-white">
+                    <th className="text-left px-6 py-3">Transaction ID</th>
+                    <th className="text-left px-6 py-3">Date</th>
+                    <th className="text-left px-6 py-3">Amount</th>
+                    <th className="text-left px-6 py-3">Status</th>
+                    <th className="text-left px-6 py-3">Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="bg-gray-100 hover:bg-gray-200">
+                    <td className="px-6 py-4">TXN001</td>
+                    <td className="px-6 py-4">2025-01-20</td>
+                    <td className="px-6 py-4">$250.00</td>
+                    <td className="px-6 py-4">
+                      <span className="px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                        Completed
+                      </span>
+                    </td>
+                    <td className="px-6 py-4">Payment for order #1234</td>
+                  </tr>
+                  <tr className="bg-white hover:bg-gray-200">
+                    <td className="px-6 py-4">TXN002</td>
+                    <td className="px-6 py-4">2025-01-22</td>
+                    <td className="px-6 py-4">$150.50</td>
+                    <td className="px-6 py-4">
+                      <span className="px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
+                        Pending
+                      </span>
+                    </td>
+                    <td className="px-6 py-4">Refund for order #5678</td>
+                  </tr>
+                  <tr className="bg-gray-100 hover:bg-gray-200">
+                    <td className="px-6 py-4">TXN003</td>
+                    <td className="px-6 py-4">2025-01-25</td>
+                    <td className="px-6 py-4">$300.00</td>
+                    <td className="px-6 py-4">
+                      <span className="px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800">
+                        Failed
+                      </span>
+                    </td>
+                    <td className="px-6 py-4">Payment for subscription</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-            <div className=" w-full"></div>
           </div>
-          <p className=" text-[#333B69] text-[17px] font-medium leading-normal mb-2 mt-4">
-            Change Password
-          </p>
-          <div className=" w-full">
-            <div className=" w-full flex gap-6">
-              <div className=" w-full">
-                <p className=" text-[#232323] text-base leading-normal mb-2">
-                  Current Password
-                </p>
-                <input
-                  type="password"
-                  placeholder="********"
-                  className=" focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-6"
-                />
+
+          {/* End Tab content 3 */}
+        </>
+      ),
+    },
+    {
+      label: "Card",
+      content: (
+        <>
+          {/* Tab content 3 */}
+          <div className="container mx-auto p-4">
+            {/* Card Tab Section */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+              {/* Total Transactions Card */}
+              <div className="bg-white shadow rounded-lg p-4">
+                <h3 className="text-lg font-medium text-gray-700">
+                  Total Transactions
+                </h3>
+                <p className="text-2xl font-bold text-blue-500">150</p>
               </div>
-              <div className=" w-full"></div>
+
+              {/* Total Amount Card */}
+              <div className="bg-white shadow rounded-lg p-4">
+                <h3 className="text-lg font-medium text-gray-700">
+                  Total Amount
+                </h3>
+                <p className="text-2xl font-bold text-green-500">$12,345.67</p>
+              </div>
+
+              {/* Completed Transactions Card */}
+              <div className="bg-white shadow rounded-lg p-4">
+                <h3 className="text-lg font-medium text-gray-700">
+                  Completed Transactions
+                </h3>
+                <p className="text-2xl font-bold text-emerald-500">120</p>
+              </div>
             </div>
-            <div className=" w-full flex gap-6">
-              <div className=" w-full">
-                <p className=" text-[#232323] text-base leading-normal mb-2">
-                  New Password
-                </p>
-                <input
-                  type="password"
-                  placeholder="********"
-                  className=" focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-6"
-                />
-              </div>
-              <div className=" w-full"></div>
+
+            {/* Transaction Table */}
+            <h2 className="text-xl font-semibold mb-4">Transaction History</h2>
+            <div className="overflow-x-auto rounded-lg shadow">
+              <table className="min-w-full bg-white">
+                <thead>
+                  <tr className="bg-blue-500 text-white">
+                    <th className="text-left px-6 py-3">Transaction ID</th>
+                    <th className="text-left px-6 py-3">Date</th>
+                    <th className="text-left px-6 py-3">Amount</th>
+                    <th className="text-left px-6 py-3">Status</th>
+                    <th className="text-left px-6 py-3">Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="bg-gray-100 hover:bg-gray-200">
+                    <td className="px-6 py-4">TXN001</td>
+                    <td className="px-6 py-4">2025-01-20</td>
+                    <td className="px-6 py-4">$250.00</td>
+                    <td className="px-6 py-4">
+                      <span className="px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                        Completed
+                      </span>
+                    </td>
+                    <td className="px-6 py-4">Payment for order #1234</td>
+                  </tr>
+                  <tr className="bg-white hover:bg-gray-200">
+                    <td className="px-6 py-4">TXN002</td>
+                    <td className="px-6 py-4">2025-01-22</td>
+                    <td className="px-6 py-4">$150.50</td>
+                    <td className="px-6 py-4">
+                      <span className="px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
+                        Pending
+                      </span>
+                    </td>
+                    <td className="px-6 py-4">Refund for order #5678</td>
+                  </tr>
+                  <tr className="bg-gray-100 hover:bg-gray-200">
+                    <td className="px-6 py-4">TXN003</td>
+                    <td className="px-6 py-4">2025-01-25</td>
+                    <td className="px-6 py-4">$300.00</td>
+                    <td className="px-6 py-4">
+                      <span className="px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800">
+                        Failed
+                      </span>
+                    </td>
+                    <td className="px-6 py-4">Payment for subscription</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
 
@@ -1301,7 +1393,7 @@ export default function Home() {
                       alt="Orizon profile"
                       width={100}
                       height={100}
-                      className="rounded-full mb-4 border-[3px] border-[#17C653] !w-[100px] !h-[95px]"
+                      className="rounded-full mb-4 border-[3px] border-[#17C653] !w-[100px] !h-[100px]"
                     />
                   ) : (
                     <Image
@@ -1319,7 +1411,9 @@ export default function Home() {
                       ? `${customer.firstname} ${customer.lastname}`
                       : "Loading..."}
                   </p>
-                  <MdVerified className="w-4 h-4 text-[#1B84FF] relative top-[1.5px]" />
+                  {customer && customer.mainStatus === "Approved" && (
+                    <MdVerified className="w-4 h-4 text-[#1B84FF] relative top-[1.5px]" />
+                  )}
                 </div>
                 <div className="flex justify-center items-center gap-5">
                   <div className="flex items-center justify-center gap-1">
@@ -1331,13 +1425,13 @@ export default function Home() {
                   <div className="flex items-center justify-center gap-1">
                     <PiMapPinLight className="w-[14px] h-[20px] text-[#99A1B7]" />
                     <p className="text-[#78829D] text-sm font-medium leading-5">
-                      Netherlands
+                      {customer ? customer.countryofresidence : "Loading..."}
                     </p>
                   </div>
                   <div className="flex items-center justify-center gap-1">
                     <HiOutlineEnvelope className="w-[14px] h-[20px] text-[#99A1B7]" />
                     <p className="text-[#78829D] text-sm font-medium leading-5">
-                      abc@xyz.com
+                      {customer ? customer.email : "Loading..."}
                     </p>
                   </div>
                 </div>
