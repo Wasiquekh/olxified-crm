@@ -1272,31 +1272,215 @@ export default function Home() {
           {/* Tab content 3 */}
           <div className="container mx-auto p-4">
             {/* Card Tab Section */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-              {/* Total Transactions Card */}
-              <div className="bg-white shadow rounded-lg p-4">
-                <h3 className="text-lg font-medium text-gray-700">
-                  Total Transactions
-                </h3>
-                <p className="text-2xl font-bold text-blue-500">150</p>
-              </div>
-
-              {/* Total Amount Card */}
-              <div className="bg-white shadow rounded-lg p-4">
-                <h3 className="text-lg font-medium text-gray-700">
-                  Total Amount
-                </h3>
-                <p className="text-2xl font-bold text-green-500">$12,345.67</p>
-              </div>
-
-              {/* Completed Transactions Card */}
-              <div className="bg-white shadow rounded-lg p-4">
-                <h3 className="text-lg font-medium text-gray-700">
-                  Completed Transactions
-                </h3>
-                <p className="text-2xl font-bold text-emerald-500">120</p>
-              </div>
-            </div>
+                 <div className=" flex gap-6 justify-between items-center">
+                   {/* CARD */}
+                   <div className=" w-full h-[225px] bg-cardBg rounded-2xl p-4 relative mb-8">
+                     <div className=" flex justify-between items-center mb-5">
+                       <div>
+                         <p className=" text-white text-[11px] leading-normal">
+                           Balance
+                         </p>
+                         <p className=" text-white text-base font-semibold leading-normal">
+                           $5,756
+                         </p>
+                       </div>
+                       <div>
+                         <Image
+                           src="/images/Chip_Card.svg"
+                           width={0}
+                           height={0}
+                           alt="Picture of the author"
+                           className=" w-[29px] h-full"
+                         />
+                       </div>
+                     </div>
+ 
+                     <div className=" flex justify-between items-center w-full">
+                       <div>
+                         <p className=" text-white opacity-70 text-[10px] leading-normal">
+                           CARD HOLDER
+                         </p>
+                         <p className=" text-white text-[13px] font-semibold leading-normal">
+                           Eddy Cusuma
+                         </p>
+                       </div>
+                       <div>
+                         <p className=" text-white opacity-70 text-[10px] leading-normal">
+                           VALID THRU
+                         </p>
+                         <p className=" text-white text-[13px] font-semibold leading-normal">
+                           12/22
+                         </p>
+                       </div>
+                     </div>
+                     <div className=" flex justify-between items-center bg-cardFooter absolute bottom-0 left-0 right-0 w-full h-[70px] mx-auto p-4">
+                       <p className=" text-[15pox] font-semibold text-white">
+                         3778 **** **** 1234
+                       </p>
+                       <svg
+                         xmlns="http://www.w3.org/2000/svg"
+                         width="44"
+                         height="30"
+                         viewBox="0 0 44 30"
+                         fill="none"
+                       >
+                         <circle
+                           cx="15"
+                           cy="15"
+                           r="15"
+                           fill="white"
+                           fillOpacity="0.5"
+                         />
+                         <circle
+                           cx="29"
+                           cy="15"
+                           r="15"
+                           fill="white"
+                           fillOpacity="0.5"
+                         />
+                       </svg>
+                     </div>
+                   </div>
+                   {/* END  CARD */}
+                   {/* CARD */}
+                   <div className=" w-full h-[225px] bg-card rounded-2xl p-4 relative mb-8">
+                     <div className=" flex justify-between items-center mb-5">
+                       <div>
+                         <p className=" text-white text-[11px] leading-normal">
+                           Balance
+                         </p>
+                         <p className=" text-white text-base font-semibold leading-normal">
+                           $5,756
+                         </p>
+                       </div>
+                       <div>
+                         <Image
+                           src="/images/Chip_Card.svg"
+                           width={0}
+                           height={0}
+                           alt="Picture of the author"
+                           className=" w-[29px] h-full"
+                         />
+                       </div>
+                     </div>
+ 
+                     <div className=" flex justify-between items-center w-full">
+                       <div>
+                         <p className=" text-white opacity-70 text-[10px] leading-normal">
+                           CARD HOLDER
+                         </p>
+                         <p className=" text-white text-[13px] font-semibold leading-normal">
+                           Eddy Cusuma
+                         </p>
+                       </div>
+                       <div>
+                         <p className=" text-white opacity-70 text-[10px] leading-normal">
+                           VALID THRU
+                         </p>
+                         <p className=" text-white text-[13px] font-semibold leading-normal">
+                           12/22
+                         </p>
+                       </div>
+                     </div>
+                     <div className=" flex justify-between items-center bg-cardFooter absolute bottom-0 left-0 right-0 w-full h-[70px] mx-auto p-4">
+                       <p className=" text-[15pox] font-semibold text-white">
+                         3778 **** **** 1234
+                       </p>
+                       <svg
+                         xmlns="http://www.w3.org/2000/svg"
+                         width="44"
+                         height="30"
+                         viewBox="0 0 44 30"
+                         fill="none"
+                       >
+                         <circle
+                           cx="15"
+                           cy="15"
+                           r="15"
+                           fill="white"
+                           fillOpacity="0.5"
+                         />
+                         <circle
+                           cx="29"
+                           cy="15"
+                           r="15"
+                           fill="white"
+                           fillOpacity="0.5"
+                         />
+                       </svg>
+                     </div>
+                   </div>
+                   {/* END  CARD */}
+                   {/* CARD */}
+                   <div className=" w-full h-[225px] border bg-white border-[#DFEAF2] rounded-2xl p-4 relative mb-8">
+                     <div className=" flex justify-between items-center mb-5">
+                       <div>
+                         <p className=" text-[#718EBF] text-[11px] leading-normal">
+                           Balance
+                         </p>
+                         <p className=" text-[#343C6A] text-base font-semibold leading-normal">
+                           $5,756
+                         </p>
+                       </div>
+                       <div>
+                         <Image
+                           src="/images/white-card.svg"
+                           width={0}
+                           height={0}
+                           alt="Picture of the author"
+                           className=" w-[29px] h-full"
+                         />
+                       </div>
+                     </div>
+ 
+                     <div className=" flex justify-between items-center w-full">
+                       <div>
+                         <p className=" text-[#718EBF] opacity-70 text-[10px] leading-normal">
+                           CARD HOLDER
+                         </p>
+                         <p className=" text-[#343C6A] text-[13px] font-semibold leading-normal">
+                           Eddy Cusuma
+                         </p>
+                       </div>
+                       <div>
+                         <p className=" text-[#718EBF] opacity-70 text-[10px] leading-normal">
+                           VALID THRU
+                         </p>
+                         <p className=" text-[#343C6A] text-[13px] font-semibold leading-normal">
+                           12/22
+                         </p>
+                       </div>
+                     </div>
+                     <div className=" flex justify-between items-center bg-cardFooter absolute bottom-0 left-0 right-0 w-full h-[70px] mx-auto p-4 border-t border-[#DFEAF2]">
+                       <p className=" text-[15pox] font-semibold text-[#343C6A] ">
+                         3778 **** **** 1234
+                       </p>
+                       <svg
+                         xmlns="http://www.w3.org/2000/svg"
+                         width="44"
+                         height="30"
+                         viewBox="0 0 44 30"
+                         fill="none"
+                       >
+                         <circle
+                           cx="15"
+                           cy="15"
+                           r="15"
+                           fill="#9199AF"
+                           fillOpacity="0.5"
+                         />
+                         <circle
+                           cx="29"
+                           cy="15"
+                           r="15"
+                           fill="#9199AF"
+                           fillOpacity="0.5"
+                         />
+                       </svg>
+                     </div>
+                   </div>
+                   {/* END  CARD */}
+                 </div>
 
             {/* Transaction Table */}
             <h2 className="text-xl font-semibold mb-4">Transaction History</h2>
