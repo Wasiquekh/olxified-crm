@@ -554,7 +554,7 @@ export default function Home() {
                   <thead className=" h-[100px]">
                     <tr className="border-b border-[#F1F1F4]">
                       <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
-                        <div className="flex flex-col gap-5 my-7">
+                        <div className="flex flex-col gap-5 my-3">
                           <div className=" flex items-center gap-3">
                             <div>
                               <Image
@@ -578,7 +578,7 @@ export default function Home() {
                     </tr>
                     <tr className="border-b border-[#F1F1F4]">
                       <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
-                        <div className="flex flex-col gap-5 my-7">
+                        <div className="flex flex-col gap-5 my-3">
                           <div className=" flex items-center gap-3">
                             <div>
                               <Image
@@ -602,7 +602,7 @@ export default function Home() {
                     </tr>
                     <tr className="border-b border-[#F1F1F4]">
                       <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
-                        <div className="flex flex-col gap-5 my-7">
+                        <div className="flex flex-col gap-5 my-3">
                           <div className=" flex items-center gap-3">
                             <div>
                               <Image
@@ -626,7 +626,7 @@ export default function Home() {
                     </tr>
                     <tr className="border-b border-[#F1F1F4]">
                       <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
-                        <div className="flex flex-col gap-5 my-7">
+                        <div className="flex flex-col gap-5 my-3">
                           <div className=" flex items-center gap-3">
                             <div>
                               <Image
@@ -652,7 +652,7 @@ export default function Home() {
                     </tr>
                     <tr className="border-b border-[#F1F1F4]">
                       <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
-                        <div className="flex flex-col gap-5 my-7">
+                        <div className="flex flex-col gap-5 my-3">
                           <div className=" flex items-center gap-3">
                             <div>
                               <Image
@@ -860,8 +860,8 @@ export default function Home() {
       content: (
         <>
           {/* //   Tab 2 content */}
-          <div className="flex flex-wrap flex-row gap-2">
-            <div className="w-[30%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400">
+          <div className="flex flex-wrap justify-between">
+            <div className="w-[32.5%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400 mb-4">
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="h-[50px] relative">
                   <Image
@@ -926,7 +926,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="w-[30%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400">
+            <div className="w-[32.5%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400">
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="h-[50px] relative">
                   <Image
@@ -991,7 +991,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="w-[30%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400">
+            <div className="w-[32.5%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400">
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="h-[50px] relative">
                   <Image
@@ -1060,7 +1060,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="w-[30%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400">
+            <div className="w-[32.5%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400">
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="h-[50px] relative">
                   <Image
@@ -1129,7 +1129,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="w-[30%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400">
+            <div className="w-[32.5%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400">
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="h-[50px] relative">
                   <Image
@@ -1198,7 +1198,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="w-[30%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400">
+            <div className="w-[32.5%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400">
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="h-[50px] relative">
                   <Image
