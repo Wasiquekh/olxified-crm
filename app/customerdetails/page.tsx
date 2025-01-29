@@ -3,7 +3,7 @@ import Image from "next/image";
 import Tabs from "../component/Tabs";
 import { CiSettings } from "react-icons/ci";
 import { IoIosNotificationsOutline } from "react-icons/io";
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import { useContext } from "react";
@@ -23,9 +23,7 @@ import { HiOutlineEnvelope } from "react-icons/hi2";
 import { useSearchParams } from "next/navigation";
 import AxiosProvider from "../../provider/AxiosProvider";
 import CustomerViewDetails from "../component/CustomerViewDetails";
-
-
-
+import ReactPlayer from "react-player";
 
 interface Customer {
   id: string;
@@ -89,10 +87,27 @@ export default function Home() {
   const [faceImageFromChild, setFaceImageFromChild] = useState<string | null>(
     null
   );
+  const [idEctoFromChild, setIdEctoFromChild] = useState<string | null>(null);
+  const [idVersoFromChild, setIdVersoFromChild] = useState<string | null>(null);
+  const [userSignatureFromChild, setUserSignatureFromChild] = useState<
+    string | null
+  >(null);
+  const [userVideoFromChild, setUserVideoFromChild] = useState<string | null>(
+    null
+  );
   const [customerHistory, setCustomerHistory] = useState<CustomerHistoryItem[]>(
     []
   );
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isModalOpenVideo, setIsModalOpenVideo] = useState<boolean>(false);
+  //console.log('BBBBBBBBBBBBB',isModalOpenVideo)
+  const [modalImage, setModalImage] = useState<string>("");
 
+  // Function to open modal with specific image
+  const openModal = (imageSrc: SetStateAction<string>) => {
+    setModalImage(imageSrc);
+    setIsModalOpen(true);
+  };
   //console.log('CUSTOMER HISTORY',customerHistory)
   //console.log('SELECTED BUTTON',selectedButton)
 
@@ -550,14 +565,20 @@ export default function Home() {
                               />
                             </div>
                             <div>
-                              <button className="text-[#071437] text-sm font-medium leading-5">
-                                Id Proof.pdf
+                              <button
+                                onClick={() => openModal(faceImageFromChild)}
+                                className="text-[#071437] text-sm font-medium leading-5"
+                              >
+                                User's Photo
                               </button>
-                              <p className="text-[#4B5675] text-xs leading-4">
-                                4.7 MB 26 Sep 2024 3:20 PM
-                              </p>
                             </div>
                           </div>
+                        </div>
+                      </th>
+                    </tr>
+                    <tr className="border-b border-[#F1F1F4]">
+                      <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
+                        <div className="flex flex-col gap-5 my-7">
                           <div className=" flex items-center gap-3">
                             <div>
                               <Image
@@ -568,14 +589,20 @@ export default function Home() {
                               />
                             </div>
                             <div>
-                              <p className="text-[#071437] text-sm font-medium leading-5">
-                                Id Proof.pdf
-                              </p>
-                              <p className="text-[#4B5675] text-xs leading-4">
-                                4.7 MB 26 Sep 2024 3:20 PM
-                              </p>
+                              <button
+                                onClick={() => openModal(idEctoFromChild)}
+                                className="text-[#071437] text-sm font-medium leading-5"
+                              >
+                                User's ID Card Front
+                              </button>
                             </div>
                           </div>
+                        </div>
+                      </th>
+                    </tr>
+                    <tr className="border-b border-[#F1F1F4]">
+                      <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
+                        <div className="flex flex-col gap-5 my-7">
                           <div className=" flex items-center gap-3">
                             <div>
                               <Image
@@ -586,14 +613,20 @@ export default function Home() {
                               />
                             </div>
                             <div>
-                              <p className="text-[#071437] text-sm font-medium leading-5">
-                                Id Proof.pdf
-                              </p>
-                              <p className="text-[#4B5675] text-xs leading-4">
-                                4.7 MB 26 Sep 2024 3:20 PM
-                              </p>
+                              <button
+                                onClick={() => openModal(idVersoFromChild)}
+                                className="text-[#071437] text-sm font-medium leading-5"
+                              >
+                                User's ID Card Back
+                              </button>
                             </div>
                           </div>
+                        </div>
+                      </th>
+                    </tr>
+                    <tr className="border-b border-[#F1F1F4]">
+                      <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
+                        <div className="flex flex-col gap-5 my-7">
                           <div className=" flex items-center gap-3">
                             <div>
                               <Image
@@ -604,12 +637,38 @@ export default function Home() {
                               />
                             </div>
                             <div>
-                              <p className="text-[#071437] text-sm font-medium leading-5">
-                                Id Proof.pdf
-                              </p>
-                              <p className="text-[#4B5675] text-xs leading-4">
-                                4.7 MB 26 Sep 2024 3:20 PM
-                              </p>
+                              <button
+                                onClick={() =>
+                                  openModal(userSignatureFromChild)
+                                }
+                                className="text-[#071437] text-sm font-medium leading-5"
+                              >
+                                User's Signature
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </th>
+                    </tr>
+                    <tr className="border-b border-[#F1F1F4]">
+                      <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
+                        <div className="flex flex-col gap-5 my-7">
+                          <div className=" flex items-center gap-3">
+                            <div>
+                              <Image
+                                src="/images/pdf.png"
+                                alt="Orizon profile"
+                                width={24}
+                                height={24}
+                              />
+                            </div>
+                            <div>
+                              <button
+                                onClick={() => setIsModalOpenVideo(true)}
+                                className="text-[#071437] text-sm font-medium leading-5"
+                              >
+                                User's short video
+                              </button>
                             </div>
                           </div>
                         </div>
@@ -617,6 +676,79 @@ export default function Home() {
                     </tr>
                   </thead>
                 </table>
+                {/* MODAL */}
+                {isModalOpen && (
+                  <div
+                    onClick={() => setIsModalOpen(false)}
+                    className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+                  >
+                    <div className="bg-white p-8 rounded-lg shadow-lg w-96 relative">
+                      <button
+                        onClick={() => setIsModalOpen(false)}
+                        className="absolute top-2 right-4 text-xl"
+                      >
+                        &times;
+                      </button>
+
+                      <h2 className="text-xl font-bold text-center mb-2">
+                        Modal Content
+                      </h2>
+                      <div className="">
+                        {modalImage ? (
+                          <Image
+                            src={modalImage}
+                            alt="Orizon profile"
+                            width={200}
+                            height={200}
+                            className="m-auto rounded"
+                          />
+                        ) : (
+                          <Image
+                            src="/images/Component 6.png"
+                            alt="Orizon profile"
+                            width={200}
+                            height={200}
+                            className="m-auto rounded"
+                          />
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {/* END MODAL */}
+
+                {/* MODAL Video*/}
+                {isModalOpenVideo && (
+                  <div
+                    onClick={() => setIsModalOpenVideo(false)}
+                    className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+                  >
+                    <div className="bg-white p-8 rounded-lg shadow-lg w-96 relative">
+                      <button
+                        onClick={() => setIsModalOpenVideo(false)}
+                        className="absolute top-2 right-4 text-xl"
+                      >
+                        &times;
+                      </button>
+
+                      <h2 className="text-xl font-bold text-center mb-2">
+                        Modal Content
+                      </h2>
+              <div className="custom-player-container">
+                <ReactPlayer
+                  url={userVideoFromChild}
+                  controls={true}
+                  playing={true}
+                  muted={false}
+                  className="custom-player"
+                  width="100%" // Fill the container
+                  height="100%" // Fill the container
+                />
+              </div>
+                    </div>
+                  </div>
+                )}
+                {/* END MODAL video */}
                 <div className="py-4 px-4 border-b border-[#F1F1F4] flex justify-center">
                   <p className="text-[13px] font-medium leading-[13px] text-[#1B84FF]">
                     My Files
@@ -1170,7 +1302,6 @@ export default function Home() {
                         <td className="border border-gray-300 px-4 py-2 capitalize">
                           {item.verification_type.split("_").join(" ")}
                           {/* {item.verification_type.split("_").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ")} */}
-
                         </td>
                         <td className="border border-gray-300 px-4 py-2">
                           {item.reason_reject || "N/A"}
@@ -1272,215 +1403,215 @@ export default function Home() {
           {/* Tab content 3 */}
           <div className="container mx-auto p-4">
             {/* Card Tab Section */}
-                 <div className=" flex gap-6 justify-between items-center">
-                   {/* CARD */}
-                   <div className=" w-full h-[225px] bg-cardBg rounded-2xl p-4 relative mb-8">
-                     <div className=" flex justify-between items-center mb-5">
-                       <div>
-                         <p className=" text-white text-[11px] leading-normal">
-                           Balance
-                         </p>
-                         <p className=" text-white text-base font-semibold leading-normal">
-                           $5,756
-                         </p>
-                       </div>
-                       <div>
-                         <Image
-                           src="/images/Chip_Card.svg"
-                           width={0}
-                           height={0}
-                           alt="Picture of the author"
-                           className=" w-[29px] h-full"
-                         />
-                       </div>
-                     </div>
- 
-                     <div className=" flex justify-between items-center w-full">
-                       <div>
-                         <p className=" text-white opacity-70 text-[10px] leading-normal">
-                           CARD HOLDER
-                         </p>
-                         <p className=" text-white text-[13px] font-semibold leading-normal">
-                           Eddy Cusuma
-                         </p>
-                       </div>
-                       <div>
-                         <p className=" text-white opacity-70 text-[10px] leading-normal">
-                           VALID THRU
-                         </p>
-                         <p className=" text-white text-[13px] font-semibold leading-normal">
-                           12/22
-                         </p>
-                       </div>
-                     </div>
-                     <div className=" flex justify-between items-center bg-cardFooter absolute bottom-0 left-0 right-0 w-full h-[70px] mx-auto p-4">
-                       <p className=" text-[15pox] font-semibold text-white">
-                         3778 **** **** 1234
-                       </p>
-                       <svg
-                         xmlns="http://www.w3.org/2000/svg"
-                         width="44"
-                         height="30"
-                         viewBox="0 0 44 30"
-                         fill="none"
-                       >
-                         <circle
-                           cx="15"
-                           cy="15"
-                           r="15"
-                           fill="white"
-                           fillOpacity="0.5"
-                         />
-                         <circle
-                           cx="29"
-                           cy="15"
-                           r="15"
-                           fill="white"
-                           fillOpacity="0.5"
-                         />
-                       </svg>
-                     </div>
-                   </div>
-                   {/* END  CARD */}
-                   {/* CARD */}
-                   <div className=" w-full h-[225px] bg-card rounded-2xl p-4 relative mb-8">
-                     <div className=" flex justify-between items-center mb-5">
-                       <div>
-                         <p className=" text-white text-[11px] leading-normal">
-                           Balance
-                         </p>
-                         <p className=" text-white text-base font-semibold leading-normal">
-                           $5,756
-                         </p>
-                       </div>
-                       <div>
-                         <Image
-                           src="/images/Chip_Card.svg"
-                           width={0}
-                           height={0}
-                           alt="Picture of the author"
-                           className=" w-[29px] h-full"
-                         />
-                       </div>
-                     </div>
- 
-                     <div className=" flex justify-between items-center w-full">
-                       <div>
-                         <p className=" text-white opacity-70 text-[10px] leading-normal">
-                           CARD HOLDER
-                         </p>
-                         <p className=" text-white text-[13px] font-semibold leading-normal">
-                           Eddy Cusuma
-                         </p>
-                       </div>
-                       <div>
-                         <p className=" text-white opacity-70 text-[10px] leading-normal">
-                           VALID THRU
-                         </p>
-                         <p className=" text-white text-[13px] font-semibold leading-normal">
-                           12/22
-                         </p>
-                       </div>
-                     </div>
-                     <div className=" flex justify-between items-center bg-cardFooter absolute bottom-0 left-0 right-0 w-full h-[70px] mx-auto p-4">
-                       <p className=" text-[15pox] font-semibold text-white">
-                         3778 **** **** 1234
-                       </p>
-                       <svg
-                         xmlns="http://www.w3.org/2000/svg"
-                         width="44"
-                         height="30"
-                         viewBox="0 0 44 30"
-                         fill="none"
-                       >
-                         <circle
-                           cx="15"
-                           cy="15"
-                           r="15"
-                           fill="white"
-                           fillOpacity="0.5"
-                         />
-                         <circle
-                           cx="29"
-                           cy="15"
-                           r="15"
-                           fill="white"
-                           fillOpacity="0.5"
-                         />
-                       </svg>
-                     </div>
-                   </div>
-                   {/* END  CARD */}
-                   {/* CARD */}
-                   <div className=" w-full h-[225px] border bg-white border-[#DFEAF2] rounded-2xl p-4 relative mb-8">
-                     <div className=" flex justify-between items-center mb-5">
-                       <div>
-                         <p className=" text-[#718EBF] text-[11px] leading-normal">
-                           Balance
-                         </p>
-                         <p className=" text-[#343C6A] text-base font-semibold leading-normal">
-                           $5,756
-                         </p>
-                       </div>
-                       <div>
-                         <Image
-                           src="/images/white-card.svg"
-                           width={0}
-                           height={0}
-                           alt="Picture of the author"
-                           className=" w-[29px] h-full"
-                         />
-                       </div>
-                     </div>
- 
-                     <div className=" flex justify-between items-center w-full">
-                       <div>
-                         <p className=" text-[#718EBF] opacity-70 text-[10px] leading-normal">
-                           CARD HOLDER
-                         </p>
-                         <p className=" text-[#343C6A] text-[13px] font-semibold leading-normal">
-                           Eddy Cusuma
-                         </p>
-                       </div>
-                       <div>
-                         <p className=" text-[#718EBF] opacity-70 text-[10px] leading-normal">
-                           VALID THRU
-                         </p>
-                         <p className=" text-[#343C6A] text-[13px] font-semibold leading-normal">
-                           12/22
-                         </p>
-                       </div>
-                     </div>
-                     <div className=" flex justify-between items-center bg-cardFooter absolute bottom-0 left-0 right-0 w-full h-[70px] mx-auto p-4 border-t border-[#DFEAF2]">
-                       <p className=" text-[15pox] font-semibold text-[#343C6A] ">
-                         3778 **** **** 1234
-                       </p>
-                       <svg
-                         xmlns="http://www.w3.org/2000/svg"
-                         width="44"
-                         height="30"
-                         viewBox="0 0 44 30"
-                         fill="none"
-                       >
-                         <circle
-                           cx="15"
-                           cy="15"
-                           r="15"
-                           fill="#9199AF"
-                           fillOpacity="0.5"
-                         />
-                         <circle
-                           cx="29"
-                           cy="15"
-                           r="15"
-                           fill="#9199AF"
-                           fillOpacity="0.5"
-                         />
-                       </svg>
-                     </div>
-                   </div>
-                   {/* END  CARD */}
-                 </div>
+            <div className=" flex gap-6 justify-between items-center">
+              {/* CARD */}
+              <div className=" w-full h-[225px] bg-cardBg rounded-2xl p-4 relative mb-8">
+                <div className=" flex justify-between items-center mb-5">
+                  <div>
+                    <p className=" text-white text-[11px] leading-normal">
+                      Balance
+                    </p>
+                    <p className=" text-white text-base font-semibold leading-normal">
+                      $5,756
+                    </p>
+                  </div>
+                  <div>
+                    <Image
+                      src="/images/Chip_Card.svg"
+                      width={0}
+                      height={0}
+                      alt="Picture of the author"
+                      className=" w-[29px] h-full"
+                    />
+                  </div>
+                </div>
+
+                <div className=" flex justify-between items-center w-full">
+                  <div>
+                    <p className=" text-white opacity-70 text-[10px] leading-normal">
+                      CARD HOLDER
+                    </p>
+                    <p className=" text-white text-[13px] font-semibold leading-normal">
+                      Eddy Cusuma
+                    </p>
+                  </div>
+                  <div>
+                    <p className=" text-white opacity-70 text-[10px] leading-normal">
+                      VALID THRU
+                    </p>
+                    <p className=" text-white text-[13px] font-semibold leading-normal">
+                      12/22
+                    </p>
+                  </div>
+                </div>
+                <div className=" flex justify-between items-center bg-cardFooter absolute bottom-0 left-0 right-0 w-full h-[70px] mx-auto p-4">
+                  <p className=" text-[15pox] font-semibold text-white">
+                    3778 **** **** 1234
+                  </p>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="44"
+                    height="30"
+                    viewBox="0 0 44 30"
+                    fill="none"
+                  >
+                    <circle
+                      cx="15"
+                      cy="15"
+                      r="15"
+                      fill="white"
+                      fillOpacity="0.5"
+                    />
+                    <circle
+                      cx="29"
+                      cy="15"
+                      r="15"
+                      fill="white"
+                      fillOpacity="0.5"
+                    />
+                  </svg>
+                </div>
+              </div>
+              {/* END  CARD */}
+              {/* CARD */}
+              <div className=" w-full h-[225px] bg-card rounded-2xl p-4 relative mb-8">
+                <div className=" flex justify-between items-center mb-5">
+                  <div>
+                    <p className=" text-white text-[11px] leading-normal">
+                      Balance
+                    </p>
+                    <p className=" text-white text-base font-semibold leading-normal">
+                      $5,756
+                    </p>
+                  </div>
+                  <div>
+                    <Image
+                      src="/images/Chip_Card.svg"
+                      width={0}
+                      height={0}
+                      alt="Picture of the author"
+                      className=" w-[29px] h-full"
+                    />
+                  </div>
+                </div>
+
+                <div className=" flex justify-between items-center w-full">
+                  <div>
+                    <p className=" text-white opacity-70 text-[10px] leading-normal">
+                      CARD HOLDER
+                    </p>
+                    <p className=" text-white text-[13px] font-semibold leading-normal">
+                      Eddy Cusuma
+                    </p>
+                  </div>
+                  <div>
+                    <p className=" text-white opacity-70 text-[10px] leading-normal">
+                      VALID THRU
+                    </p>
+                    <p className=" text-white text-[13px] font-semibold leading-normal">
+                      12/22
+                    </p>
+                  </div>
+                </div>
+                <div className=" flex justify-between items-center bg-cardFooter absolute bottom-0 left-0 right-0 w-full h-[70px] mx-auto p-4">
+                  <p className=" text-[15pox] font-semibold text-white">
+                    3778 **** **** 1234
+                  </p>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="44"
+                    height="30"
+                    viewBox="0 0 44 30"
+                    fill="none"
+                  >
+                    <circle
+                      cx="15"
+                      cy="15"
+                      r="15"
+                      fill="white"
+                      fillOpacity="0.5"
+                    />
+                    <circle
+                      cx="29"
+                      cy="15"
+                      r="15"
+                      fill="white"
+                      fillOpacity="0.5"
+                    />
+                  </svg>
+                </div>
+              </div>
+              {/* END  CARD */}
+              {/* CARD */}
+              <div className=" w-full h-[225px] border bg-white border-[#DFEAF2] rounded-2xl p-4 relative mb-8">
+                <div className=" flex justify-between items-center mb-5">
+                  <div>
+                    <p className=" text-[#718EBF] text-[11px] leading-normal">
+                      Balance
+                    </p>
+                    <p className=" text-[#343C6A] text-base font-semibold leading-normal">
+                      $5,756
+                    </p>
+                  </div>
+                  <div>
+                    <Image
+                      src="/images/white-card.svg"
+                      width={0}
+                      height={0}
+                      alt="Picture of the author"
+                      className=" w-[29px] h-full"
+                    />
+                  </div>
+                </div>
+
+                <div className=" flex justify-between items-center w-full">
+                  <div>
+                    <p className=" text-[#718EBF] opacity-70 text-[10px] leading-normal">
+                      CARD HOLDER
+                    </p>
+                    <p className=" text-[#343C6A] text-[13px] font-semibold leading-normal">
+                      Eddy Cusuma
+                    </p>
+                  </div>
+                  <div>
+                    <p className=" text-[#718EBF] opacity-70 text-[10px] leading-normal">
+                      VALID THRU
+                    </p>
+                    <p className=" text-[#343C6A] text-[13px] font-semibold leading-normal">
+                      12/22
+                    </p>
+                  </div>
+                </div>
+                <div className=" flex justify-between items-center bg-cardFooter absolute bottom-0 left-0 right-0 w-full h-[70px] mx-auto p-4 border-t border-[#DFEAF2]">
+                  <p className=" text-[15pox] font-semibold text-[#343C6A] ">
+                    3778 **** **** 1234
+                  </p>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="44"
+                    height="30"
+                    viewBox="0 0 44 30"
+                    fill="none"
+                  >
+                    <circle
+                      cx="15"
+                      cy="15"
+                      r="15"
+                      fill="#9199AF"
+                      fillOpacity="0.5"
+                    />
+                    <circle
+                      cx="29"
+                      cy="15"
+                      r="15"
+                      fill="#9199AF"
+                      fillOpacity="0.5"
+                    />
+                  </svg>
+                </div>
+              </div>
+              {/* END  CARD */}
+            </div>
 
             {/* Transaction Table */}
             <h2 className="text-xl font-semibold mb-4">Transaction History</h2>
@@ -1633,6 +1764,10 @@ export default function Home() {
         customer={customer}
         selectedButton={selectedButton}
         setFaceImageFromChild={setFaceImageFromChild}
+        setIdEctoFromChild={setIdEctoFromChild}
+        setIdVersoFromChild={setIdVersoFromChild}
+        setUserSignatureFromChild={setUserSignatureFromChild}
+        setUserVideoFromChild={setUserVideoFromChild}
       />
     </>
   );

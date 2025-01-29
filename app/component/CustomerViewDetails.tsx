@@ -52,6 +52,10 @@ interface CustomerViewDetailsProps {
   customer: Customer; // Add the customer property here
   selectedButton: string | null; // Allow null as a possible value
   setFaceImageFromChild: (value: string) => void;
+  setIdEctoFromChild: (value: string) => void;
+  setIdVersoFromChild: (value: string) => void;
+  setUserSignatureFromChild:  (value: string) => void;
+  setUserVideoFromChild: (value: string) => void;
 }
 
 // SidebarUserUpdateForm Component
@@ -61,6 +65,10 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
   customer,
   selectedButton,
   setFaceImageFromChild,
+  setIdEctoFromChild,
+  setIdVersoFromChild,
+  setUserSignatureFromChild,
+  setUserVideoFromChild,
 }) => {
   const [userDescription, setUserDescription] = useState<string | null>(null);
   //console.log('user desc',userDescription)
@@ -95,6 +103,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
         });
 
         setCustomerSignature(response.data.data.url);
+        setUserSignatureFromChild(response.data.data.url);
       } catch (error) {
         console.error("Error deleting user:", error);
       }
@@ -118,6 +127,8 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
         console.log("ID CARD ECTO", response);
         setIdCardEcto(response.data.data.frontImageUrl);
         setIdCardVerso(response.data.data.backImageUrl);
+        setIdEctoFromChild(response.data.data.frontImageUrl);
+        setIdVersoFromChild(response.data.data.backImageUrl);
 
         // toast.success("Successfully get");
       } catch (error) {
@@ -140,6 +151,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
         });
         //console.log('SHORT VIDEO',response.data.data.url);
         setCustomerShortVideo(response.data.data.url);
+        setUserVideoFromChild(response.data.data.url);
 
         // toast.success("Successfully get");
       } catch (error) {
