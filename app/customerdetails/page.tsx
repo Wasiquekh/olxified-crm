@@ -569,7 +569,7 @@ export default function Home() {
                                 onClick={() => openModal(faceImageFromChild)}
                                 className="text-[#071437] text-sm font-medium leading-5"
                               >
-                                User's Photo
+                                Users Photo
                               </button>
                             </div>
                           </div>
@@ -593,7 +593,7 @@ export default function Home() {
                                 onClick={() => openModal(idEctoFromChild)}
                                 className="text-[#071437] text-sm font-medium leading-5"
                               >
-                                User's ID Card Front
+                                Users ID Card Front
                               </button>
                             </div>
                           </div>
@@ -617,7 +617,7 @@ export default function Home() {
                                 onClick={() => openModal(idVersoFromChild)}
                                 className="text-[#071437] text-sm font-medium leading-5"
                               >
-                                User's ID Card Back
+                                Users ID Card Back
                               </button>
                             </div>
                           </div>
@@ -643,7 +643,7 @@ export default function Home() {
                                 }
                                 className="text-[#071437] text-sm font-medium leading-5"
                               >
-                                User's Signature
+                                Users Signature
                               </button>
                             </div>
                           </div>
@@ -667,7 +667,7 @@ export default function Home() {
                                 onClick={() => setIsModalOpenVideo(true)}
                                 className="text-[#071437] text-sm font-medium leading-5"
                               >
-                                User's short video
+                                Users short video
                               </button>
                             </div>
                           </div>
