@@ -246,7 +246,7 @@ export default function Home() {
                       <th className="w-[20%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
                         Name
                       </th>
-                      <th className="w-[60%] text-sm font-medium leading-5 text-[#252F4A] text-left pl-[20px]">
+                      <th className="w-[60%] text-sm font-medium leading-5 text-[#252F4A] text-left pl-[20px] capitalize">
                         {customer
                           ? `${customer.firstname} ${customer.lastname}`
                           : "Loading..."}
@@ -863,12 +863,14 @@ export default function Home() {
           <div className="flex flex-wrap justify-between">
             <div className="w-[32.5%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400 mb-4">
               <div className="self-stretch justify-between items-center inline-flex">
-                <div className="h-[50px] relative">
+              <div className="h-[50px] w-[50px] relative flex items-center justify-center bg-black rounded-full">
                   <Image
-                    src="/images/user.svg"
+                    src="/images/Liveness Detection.svg"
                     alt="Orizon profile"
-                    width={50}
-                    height={50}
+                    width={26}
+                    height={26}
+                    style={{ filter: "invert(100%)" }} // Makes it white
+                    className="!h-[40px]"
                   />
                   <div
                     className={`w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute rounded-xl justify-center items-center gap-2.5 inline-flex  ${
@@ -892,7 +894,7 @@ export default function Home() {
                   <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
                     <div className="px-1 bg-[#ece6f0] justify-start items-center inline-flex relative bottom-[13px]">
                       <div className="text-[#2953e8] text-xs font-normal leading-none tracking-wide">
-                        Indstructions
+                        Instructions
                       </div>
                     </div>
                     <div className="self-stretch justify-start items-center inline-flex">
@@ -928,12 +930,14 @@ export default function Home() {
             </div>
             <div className="w-[32.5%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400">
               <div className="self-stretch justify-between items-center inline-flex">
-                <div className="h-[50px] relative">
+                <div className="h-[50px] w-[50px] relative flex items-center justify-center bg-black rounded-full">
                   <Image
-                    src="/images/user.svg"
+                    src="/images/identity matching.svg"
                     alt="Orizon profile"
-                    width={50}
-                    height={50}
+                    width={26}
+                    height={26}
+                    style={{ filter: "invert(100%)" }} // Makes it white
+                    className="!h-[40px]"
                   />
                   <div
                     className={`w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute rounded-xl justify-center items-center gap-2.5 inline-flex  ${
@@ -957,7 +961,7 @@ export default function Home() {
                   <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
                     <div className="px-1 bg-[#ece6f0] justify-start items-center inline-flex relative bottom-[13px]">
                       <div className="text-[#2953e8] text-xs font-normal leading-none tracking-wide">
-                        Indstructions
+                        Instructions
                       </div>
                     </div>
                     <div className="self-stretch justify-start items-center inline-flex">
@@ -993,12 +997,14 @@ export default function Home() {
             </div>
             <div className="w-[32.5%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400">
               <div className="self-stretch justify-between items-center inline-flex">
-                <div className="h-[50px] relative">
+                <div className="h-[50px] w-[50px] relative flex items-center justify-center bg-black rounded-full">
                   <Image
-                    src="/images/user.svg"
+                    src="/images/User Detail Verification.svg"
                     alt="Orizon profile"
-                    width={50}
-                    height={50}
+                    width={26}
+                    height={26}
+                    style={{ filter: "invert(100%)" }} // Makes it white
+                    className="!h-[40px]"
                   />
                   <div
                     className={`w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute rounded-xl justify-center items-center gap-2.5 inline-flex  ${
@@ -1026,7 +1032,7 @@ export default function Home() {
                   <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
                     <div className="px-1 bg-[#ece6f0] justify-start items-center inline-flex relative bottom-[13px]">
                       <div className="text-[#2953e8] text-xs font-normal leading-none tracking-wide">
-                        Indstructions
+                        Instructions
                       </div>
                     </div>
                     <div className="self-stretch justify-start items-center inline-flex">
@@ -1062,12 +1068,14 @@ export default function Home() {
             </div>
             <div className="w-[32.5%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400">
               <div className="self-stretch justify-between items-center inline-flex">
-                <div className="h-[50px] relative">
+              <div className="h-[50px] w-[50px] relative flex items-center justify-center bg-black rounded-full">
                   <Image
-                    src="/images/user.svg"
+                    src="/images/Scanned ID Card Verification.svg"
                     alt="Orizon profile"
-                    width={50}
-                    height={50}
+                    width={26}
+                    height={26}
+                    style={{ filter: "invert(100%)" }} // Makes it white
+                    className="!h-[40px]"
                   />
                   <div
                     className={`w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute rounded-xl justify-center items-center gap-2.5 inline-flex  ${
@@ -1095,7 +1103,7 @@ export default function Home() {
                   <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
                     <div className="px-1 bg-[#ece6f0] justify-start items-center inline-flex relative bottom-[13px]">
                       <div className="text-[#2953e8] text-xs font-normal leading-none tracking-wide">
-                        Indstructions
+                        Instructions
                       </div>
                     </div>
                     <div className="self-stretch justify-start items-center inline-flex">
@@ -1131,12 +1139,14 @@ export default function Home() {
             </div>
             <div className="w-[32.5%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400">
               <div className="self-stretch justify-between items-center inline-flex">
-                <div className="h-[50px] relative">
+              <div className="h-[50px] w-[50px] relative flex items-center justify-center bg-black rounded-full">
                   <Image
-                    src="/images/user.svg"
+                    src="/images/Five Second Video Verification.svg"
                     alt="Orizon profile"
-                    width={50}
-                    height={50}
+                    width={26}
+                    height={26}
+                    style={{ filter: "invert(100%)" }} // Makes it white
+                    className="!h-[40px]"
                   />
                   <div
                     className={`w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute rounded-xl justify-center items-center gap-2.5 inline-flex  ${
@@ -1164,7 +1174,7 @@ export default function Home() {
                   <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
                     <div className="px-1 bg-[#ece6f0] justify-start items-center inline-flex relative bottom-[13px]">
                       <div className="text-[#2953e8] text-xs font-normal leading-none tracking-wide">
-                        Indstructions
+                        Instructions
                       </div>
                     </div>
                     <div className="self-stretch justify-start items-center inline-flex">
@@ -1200,12 +1210,14 @@ export default function Home() {
             </div>
             <div className="w-[32.5%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400">
               <div className="self-stretch justify-between items-center inline-flex">
-                <div className="h-[50px] relative">
+              <div className="h-[50px] w-[50px] relative flex items-center justify-center bg-black rounded-full">
                   <Image
-                    src="/images/user.svg"
+                    src="/images/Signature Verification.svg"
                     alt="Orizon profile"
-                    width={50}
-                    height={50}
+                    width={26}
+                    height={26}
+                    style={{ filter: "invert(100%)" }} // Makes it white
+                    className="!h-[40px]"
                   />
                   <div
                     className={`w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute rounded-xl justify-center items-center gap-2.5 inline-flex  ${
@@ -1233,7 +1245,7 @@ export default function Home() {
                   <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
                     <div className="px-1 bg-[#ece6f0] justify-start items-center inline-flex relative bottom-[13px]">
                       <div className="text-[#2953e8] text-xs font-normal leading-none tracking-wide">
-                        Indstructions
+                        Instructions
                       </div>
                     </div>
                     <div className="self-stretch justify-start items-center inline-flex">
@@ -1723,7 +1735,7 @@ export default function Home() {
                   )}
                 </div>
                 <div className="flex items-center justify-center gap-1 mb-4">
-                  <p className="text-[#071437] text-lg font-semibold leading-5">
+                  <p className="text-[#071437] text-lg font-semibold leading-5 capitalize">
                     {customer
                       ? `${customer.firstname} ${customer.lastname}`
                       : "Loading..."}

@@ -419,32 +419,32 @@ export default function Home() {
                         <div className="">
                         </div>
                         <div>
-                          <p className=" text-[#0A0A0A] text-base font-semibold leading-normal">
+                          <p className=" text-[#232323] text-base font-semibold leading-normal">
                             {item.firstname} {item.lastname}
                             {/* ({item.gender}) */}
                           </p>
-                          <p className=" text-[#717171] text-sm leading-normal">
+                          <p className=" text-[#232323] text-sm leading-normal">
                             {item.birthdate}
                           </p>
                         </div>
                       </td>
                       <td className=" px-2 py-2 border border-tableBorder">
-                        <p className=" text-[#717171] text-base leading-normal">
+                        <p className=" text-[#232323] text-base leading-normal">
                           {item.countryofbirth}
                         </p>
                       </td>
                       <td className="px-2 py-0 border border-tableBorder">
-                        <p className=" text-[#717171] text-base leading-normal">
+                        <p className=" text-[#232323] text-base leading-normal">
                           {item.gender}
                         </p>
                       </td>
                       <td className="px-2 py-0 border border-tableBorder">
-                        <p className=" text-[#717171] text-base leading-normal">
+                        <p className=" text-[#232323] text-base leading-normal">
                           {item.countryofresidence}
                         </p>
                       </td>
                       <td className="px-2 py-0 border border-tableBorder">
-                        <p className=" text-[#717171] text-base leading-normal">
+                        <p className=" text-[#232323] text-base leading-normal">
                           {item.mobilephonenumber}
                         </p>
                       </td>
@@ -492,7 +492,7 @@ export default function Home() {
                 >
                   <HiChevronDoubleLeft className=" w-6 h-auto" />
                 </button>
-                <span className="text-[#717171] text-sm">
+                <span className="text-[#232323] text-sm">
                   Page {filterPage} of {totalPagesFilter}
                 </span>
                 <button
