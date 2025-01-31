@@ -238,10 +238,11 @@ export default function Home() {
             </div>
             <div className=" w-[50px] h-[50px]  rounded-full flex justify-center items-center">
               <Image
-                src="/images/profile.png"
+                src="/images/dummy-image.jpg"
                 alt="Orizon profile"
                 width={50}
                 height={50}
+                className="rounded-full border-2 border-[#17C653]"
               />
             </div>
           </div>

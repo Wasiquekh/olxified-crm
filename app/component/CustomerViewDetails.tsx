@@ -54,7 +54,7 @@ interface CustomerViewDetailsProps {
   setFaceImageFromChild: (value: string) => void;
   setIdEctoFromChild: (value: string) => void;
   setIdVersoFromChild: (value: string) => void;
-  setUserSignatureFromChild:  (value: string) => void;
+  setUserSignatureFromChild: (value: string) => void;
   setUserVideoFromChild: (value: string) => void;
 }
 
@@ -231,7 +231,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
             });
             toast.success("Customer is rejected");
             // toast.success("Successfully get");
-            await activityLogger.rejectedUser(id,verification);
+            await activityLogger.rejectedUser(id, verification);
           } catch (error) {
             console.error("Customer rejection is failed:", error);
             toast.error("Customer rejection is failed");
@@ -264,7 +264,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
             });
             toast.success("Customer is Approved");
             // toast.success("Successfully get");
-            await activityLogger.approvedUser(id,verification);
+            await activityLogger.approvedUser(id, verification);
           } catch (error) {
             console.error("Customer is not Approved:", error);
             toast.error("Customer is not Approved");
@@ -292,12 +292,16 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
             <div className="px-0 py-0 bg-white rounded-xl flex-col justify-start items-start gap-5 inline-flex w-full">
               <div className=" flex justify-between items-center w-full ">
                 <div className=" justify-center items-center gap-4 inline-flex">
-                  <Image
-                    src="/images/user.svg"
-                    alt="Orizon profile"
-                    width={50}
-                    height={50}
-                  />
+                  <div className="h-[50px] w-[50px] flex items-center justify-center bg-black !rounded-full w-full>">
+                    <Image
+                      src="/images/Liveness Detection.svg"
+                      alt="Orizon profile"
+                      width={26}
+                      height={26}
+                      style={{ filter: "invert(100%)" }} // Makes it white
+                      className="!h-[40px]"
+                    />
+                  </div>
                   <div className=" px-7 py-3 bg-[#2db3ff] rounded-xl ">
                     <div className="OnProgress text-white text-sm font-semibold">
                       On Progress
@@ -325,7 +329,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                   alt="Orizon profile"
                   width={200}
                   height={200}
-                     className="!h-[200px] !w-[245px] rounded"
+                  className="!h-[200px] !w-[245px] rounded"
                 />
               ) : (
                 <Image
@@ -333,7 +337,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                   alt="Orizon profile"
                   width={200}
                   height={200}
-                    className="!h-[200px] !w-[245px] rounded"
+                  className="!h-[200px] !w-[245px] rounded"
                 />
               )}
               {livenessScore ? (
@@ -374,12 +378,16 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
             <div className="px-0 py-0 bg-white rounded-xl flex-col justify-start items-start gap-5 inline-flex w-full">
               <div className=" flex justify-between items-center w-full ">
                 <div className=" justify-center items-center gap-4 inline-flex">
-                  <Image
-                    src="/images/user.svg"
-                    alt="Orizon profile"
-                    width={50}
-                    height={50}
-                  />
+                  <div className="h-[50px] w-[50px] flex items-center justify-center bg-black !rounded-full w-full>">
+                    <Image
+                      src="/images/Identity Matching.svg"
+                      alt="Orizon profile"
+                      width={26}
+                      height={26}
+                      style={{ filter: "invert(100%)" }} // Makes it white
+                      className="!h-[40px]"
+                    />
+                  </div>
                   <div className=" px-7 py-3 bg-[#2db3ff] rounded-xl ">
                     <div className="OnProgress text-white text-sm font-semibold">
                       On Progress
@@ -479,12 +487,16 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
             <div className="px-0 py-0 bg-white rounded-xl flex-col justify-start items-start gap-5 inline-flex w-full">
               <div className=" flex justify-between items-center w-full ">
                 <div className=" justify-center items-center gap-4 inline-flex">
-                  <Image
-                    src="/images/user.svg"
-                    alt="Orizon profile"
-                    width={50}
-                    height={50}
-                  />
+                  <div className="h-[50px] w-[50px] flex items-center justify-center bg-black !rounded-full w-full>">
+                    <Image
+                      src="/images/User Detail Verification.svg"
+                      alt="Orizon profile"
+                      width={26}
+                      height={26}
+                      style={{ filter: "invert(100%)" }} // Makes it white
+                      className="!h-[40px]"
+                    />
+                  </div>
                   <div className=" px-7 py-3 bg-[#2db3ff] rounded-xl ">
                     <div className="OnProgress text-white text-sm font-semibold">
                       On Progress
@@ -566,12 +578,16 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
             <div className="px-0 py-0 bg-white rounded-xl flex-col justify-start items-start gap-5 inline-flex w-full">
               <div className=" flex justify-between items-center w-full ">
                 <div className=" justify-center items-center gap-4 inline-flex">
-                  <Image
-                    src="/images/user.svg"
-                    alt="Orizon profile"
-                    width={50}
-                    height={50}
-                  />
+                  <div className="h-[50px] w-[50px] flex items-center justify-center bg-black !rounded-full w-full>">
+                    <Image
+                      src="/images/Scanned ID Card Verification.svg"
+                      alt="Orizon profile"
+                      width={26}
+                      height={26}
+                      style={{ filter: "invert(100%)" }} // Makes it white
+                      className="!h-[40px]"
+                    />
+                  </div>
                   <div className=" px-7 py-3 bg-[#2db3ff] rounded-xl ">
                     <div className="OnProgress text-white text-sm font-semibold">
                       On Progress
@@ -656,12 +672,16 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
             <div className="px-0 py-0 bg-white rounded-xl flex-col justify-start items-start gap-5 inline-flex w-full">
               <div className=" flex justify-between items-center w-full ">
                 <div className=" justify-center items-center gap-4 inline-flex">
-                  <Image
-                    src="/images/user.svg"
-                    alt="Orizon profile"
-                    width={50}
-                    height={50}
-                  />
+                  <div className="h-[50px] w-[50px] flex items-center justify-center bg-black !rounded-full w-full>">
+                    <Image
+                      src="/images/Five Second Video Verification.svg"
+                      alt="Orizon profile"
+                      width={26}
+                      height={26}
+                      style={{ filter: "invert(100%)" }} // Makes it white
+                      className="!h-[40px]"
+                    />
+                  </div>
                   <div className=" px-7 py-3 bg-[#2db3ff] rounded-xl ">
                     <div className="OnProgress text-white text-sm font-semibold">
                       On Progress
@@ -681,17 +701,28 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
               <div className="LivenessDetection w-[279px] text-[#0e0e0e] text-base font-medium">
                 Five Second Video Verification
               </div>
-              <div className="custom-player-container">
-                <ReactPlayer
-                  url={customerShortVideo}
-                  controls={true}
-                  playing={true}
-                  muted={false}
-                  className="custom-player"
-                  width="100%" // Fill the container
-                  height="100%" // Fill the container
+              {customerShortVideo ? (
+                <div className="custom-player-container">
+                  <ReactPlayer
+                    url={customerShortVideo}
+                    controls={true}
+                    playing={true}
+                    muted={false}
+                    className="custom-player"
+                    width="100%" // Fill the container
+                    height="100%" // Fill the container
+                  />
+                </div>
+              ) : (
+                <Image
+                  src="/images/novideo.jpg"
+                  alt="Orizon profile"
+                  width={200}
+                  height={200}
+                  className="!h-[200px] !w-[245px] rounded"
                 />
-              </div>
+              )}
+
               <div className=" flex justify-between w-full">
                 <button
                   onClick={() => approve("five_second_face_video_verification")}
@@ -714,12 +745,16 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
             <div className="px-0 py-0 bg-white rounded-xl flex-col justify-start items-start gap-5 inline-flex w-full">
               <div className=" flex justify-between items-center w-full ">
                 <div className=" justify-center items-center gap-4 inline-flex">
-                  <Image
-                    src="/images/user.svg"
-                    alt="Orizon profile"
-                    width={50}
-                    height={50}
-                  />
+                  <div className="h-[50px] w-[50px] flex items-center justify-center bg-black !rounded-full w-full>">
+                    <Image
+                      src="/images/Signature Verification.svg"
+                      alt="Orizon profile"
+                      width={26}
+                      height={26}
+                      style={{ filter: "invert(100%)" }} // Makes it white
+                      className="!h-[40px]"
+                    />
+                  </div>
                   <div className=" px-7 py-3 bg-[#2db3ff] rounded-xl ">
                     <div className="OnProgress text-white text-sm font-semibold">
                       On Progress
@@ -750,12 +785,12 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                 />
               ) : (
                 <Image
-                src='images/dummy-image.jpg'
-                alt="Orizon profile"
-                width={200}
-                height={200}
-                className="!h-[200px] !w-[245px] rounded"
-              />
+                  src="/images/dummy-image.jpg"
+                  alt="Orizon profile"
+                  width={200}
+                  height={200}
+                  className="!h-[200px] !w-[245px] rounded"
+                />
               )}
               <div className=" flex justify-between w-full">
                 <button

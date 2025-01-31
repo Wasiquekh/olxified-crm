@@ -288,10 +288,11 @@ export default function Home() {
             </div>
             <div className=" w-[50px] h-[50px]  rounded-full flex justify-center items-center">
               <Image
-                src="/images/profile.png"
+                src="/images/dummy-image.jpg"
                 alt="Orizon profile"
                 width={50}
                 height={50}
+                className="rounded-full border-2 border-[#17C653]"
               />
             </div>
           </div>
@@ -444,33 +445,33 @@ export default function Home() {
                     >
                       <td className=" px-2 py-2 border border-tableBorder flex items-center gap-2">
                         <div>
-                          <p className=" text-[#717171] text-base font-semibold leading-normal">
+                          <p className=" text-[#232323] text-base  leading-normal">
                             {item.user_activity}
                           </p>
                         </div>
                       </td>
                       <td className=" px-2 py-2 border border-tableBorder">
-                        <p className=" text-[#717171] text-base leading-normal">
+                        <p className=" text-[#232323] text-base leading-normal">
                           {item.name}
                         </p>
                       </td>
                       <td className=" px-2 py-2 border border-tableBorder">
-                        <p className=" text-[#717171] text-base leading-normal">
+                        <p className=" text-[#232323] text-base leading-normal">
                           {item.uuid}
                         </p>
                       </td>
                       <td className=" px-2 py-2 border border-tableBorder">
-                        <p className=" text-[#717171] text-base leading-normal">
+                        <p className=" text-[#232323] text-base leading-normal">
                           {item.activity_timestamp}
                         </p>
                       </td>
                       <td className=" px-2 py-2 border border-tableBorder">
-                        <p className=" text-[#717171] text-base leading-normal">
+                        <p className=" text-[#232323] text-base leading-normal">
                           {item.module}
                         </p>
                       </td>
                       <td className=" px-2 py-2 border border-tableBorder">
-                        <p className=" text-[#717171] text-base leading-normal">
+                        <p className=" text-[#232323] text-base leading-normal">
                           {item.type}
                         </p>
                       </td>

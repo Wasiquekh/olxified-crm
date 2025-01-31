@@ -181,10 +181,11 @@ export default function Home() {
             </div>
             <div className=" w-[50px] h-[50px]  rounded-full flex justify-center items-center">
               <Image
-                src="/images/profile.png"
+                src="/images/dummy-image.jpg"
                 alt="Orizon profile"
                 width={50}
                 height={50}
+                className="rounded-full border-2 border-[#17C653]"
               />
             </div>
           </div>
@@ -288,19 +289,19 @@ export default function Home() {
                     >
                       <td className="px-4 py-2 border border-tableBorder flex items-center gap-2">
                         <div>
-                          <p className="text-[#0A0A0A] text-base font-semibold leading-normal mb-[6px]">
+                          <p className="text-[#232323] text-base font-semibold leading-normal mb-[6px]">
                             {item.name}
                           </p>
                           <p
                             key={item.email}
-                            className="text-[#717171] text-sm leading-normal"
+                            className="text-[#232323] text-sm leading-normal"
                           >
                             {item.email}
                           </p>
                         </div>
                       </td>
                       <td className="px-2 py-0 border border-tableBorder">
-                        <p className="text-[#717171] text-base leading-normal">
+                        <p className="text-[#232323] text-base leading-normal">
                           {item.mobile_number}
                         </p>
                       </td>

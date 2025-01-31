@@ -229,11 +229,11 @@ export default function Home() {
                           />
                         ) : (
                           <Image
-                            src="/images/Component 6.png"
+                            src="/images/dummy-image.jpg"
                             alt="Orizon profile"
                             width={60}
                             height={60}
-                            className="rounded-full  border-2 border-[#17C653]"
+                            className="rounded-full  border-2 border-[#17C653] !w-[60px] !h-[60px]"
                           />
                         )}
                         {/* 150x150px JPEG, PNG Image */}
@@ -567,7 +567,7 @@ export default function Home() {
                             <div>
                               <button
                                 onClick={() => openModal(faceImageFromChild)}
-                                className="text-[#071437] text-sm font-medium leading-5"
+                                className="text-[#1B84FF] text-sm font-medium leading-5"
                               >
                                 Users Photo
                               </button>
@@ -591,7 +591,7 @@ export default function Home() {
                             <div>
                               <button
                                 onClick={() => openModal(idEctoFromChild)}
-                                className="text-[#071437] text-sm font-medium leading-5"
+                                className="text-[#1B84FF] text-sm font-medium leading-5"
                               >
                                 Users ID Card Front
                               </button>
@@ -615,7 +615,7 @@ export default function Home() {
                             <div>
                               <button
                                 onClick={() => openModal(idVersoFromChild)}
-                                className="text-[#071437] text-sm font-medium leading-5"
+                                className="text-[#1B84FF] text-sm font-medium leading-5"
                               >
                                 Users ID Card Back
                               </button>
@@ -641,7 +641,7 @@ export default function Home() {
                                 onClick={() =>
                                   openModal(userSignatureFromChild)
                                 }
-                                className="text-[#071437] text-sm font-medium leading-5"
+                                className="text-[#1B84FF] text-sm font-medium leading-5"
                               >
                                 Users Signature
                               </button>
@@ -665,7 +665,7 @@ export default function Home() {
                             <div>
                               <button
                                 onClick={() => setIsModalOpenVideo(true)}
-                                className="text-[#071437] text-sm font-medium leading-5"
+                                className="text-[#1B84FF] text-sm font-medium leading-5"
                               >
                                 Users short video
                               </button>
@@ -704,7 +704,7 @@ export default function Home() {
                           />
                         ) : (
                           <Image
-                            src="/images/Component 6.png"
+                            src="/images/dummy-image.jpg"
                             alt="Orizon profile"
                             width={200}
                             height={200}
@@ -734,17 +734,27 @@ export default function Home() {
                       <h2 className="text-xl font-bold text-center mb-2">
                         Modal Content
                       </h2>
-              <div className="custom-player-container">
-                <ReactPlayer
-                  url={userVideoFromChild}
-                  controls={true}
-                  playing={true}
-                  muted={false}
-                  className="custom-player"
-                  width="100%" // Fill the container
-                  height="100%" // Fill the container
-                />
-              </div>
+                      {userVideoFromChild ? (
+                        <div className="custom-player-container">
+                          <ReactPlayer
+                            url={userVideoFromChild}
+                            controls={true}
+                            playing={true}
+                            muted={false}
+                            className="custom-player"
+                            width="100%" // Fill the container
+                            height="100%" // Fill the container
+                          />
+                        </div>
+                      ) : (
+                        <Image
+                          src="/images/novideo.jpg"
+                          alt="Orizon profile"
+                          width={200}
+                          height={200}
+                          className="m-auto rounded"
+                        />
+                      )}
                     </div>
                   </div>
                 )}
@@ -863,7 +873,7 @@ export default function Home() {
           <div className="flex flex-wrap justify-between">
             <div className="w-[32.5%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400 mb-4">
               <div className="self-stretch justify-between items-center inline-flex">
-              <div className="h-[50px] w-[50px] relative flex items-center justify-center bg-black rounded-full">
+                <div className="h-[50px] w-[50px] relative flex items-center justify-center bg-black rounded-full">
                   <Image
                     src="/images/Liveness Detection.svg"
                     alt="Orizon profile"
@@ -967,7 +977,7 @@ export default function Home() {
                     <div className="self-stretch justify-start items-center inline-flex">
                       <div className="w-[258px] h-12 text-[#414349] text-sm font-normal leading-normal tracking-wide">
                         <li>The face should be clear</li>
-                        <li>Liveness score should be 90%</li>
+                        <li>The face should be match</li>
                       </div>
                     </div>
                   </div>
@@ -1037,8 +1047,8 @@ export default function Home() {
                     </div>
                     <div className="self-stretch justify-start items-center inline-flex">
                       <div className="w-[258px] h-12 text-[#414349] text-sm font-normal leading-normal tracking-wide">
-                        <li>The face should be clear</li>
-                        <li>Liveness score should be 90%</li>
+                        <li>Check all details</li>
+                        <li>All details should be valid</li>
                       </div>
                     </div>
                   </div>
@@ -1068,7 +1078,7 @@ export default function Home() {
             </div>
             <div className="w-[32.5%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400">
               <div className="self-stretch justify-between items-center inline-flex">
-              <div className="h-[50px] w-[50px] relative flex items-center justify-center bg-black rounded-full">
+                <div className="h-[50px] w-[50px] relative flex items-center justify-center bg-black rounded-full">
                   <Image
                     src="/images/Scanned ID Card Verification.svg"
                     alt="Orizon profile"
@@ -1108,8 +1118,8 @@ export default function Home() {
                     </div>
                     <div className="self-stretch justify-start items-center inline-flex">
                       <div className="w-[258px] h-12 text-[#414349] text-sm font-normal leading-normal tracking-wide">
-                        <li>The face should be clear</li>
-                        <li>Liveness score should be 90%</li>
+                        <li>The id card should be clear</li>
+                        <li>Both images will be same id card</li>
                       </div>
                     </div>
                   </div>
@@ -1139,7 +1149,7 @@ export default function Home() {
             </div>
             <div className="w-[32.5%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400">
               <div className="self-stretch justify-between items-center inline-flex">
-              <div className="h-[50px] w-[50px] relative flex items-center justify-center bg-black rounded-full">
+                <div className="h-[50px] w-[50px] relative flex items-center justify-center bg-black rounded-full">
                   <Image
                     src="/images/Five Second Video Verification.svg"
                     alt="Orizon profile"
@@ -1179,8 +1189,8 @@ export default function Home() {
                     </div>
                     <div className="self-stretch justify-start items-center inline-flex">
                       <div className="w-[258px] h-12 text-[#414349] text-sm font-normal leading-normal tracking-wide">
-                        <li>The face should be clear</li>
-                        <li>Liveness score should be 90%</li>
+                        <li>The video should be clear</li>
+                        <li>Video should be human being</li>
                       </div>
                     </div>
                   </div>
@@ -1210,7 +1220,7 @@ export default function Home() {
             </div>
             <div className="w-[32.5%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400">
               <div className="self-stretch justify-between items-center inline-flex">
-              <div className="h-[50px] w-[50px] relative flex items-center justify-center bg-black rounded-full">
+                <div className="h-[50px] w-[50px] relative flex items-center justify-center bg-black rounded-full">
                   <Image
                     src="/images/Signature Verification.svg"
                     alt="Orizon profile"
@@ -1250,8 +1260,8 @@ export default function Home() {
                     </div>
                     <div className="self-stretch justify-start items-center inline-flex">
                       <div className="w-[258px] h-12 text-[#414349] text-sm font-normal leading-normal tracking-wide">
-                        <li>The face should be clear</li>
-                        <li>Liveness score should be 90%</li>
+                        <li>The signarure should be clear</li>
+                        <li>Chekc valid signature</li>
                       </div>
                     </div>
                   </div>
@@ -1705,10 +1715,11 @@ export default function Home() {
             </div>
             <div className=" w-[50px] h-[50px]  rounded-full flex justify-center items-center">
               <Image
-                src="/images/profile.png"
+                src="/images/dummy-image.jpg"
                 alt="Orizon profile"
                 width={50}
                 height={50}
+                className="rounded-full border-2 border-[#17C653]"
               />
             </div>
           </div>
@@ -1726,11 +1737,11 @@ export default function Home() {
                     />
                   ) : (
                     <Image
-                      src="/images/300-1.png.png"
+                      src="/images/dummy-image.jpg"
                       alt="Orizon profile"
                       width={100}
                       height={100}
-                      className="rounded-full mb-4 !w-[100px] !h-[100px]"
+                      className="rounded-full mb-4 border-[3px] border-[#17C653] !w-[100px] !h-[100px]"
                     />
                   )}
                 </div>
@@ -1757,6 +1768,14 @@ export default function Home() {
                       {customer ? customer.countryofresidence : "Loading..."}
                     </p>
                   </div>
+                  {customer?.email && (
+                    <div className="flex items-center justify-center gap-1">
+                      <HiOutlineEnvelope className="w-[14px] h-[20px] text-[#99A1B7]" />
+                      <p className="text-[#78829D] text-sm font-medium leading-5">
+                        {customer ? customer.email : "Loading..."}
+                      </p>
+                    </div>
+                  )}
                   <div className="flex items-center justify-center gap-1">
                     <HiOutlineEnvelope className="w-[14px] h-[20px] text-[#99A1B7]" />
                     <p className="text-[#78829D] text-sm font-medium leading-5">
