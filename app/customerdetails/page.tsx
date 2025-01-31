@@ -1047,7 +1047,7 @@ export default function Home() {
                     </div>
                     <div className="self-stretch justify-start items-center inline-flex">
                       <div className="w-[258px] h-12 text-[#414349] text-sm font-normal leading-normal tracking-wide">
-                        <li>Check all details</li>
+                        <li>Check all details over call</li>
                         <li>All details should be valid</li>
                       </div>
                     </div>
@@ -1119,7 +1119,7 @@ export default function Home() {
                     <div className="self-stretch justify-start items-center inline-flex">
                       <div className="w-[258px] h-12 text-[#414349] text-sm font-normal leading-normal tracking-wide">
                         <li>The id card should be clear</li>
-                        <li>Both images will be same id card</li>
+                        <li>Both images will be from same id card</li>
                       </div>
                     </div>
                   </div>
@@ -1261,7 +1261,7 @@ export default function Home() {
                     <div className="self-stretch justify-start items-center inline-flex">
                       <div className="w-[258px] h-12 text-[#414349] text-sm font-normal leading-normal tracking-wide">
                         <li>The signarure should be clear</li>
-                        <li>Chekc valid signature</li>
+                        <li>Check valid signature</li>
                       </div>
                     </div>
                   </div>
