@@ -303,7 +303,7 @@ export default function Home() {
                 User Activity
               </p>
               <div className=" flex gap-2 ml-[1px] items-center">
-                <p className=" text-[#717171] text-xl ">Customers</p>
+                <p className=" text-[#717171] text-xl ">User activity</p>
                 <FaGreaterThan className=" text-[#717171]" />
                 <p className=" text-[#0A0A0A] text-xl font-semibold ">
                   Recently added

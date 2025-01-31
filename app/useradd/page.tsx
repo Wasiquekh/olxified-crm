@@ -87,15 +87,6 @@ export default function Home() {
       content: (
         <>
           <div className="flex gap-8 pt-8">
-            <div>
-              <Image
-                src="/images/user.png"
-                alt="Orizon profile"
-                width={150}
-                height={150}
-                className="rounded-full"
-              />
-            </div>
             <Formik
               initialValues={{
                 name: "",
@@ -407,10 +398,11 @@ export default function Home() {
             </div>
             <div className=" w-[50px] h-[50px]  rounded-full flex justify-center items-center">
               <Image
-                src="/images/profile.png"
+                src="/images/dummy-image.jpg"
                 alt="Orizon profile"
                 width={50}
                 height={50}
+                className="rounded-full border-2 border-[#17C653]"
               />
             </div>
           </div>

@@ -335,43 +335,49 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
             )}
           </Formik>
         ) : (
-          <div className=" w-full">
-            <div className=" flex justify-between">
-              <p>Name</p>
-              <p>Description</p>
-              <p>Action</p>
-            </div>
-            <div className=" flex justify-between">
-              <p>{currentUserData.name}</p>
-              <input
-                type="text"
-                value={userDescription ? userDescription : "No Description"}
-                className=" border"
-              />
-              {userDescription ? (
-                <button
-                  onClick={hanldleDelete}
-                  className=" py-[6px] px-4 bg-[#FFD0D1]  flex gap-1.5 items-center rounded-full"
-                >
-                  <RiDeleteBin6Line className=" text-[#FF1C1F] w-4 h-4" />
-                  <p className=" text-sm leading-normal text-[#FF1C1F]">
-                    Delete
-                  </p>
-                </button>
-              ) : (
-                <button
-                  onClick={hanldleDelete}
-                  disabled
-                  className=" py-[6px] px-4 bg-[#FFD0D1]  flex gap-1.5 items-center rounded-full cursor-not-allowed opacity-85"
-                >
-                  <RiDeleteBin6Line className=" text-[#FF1C1F] w-4 h-4" />
-                  <p className=" text-sm leading-normal text-[#FF1C1F]">
-                    Deleted
-                  </p>
-                </button>
-              )}
-            </div>
-          </div>
+          <div className="w-full border rounded-lg p-4 shadow-md">
+          <table className="w-full border-collapse border border-gray-300">
+            <thead>
+              <tr className=" border-b">
+                <th className="text-left p-2 border text-[#0A0A0A] font-medium text-base leading-6">Name</th>
+                <th className="text-left p-2 border text-[#0A0A0A] font-medium text-base leading-6">Description</th>
+                <th className="text-left p-2 border text-[#0A0A0A] font-medium text-base leading-6">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b">
+                <td className="p-2 border">{currentUserData.name}</td>
+                <td className="p-2 border">
+                  <input
+                    type="text"
+                    value={userDescription || "No Description"}
+                    className="border px-2 py-1 rounded w-full"
+                    readOnly
+                  />
+                </td>
+                <td className="p-2 border">
+                  {userDescription ? (
+                    <button
+                      onClick={hanldleDelete}
+                      className="py-2 px-4 bg-red-200 flex gap-1.5 items-center rounded-full hover:bg-red-300 transition"
+                    >
+                      <RiDeleteBin6Line className="text-red-600 w-4 h-4" />
+                      <p className="text-sm leading-normal text-red-600">Delete</p>
+                    </button>
+                  ) : (
+                    <button
+                      disabled
+                      className="py-2 px-4 bg-red-200 flex gap-1.5 items-center rounded-full cursor-not-allowed opacity-85"
+                    >
+                      <RiDeleteBin6Line className="text-red-600 w-4 h-4" />
+                      <p className="text-sm leading-normal text-red-600">Deleted</p>
+                    </button>
+                  )}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         )}
       </div>
     </>
