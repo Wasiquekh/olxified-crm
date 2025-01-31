@@ -380,7 +380,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                 <div className=" justify-center items-center gap-4 inline-flex">
                   <div className="h-[50px] w-[50px] flex items-center justify-center bg-black !rounded-full w-full>">
                     <Image
-                      src="/images/Identity Matching.svg"
+                      src="/images/identity matching.svg"
                       alt="Orizon profile"
                       width={26}
                       height={26}
