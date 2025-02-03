@@ -21,13 +21,16 @@ import { RiFilterFill } from "react-icons/ri";
 import { toast } from "react-toastify";
 import { RiAccountCircleLine } from "react-icons/ri";
 import { RxCross2 } from "react-icons/rx";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { format } from "date-fns";
 
 const axiosProvider = new AxiosProvider();
 
 interface FilterData {
   uuId?: string;
   userActivity?: string;
-  startDate?: string;
+  startDate: string | Date; // Allow both string and Date
   endDate?: string;
   module?: string;
   type?: string;
@@ -83,6 +86,14 @@ export default function Home() {
     setFilterData((prevData) => ({
       ...prevData,
       [name]: value,
+    }));
+  };
+  // Handle change for both startDate and endDate
+  const handleDateChange = (date: Date | null, field: "startDate" | "endDate") => {
+    const formattedDate = date ? format(date, 'yyyy-MM-dd') : ""; // Format date to 'yyyy-MM-dd'
+    setFilterData((prevData) => ({
+      ...prevData,
+      [field]: formattedDate, // Store formatted date
     }));
   };
 
@@ -550,14 +561,6 @@ export default function Home() {
                   className=" h-8 w-8 border border-[#E7E7E7] text-[#0A0A0A] rounded cursor-pointer"
                 />
               </div>
-              <div className=" flex flex-col gap-3 mb-[10px]">
-                <p className=" text-[#333] text-xl font-medium leading-6">
-                  Alexandre Prot
-                </p>
-                <p className=" text-[#999] text-[13px] leading-5">
-                  Edited 4hrs ago by Admin
-                </p>
-              </div>
               <div className=" w-full border-b border-[#E7E7E7] mb-4"></div>
               {/* FORM */}
               <form onSubmit={(e) => handleSubmit(e)}>
@@ -590,26 +593,27 @@ export default function Home() {
                       <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
                         Start Date
                       </p>
-                      <input
-                        type="date"
-                        value={filterData.startDate}
-                        onChange={handleChange}
+                      <DatePicker
+                        selected={filterData.startDate ? new Date(filterData.startDate) : null}
+                        onChange={(date: Date | null) => handleDateChange(date, "startDate")} // Fix: Ensure `date` is a single Date
                         name="startDate"
-                        placeholder="2025-12-01"
-                        className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                        dateFormat="yyyy-MM-dd"
+                        placeholderText="yyyy-mm-dd"
+                        className=" focus:outline-none !w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
                       />
+
                     </div>
                     <div className=" w-full">
                       <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
                         End Date
                       </p>
-                      <input
-                        type="date"
-                        value={filterData.endDate}
-                        onChange={handleChange}
+                      <DatePicker
+                        selected={filterData.endDate ? new Date(filterData.endDate) : null}
+                        onChange={(date: Date | null) => handleDateChange(date, "endDate")}
                         name="endDate"
-                        placeholder=""
-                        className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                        dateFormat="yyyy-MM-dd"
+                        placeholderText="yyyy-mm-dd"
+                        className="focus:outline-none w-full border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
                       />
                     </div>
                   </div>
