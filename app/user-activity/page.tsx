@@ -24,6 +24,7 @@ import { RxCross2 } from "react-icons/rx";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
+import Select from "react-select";
 
 const axiosProvider = new AxiosProvider();
 
@@ -50,6 +51,10 @@ interface AllUserName {
   name?: string;
   uuid?: string;
 }
+interface Option {
+  value: string;
+  label: string;
+}
 export default function Home() {
   const [isFlyoutOpen, setFlyoutOpen] = useState<boolean>(false);
   const [isFlyoutFilterOpen, setFlyoutFilterOpen] = useState<boolean>(false);
@@ -74,10 +79,15 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isFilter, setIsFilter] = useState<boolean>(false);
   const [appliedFilters, setAppliedFilters] = useState<string[]>([]);
-  console.log("USER ACTIVITY APPLIED FILTER", appliedFilters);
   const storage = new StorageManager();
   //console.log("Get all user Data", data);
   const router = useRouter();
+
+  // Assuming `dataUserName` is an array of users
+  const userOptions = dataUserName.map((user) => ({
+    value: user.uuid,
+    label: user.name,
+  }));
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -89,8 +99,11 @@ export default function Home() {
     }));
   };
   // Handle change for both startDate and endDate
-  const handleDateChange = (date: Date | null, field: "startDate" | "endDate") => {
-    const formattedDate = date ? format(date, 'yyyy-MM-dd') : ""; // Format date to 'yyyy-MM-dd'
+  const handleDateChange = (
+    date: Date | null,
+    field: "startDate" | "endDate"
+  ) => {
+    const formattedDate = date ? format(date, "yyyy-MM-dd") : ""; // Format date to 'yyyy-MM-dd'
     setFilterData((prevData) => ({
       ...prevData,
       [field]: formattedDate, // Store formatted date
@@ -570,7 +583,7 @@ export default function Home() {
                       <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
                         User Name
                       </p>
-                      <select
+                      {/* <select
                         value={filterData.uuId}
                         name="uuId"
                         onChange={handleChange}
@@ -584,7 +597,38 @@ export default function Home() {
                             {user.name}
                           </option>
                         ))}
-                      </select>
+                      </select> */}
+<Select
+  value={userOptions.find((option) => option.value === filterData.uuId) || null}
+  onChange={(selectedOption) =>
+    setFilterData((prev) => ({
+      ...prev,
+      uuId: selectedOption ? selectedOption.value : "",
+    }))
+  }
+  options={userOptions}
+  placeholder="Select User ID"
+  isClearable
+  classNames={{
+    control: () =>
+      "!focus:outline-none !w-full !border !border-[#DFEAF2] !rounded-[12px] !text-sm !leading-4 !font-medium !py-2 !px-4 !bg-white !shadow-sm",
+    placeholder: () => "text-[#717171]",
+    singleValue: () => "text-black",
+    input: () => "text-black",
+    menu: () =>
+      "mt-1 bg-white border border-[#DFEAF2] rounded-[12px] shadow-lg w-full",
+    option: ({ isFocused, isSelected }) =>
+      `px-4 py-2 cursor-pointer rounded-[8px] ${
+        isSelected
+          ? "bg-blue-500 text-white"
+          : isFocused
+          ? "bg-gray-100"
+          : "text-black"
+      }`,
+    noOptionsMessage: () => "px-4 py-2 text-gray-500",
+  }}
+/>
+
                     </div>
                   </div>
 
@@ -594,22 +638,33 @@ export default function Home() {
                         Start Date
                       </p>
                       <DatePicker
-                        selected={filterData.startDate ? new Date(filterData.startDate) : null}
-                        onChange={(date: Date | null) => handleDateChange(date, "startDate")} // Fix: Ensure `date` is a single Date
+                        selected={
+                          filterData.startDate
+                            ? new Date(filterData.startDate)
+                            : null
+                        }
+                        onChange={(date: Date | null) =>
+                          handleDateChange(date, "startDate")
+                        } // Fix: Ensure `date` is a single Date
                         name="startDate"
                         dateFormat="yyyy-MM-dd"
                         placeholderText="yyyy-mm-dd"
                         className=" focus:outline-none !w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
                       />
-
                     </div>
                     <div className=" w-full">
                       <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
                         End Date
                       </p>
                       <DatePicker
-                        selected={filterData.endDate ? new Date(filterData.endDate) : null}
-                        onChange={(date: Date | null) => handleDateChange(date, "endDate")}
+                        selected={
+                          filterData.endDate
+                            ? new Date(filterData.endDate)
+                            : null
+                        }
+                        onChange={(date: Date | null) =>
+                          handleDateChange(date, "endDate")
+                        }
                         name="endDate"
                         dateFormat="yyyy-MM-dd"
                         placeholderText="yyyy-mm-dd"
