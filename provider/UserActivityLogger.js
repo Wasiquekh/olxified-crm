@@ -33,7 +33,7 @@ class UserActivityLogger {
         await this.log("Login","System","Login");
       }
       async userRegister(userId){
-        await this.log(`Registered a user #${userId},'',''`);
+        await this.log(`Registered a user #${userId}`,'User Management','Register');
       }
       async userUpdate(userId){
         await this.log(`Updated user #${userId}`,'User Management','Update');

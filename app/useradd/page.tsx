@@ -6,7 +6,14 @@ import { IoIosNotificationsOutline } from "react-icons/io";
 import { useEffect, useState } from "react";
 import { appCheck } from "../firebase-config";
 import { getToken } from "firebase/app-check";
-import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
+import {
+  Formik,
+  Form,
+  Field,
+  ErrorMessage,
+  FormikHelpers,
+  useFormik,
+} from "formik";
 import * as Yup from "yup";
 import AxiosProvider from "../../provider/AxiosProvider";
 import { useContext } from "react";
@@ -19,6 +26,7 @@ import { FaRegEyeSlash } from "react-icons/fa";
 import { AppContext } from "../AppContext";
 import LeftSideBar from "../component/LeftSideBar";
 import UserActivityLogger from "../../provider/UserActivityLogger";
+import Select, { SingleValue } from "react-select";
 
 const axiosProvider = new AxiosProvider();
 
@@ -29,6 +37,11 @@ interface FormValues {
   password: string;
   roleLevel: string;
 }
+const roleOptions = [
+  { value: "1", label: "Admin" },
+  { value: "2", label: "Non-Admin" },
+  { value: "3", label: "Sub-Admin" },
+];
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Your name is required"),
@@ -65,7 +78,7 @@ export default function Home() {
       if (res.status === 200) {
         toast.success("Form submitted successfully!");
         resetForm();
-       // window.location.reload();
+        // window.location.reload();
       }
       //console.log('user register',res.data.data.userId)
       // Create instance and log activity
@@ -86,7 +99,7 @@ export default function Home() {
       label: "Create New User",
       content: (
         <>
-          <div className="flex gap-8 pt-8">
+          <div className="flex gap-8 pt-3">
             <Formik
               initialValues={{
                 name: "",
@@ -102,7 +115,7 @@ export default function Home() {
                 <Form className="w-9/12">
                   <div className="w-full">
                     <div className="w-full flex gap-6">
-                      <div className="w-full relative">
+                      <div className="w-full relative mb-3">
                         <p className="text-[#232323] text-base leading-normal mb-2">
                           Your Name
                         </p>
@@ -110,7 +123,7 @@ export default function Home() {
                           type="text"
                           name="name"
                           placeholder="Charlene Reed"
-                          className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-6 text-[#718EBF]"
+                          className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-[#718EBF]"
                         />
                         <ErrorMessage
                           name="name"
@@ -120,8 +133,8 @@ export default function Home() {
                       </div>
 
                       {/* Mobile Number Field */}
-                      <div className="w-full relative mb-6">
-                        <div className="w-full relative mb-6">
+                      <div className="w-full relative mb-3">
+                        <div className="w-full relative mb-3">
                           <p className="text-[#232323] text-base leading-normal mb-2">
                             Mobile Number
                           </p>
@@ -148,7 +161,7 @@ export default function Home() {
                     </div>
 
                     <div className="w-full flex gap-6">
-                      <div className="w-full relative">
+                      <div className="w-full relative mb-3">
                         <p className="text-[#232323] text-base leading-normal mb-2">
                           Email
                         </p>
@@ -156,7 +169,7 @@ export default function Home() {
                           type="email"
                           name="email"
                           placeholder="Janedoe@gmail.com"
-                          className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-6 text-[#718EBF]"
+                          className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-[#718EBF]"
                         />
                         <ErrorMessage
                           name="email"
@@ -165,7 +178,7 @@ export default function Home() {
                         />
                       </div>
 
-                      <div className="w-full relative">
+                      <div className="w-full relative mb-3">
                         <p className="text-[#232323] text-base leading-normal mb-2">
                           Password
                         </p>
@@ -173,7 +186,7 @@ export default function Home() {
                           type={showPassword ? "text" : "password"}
                           name="password"
                           placeholder="********"
-                          className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-6 text-[#718EBF]"
+                          className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-[#718EBF]"
                         />
                         {showPassword ? (
                           <FaRegEye
@@ -195,19 +208,46 @@ export default function Home() {
                     </div>
 
                     <div className="w-full flex gap-6">
-                      <div className="w-full">
+                      <div className="w-full relative mb-8">
                         <p className="text-[#232323] text-base leading-normal mb-2">
                           Role
                         </p>
-                        <Field
-                          as="select"
-                          name="roleLevel"
-                          className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-6 text-[#718EBF]"
-                        >
-                          <option value="1">Admin</option>
-                          <option value="2">Non-Admin</option>
-                          <option value="3">Sub-Admin</option>
-                        </Field>
+                        <Select
+                          options={roleOptions}
+                          value={
+                            roleOptions.find(
+                              (option) => option.value === values.roleLevel
+                            ) || null
+                          }
+                          onChange={(selectedOption) => {
+                            setFieldValue(
+                              "roleLevel",
+                              selectedOption ? selectedOption.value : ""
+                            );
+                          }}
+                          onBlur={() =>
+                            setFieldValue("roleLevel", values.roleLevel)
+                          }
+                          isSearchable={false} // Disables typing
+                          classNames={{
+                            control: () =>
+                              "!focus:outline-none !w-full !border !border-[#DFEAF2] !rounded-[12px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm",
+                            placeholder: () => "text-[#717171]",
+                            singleValue: () => "text-black",
+                            input: () => "text-black",
+                            menu: () =>
+                              "mt-1 bg-white border border-[#DFEAF2] rounded-[12px] shadow-lg w-full",
+                            option: ({ isFocused, isSelected }) =>
+                              `px-4 py-2 cursor-pointer rounded-[8px] ${
+                                isSelected
+                                  ? "bg-blue-500 text-white"
+                                  : isFocused
+                                  ? "bg-gray-100"
+                                  : "text-black"
+                              }`,
+                            noOptionsMessage: () => "px-4 py-2 text-gray-500",
+                          }}
+                        />
                       </div>
                     </div>
 
