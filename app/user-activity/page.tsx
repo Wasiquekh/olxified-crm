@@ -55,6 +55,25 @@ interface Option {
   value: string;
   label: string;
 }
+interface OptionType {
+  value: string;
+  label: string;
+}
+
+const moduleOptions: OptionType[] = [
+  { value: "System", label: "System" },
+  { value: "User Management", label: "User Management" },
+  { value: "Customer", label: "Customer" },
+];
+
+const typeOptions: OptionType[] = [
+  { value: "Login", label: "Login" },
+  { value: "Update", label: "Update" },
+  { value: "Delete", label: "Delete" },
+  { value: "Approved", label: "Approved" },
+  { value: "Rejected", label: "Rejected" },
+];
+
 export default function Home() {
   const [isFlyoutOpen, setFlyoutOpen] = useState<boolean>(false);
   const [isFlyoutFilterOpen, setFlyoutFilterOpen] = useState<boolean>(false);
@@ -159,22 +178,16 @@ export default function Home() {
   };
 
   const fetchFilteredUserActivities = async (data: any, page: number) => {
-    console.log("filter data call hua");
     setIsLoading(true);
     try {
       const response = await axiosProvider.post(
         `/filteruseractivites?page=${page}&limit=${limit}`, // Use passed page value
         data
       );
-      console.log("9999999999999999999999999999999", response);
       const result = response.data.data.filteredActivities;
-      console.log("FILTERED DATA", result);
       setData(result);
       setTotalPagesFilter(response.data.data.totalPages);
-      setIsError(false);
     } catch (error: any) {
-      setIsError(true);
-      console.log("filter user activity error", error);
     } finally {
       setIsLoading(false);
     }
@@ -221,16 +234,6 @@ export default function Home() {
     }
   };
 
-  const handleError = (error: any) => {
-    if (error.response && error.response.status === 404) {
-      setIsError(true);
-      //console.log("Data not found");
-    }
-    console.error("Error fetching data:", error);
-    if (error.response && error.response.status === 401) {
-      console.error("Unauthorized: Check App Check token and Bearer token.");
-    }
-  };
   const hadleClear = () => {
     setFilterData({
       ...filterData,
@@ -454,14 +457,13 @@ export default function Home() {
                 </tr>
               </thead>
               <tbody>
-                {isError ? (
+                {data.length === 0 ? (
                   <tr className="">
                     <td colSpan={8} className="text-center text-xl mt-5">
                       <div className=" mt-5">Data not found</div>
                     </td>
                   </tr>
                 ) : (
-                  data &&
                   data.map((item, index) => (
                     <tr
                       className=" border border-tableBorder bg-white"
@@ -583,52 +585,40 @@ export default function Home() {
                       <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
                         User Name
                       </p>
-                      {/* <select
-                        value={filterData.uuId}
-                        name="uuId"
-                        onChange={handleChange}
-                        className="focus:outline-none w-full border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
-                      >
-                        <option value="" disabled>
-                          Select User ID
-                        </option>
-                        {dataUserName.map((user) => (
-                          <option key={user.uuid} value={user.uuid}>
-                            {user.name}
-                          </option>
-                        ))}
-                      </select> */}
-<Select
-  value={userOptions.find((option) => option.value === filterData.uuId) || null}
-  onChange={(selectedOption) =>
-    setFilterData((prev) => ({
-      ...prev,
-      uuId: selectedOption ? selectedOption.value : "",
-    }))
-  }
-  options={userOptions}
-  placeholder="Select User ID"
-  isClearable
-  classNames={{
-    control: () =>
-      "!focus:outline-none !w-full !border !border-[#DFEAF2] !rounded-[12px] !text-sm !leading-4 !font-medium !py-2 !px-4 !bg-white !shadow-sm",
-    placeholder: () => "text-[#717171]",
-    singleValue: () => "text-black",
-    input: () => "text-black",
-    menu: () =>
-      "mt-1 bg-white border border-[#DFEAF2] rounded-[12px] shadow-lg w-full",
-    option: ({ isFocused, isSelected }) =>
-      `px-4 py-2 cursor-pointer rounded-[8px] ${
-        isSelected
-          ? "bg-blue-500 text-white"
-          : isFocused
-          ? "bg-gray-100"
-          : "text-black"
-      }`,
-    noOptionsMessage: () => "px-4 py-2 text-gray-500",
-  }}
-/>
-
+                      <Select
+                        value={
+                          userOptions.find(
+                            (option) => option.value === filterData.uuId
+                          ) || null
+                        }
+                        onChange={(selectedOption) =>
+                          setFilterData((prev) => ({
+                            ...prev,
+                            uuId: selectedOption ? selectedOption.value : "",
+                          }))
+                        }
+                        options={userOptions}
+                        placeholder="Select User ID"
+                        isClearable
+                        classNames={{
+                          control: () =>
+                            "!focus:outline-none !w-full !border !border-[#DFEAF2] !rounded-[12px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm",
+                          placeholder: () => "text-[#717171]",
+                          singleValue: () => "text-black",
+                          input: () => "text-black",
+                          menu: () =>
+                            "mt-1 bg-white border border-[#DFEAF2] rounded-[12px] shadow-lg w-full",
+                          option: ({ isFocused, isSelected }) =>
+                            `px-4 py-2 cursor-pointer rounded-[8px] ${
+                              isSelected
+                                ? "bg-blue-500 text-white"
+                                : isFocused
+                                ? "bg-gray-100"
+                                : "text-black"
+                            }`,
+                          noOptionsMessage: () => "px-4 py-2 text-gray-500",
+                        }}
+                      />
                     </div>
                   </div>
 
@@ -677,32 +667,79 @@ export default function Home() {
                       <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
                         Module
                       </p>
-                      <select
-                        value={filterData.module}
-                        onChange={handleChange}
-                        name="module"
-                        className="focus:outline-none w-full border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium text-[#0A0A0A] py-4 px-4"
-                      >
-                        <option value="">Select Module</option>
-                        <option value="System">System</option>
-                        <option value="User Management">User Management</option>
-                      </select>
+                      <Select
+                        value={
+                          moduleOptions.find(
+                            (option) => option.value === filterData.module
+                          ) || null
+                        }
+                        onChange={(selectedOption: OptionType | null) =>
+                          setFilterData((prev) => ({
+                            ...prev,
+                            module: selectedOption ? selectedOption.value : "",
+                          }))
+                        }
+                        options={moduleOptions}
+                        placeholder="Select Module"
+                        isClearable
+                        classNames={{
+                          control: () =>
+                            "!focus:outline-none !w-full !border !border-[#DFEAF2] !rounded-[12px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm",
+                          placeholder: () => "text-[#717171]",
+                          singleValue: () => "text-black",
+                          input: () => "text-black",
+                          menu: () =>
+                            "mt-1 bg-white border border-[#DFEAF2] rounded-[12px] shadow-lg w-full",
+                          option: ({ isFocused, isSelected }) =>
+                            `px-4 py-2 cursor-pointer rounded-[8px] ${
+                              isSelected
+                                ? "bg-blue-500 text-white"
+                                : isFocused
+                                ? "bg-gray-100"
+                                : "text-black"
+                            }`,
+                          noOptionsMessage: () => "px-4 py-2 text-gray-500",
+                        }}
+                      />
                     </div>
                     <div className="w-full">
                       <p className="text-[#0A0A0A] font-medium text-base leading-6 mb-2">
                         Type
                       </p>
-                      <select
-                        value={filterData.type}
-                        onChange={handleChange}
-                        name="type"
-                        className="focus:outline-none w-full border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium text-[#0A0A0A] py-4 px-4"
-                      >
-                        <option value="">Select Type</option>
-                        <option value="Login">Login</option>
-                        <option value="Update">Update</option>
-                        <option value="Delete">Delete</option>
-                      </select>
+                      <Select
+                        value={
+                          typeOptions.find(
+                            (option) => option.value === filterData.type
+                          ) || null
+                        }
+                        onChange={(selectedOption: OptionType | null) =>
+                          setFilterData((prev) => ({
+                            ...prev,
+                            type: selectedOption ? selectedOption.value : "",
+                          }))
+                        }
+                        options={typeOptions}
+                        placeholder="Select Type"
+                        isClearable
+                        classNames={{
+                          control: () =>
+                            "!focus:outline-none !w-full !border !border-[#DFEAF2] !rounded-[12px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm",
+                          placeholder: () => "text-[#717171]",
+                          singleValue: () => "text-black",
+                          input: () => "text-black",
+                          menu: () =>
+                            "mt-1 bg-white border border-[#DFEAF2] rounded-[12px] shadow-lg w-full",
+                          option: ({ isFocused, isSelected }) =>
+                            `px-4 py-2 cursor-pointer rounded-[8px] ${
+                              isSelected
+                                ? "bg-blue-500 text-white"
+                                : isFocused
+                                ? "bg-gray-100"
+                                : "text-black"
+                            }`,
+                          noOptionsMessage: () => "px-4 py-2 text-gray-500",
+                        }}
+                      />
                     </div>
                   </div>
                 </div>
