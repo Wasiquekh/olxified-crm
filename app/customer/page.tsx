@@ -553,14 +553,6 @@ export default function Home() {
                   className=" h-8 w-8 border border-[#E7E7E7] text-[#0A0A0A] rounded cursor-pointer"
                 />
               </div>
-              <div className=" flex flex-col gap-3 mb-[10px]">
-                <p className=" text-[#333] text-xl font-medium leading-6">
-                  Alexandre Prot
-                </p>
-                <p className=" text-[#999] text-[13px] leading-5">
-                  Edited 4hrs ago by Admin
-                </p>
-              </div>
               <div className=" w-full border-b border-[#E7E7E7] mb-4"></div>
               {/* FORM */}
               <form onSubmit={handleSubmit}>
