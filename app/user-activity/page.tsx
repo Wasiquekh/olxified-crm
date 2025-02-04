@@ -25,6 +25,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
 import Select from "react-select";
+import DesktopHeader from "../component/DesktopHeader";
 
 const axiosProvider = new AxiosProvider();
 
@@ -301,27 +302,7 @@ export default function Home() {
         <div className=" w-[85%] bg-white min-h-[500px]  rounded p-4 mt-2">
           {/* left section top row */}
           <div className=" w-full flex justify-end items-center gap-7 mb-8">
-            {/* SEARCH INPUT WITH ICON */}
-            <input
-              type="text"
-              placeholder="Search for something"
-              className=" bg-[#F5F7FA] w-64 h-[50px] rounded-[40px] px-6 border border-[#E7E7E7]  focus:outline-none placeholder-[#8BA3CB] text-[15px] leading-normal"
-            />
-            <div className=" w-[50px] h-[50px] bg-[#F5F7FA] rounded-full flex justify-center items-center">
-              <CiSettings className=" text-[#718EBF] w-[25px] h-[25px]" />
-            </div>
-            <div className=" w-[50px] h-[50px] bg-[#F5F7FA] rounded-full flex justify-center items-center">
-              <IoIosNotificationsOutline className=" text-[#FE5C73] w-[25px] h-[25px]" />
-            </div>
-            <div className=" w-[50px] h-[50px]  rounded-full flex justify-center items-center">
-              <Image
-                src="/images/dummy-image.jpg"
-                alt="Orizon profile"
-                width={50}
-                height={50}
-                className="rounded-full border-2 border-[#17C653]"
-              />
-            </div>
+            <DesktopHeader />
           </div>
           {/* Main content middle section */}
           <div className="w-full flex justify-between items-center h-[74px] mt-3 mb-8">
