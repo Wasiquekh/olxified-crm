@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useContext, useEffect, useState } from "react";
+import { SetStateAction, useContext, useEffect, useState } from "react";
 import { CiSettings } from "react-icons/ci";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { FaGreaterThan } from "react-icons/fa6";
@@ -24,6 +24,9 @@ import { HiChevronDoubleRight } from "react-icons/hi";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import DesktopHeader from "../component/DesktopHeader";
+import { FaEllipsisVertical } from "react-icons/fa6";
+import Modal from "react-modal";
+import { strict } from "assert";
 
 const axiosProvider = new AxiosProvider();
 
@@ -78,9 +81,16 @@ export default function Home() {
     null
   );
   const [isFilter, setIsFilter] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [selectedData, setSelectedData] = useState<Customer | null>(null);
+  console.log("SELECTED DATA", selectedData);
   const storage = new StorageManager();
   //console.log("Get all user Data", data);
   const router = useRouter();
+  const customerObject = (item: SetStateAction<Customer>) => {
+    setSelectedData(item);
+    setIsOpen(true);
+  };
 
   const handleClick = async (customer: Customer) => {
     // console.log('Object customer data',customer.id)
@@ -297,6 +307,7 @@ export default function Home() {
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 whitespace-nowrap">
                 <thead className="text-xs text-[#999999] bg-gray-100">
                   <tr className="border border-tableBorder">
+                    {/* Name - Birth Date: Always Visible */}
                     <th scope="col" className="p-3 border border-tableBorder">
                       <div className="flex items-center gap-2">
                         <RxAvatar className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -305,9 +316,11 @@ export default function Home() {
                         </span>
                       </div>
                     </th>
+
+                    {/* Other columns: Hidden on mobile, visible from md: */}
                     <th
                       scope="col"
-                      className="px-3 py-2 border border-tableBorder"
+                      className="px-3 py-2 border border-tableBorder hidden md:table-cell"
                     >
                       <div className="flex items-center gap-2">
                         <HiOutlineBookOpen className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -318,7 +331,7 @@ export default function Home() {
                     </th>
                     <th
                       scope="col"
-                      className="px-3 py-2 border border-tableBorder"
+                      className="px-3 py-2 border border-tableBorder hidden md:table-cell"
                     >
                       <div className="flex items-center gap-2">
                         <HiOutlineBookOpen className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -329,7 +342,7 @@ export default function Home() {
                     </th>
                     <th
                       scope="col"
-                      className="px-3 py-2 border border-tableBorder"
+                      className="px-3 py-2 border border-tableBorder hidden md:table-cell"
                     >
                       <div className="flex items-center gap-2">
                         <SiHomeassistantcommunitystore className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -340,7 +353,7 @@ export default function Home() {
                     </th>
                     <th
                       scope="col"
-                      className="px-3 py-2 border border-tableBorder"
+                      className="px-3 py-2 border border-tableBorder hidden md:table-cell"
                     >
                       <div className="flex items-center gap-2">
                         <MdOutlineCall className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -351,7 +364,7 @@ export default function Home() {
                     </th>
                     <th
                       scope="col"
-                      className="px-3 py-2 border border-tableBorder"
+                      className="px-3 py-2 border border-tableBorder hidden md:table-cell"
                     >
                       <div className="flex items-center gap-2">
                         <MdOutlineCall className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -362,7 +375,7 @@ export default function Home() {
                     </th>
                     <th
                       scope="col"
-                      className="px-3 py-2 border border-tableBorder"
+                      className="px-3 py-2 border border-tableBorder hidden md:table-cell"
                     >
                       <div className="flex items-center gap-2">
                         <LiaArrowCircleDownSolid className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -387,37 +400,54 @@ export default function Home() {
                         className="border border-tableBorder bg-white"
                         key={index}
                       >
-                        <td className="px-3 py-2  border-tableBorder flex items-center gap-2">
-                          <div>
-                            <p className="text-[#232323] text-sm sm:text-base font-semibold leading-normal">
-                              {item.firstname} {item.lastname}
-                            </p>
-                            <p className="text-[#232323] text-xs sm:text-sm leading-normal">
-                              {item.birthdate}
-                            </p>
+                        {/* Name - Birth Date: Always Visible */}
+                        <td className="px-3 py-2 border-tableBorder flex items-center gap-2">
+                          <div className="flex gap-2 items-center">
+                            <div className="md:hidden relative">
+                              <FaEllipsisVertical
+                                onClick={() => customerObject(item)}
+                                className="text-black"
+                              />
+                              <button data-tooltip-target="tooltip-right" data-tooltip-placement="right" type="button" className="ms-3 mb-2 md:mb-0 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Tooltip right</button>
+
+<div id="tooltip-right" role="tooltip" className="absolute z-1000 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+    Tooltip on right
+    <div className="tooltip-arrow" data-popper-arrow></div>
+</div>
+                            </div>
+                            <div>
+                              <p className="text-[#232323] text-sm sm:text-base font-semibold leading-normal">
+                                {item.firstname} {item.lastname}
+                              </p>
+                              <p className="text-[#232323] text-xs sm:text-sm leading-normal">
+                                {item.birthdate}
+                              </p>
+                            </div>
                           </div>
                         </td>
-                        <td className="px-3 py-2 border border-tableBorder">
+
+                        {/* Other columns: Hidden on mobile, visible from md: */}
+                        <td className="px-3 py-2 border border-tableBorder hidden md:table-cell">
                           <span className="text-[#232323] text-sm sm:text-base">
                             {item.countryofbirth}
                           </span>
                         </td>
-                        <td className="px-3 py-2 border border-tableBorder">
+                        <td className="px-3 py-2 border border-tableBorder hidden md:table-cell">
                           <span className="text-[#232323] text-sm sm:text-base">
                             {item.gender}
                           </span>
                         </td>
-                        <td className="px-3 py-2 border border-tableBorder">
+                        <td className="px-3 py-2 border border-tableBorder hidden md:table-cell">
                           <span className="text-[#232323] text-sm sm:text-base">
                             {item.countryofresidence}
                           </span>
                         </td>
-                        <td className="px-3 py-2 border border-tableBorder">
+                        <td className="px-3 py-2 border border-tableBorder hidden md:table-cell">
                           <span className="text-[#232323] text-sm sm:text-base">
                             {item.mobilephonenumber}
                           </span>
                         </td>
-                        <td className="px-3 py-2 border border-tableBorder">
+                        <td className="px-3 py-2 border border-tableBorder hidden md:table-cell">
                           <span
                             className={`text-white text-xs sm:text-sm flex justify-center items-center p-1 rounded-full ${
                               item.mainStatus === "On Progress"
@@ -432,7 +462,7 @@ export default function Home() {
                             {item.mainStatus}
                           </span>
                         </td>
-                        <td className="px-3 py-2 border border-tableBorder">
+                        <td className="px-3 py-2 border border-tableBorder hidden md:table-cell">
                           <button
                             onClick={() => handleClick(item)}
                             className="py-1 px-3 bg-[#C6F7FE] flex gap-2 items-center rounded-full"
@@ -498,6 +528,58 @@ export default function Home() {
           {/* ----------------End prgination--------------------------- */}
         </div>
       </div>
+
+      {/* REACT MODAL */}
+      {/* React Modal */}
+      <Modal
+        isOpen={isOpen}
+        onRequestClose={() => setIsOpen(false)}
+        className="p-6 bg-white rounded-lg shadow-lg w-96 mx-auto"
+        overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+      >
+        <h2 className="text-lg font-bold">React Modal</h2>
+        <p className="mt-2">{selectedData && selectedData.countryofbirth}</p>
+        <p className="mt-2">{selectedData && selectedData.gender}</p>
+        <p className="mt-2">
+          {selectedData && selectedData.countryofresidence}
+        </p>
+        <p className="mt-2">{selectedData && selectedData.mobilephonenumber}</p>
+        <p className="mt-2">
+          {selectedData && (
+            <span
+              className={`text-white text-xs sm:text-sm flex justify-center items-center p-1 rounded-full ${
+                selectedData.mainStatus === "On Progress"
+                  ? "bg-[#2DB3FF]"
+                  : selectedData.mainStatus === "Approved"
+                  ? "bg-[#379941]"
+                  : selectedData.mainStatus === "Rejected"
+                  ? "bg-[#E52020]"
+                  : "bg-customBlue"
+              }`}
+            >
+              {selectedData.mainStatus}
+            </span>
+          )}
+        </p>
+        <button
+          onClick={() => handleClick(selectedData)}
+          className="py-1 px-3 bg-[#C6F7FE] flex gap-2 items-center rounded-full"
+        >
+          <MdRemoveRedEye className="text-customBlue w-4 h-4" />
+          <span className="text-xs sm:text-sm text-customBlue">
+            View Details
+          </span>
+        </button>
+        {/* <p className="mt-2">{selectedData && selectedData.countryofbirth}</p> */}
+
+        <button
+          onClick={() => setIsOpen(false)}
+          className="mt-4 px-4 py-2 bg-red-500 text-white rounded"
+        >
+          Close
+        </button>
+      </Modal>
+      {/* END REACT MODAL */}
 
       {/* FITLER FLYOUT */}
       {isFlyoutFilterOpen && (
