@@ -16,7 +16,7 @@ import { useRouter } from 'next/navigation';
 
 const axiosProvider = new AxiosProvider();
 const storage = new StorageManager();
-const LeftSideBar: React.FC = () => {
+const LeftSideBarMobile: React.FC = () => {
   const pathname = usePathname();
   const permissions = storage.getUserPermissions();
   const hasCustomerView = permissions?.some(perm => perm.name === 'customer.view');
@@ -41,7 +41,7 @@ const LeftSideBar: React.FC = () => {
   }
   }
   return (
-    <div className="w-full hidden md:w-[15%]  md:flex flex-col justify-between py-4 px-4 border-r-2 border-customBorder shadow-borderShadow mt-2">
+    <div className="w-full md:w-[15%]  md:flex flex-col justify-between py-2 px-2   mt-2">
       {/* SIDE LEFT BAR TOP SECTION */}
       <div>
         <Link href="/customer">
@@ -208,4 +208,5 @@ const LeftSideBar: React.FC = () => {
   );
 };
 
-export default LeftSideBar;
+export default LeftSideBarMobile;
+

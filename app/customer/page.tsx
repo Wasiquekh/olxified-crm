@@ -219,13 +219,13 @@ export default function Home() {
 
   return (
     <>
-      <div className=" flex  min-h-screen">
+      <div className=" flex justify-end  min-h-screen">
         <LeftSideBar />
         {/* Main content right section */}
-        <div className=" w-[85%] bg-white min-h-[500px]  rounded p-4 mt-2">
+        <div className=" w-full md:w-[85%] bg-white min-h-[500px]  rounded p-4 mt-2">
           {/* left section top row */}
           <DesktopHeader />
-          
+
           {/* Main content middle section */}
           <div className="w-full flex justify-between items-center h-[74px] mt-3 mb-8">
             <div>
@@ -246,13 +246,6 @@ export default function Home() {
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
             {/* Search and filter table row */}
             <div className=" flex justify-end items-center mb-6  w-[98%] mx-auto">
-              {/* <div>
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  className=" w-[254px] px-4 py-3 rounded-2xl border border-[#E7E7E7]  focus:outline-none placeholder-[#717171] placeholder-font-weight-600 "
-                />
-              </div> */}
               <div className=" flex justify-center items-center gap-4">
                 <div
                   className=" flex gap-2 py-3 px-4 rounded-[16px] border border-[#E7E7E7] cursor-pointer"
@@ -299,170 +292,166 @@ export default function Home() {
                 </div>
               )}
             </div>
-            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-              <thead className="text-xs text-[#999999]">
-                <tr className=" border border-tableBorder">
-
-                  <th
-                    scope="col"
-                    className="p-3 border border-tableBorder"
-                  >
-                    <div className=" flex items-center gap-2">
-                      <RxAvatar className=" w-6 h-6" />
-                      <div className="font-medium text-[#717171] text-base leading-normal">
-                        Name - Birth Date{" "}
+            {/* ---------------- Table--------------------------- */}
+            <div className="w-full overflow-x-auto">
+              <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 whitespace-nowrap">
+                <thead className="text-xs text-[#999999] bg-gray-100">
+                  <tr className="border border-tableBorder">
+                    <th scope="col" className="p-3 border border-tableBorder">
+                      <div className="flex items-center gap-2">
+                        <RxAvatar className="w-5 h-5 sm:w-6 sm:h-6" />
+                        <span className="font-medium text-[#717171] text-sm sm:text-base">
+                          Name - Birth Date
+                        </span>
                       </div>
-                    </div>
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-2 py-0 border border-tableBorder"
-                  >
-                    <div className=" flex items-center gap-2">
-                      <HiOutlineBookOpen className=" w-6 h-6" />
-                      <div className="font-medium text-[#717171] text-base leading-normal">
-                        Birth Country
-                      </div>
-                    </div>
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-2 py-0 border border-tableBorder"
-                  >
-                    <div className=" flex items-center gap-2">
-                      <HiOutlineBookOpen className=" w-6 h-6" />
-                      <div className="font-medium text-[#717171] text-base leading-normal">
-                        Gender
-                      </div>
-                    </div>
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-2 py-0 border border-tableBorder"
-                  >
-                    <div className=" flex items-center gap-2">
-                      <SiHomeassistantcommunitystore className=" w-6 h-6" />
-                      <div className="font-medium text-[#717171] text-base leading-normal">
-                        Country of Residence
-                      </div>
-                    </div>
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-2 py-0 border border-tableBorder"
-                  >
-                    <div className=" flex items-center gap-2">
-                      <MdOutlineCall className=" w-6 h-6" />
-                      <div className="font-medium text-[#717171] text-base leading-normal">
-                        Phone
-                      </div>
-                    </div>
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-2 py-0 border border-tableBorder"
-                  >
-                    <div className=" flex items-center gap-2">
-                      <MdOutlineCall className=" w-6 h-6" />
-                      <div className="font-medium text-[#717171] text-base leading-normal">
-                        Status
-                      </div>
-                    </div>
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-2 py-0 border border-tableBorder"
-                  >
-                    <div className=" flex items-center gap-2">
-                      <LiaArrowCircleDownSolid className="w-6 h-6" />
-                      <div className="font-medium text-[#717171] text-base leading-normal">
-                        Action
-                      </div>
-                    </div>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {isError ? (
-                  <tr className="">
-                    <td colSpan={8} className="text-center text-xl mt-5">
-                      <div className=" mt-5">Data not found</div>
-                    </td>
-                  </tr>
-                ) : (
-                  data &&
-                  data.map((item, index) => (
-                    <tr
-                      className=" border border-tableBorder bg-white"
-                      key={index}
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-2 border border-tableBorder"
                     >
-                      <td className=" px-2 py-2 border border-tableBorder flex items-center gap-2">
-                        <div className="">
-                        </div>
-                        <div>
-                          <p className=" text-[#232323] text-base font-semibold leading-normal">
-                            {item.firstname} {item.lastname}
-                            {/* ({item.gender}) */}
-                          </p>
-                          <p className=" text-[#232323] text-sm leading-normal">
-                            {item.birthdate}
-                          </p>
-                        </div>
-                      </td>
-                      <td className=" px-2 py-2 border border-tableBorder">
-                        <p className=" text-[#232323] text-base leading-normal">
-                          {item.countryofbirth}
-                        </p>
-                      </td>
-                      <td className="px-2 py-0 border border-tableBorder">
-                        <p className=" text-[#232323] text-base leading-normal">
-                          {item.gender}
-                        </p>
-                      </td>
-                      <td className="px-2 py-0 border border-tableBorder">
-                        <p className=" text-[#232323] text-base leading-normal">
-                          {item.countryofresidence}
-                        </p>
-                      </td>
-                      <td className="px-2 py-0 border border-tableBorder">
-                        <p className=" text-[#232323] text-base leading-normal">
-                          {item.mobilephonenumber}
-                        </p>
-                      </td>
-                      <td className="px-2 py-0 border border-tableBorder">
-                        <p
-                          className={`text-[#fff] text-sm leading-normal flex justify-center items-center p-1 rounded-full ${
-                            item.mainStatus === "On Progress"
-                              ? "bg-[#2DB3FF]"
-                              : item.mainStatus === "Approved"
-                              ? "bg-[#379941]"
-                              : item.mainStatus === "Rejected"
-                              ? "bg-[#E52020]"
-                              : "bg-customBlue"
-                          }`}
-                        >
-                          {item.mainStatus}
-                        </p>
-                      </td>
-                      <td>
-                        {/* <Link href="customerdetails"> */}
-                        <button
-                          // onClick={toggleFlyout}
-                          onClick={() => handleClick(item)}
-                          className=" py-[6px] px-4 bg-[#C6F7FE] m-2 flex gap-[10px] items-center rounded-full"
-                        >
-                          <MdRemoveRedEye className=" text-customBlue w-4 h-4" />
-                          <p className=" text-sm leading-normal text-customBlue">
-                            View Details
-                          </p>
-                        </button>
-                        {/* </Link> */}
+                      <div className="flex items-center gap-2">
+                        <HiOutlineBookOpen className="w-5 h-5 sm:w-6 sm:h-6" />
+                        <span className="font-medium text-[#717171] text-sm sm:text-base">
+                          Birth Country
+                        </span>
+                      </div>
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-2 border border-tableBorder"
+                    >
+                      <div className="flex items-center gap-2">
+                        <HiOutlineBookOpen className="w-5 h-5 sm:w-6 sm:h-6" />
+                        <span className="font-medium text-[#717171] text-sm sm:text-base">
+                          Gender
+                        </span>
+                      </div>
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-2 border border-tableBorder"
+                    >
+                      <div className="flex items-center gap-2">
+                        <SiHomeassistantcommunitystore className="w-5 h-5 sm:w-6 sm:h-6" />
+                        <span className="font-medium text-[#717171] text-sm sm:text-base">
+                          Country of Residence
+                        </span>
+                      </div>
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-2 border border-tableBorder"
+                    >
+                      <div className="flex items-center gap-2">
+                        <MdOutlineCall className="w-5 h-5 sm:w-6 sm:h-6" />
+                        <span className="font-medium text-[#717171] text-sm sm:text-base">
+                          Phone
+                        </span>
+                      </div>
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-2 border border-tableBorder"
+                    >
+                      <div className="flex items-center gap-2">
+                        <MdOutlineCall className="w-5 h-5 sm:w-6 sm:h-6" />
+                        <span className="font-medium text-[#717171] text-sm sm:text-base">
+                          Status
+                        </span>
+                      </div>
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-2 border border-tableBorder"
+                    >
+                      <div className="flex items-center gap-2">
+                        <LiaArrowCircleDownSolid className="w-5 h-5 sm:w-6 sm:h-6" />
+                        <span className="font-medium text-[#717171] text-sm sm:text-base">
+                          Action
+                        </span>
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {isError ? (
+                    <tr>
+                      <td colSpan={7} className="text-center text-xl py-5">
+                        Data not found
                       </td>
                     </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
+                  ) : (
+                    data &&
+                    data.map((item, index) => (
+                      <tr
+                        className="border border-tableBorder bg-white"
+                        key={index}
+                      >
+                        <td className="px-3 py-2  border-tableBorder flex items-center gap-2">
+                          <div>
+                            <p className="text-[#232323] text-sm sm:text-base font-semibold leading-normal">
+                              {item.firstname} {item.lastname}
+                            </p>
+                            <p className="text-[#232323] text-xs sm:text-sm leading-normal">
+                              {item.birthdate}
+                            </p>
+                          </div>
+                        </td>
+                        <td className="px-3 py-2 border border-tableBorder">
+                          <span className="text-[#232323] text-sm sm:text-base">
+                            {item.countryofbirth}
+                          </span>
+                        </td>
+                        <td className="px-3 py-2 border border-tableBorder">
+                          <span className="text-[#232323] text-sm sm:text-base">
+                            {item.gender}
+                          </span>
+                        </td>
+                        <td className="px-3 py-2 border border-tableBorder">
+                          <span className="text-[#232323] text-sm sm:text-base">
+                            {item.countryofresidence}
+                          </span>
+                        </td>
+                        <td className="px-3 py-2 border border-tableBorder">
+                          <span className="text-[#232323] text-sm sm:text-base">
+                            {item.mobilephonenumber}
+                          </span>
+                        </td>
+                        <td className="px-3 py-2 border border-tableBorder">
+                          <span
+                            className={`text-white text-xs sm:text-sm flex justify-center items-center p-1 rounded-full ${
+                              item.mainStatus === "On Progress"
+                                ? "bg-[#2DB3FF]"
+                                : item.mainStatus === "Approved"
+                                ? "bg-[#379941]"
+                                : item.mainStatus === "Rejected"
+                                ? "bg-[#E52020]"
+                                : "bg-customBlue"
+                            }`}
+                          >
+                            {item.mainStatus}
+                          </span>
+                        </td>
+                        <td className="px-3 py-2 border border-tableBorder">
+                          <button
+                            onClick={() => handleClick(item)}
+                            className="py-1 px-3 bg-[#C6F7FE] flex gap-2 items-center rounded-full"
+                          >
+                            <MdRemoveRedEye className="text-customBlue w-4 h-4" />
+                            <span className="text-xs sm:text-sm text-customBlue">
+                              View Details
+                            </span>
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+
+            {/* ----------------End table------------------------ */}
+
             {/* Pagination Controls */}
             {isFilter ? (
               <div className="flex justify-center items-center my-6">
@@ -506,7 +495,7 @@ export default function Home() {
               </div>
             )}
           </div>
-          {/* ----------------End table--------------------------- */}
+          {/* ----------------End prgination--------------------------- */}
         </div>
       </div>
 
@@ -553,7 +542,7 @@ export default function Home() {
                     </div>
                   </div>
 
-                  <div className=" w-full flex gap-4 mb-4">
+                  <div className=" w-full flex flex-col md:flex-row gap-4 mb-4">
                     <div className=" w-full">
                       <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
                         Phone
@@ -586,22 +575,16 @@ export default function Home() {
 
                 {/* END FORM */}
 
-                <div className="mt-10 w-full flex justify-end items-center gap-5">
-                  <button
-                    onClick={toggleFilterFlyout}
-                    className=" py-[13px] px-[26px] border border-[#E7E7E7] rounded-2xl text-[#0A0A0A] text-base font-medium leading-6"
-                  >
-                    Cancel
-                  </button>
+                <div className="mt-10 w-full flex flex-col gap-y-4 md:flex-row justify-between items-center ">
                   <div
                     onClick={hadleClear}
-                    className=" py-[13px] px-[26px] bg-customBlue rounded-2xl text-base font-medium leading-6 text-white cursor-pointer "
+                    className=" py-[13px] px-[26px] bg-[#C6F7FE] rounded-2xl text-base font-medium leading-6  cursor-pointer w-full md:w-[49%] text-center text-customBlue "
                   >
                     Clear Data
                   </div>
                   <button
                     type="submit"
-                    className=" py-[13px] px-[26px] bg-customBlue rounded-2xl text-base font-medium leading-6 text-white "
+                    className=" py-[13px] px-[26px] bg-customBlue rounded-2xl text-base font-medium leading-6 text-white cursor-pointer w-full md:w-[49%] text-center "
                   >
                     Update Details
                   </button>
@@ -612,12 +595,6 @@ export default function Home() {
         </>
       )}
       {/* FITLER FLYOUT END */}
-      {/* <CustomerViewDetails
-        isFlyoutOpen={isFlyoutOpen}
-        toggleFlyout={toggleFlyout}
-        setFlyoutOpen={setFlyoutOpen}
-        customer={selectedCustomer}
-      /> */}
     </>
   );
 }
