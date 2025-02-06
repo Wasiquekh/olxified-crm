@@ -107,7 +107,7 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
         ></div>
       )}
       <div className={`filterflyout ${isEditFlyoutOpen ? "filteropen" : ""}`}>
-        <div className="flex justify-between mb-4">
+        <div className="flex  md:flex-row justify-between mb-4">
           <p className="text-[#333B69] text-[26px] font-bold leading-9 hover:cursor-pointer block">
             User Details
           </p>
@@ -119,7 +119,8 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
             X
           </button>
         </div>
-        <div className="flex gap-20 mb-4">
+
+        <div className="flex flex-row justify-between  mb-4 w-full md:w-[50%]">
           <p
             onClick={() => setIsVisible(true)}
             className={`text-[16px] font-medium leading-9 hover:cursor-pointer ${
@@ -141,6 +142,7 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
             MF 2 Device
           </p>
         </div>
+
         {isVisible ? (
           <Formik
             initialValues={{
@@ -178,7 +180,6 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
                 await activityLogger.userUpdate(currentUserData.id);
               } catch (error) {
                 console.error("Error during user update:", error);
-
                 if (error.response) {
                   const { status, data } = error.response;
                   if (status === 409) {
@@ -210,7 +211,7 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
             }) => (
               <Form onSubmit={handleSubmit} className="w-full">
                 <div className="flex flex-col gap-3 mb-[10px]">
-                  <div className="w-full flex gap-4 mb-4">
+                  <div className="w-full flex flex-col sm:flex-row gap-4 mb-4">
                     <div className="w-full">
                       <label className="text-[#0A0A0A] font-medium text-base leading-6 mb-2">
                         Name
@@ -256,7 +257,7 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
                       />
                     </div>
                   </div>
-                  <div className="w-full flex gap-4 mb-4">
+                  <div className="w-full flex flex-col sm:flex-row gap-4 mb-4">
                     <div className="w-full">
                       <label className="text-[#0A0A0A] font-medium text-base leading-6 mb-2">
                         Email
@@ -287,7 +288,6 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
                         as="select"
                         name="role"
                         onChange={handleChange}
-                        // value={values.role || currentUserData?.role || ""}
                         className="focus:outline-none w-full border rounded-[12px] text-sm leading-4 font-medium text-[#717171] py-4 px-4"
                       >
                         <option value="" disabled>
@@ -304,13 +304,6 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
                 </div>
 
                 <div className="mt-10 w-full flex justify-end items-center gap-5">
-                  <button
-                    type="button"
-                    onClick={() => setIsEditFlyoutOpen(false)}
-                    className="py-[13px] px-[26px] border border-[#E7E7E7] rounded-2xl text-[#0A0A0A] text-base font-medium leading-6"
-                  >
-                    Cancel
-                  </button>
                   {hasSystemUserEdit ? (
                     <button
                       type="submit"
@@ -336,48 +329,58 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
           </Formik>
         ) : (
           <div className="w-full border rounded-lg p-4 shadow-md">
-          <table className="w-full border-collapse border border-gray-300">
-            <thead>
-              <tr className=" border-b">
-                <th className="text-left p-2 border text-[#0A0A0A] font-medium text-base leading-6">Name</th>
-                <th className="text-left p-2 border text-[#0A0A0A] font-medium text-base leading-6">Description</th>
-                <th className="text-left p-2 border text-[#0A0A0A] font-medium text-base leading-6">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className="border-b">
-                <td className="p-2 border">{currentUserData.name}</td>
-                <td className="p-2 border">
-                  <input
-                    type="text"
-                    value={userDescription || "No Description"}
-                    className="border px-2 py-1 rounded w-full"
-                    readOnly
-                  />
-                </td>
-                <td className="p-2 border">
-                  {userDescription ? (
-                    <button
-                      onClick={hanldleDelete}
-                      className="py-2 px-4 bg-red-200 flex gap-1.5 items-center rounded-full hover:bg-red-300 transition"
-                    >
-                      <RiDeleteBin6Line className="text-red-600 w-4 h-4" />
-                      <p className="text-sm leading-normal text-red-600">Delete</p>
-                    </button>
-                  ) : (
-                    <button
-                      disabled
-                      className="py-2 px-4 bg-red-200 flex gap-1.5 items-center rounded-full cursor-not-allowed opacity-85"
-                    >
-                      <RiDeleteBin6Line className="text-red-600 w-4 h-4" />
-                      <p className="text-sm leading-normal text-red-600">Deleted</p>
-                    </button>
-                  )}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+            <table className="w-full border-collapse border border-gray-300">
+              <thead>
+                <tr className=" border-b">
+                  <th className="text-left p-2 border text-[#0A0A0A] font-medium text-base leading-6">
+                    Name
+                  </th>
+                  <th className="text-left p-2 border text-[#0A0A0A] font-medium text-base leading-6">
+                    Description
+                  </th>
+                  <th className="text-left p-2 border text-[#0A0A0A] font-medium text-base leading-6">
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-b">
+                  <td className="p-2 border">{currentUserData.name}</td>
+                  <td className="p-2 border">
+                    <input
+                      type="text"
+                      value={userDescription || "No Description"}
+                      className="border px-2 py-1 rounded w-full"
+                      readOnly
+                    />
+                  </td>
+                  <td className="p-2 border">
+                    {userDescription ? (
+                      <button
+                        onClick={hanldleDelete}
+                        className="py-2 px-4 bg-red-200 flex gap-1.5 items-center rounded-full hover:bg-red-300 transition"
+                      >
+                        <RiDeleteBin6Line className="text-red-600 w-4 h-4" />
+                        <p className="text-sm leading-normal text-red-600">
+                          Delete
+                        </p>
+                      </button>
+                    ) : (
+                      <button
+                        disabled
+                        className="py-2 px-4 bg-red-200 flex gap-1.5 items-center rounded-full cursor-not-allowed opacity-85"
+                      >
+                        <RiDeleteBin6Line className="text-red-600 w-4 h-4" />
+                        <p className="text-sm leading-normal text-red-600">
+                          Deleted
+                        </p>
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
     </>
