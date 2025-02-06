@@ -204,7 +204,7 @@ export default function OtpHome() {
                 ref={(el) => {
                   inputRefs.current[index] = el;
                 }}
-                className="w-[14%] sm:w-[14%] h-12 sm:h-14 py-3 sm:py-4 px-4 sm:px-5 border-b border-[#BDD1E0] text-black text-lg sm:text-xl font-semibold leading-normal focus:outline-none focus:border-b-2 focus-within:border-[#0E6874]"
+                className="w-[14%] sm:w-[14%] h-12 sm:h-14 py-3 sm:py-4 text-center sm:px-5 border-b border-[#BDD1E0] text-black text-lg sm:text-xl font-semibold leading-normal focus:outline-none focus:border-b-2 focus-within:border-[#0E6874]"
               />
             ))}
           </div>
