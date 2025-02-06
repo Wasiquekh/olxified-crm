@@ -191,7 +191,8 @@ export default function OtpHome() {
           to your authenticator app
         </p>
         <form onSubmit={handleSubmit} className="w-full">
-          <div className="flex gap-[10px] justify-center mb-10 sm:mb-14 w-[90%] mx-auto">
+        <div>
+          <div className="flex items-center justify-between mb-10 sm:mb-14 w-[96%] mx-auto">
             {code.map((digit, index) => (
               <input
                 key={index}
@@ -203,7 +204,7 @@ export default function OtpHome() {
                 ref={(el) => {
                   inputRefs.current[index] = el;
                 }}
-                className="w-[45px] sm:w-[54px] h-12 sm:h-14 py-3 sm:py-4 px-4 sm:px-5 border-b border-[#BDD1E0] text-black text-lg sm:text-xl font-semibold leading-normal focus:outline-none focus:border-b-2 focus-within:border-[#0E6874]"
+                className="w-[14%] sm:w-[14%] h-12 sm:h-14 py-3 sm:py-4 px-4 sm:px-5 border-b border-[#BDD1E0] text-black text-lg sm:text-xl font-semibold leading-normal focus:outline-none focus:border-b-2 focus-within:border-[#0E6874]"
               />
             ))}
           </div>
@@ -215,6 +216,7 @@ export default function OtpHome() {
             >
               {loading ? "Code Verifying..." : "Verify Code"}
             </button>
+          </div>
           </div>
         </form>
       </div>
