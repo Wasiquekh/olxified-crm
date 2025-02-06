@@ -10,6 +10,8 @@ import { useEffect, useState } from "react";
 import { HiChevronDoubleLeft } from "react-icons/hi";
 import { HiChevronDoubleRight } from "react-icons/hi";
 import DesktopHeader from "../component/DesktopHeader";
+import { Tooltip } from "react-tooltip";
+import { FaEllipsisVertical } from "react-icons/fa6";
 
 const axiosProvider = new AxiosProvider();
 
@@ -94,8 +96,8 @@ export default function Home() {
                     </div>
                   </th>
                   <th
-                    scope="col" 
-                    className="px-2 py-0 border border-tableBorder"
+                    scope="col"
+                    className="px-2 py-0 border border-tableBorder hidden md:table-cell"
                   >
                     <div className="flex items-center gap-2">
                       <div className="font-medium text-[#718EBF] text-base leading-normal">
@@ -105,7 +107,7 @@ export default function Home() {
                   </th>
                   <th
                     scope="col"
-                    className="px-2 py-0 border border-tableBorder"
+                    className="px-2 py-0 border border-tableBorder hidden md:table-cell"
                   >
                     <div className="flex items-center gap-2">
                       <div className="font-medium text-[#718EBF] text-base leading-normal">
@@ -115,7 +117,7 @@ export default function Home() {
                   </th>
                   <th
                     scope="col"
-                    className="px-2 py-0 border border-tableBorder"
+                    className="px-2 py-0 border border-tableBorder hidden md:table-cell"
                   >
                     <div className="flex items-center gap-2">
                       <div className="font-medium text-[#718EBF] text-base leading-normal">
@@ -125,7 +127,7 @@ export default function Home() {
                   </th>
                   <th
                     scope="col"
-                    className="px-2 py-0 border border-tableBorder"
+                    className="px-2 py-0 border border-tableBorder hidden md:table-cell"
                   >
                     <div className="flex items-center gap-2">
                       <div className="font-medium text-[#718EBF] text-base leading-normal">
@@ -135,7 +137,7 @@ export default function Home() {
                   </th>
                   <th
                     scope="col"
-                    className="px-2 py-0 border border-tableBorder"
+                    className="px-2 py-0 border border-tableBorder hidden md:table-cell"
                   >
                     <div className="flex items-center gap-2">
                       <div className="font-medium text-[#718EBF] text-base leading-normal">
@@ -147,9 +149,9 @@ export default function Home() {
               </thead>
               <tbody>
                 {isError ? (
-                  <tr className="">
-                    <td colSpan={8} className="text-center text-xl mt-5">
-                      <div className=" mt-5">Data not found</div>
+                  <tr>
+                    <td colSpan={6} className="text-center text-xl mt-5">
+                      <div className="mt-5">Data not found</div>
                     </td>
                   </tr>
                 ) : (
@@ -159,37 +161,52 @@ export default function Home() {
                       key={index}
                     >
                       <td className="p-4 border border-tableBorder flex items-center gap-2">
+                      <div className="md:hidden">
+                          <FaEllipsisVertical
+                            data-tooltip-id="my-tooltip"
+                            data-tooltip-html={`<div>
+                                  <strong>Description:</strong> <span style="text-transform: capitalize;">${item.description}</span><br/>
+                                  <strong>Transaction id:</strong> ${item.transaction_id}<br/>
+                                   <strong>Type:</strong> ${item.type}<br/>
+                                    <strong>Card:</strong> ${item.card}<br/>
+                                   <strong>Date:</strong> ${item.date}<br/>
+                                   <strong>Amount:</strong> ${item.amount}<br/>
+                                </div>`}
+                            className="text-black leading-normal capitalize"
+                          />
+                          <Tooltip id="my-tooltip" place="right" float />
+                        </div>
                         <div>
                           <p className="text-[#232323] text-base leading-normal">
                             {item.description}
                           </p>
                         </div>
                       </td>
-                      <td className="px-2 py-0 border border-tableBorder">
+                      <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
                         <p className="text-[#232323] text-base leading-normal">
                           {item.transaction_id}
                         </p>
                       </td>
-                      <td className="px-2 py-0 border border-tableBorder">
+                      <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
                         <p className="text-[#232323] text-base leading-normal">
                           {item.type}
                         </p>
                       </td>
-                      <td className="px-2 py-0 border border-tableBorder">
+                      <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
                         <div className="flex gap-1.5">
                           <p className="text-[#232323] text-base leading-normal">
                             {item.card}
                           </p>
                         </div>
                       </td>
-                      <td className="px-2 py-0 border border-tableBorder">
+                      <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
                         <div className="flex gap-1.5">
                           <p className="text-[#232323] text-base leading-normal">
                             {item.date}
                           </p>
                         </div>
                       </td>
-                      <td className="px-2 py-0 border border-tableBorder">
+                      <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
                         <div className="flex gap-1.5">
                           <p className="text-[#FE5C73] text-base font-medium leading-normal">
                             {item.amount}
@@ -232,12 +249,12 @@ export default function Home() {
       {/* Left sidebar */}
       <LeftSideBar />
       {/* Main content right section */}
-      <div className="w-[85%] bg-white min-h-[500px] rounded p-0 mt-2">
+      <div className="w-full md:w-[85%] bg-white min-h-[500px] rounded p-0 mt-2">
         {/* Right section top row */}
         <div className="w-full flex justify-end items-center gap-7 mb-3 p-4">
           <DesktopHeader />
         </div>
-        <div className="w-full bg-[#F5F7FA] flex justify-center p-8">
+        <div className="w-full bg-[#F5F7FA] flex justify-center p-1 md:p-8">
           <div className="w-[95%] min-h-[600px] bg-white rounded-[25px]">
             <div className="p-6">
               <p className="text-[#343C6A] text-[22px] font-medium leading-normal ml-2 mb-4">
