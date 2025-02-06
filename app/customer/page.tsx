@@ -25,8 +25,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import DesktopHeader from "../component/DesktopHeader";
 import { FaEllipsisVertical } from "react-icons/fa6";
-import Modal from "react-modal";
 import { strict } from "assert";
+import { Tooltip } from "react-tooltip";
 
 const axiosProvider = new AxiosProvider();
 
@@ -87,10 +87,6 @@ export default function Home() {
   const storage = new StorageManager();
   //console.log("Get all user Data", data);
   const router = useRouter();
-  const customerObject = (item: SetStateAction<Customer>) => {
-    setSelectedData(item);
-    setIsOpen(true);
-  };
 
   const handleClick = async (customer: Customer) => {
     // console.log('Object customer data',customer.id)
@@ -402,15 +398,24 @@ export default function Home() {
                       >
                         {/* Name - Birth Date: Always Visible */}
                         <td className="px-3 py-2 border-tableBorder flex items-center gap-2">
-                          <div className="flex gap-2 items-center">
-                            <div className="md:hidden relative">
+                          <div className="flex gap-2">
+                            <div className="md:hidden">
                               <FaEllipsisVertical
-                                onClick={() => customerObject(item)}
-                                className="text-black"
+                                data-tooltip-id="my-tooltip"
+                                data-tooltip-html={`<div>
+                                  <strong>Name:</strong> <span style="text-transform: capitalize;">${item.firstname} ${item.lastname}</span><br/>
+                                  <strong>Date of birth:</strong> ${item.birthdate}<br/>
+                                   <strong>Country of birth:</strong> ${item.countryofbirth}<br/>
+                                   <strong>Gender:</strong> ${item.gender}<br/>
+                                   <strong>Country of residence:</strong> ${item.countryofresidence}<br/>
+                                   <strong>Mobile number:</strong> ${item.mobilephonenumber}<br/>
+                                </div>`}
+                                className="text-black leading-normal relative top-[5.3px] capitalize"
                               />
+                              <Tooltip id="my-tooltip" place="right" float />
                             </div>
                             <div>
-                              <p className="text-[#232323] text-sm sm:text-base font-semibold leading-normal">
+                              <p className="text-[#232323] text-sm sm:text-base font-semibold leading-normal capitalize">
                                 {item.firstname} {item.lastname}
                               </p>
                               <p className="text-[#232323] text-xs sm:text-sm leading-normal">
@@ -522,58 +527,6 @@ export default function Home() {
           {/* ----------------End prgination--------------------------- */}
         </div>
       </div>
-
-      {/* REACT MODAL */}
-      {/* React Modal */}
-      <Modal
-        isOpen={isOpen}
-        onRequestClose={() => setIsOpen(false)}
-        className="p-6 bg-white rounded-lg shadow-lg w-96 mx-auto"
-        overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
-      >
-        <h2 className="text-lg font-bold">React Modal</h2>
-        <p className="mt-2">{selectedData && selectedData.countryofbirth}</p>
-        <p className="mt-2">{selectedData && selectedData.gender}</p>
-        <p className="mt-2">
-          {selectedData && selectedData.countryofresidence}
-        </p>
-        <p className="mt-2">{selectedData && selectedData.mobilephonenumber}</p>
-        <p className="mt-2">
-          {selectedData && (
-            <span
-              className={`text-white text-xs sm:text-sm flex justify-center items-center p-1 rounded-full ${
-                selectedData.mainStatus === "On Progress"
-                  ? "bg-[#2DB3FF]"
-                  : selectedData.mainStatus === "Approved"
-                  ? "bg-[#379941]"
-                  : selectedData.mainStatus === "Rejected"
-                  ? "bg-[#E52020]"
-                  : "bg-customBlue"
-              }`}
-            >
-              {selectedData.mainStatus}
-            </span>
-          )}
-        </p>
-        <button
-          onClick={() => handleClick(selectedData)}
-          className="py-1 px-3 bg-[#C6F7FE] flex gap-2 items-center rounded-full"
-        >
-          <MdRemoveRedEye className="text-customBlue w-4 h-4" />
-          <span className="text-xs sm:text-sm text-customBlue">
-            View Details
-          </span>
-        </button>
-        {/* <p className="mt-2">{selectedData && selectedData.countryofbirth}</p> */}
-
-        <button
-          onClick={() => setIsOpen(false)}
-          className="mt-4 px-4 py-2 bg-red-500 text-white rounded"
-        >
-          Close
-        </button>
-      </Modal>
-      {/* END REACT MODAL */}
 
       {/* FITLER FLYOUT */}
       {isFlyoutFilterOpen && (
