@@ -24,6 +24,8 @@ import { useRouter } from "next/navigation";
 import { HiChevronDoubleLeft } from "react-icons/hi";
 import { HiChevronDoubleRight } from "react-icons/hi";
 import DesktopHeader from "../component/DesktopHeader";
+import { Tooltip } from "react-tooltip";
+import { FaEllipsisVertical } from "react-icons/fa6";
 
 interface User {
   id: string;
@@ -260,8 +262,21 @@ export default function Home() {
                       className="border border-tableBorder bg-white"
                       key={index}
                     >
-                      <td className="px-4 py-2 border border-tableBorder flex items-center gap-2">
-                        <div>
+                      <td className="px-4 py-2 border border-tableBorder flex  gap-2">
+                        <div className="md:hidden flex">
+                          <FaEllipsisVertical
+                            data-tooltip-id="my-tooltip"
+                            data-tooltip-html={`<div>
+                                  <strong>Name:</strong> <span style="text-transform: capitalize;">${item.name}</span><br/>
+                                  <strong>Email:</strong> ${item.email}<br/>
+                                  <strong>Mobile:</strong> ${item.mobile_number}<br/>
+                                  <strong>Role:</strong> ${item.role}<br/>
+                                </div>`}
+                            className="text-black leading-normal capitalize relative top-1"
+                          />
+                          <Tooltip id="my-tooltip" place="right" float />
+                        </div>
+                        <div className="">
                           <p className="text-[#232323] text-base font-semibold leading-normal mb-[6px]">
                             {item.name}
                           </p>
