@@ -161,7 +161,7 @@ export default function Home() {
         {/* Left sidebar */}
         <LeftSideBar />
         {/* Main content right section */}
-        <div className=" w-[85%] bg-white min-h-[500px]  rounded p-4 mt-2">
+        <div className="w-full md:w-[85%] bg-white min-h-[500px]  rounded p-4 mt-2">
           {/* {data && data.map((item) => (
             <li key={item.email}>{item.name}</li>
           ))} */}
@@ -171,31 +171,26 @@ export default function Home() {
             <DesktopHeader />
           </div>
           {/* Main content middle section */}
-          <div className="w-full flex justify-between items-center h-[74px] mt-3 mb-8">
-            <div>
+          <div className="w-full flex justify-between items-center h-[74px] mt-3 mb-8 flex-wrap sm:flex-nowrap">
+            <div className="w-full sm:w-auto mb-2 sm:mb-0">
               <p className=" text-[#0A0A0A] text-[26px] font-semibold leading-normal">
                 User Management
               </p>
-              <div className=" flex gap-2 ml-[1px] items-center">
-                <p className=" text-[#717171] text-base leading-normal">
-                  2+ New User added today, sorted by name
-                </p>
-              </div>
             </div>
-            <div>
+            <div className="w-full sm:w-auto">
               {hasSystemUserAdd ? (
                 <Link href="/useradd">
-                  <button className=" flex items-center gap-[10px] bg-[#fff]  h-12 px-3 py-[6px] rounded-2xl  border border-[#E7E7E7] shadow-borderShadow">
-                    <FaPlus className=" h-[20px] w-[20px] text-[#0A0A0A]" />
-                    <p className=" text-[#0A0A0A] text-base leading-normal">
+                  <button className="flex items-center gap-[10px] bg-[#fff] h-12 px-3 py-[6px] rounded-2xl border border-[#E7E7E7] shadow-borderShadow w-full sm:w-auto">
+                    <FaPlus className="h-[20px] w-[20px] text-[#0A0A0A]" />
+                    <p className="text-[#0A0A0A] text-base leading-normal">
                       Create User
                     </p>
                   </button>
                 </Link>
               ) : (
-                <button className=" flex items-center gap-[10px] bg-[#fff]  h-12 px-3 py-[6px] rounded-2xl  border border-[#E7E7E7] shadow-borderShadow cursor-not-allowed">
-                  <FaPlus className=" h-[20px] w-[20px] text-[#0A0A0A]" />
-                  <p className=" text-[#0A0A0A] text-base leading-normal">
+                <button className="flex items-center gap-[10px] bg-[#fff] h-12 px-3 py-[6px] rounded-2xl border border-[#E7E7E7] shadow-borderShadow cursor-not-allowed w-full sm:w-auto">
+                  <FaPlus className="h-[20px] w-[20px] text-[#0A0A0A]" />
+                  <p className="text-[#0A0A0A] text-base leading-normal">
                     Not Access
                   </p>
                 </button>
@@ -208,23 +203,20 @@ export default function Home() {
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
               <thead className="text-xs text-[#999999]">
                 <tr className=" border border-tableBorder">
-                  <th
-                    scope="col"
-                    className="p-4 border border-tableBorder"
-                  >
-                    <div className=" flex items-center gap-2">
-                      <RxAvatar className=" w-5 h-5" />
+                  <th scope="col" className="p-4 border border-tableBorder">
+                    <div className="flex items-center gap-2">
+                      <RxAvatar className="w-5 h-5" />
                       <div className="font-semibold text-[#717171] text-base leading-normal">
-                        Name - Mail{" "}
+                        Name - Mail
                       </div>
                     </div>
                   </th>
                   <th
                     scope="col"
-                    className="px-2 py-0 border border-tableBorder"
+                    className="px-2 py-0 border border-tableBorder hidden md:table-cell"
                   >
-                    <div className=" flex items-center gap-2">
-                      <MdOutlineCall className=" w-5 h-5" />
+                    <div className="flex items-center gap-2">
+                      <MdOutlineCall className="w-5 h-5" />
                       <div className="font-semibold text-[#717171] text-base leading-normal">
                         Phone
                       </div>
@@ -232,9 +224,9 @@ export default function Home() {
                   </th>
                   <th
                     scope="col"
-                    className="px-2 py-0 border border-tableBorder"
+                    className="px-2 py-0 border border-tableBorder hidden md:table-cell"
                   >
-                    <div className=" flex items-center gap-2">
+                    <div className="flex items-center gap-2">
                       <LiaArrowCircleDownSolid className="w-5 h-5" />
                       <div className="font-semibold text-[#717171] text-base leading-normal">
                         Role
@@ -245,7 +237,7 @@ export default function Home() {
                     scope="col"
                     className="px-2 py-0 border border-tableBorder"
                   >
-                    <div className=" flex items-center gap-2">
+                    <div className="flex items-center gap-2">
                       <LiaArrowCircleDownSolid className="w-5 h-5" />
                       <div className="font-semibold text-[#717171] text-base leading-normal">
                         Action
@@ -281,12 +273,12 @@ export default function Home() {
                           </p>
                         </div>
                       </td>
-                      <td className="px-2 py-0 border border-tableBorder">
+                      <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
                         <p className="text-[#232323] text-base leading-normal">
                           {item.mobile_number}
                         </p>
                       </td>
-                      <td className="px-2 py-0 border border-tableBorder">
+                      <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
                         <button className="py-[6px] px-8 bg-[#DCF8DC] rounded-[16px] w-36">
                           <p className="text-sm leading-normal text-[#0C390C]">
                             {item.role}
@@ -346,6 +338,7 @@ export default function Home() {
                 )}
               </tbody>
             </table>
+
             {/* Pagination Controls */}
             <div className="flex justify-center items-center my-6">
               <button

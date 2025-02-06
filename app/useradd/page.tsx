@@ -100,7 +100,7 @@ export default function Home() {
       label: "Create New User",
       content: (
         <>
-          <div className="flex gap-8 pt-3">
+          <div className="flex gap-8 pt-3 flex-col md:flex-row">
             <Formik
               initialValues={{
                 name: "",
@@ -113,9 +113,10 @@ export default function Home() {
               onSubmit={handleSubmit}
             >
               {({ setFieldValue, isSubmitting, values }) => (
-                <Form className="w-9/12">
+                <Form className="w-full md:w-9/12">
                   <div className="w-full">
-                    <div className="w-full flex gap-6">
+                    {/* Name Field */}
+                    <div className="w-full flex flex-col md:flex-row gap-6">
                       <div className="w-full relative mb-3">
                         <p className="text-[#232323] text-base leading-normal mb-2">
                           Your Name
@@ -135,33 +136,32 @@ export default function Home() {
 
                       {/* Mobile Number Field */}
                       <div className="w-full relative mb-3">
-                        <div className="w-full relative mb-3">
-                          <p className="text-[#232323] text-base leading-normal mb-2">
-                            Mobile Number
-                          </p>
-                          <PhoneInput
-                            country={"in"}
-                            value={values.mobile_number}
-                            onChange={(phone: string) => {
-                              const formattedPhone = phone
-                                ? phone.startsWith("+")
-                                  ? phone
-                                  : `+${phone}`
-                                : "";
-                              setFieldValue("mobile_number", formattedPhone);
-                            }}
-                            placeholder="Mobile Number"
-                          />
-                          <ErrorMessage
-                            name="mobile_number"
-                            component="div"
-                            className="text-red-500 absolute top-[90px] text-xs"
-                          />
-                        </div>
+                        <p className="text-[#232323] text-base leading-normal mb-2">
+                          Mobile Number
+                        </p>
+                        <PhoneInput
+                          country={"in"}
+                          value={values.mobile_number}
+                          onChange={(phone: string) => {
+                            const formattedPhone = phone
+                              ? phone.startsWith("+")
+                                ? phone
+                                : `+${phone}`
+                              : "";
+                            setFieldValue("mobile_number", formattedPhone);
+                          }}
+                          placeholder="Mobile Number"
+                        />
+                        <ErrorMessage
+                          name="mobile_number"
+                          component="div"
+                          className="text-red-500 absolute top-[90px] text-xs"
+                        />
                       </div>
                     </div>
 
-                    <div className="w-full flex gap-6">
+                    {/* Email and Password Fields */}
+                    <div className="w-full flex flex-col md:flex-row gap-6">
                       <div className="w-full relative mb-3">
                         <p className="text-[#232323] text-base leading-normal mb-2">
                           Email
@@ -208,7 +208,8 @@ export default function Home() {
                       </div>
                     </div>
 
-                    <div className="w-full flex gap-6">
+                    {/* Role Field */}
+                    <div className="w-full flex flex-col md:flex-row gap-6">
                       <div className="w-full relative mb-8">
                         <p className="text-[#232323] text-base leading-normal mb-2">
                           Role
@@ -252,12 +253,13 @@ export default function Home() {
                       </div>
                     </div>
 
+                    {/* Submit Button */}
                     <div className="w-full flex gap-6">
                       <div className="w-full">
                         <button
                           type="submit"
                           disabled={isSubmitting}
-                          className="w-[190px] h-[50px] bg-customBlue rounded-[15px] text-white text-lg leading-normal font-medium"
+                          className="w-full md:w-[190px] h-[50px] bg-customBlue rounded-[15px] text-white text-lg leading-normal font-medium"
                         >
                           {isSubmitting ? "Submitting..." : "Submit"}
                         </button>
@@ -422,14 +424,14 @@ export default function Home() {
         {/* Left sidebar */}
         <LeftSideBar />
         {/* Main content right section */}
-        <div className=" w-[85%] bg-white min-h-[500px]  rounded p-0 mt-2">
+        <div className="w-full md:w-[85%] bg-white min-h-[500px]  rounded p-0 mt-2">
           {/* right section top row */}
           <div className=" w-full flex justify-end items-center gap-7 mb-3 p-4">
             <DesktopHeader />
           </div>
-          <div className=" w-full   bg-[#F5F7FA] flex justify-center p-8">
+          <div className=" w-full   bg-[#F5F7FA] flex justify-center p-4 md:p-8">
             <div className=" w-[95%] min-h-[600px] bg-white rounded-[25px]">
-              <div className="p-6">
+              <div className="p-2 md:p-6">
                 <Tabs tabs={tabs} />
               </div>
             </div>
