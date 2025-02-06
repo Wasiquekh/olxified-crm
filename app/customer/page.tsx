@@ -371,7 +371,7 @@ export default function Home() {
                     </th>
                     <th
                       scope="col"
-                      className="px-3 py-2 border border-tableBorder hidden md:table-cell"
+                      className="px-3 py-2 border border-tableBorder  md:table-cell"
                     >
                       <div className="flex items-center gap-2">
                         <LiaArrowCircleDownSolid className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -461,7 +461,7 @@ export default function Home() {
                             {item.mainStatus}
                           </span>
                         </td>
-                        <td className="px-3 py-2 border border-tableBorder hidden md:table-cell">
+                        <td className="px-3 py-2 border border-tableBorder  md:table-cell">
                           <button
                             onClick={() => handleClick(item)}
                             className="py-1 px-3 bg-[#C6F7FE] flex gap-2 items-center rounded-full"
