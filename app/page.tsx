@@ -35,20 +35,20 @@ export default function LoginHome() {
   const handleSubmitLogin = async (values: FormValues) => {
     setLoading(true);
     try {
-      const res = await axiosProvider.post(
-        "/login",
-        { email: values.email, password: values.password }
-      );
+      const res = await axiosProvider.post("/login", {
+        email: values.email,
+        password: values.password,
+      });
       if (res.status !== 200) {
         console.error("Login failed", res.status, res.data);
       }
       //console.log('LOG IN',res)
-     // console.log(res.data.data.secretKey);
+      // console.log(res.data.data.secretKey);
       storage.saveUserId(res.data.data.id);
       storage.saveUserSecretKey(res.data.data.secretKey);
       storage.saveUserName(res.data.data.name);
       await storage.saveUserPermissions(res.data.data.permissions);
-      router.push('/qrcode');
+      router.push("/qrcode");
     } catch (error) {
       console.log(error);
       toast.error("Username or password is incorrect. Please try again.");
@@ -61,7 +61,7 @@ export default function LoginHome() {
   };
   return (
     <>
-      <div className="bg-[#F5F5F5]">
+      <div className="bg-[#F5F5F5] hidden md:block">
         <Image
           src="/images/orizon-login-bg.svg"
           alt="Orizon iconLogo bg"
@@ -105,7 +105,7 @@ export default function LoginHome() {
           className=" absolute  top-[90%] right-0 left-0 mx-auto"
         />
       </div>
-      <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[500px] h-[587px] shadow-loginBoxShadow bg-white px-12 py-16">
+      <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[90%] max-w-[500px] h-[587px] shadow-loginBoxShadow bg-white px-6 sm:px-12 py-10 sm:py-16 rounded-lg">
         <Image
           src="/images/loginicon.svg"
           alt="OrizonIcon"
@@ -113,7 +113,7 @@ export default function LoginHome() {
           height={52}
           className="mx-auto mb-5"
         />
-        <p className="font-bold text-base leading-normal text-center text-black mb-6">
+        <p className="font-bold text-lg sm:text-base leading-normal text-center text-black mb-6">
           Login to Orizon
         </p>
         <Formik
@@ -125,7 +125,7 @@ export default function LoginHome() {
             <Form className="w-full">
               <div className="w-full">
                 <p className="text-[#232323] text-base leading-normal mb-2">
-                  Email or Userid
+                  Email or User ID
                 </p>
                 <div className="relative">
                   <Field
@@ -138,7 +138,7 @@ export default function LoginHome() {
                   <ErrorMessage
                     name="email"
                     component="div"
-                    className="text-red-500 text-sm mb-2 absolute top-14"
+                    className="text-red-500 text-sm absolute top-14"
                   />
                 </div>
                 <p className="text-[#232323] text-base leading-normal mb-2">
@@ -167,7 +167,7 @@ export default function LoginHome() {
                   <ErrorMessage
                     name="password"
                     component="div"
-                    className="text-red-500 text-sm mb-2 absolute top-14"
+                    className="text-red-500 text-sm absolute top-14"
                   />
                 </div>
                 <button
@@ -178,7 +178,7 @@ export default function LoginHome() {
                   {loading ? "Logging in..." : "Login"}
                 </button>
 
-                <div className="flex gap-4">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-center sm:text-left">
                   <p className="text-[#424955] text-[15px] leading-normal">
                     Forgot User ID or Password?
                   </p>

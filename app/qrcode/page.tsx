@@ -9,7 +9,7 @@ import AxiosProvider from "../../provider/AxiosProvider";
 import StorageManager from "../../provider/StorageManager";
 import { useContext } from "react";
 import { AppContext } from "../AppContext";
-import UserActivityLogger from '../../provider/UserActivityLogger';
+import UserActivityLogger from "../../provider/UserActivityLogger";
 
 const axiosProvider = new AxiosProvider();
 
@@ -105,7 +105,6 @@ export default function OtpHome() {
       // Create instance and log activity
       const activityLogger = new UserActivityLogger();
       await activityLogger.userLogin();
-
     } catch (error) {
       console.error("Network error:", error);
       toast.error("Invalid Code. Please try again.");
@@ -122,7 +121,7 @@ export default function OtpHome() {
   }, []); // Empty dependency array ensures it runs only once when the component is mounted
   return (
     <>
-      <div className="bg-[#F5F5F5]">
+      <div className="bg-[#F5F5F5] hidden md:block">
         <Image
           src="/images/orizon-login-bg.svg"
           alt="Orizon iconLogo bg"
@@ -130,9 +129,44 @@ export default function OtpHome() {
           height={100}
           className="w-full h-[100vh]"
         />
-        {/* Other images */}
+        <Image
+          src="/images/orizonIcon.svg"
+          alt="OrizonIcon"
+          width={82}
+          height={52}
+          className=" absolute top-20 left-28"
+        />
+        <Image
+          src="/images/orizonIcon.svg"
+          alt="OrizonIcon"
+          width={82}
+          height={52}
+          className=" absolute top-32 right-28"
+        />
+        <Image
+          src="/images/orizonIcon.svg"
+          alt="OrizonIcon"
+          width={82}
+          height={52}
+          className=" absolute  top-1/2 left-[25%]"
+        />
+        <Image
+          src="/images/orizonIcon.svg"
+          alt="OrizonIcon"
+          width={82}
+          height={52}
+          className=" absolute  top-[60%] right-[25%]"
+        />
+        <Image
+          src="/images/orizonIcon.svg"
+          alt="OrizonIcon"
+          width={82}
+          height={52}
+          className=" absolute  top-[90%] right-0 left-0 mx-auto"
+        />
       </div>
-      <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[500px] h-[587px] shadow-loginBoxShadow bg-white px-12 py-16">
+      
+      <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[90%] max-w-[500px] h-[587px] shadow-loginBoxShadow bg-white px-6 sm:px-12 py-10 sm:py-16 rounded-lg">
         <Image
           src="/images/loginicon.svg"
           alt="OrizonIcon"
@@ -140,7 +174,7 @@ export default function OtpHome() {
           height={52}
           className="mx-auto mb-5"
         />
-        <p className="font-bold text-base leading-normal text-center text-black mb-2">
+        <p className="font-bold text-lg sm:text-base leading-normal text-center text-black mb-2">
           Authenticate your Account
         </p>
         {qrCode && (
@@ -152,12 +186,12 @@ export default function OtpHome() {
             className="mx-auto"
           />
         )}
-        <p className="text-[#232323] text-base leading-[26px] text-center mb-14">
+        <p className="text-[#232323] text-base leading-[26px] text-center mb-10 sm:mb-14">
           Please confirm your account by entering the authentication number sent
           to your authenticator app
         </p>
-        <form onSubmit={handleSubmit}>
-          <div className="flex gap-[10px] justify-center mb-14 w-[90%] mx-auto">
+        <form onSubmit={handleSubmit} className="w-full">
+          <div className="flex gap-[10px] justify-center mb-10 sm:mb-14 w-[90%] mx-auto">
             {code.map((digit, index) => (
               <input
                 key={index}
@@ -167,9 +201,9 @@ export default function OtpHome() {
                 onChange={(e) => handleChange(e, index)}
                 onKeyDown={(e) => handleKeyDown(e, index)}
                 ref={(el) => {
-                  inputRefs.current[index] = el; // Assign the element to the ref array
+                  inputRefs.current[index] = el;
                 }}
-                className="w-[54px] h-14 py-4 px-5 border-b border-[#BDD1E0] text-black text-xl font-semibold leading-normal focus:outline-none focus:border-b-2 focus-within:border-[#0E6874]"
+                className="w-[45px] sm:w-[54px] h-12 sm:h-14 py-3 sm:py-4 px-4 sm:px-5 border-b border-[#BDD1E0] text-black text-lg sm:text-xl font-semibold leading-normal focus:outline-none focus:border-b-2 focus-within:border-[#0E6874]"
               />
             ))}
           </div>
