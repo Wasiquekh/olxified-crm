@@ -26,6 +26,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
 import Select from "react-select";
 import DesktopHeader from "../component/DesktopHeader";
+import { Tooltip } from "react-tooltip";
+import { FaEllipsisVertical } from "react-icons/fa6";
 
 const axiosProvider = new AxiosProvider();
 
@@ -299,7 +301,7 @@ export default function Home() {
       <div className=" flex  min-h-screen">
         <LeftSideBar />
         {/* Main content right section */}
-        <div className=" w-[85%] bg-white min-h-[500px]  rounded p-4 mt-2">
+        <div className="w-full md:w-[85%] bg-white min-h-[500px]  rounded p-4 mt-2">
           {/* left section top row */}
           <div className=" w-full flex justify-end items-center gap-7 mb-8">
             <DesktopHeader />
@@ -371,10 +373,10 @@ export default function Home() {
             </div>
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
               <thead className="text-xs text-[#999999]">
-                <tr className=" border border-tableBorder">
-                  <th scope="col" className="p-4 border border-tableBorder">
-                    <div className=" flex items-center gap-2">
-                      <RxAvatar className=" w-6 h-6" />
+                <tr className="border border-tableBorder">
+                  <th scope="col" className="p-2 border border-tableBorder">
+                    <div className="flex items-center gap-2">
+                      <RxAvatar className="w-6 h-6" />
                       <div className="font-medium text-[#717171] text-base leading-normal">
                         Name and User Activity{" "}
                       </div>
@@ -382,10 +384,10 @@ export default function Home() {
                   </th>
                   <th
                     scope="col"
-                    className="px-2 py-0 border border-tableBorder"
+                    className="px-2 py-0 border border-tableBorder hidden sm:table-cell"
                   >
-                    <div className=" flex items-center gap-2">
-                      <HiOutlineBookOpen className=" w-6 h-6" />
+                    <div className="flex items-center gap-2">
+                      <HiOutlineBookOpen className="w-6 h-6" />
                       <div className="font-medium text-[#717171] text-base leading-normal">
                         User&apos;s Name
                       </div>
@@ -393,10 +395,10 @@ export default function Home() {
                   </th>
                   <th
                     scope="col"
-                    className="px-2 py-0 border border-tableBorder"
+                    className="px-2 py-0 border border-tableBorder hidden sm:table-cell"
                   >
-                    <div className=" flex items-center gap-2">
-                      <HiOutlineBookOpen className=" w-6 h-6" />
+                    <div className="flex items-center gap-2">
+                      <HiOutlineBookOpen className="w-6 h-6" />
                       <div className="font-medium text-[#717171] text-base leading-normal">
                         User&apos;s uuid
                       </div>
@@ -404,10 +406,10 @@ export default function Home() {
                   </th>
                   <th
                     scope="col"
-                    className="px-2 py-0 border border-tableBorder"
+                    className="px-2 py-0 border border-tableBorder hidden sm:table-cell"
                   >
-                    <div className=" flex items-center gap-2">
-                      <HiOutlineBookOpen className=" w-6 h-6" />
+                    <div className="flex items-center gap-2">
+                      <HiOutlineBookOpen className="w-6 h-6" />
                       <div className="font-medium text-[#717171] text-base leading-normal">
                         Date
                       </div>
@@ -415,10 +417,10 @@ export default function Home() {
                   </th>
                   <th
                     scope="col"
-                    className="px-2 py-0 border border-tableBorder"
+                    className="px-2 py-0 border border-tableBorder hidden sm:table-cell"
                   >
-                    <div className=" flex items-center gap-2">
-                      <HiOutlineBookOpen className=" w-6 h-6" />
+                    <div className="flex items-center gap-2">
+                      <HiOutlineBookOpen className="w-6 h-6" />
                       <div className="font-medium text-[#717171] text-base leading-normal">
                         Module
                       </div>
@@ -426,10 +428,10 @@ export default function Home() {
                   </th>
                   <th
                     scope="col"
-                    className="px-2 py-0 border border-tableBorder"
+                    className="px-2 py-0 border border-tableBorder hidden sm:table-cell"
                   >
-                    <div className=" flex items-center gap-2">
-                      <HiOutlineBookOpen className=" w-6 h-6" />
+                    <div className="flex items-center gap-2">
+                      <HiOutlineBookOpen className="w-6 h-6" />
                       <div className="font-medium text-[#717171] text-base leading-normal">
                         Type
                       </div>
@@ -439,46 +441,64 @@ export default function Home() {
               </thead>
               <tbody>
                 {data.length === 0 ? (
-                  <tr className="">
+                  <tr>
                     <td colSpan={8} className="text-center text-xl mt-5">
-                      <div className=" mt-5">Data not found</div>
+                      <div className="mt-5">Data not found</div>
                     </td>
                   </tr>
                 ) : (
                   data.map((item, index) => (
                     <tr
-                      className=" border border-tableBorder bg-white"
+                      className="border border-tableBorder bg-white"
                       key={index}
                     >
-                      <td className=" px-2 py-2 border border-tableBorder flex items-center gap-2">
-                        <div>
-                          <p className=" text-[#232323] text-base  leading-normal">
-                            {item.user_activity}
-                          </p>
+                      <td className="px-2 py-2 border border-tableBorder">
+                        <div className="flex">
+                          <div className="md:hidden flex mr-1">
+                            <FaEllipsisVertical
+                              data-tooltip-id="my-tooltip"
+                              data-tooltip-html={`
+                                              <div>
+                                                <strong>Name and User Activity:</strong> <span style="text-transform: capitalize;">${item.name}</span><br/>
+                                                <strong>User's Name:</strong> ${item.name}<br/>
+                                                <strong>User's uuid:</strong> ${item.uuid}<br/>
+                                                <strong>Date:</strong> ${item.activity_timestamp}<br/>
+                                                <strong>Module:</strong> ${item.module}<br/>
+                                                <strong>Type:</strong> ${item.type}<br/>
+                                              </div>`}
+                              className="text-black leading-normal capitalize relative top-1"
+                            />
+                            <Tooltip id="my-tooltip" place="right" float />
+                          </div>
+                          <div>
+                            <p className="text-[#232323] text-base leading-normal ">
+                              {item.user_activity}
+                            </p>
+                          </div>
                         </div>
                       </td>
-                      <td className=" px-2 py-2 border border-tableBorder">
-                        <p className=" text-[#232323] text-base leading-normal">
+                      <td className="px-2 py-2 border border-tableBorder hidden sm:table-cell">
+                        <p className="text-[#232323] text-base leading-normal">
                           {item.name}
                         </p>
                       </td>
-                      <td className=" px-2 py-2 border border-tableBorder">
-                        <p className=" text-[#232323] text-base leading-normal">
+                      <td className="px-2 py-2 border border-tableBorder hidden sm:table-cell">
+                        <p className="text-[#232323] text-base leading-normal">
                           {item.uuid}
                         </p>
                       </td>
-                      <td className=" px-2 py-2 border border-tableBorder">
-                        <p className=" text-[#232323] text-base leading-normal">
+                      <td className="px-2 py-2 border border-tableBorder hidden sm:table-cell">
+                        <p className="text-[#232323] text-base leading-normal">
                           {item.activity_timestamp}
                         </p>
                       </td>
-                      <td className=" px-2 py-2 border border-tableBorder">
-                        <p className=" text-[#232323] text-base leading-normal">
+                      <td className="px-2 py-2 border border-tableBorder hidden sm:table-cell">
+                        <p className="text-[#232323] text-base leading-normal">
                           {item.module}
                         </p>
                       </td>
-                      <td className=" px-2 py-2 border border-tableBorder">
-                        <p className=" text-[#232323] text-base leading-normal">
+                      <td className="px-2 py-2 border border-tableBorder hidden sm:table-cell">
+                        <p className="text-[#232323] text-base leading-normal">
                           {item.type}
                         </p>
                       </td>
@@ -487,6 +507,7 @@ export default function Home() {
                 )}
               </tbody>
             </table>
+
             {/* Pagination Controls */}
             {isFilter ? (
               <div className="flex justify-center items-center my-6">
@@ -603,8 +624,8 @@ export default function Home() {
                     </div>
                   </div>
 
-                  <div className=" w-full flex gap-4 mb-4">
-                    <div className=" w-full">
+                  <div className=" w-full flex justify-between flex-col md:flex-row mb-0">
+                    <div className="w-full  md:w-[49%]">
                       <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
                         Start Date
                       </p>
@@ -623,7 +644,7 @@ export default function Home() {
                         className=" focus:outline-none !w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
                       />
                     </div>
-                    <div className=" w-full">
+                    <div className=" w-full  md:w-[49%]">
                       <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
                         End Date
                       </p>
@@ -643,8 +664,8 @@ export default function Home() {
                       />
                     </div>
                   </div>
-                  <div className=" w-full flex gap-4 mb-4">
-                    <div className=" w-full">
+                  <div className=" w-full flex justify-between flex-col md:flex-row mb-0">
+                    <div className=" w-full  md:w-[49%]">
                       <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
                         Module
                       </p>
@@ -683,7 +704,7 @@ export default function Home() {
                         }}
                       />
                     </div>
-                    <div className="w-full">
+                    <div className="w-full  md:w-[49%]">
                       <p className="text-[#0A0A0A] font-medium text-base leading-6 mb-2">
                         Type
                       </p>
@@ -727,22 +748,16 @@ export default function Home() {
 
                 {/* END FORM */}
 
-                <div className="mt-10 w-full flex justify-end items-center gap-5">
-                  <button
-                    onClick={toggleFilterFlyout}
-                    className=" py-[13px] px-[26px] border border-[#E7E7E7] rounded-2xl text-[#0A0A0A] text-base font-medium leading-6"
-                  >
-                    Cancel
-                  </button>
+                <div className="mt-10 w-full flex flex-col md:flex-row md:justify-between items-center gap-y-4">
                   <div
                     onClick={hadleClear}
-                    className=" py-[13px] px-[26px] bg-customBlue rounded-2xl text-base font-medium leading-6 text-white cursor-pointer "
+                    className=" py-[13px] px-[26px] bg-customBlue w-full md:w-[49%] rounded-2xl text-base font-medium leading-6 text-white cursor-pointer text-center "
                   >
                     Clear Data
                   </div>
                   <button
                     type="submit"
-                    className=" py-[13px] px-[26px] bg-customBlue rounded-2xl text-base font-medium leading-6 text-white "
+                    className=" py-[13px] px-[26px] bg-customBlue rounded-2xl w-full md:w-[49%] text-base font-medium leading-6 text-white text-center "
                   >
                     Filter Now
                   </button>
