@@ -386,7 +386,7 @@ export default function Home() {
                     scope="col"
                     className="px-2 py-0 border border-tableBorder hidden sm:table-cell"
                   >
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 whitespace-nowrap">
                       <HiOutlineBookOpen className="w-6 h-6" />
                       <div className="font-medium text-[#717171] text-base leading-normal">
                         User&apos;s Name
@@ -565,7 +565,7 @@ export default function Home() {
           <div
             className={`filterflyout ${isFlyoutFilterOpen ? "filteropen" : ""}`}
           >
-            <div className="w-full min-h-auto p-4 sm:p-6 md:p-8">
+            <div className="w-full min-h-auto p-4 sm:p-4 md:p-4">
               {/* Header */}
               <div className="flex justify-between mb-4 sm:mb-6 md:mb-8">
                 <p className="text-[#333B69] text-[22px] sm:text-[24px] md:text-[26px] font-bold leading-8 sm:leading-9">
@@ -711,7 +711,7 @@ export default function Home() {
                 <div className="mt-8 md:mt-10 w-full flex flex-col md:flex-row md:justify-between items-center gap-y-4 md:gap-y-0">
                   <div
                     onClick={hadleClear}
-                    className="py-[13px] px-[26px] bg-customBlue w-full md:w-[49%] rounded-2xl text-base font-medium leading-6 text-white cursor-pointer text-center"
+                    className="py-[13px] px-[26px] bg-[#C6F7FE] w-full md:w-[49%] rounded-2xl text-base font-medium leading-6 text-customBlue cursor-pointer text-center"
                   >
                     Clear Data
                   </div>
