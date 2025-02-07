@@ -25,6 +25,8 @@ import AxiosProvider from "../../provider/AxiosProvider";
 import CustomerViewDetails from "../component/CustomerViewDetails";
 import ReactPlayer from "react-player";
 import DesktopHeader from "../component/DesktopHeader";
+import { Tooltip } from "react-tooltip";
+import { FaEllipsisVertical } from "react-icons/fa6";
 
 interface Customer {
   id: string;
@@ -203,256 +205,114 @@ export default function Home() {
       content: (
         <>
           {/* //   Tab 1 content */}
-          <div className="flex gap-8 pt-8 w-full">
-            <div className="w-1/2">
+          <div className="pt-2 md:pt-8 w-full flex flex-col md:flex-row md:justify-between">
+            <div className="w-full md:w-[49%]">
               {/* PERSONAL INFO */}
-              <div className="border border-[#F1F1F4] rounded-[12px] w-full mb-4">
-                <div className="py-4 px-4 border-b border-[#F1F1F4]">
-                  <p className="text-base font-semibold leading-4">
-                    Personal Info
-                  </p>
+              <div className="border border-[#F1F1F4] rounded-[12px] w-full mb-4 overflow-x-auto">
+                <div className="w-full overflow-x-auto">
+                  <table className="w-full border-collapse">
+                    <thead>
+                      <tr className="bg-[#F9FAFB] border-b border-[#F1F1F4]">
+                        <th
+                          colSpan={3}
+                          className="py-4 px-4 text-left text-base font-semibold"
+                        >
+                          Personal Info
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="border-b border-[#F1F1F4]">
+                        <td className="text-sm text-[#78829D] py-4 px-4">
+                          Photo
+                        </td>
+                        <td className="py-4 px-4">
+                          {faceImageFromChild ? (
+                            <Image
+                              src={faceImageFromChild}
+                              alt="Profile"
+                              width={60}
+                              height={60}
+                              className="rounded-full border-2 border-[#17C653]"
+                            />
+                          ) : (
+                            <Image
+                              src="/images/dummy-image.jpg"
+                              alt="Profile"
+                              width={60}
+                              height={60}
+                              className="rounded-full border-2 border-[#17C653]"
+                            />
+                          )}
+                        </td>
+                        <td></td>
+                      </tr>
+                      <tr className="border-b border-[#F1F1F4]">
+                        <td className="text-sm text-[#78829D] py-4 px-4">
+                          Name
+                        </td>
+                        <td className="text-sm font-medium text-[#252F4A] capitalize py-4 px-4">
+                          {customer
+                            ? `${customer.firstname} ${customer.lastname}`
+                            : "Loading..."}
+                        </td>
+                        <td className="text-[#1B84FF] text-xs font-medium cursor-pointer py-4 px-4">
+                          Edit
+                        </td>
+                      </tr>
+                      <tr className="border-b border-[#F1F1F4]">
+                        <td className="text-sm text-[#78829D] py-4 px-4">
+                          Availability
+                        </td>
+                        <td className="text-sm font-medium text-[#17C653] py-4 px-4">
+                          <span className="bg-[#EAFFF1] py-1 px-2 rounded border border-[#17C653]">
+                            Available now
+                          </span>
+                        </td>
+                        <td className="text-[#1B84FF] text-xs font-medium cursor-pointer py-4 px-4">
+                          Edit
+                        </td>
+                      </tr>
+                      <tr className="border-b border-[#F1F1F4]">
+                        <td className="text-sm text-[#78829D] py-4 px-4">
+                          Birthday
+                        </td>
+                        <td className="text-sm text-[#252F4A] py-4 px-4">
+                          {customer ? customer.birthdate : "Loading..."}
+                        </td>
+                        <td className="text-[#1B84FF] text-xs font-medium cursor-pointer py-4 px-4">
+                          Edit
+                        </td>
+                      </tr>
+                      <tr className="border-b border-[#F1F1F4]">
+                        <td className="text-sm text-[#78829D] py-4 px-4">
+                          Gender
+                        </td>
+                        <td className="text-sm text-[#252F4A] py-4 px-4">
+                          {customer ? customer.gender : "Loading..."}
+                        </td>
+                        <td className="text-[#1B84FF] text-xs font-medium cursor-pointer py-4 px-4">
+                          Edit
+                        </td>
+                      </tr>
+                      <tr className="border-b border-[#F1F1F4]">
+                        <td className="text-sm text-[#78829D] py-4 px-4">
+                          Address
+                        </td>
+                        <td className="text-sm text-[#252F4A] py-4 px-4">
+                          {customer ? customer.streetaddress : "Loading..."}
+                        </td>
+                        <td className="text-[#1B84FF] text-xs font-medium cursor-pointer py-4 px-4">
+                          Edit
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
-                <table className="w-full pl-8">
-                  <thead className=" h-[88px]">
-                    <tr className="border-b border-[#F1F1F4]">
-                      <th className="w-[20%]  text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
-                        Photo
-                      </th>
-                      <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
-                        {" "}
-                        {faceImageFromChild ? (
-                          <Image
-                            src={faceImageFromChild}
-                            alt="Orizon profile"
-                            width={60}
-                            height={60}
-                            className="rounded-full  border-2 border-[#17C653] !w-[60px] !h-[60px]"
-                          />
-                        ) : (
-                          <Image
-                            src="/images/dummy-image.jpg"
-                            alt="Orizon profile"
-                            width={60}
-                            height={60}
-                            className="rounded-full  border-2 border-[#17C653] !w-[60px] !h-[60px]"
-                          />
-                        )}
-                        {/* 150x150px JPEG, PNG Image */}
-                      </th>
-                      <th className="w-[20%]"></th>
-                    </tr>
-                  </thead>
-                  <thead className="h-[57px]">
-                    <tr className="border-b border-[#F1F1F4]">
-                      <th className="w-[20%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
-                        Name
-                      </th>
-                      <th className="w-[60%] text-sm font-medium leading-5 text-[#252F4A] text-left pl-[20px] capitalize">
-                        {customer
-                          ? `${customer.firstname} ${customer.lastname}`
-                          : "Loading..."}
-                      </th>
-                      <th className="w-[20%] text-[#1B84FF] text-xs font-medium leading-3 cursor-pointer">
-                        Edit
-                      </th>
-                    </tr>
-                  </thead>
-                  <thead className="h-[57px]">
-                    <tr className="border-b border-[#F1F1F4]">
-                      <th className="w-[20%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
-                        Availability
-                      </th>
-                      <th className="w-[60%] text-[11px] font-medium leading-5 text-[#17C653] text-left pl-[20px]">
-                        {" "}
-                        <span className="bg-[#EAFFF1] py-[6px] px-[7px] rounded border border-[#17C653]">
-                          Available now
-                        </span>
-                      </th>
-                      <th className="w-[20%] text-[#1B84FF] text-xs font-medium leading-3 cursor-pointer">
-                        Edit
-                      </th>
-                    </tr>
-                  </thead>
-                  <thead className="h-[57px]">
-                    <tr className="border-b border-[#F1F1F4]">
-                      <th className="w-[20%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
-                        Birthday
-                      </th>
-                      <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
-                        {customer ? `${customer.birthdate}` : "Loading..."}
-                      </th>
-                      <th className="w-[20%] text-[#1B84FF] text-xs font-medium leading-3 cursor-pointer">
-                        Edit
-                      </th>
-                    </tr>
-                  </thead>
-                  <thead className="h-[57px]">
-                    <tr className="border-b border-[#F1F1F4]">
-                      <th className="w-[20%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
-                        Gender
-                      </th>
-                      <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
-                        {" "}
-                        {customer ? `${customer.gender}` : "Loading..."}
-                      </th>
-                      <th className="w-[20%] text-[#1B84FF] text-xs font-medium leading-3 cursor-pointer">
-                        Edit
-                      </th>
-                    </tr>
-                  </thead>
-                  <thead className="h-[57px]">
-                    <tr className="border-b border-[#F1F1F4]">
-                      <th className="w-[20%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
-                        Address
-                      </th>
-                      <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
-                        {" "}
-                        {customer ? `${customer.streetaddress}` : "Loading..."}
-                      </th>
-                      <th className="w-[20%] text-[#1B84FF] text-xs font-medium leading-3 cursor-pointer">
-                        Edit
-                      </th>
-                    </tr>
-                  </thead>
-                </table>
               </div>
+
               {/* BASIC SETTING */}
-              <div className="border border-[#F1F1F4] rounded-[12px] w-full mb-4">
-                <div className="py-4 px-4 border-b border-[#F1F1F4]">
-                  <p className="text-base font-semibold leading-4">
-                    Basic Settings
-                  </p>
-                </div>
-                <table className="w-full pl-8">
-                  <thead className=" h-[57px]">
-                    <tr className="border-b border-[#F1F1F4]">
-                      <th className="w-[20%]  text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
-                        Email
-                      </th>
-                      <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
-                        {" "}
-                        {customer ? `${customer.email}` : "Loading..."}
-                      </th>
-                    </tr>
-                  </thead>
-                  <thead className="h-[57px]">
-                    <tr className="border-b border-[#F1F1F4]">
-                      <th className="w-[20%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
-                        Password
-                      </th>
-                      <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
-                        Password last changed 2 months ago
-                      </th>
-                    </tr>
-                  </thead>
-                  <thead className="h-[57px]">
-                    <tr className="border-b border-[#F1F1F4]">
-                      <th className="w-[20%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
-                        2FA
-                      </th>
-                      <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
-                        To be set
-                      </th>
-                      <th className="w-[20%] text-[#1B84FF] text-xs font-medium leading-3 cursor-pointer">
-                        Edit
-                      </th>
-                    </tr>
-                  </thead>
-                  <thead className="h-[57px]">
-                    <tr className="border-b border-[#F1F1F4]">
-                      <th className="w-[20%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
-                        Sign-in with
-                      </th>
-                      <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
-                        <div className=" flex items-center gap-3">
-                          <Image
-                            src="/images/apple.png"
-                            alt="Orizon profile"
-                            width={32}
-                            height={32}
-                          />
-                          <Image
-                            src="/images/fb.png"
-                            alt="Orizon profile"
-                            width={32}
-                            height={32}
-                          />
-                          <Image
-                            src="/images/google.png"
-                            alt="Orizon profile"
-                            width={32}
-                            height={32}
-                          />
-                        </div>
-                      </th>
-                      <th className="w-[20%] text-[#1B84FF] text-xs font-medium leading-3 cursor-pointer">
-                        Setup
-                      </th>
-                    </tr>
-                  </thead>
-                  <thead className="h-[57px]">
-                    <tr className="border-b border-[#F1F1F4]">
-                      <th className="w-[20%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
-                        Team Account
-                      </th>
-                      <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
-                        To be set
-                      </th>
-                      <th className="w-[20%] text-[#1B84FF] text-xs font-medium leading-3 cursor-pointer">
-                        Setup
-                      </th>
-                    </tr>
-                  </thead>
-                  <thead className="h-[57px]">
-                    <tr className="border-b border-[#F1F1F4]">
-                      <th className="w-[20%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
-                        Social Profiles
-                      </th>
-                      <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
-                        <div className=" flex items-center gap-3">
-                          <Image
-                            src="/images/a.png"
-                            alt="Orizon profile"
-                            width={32}
-                            height={32}
-                          />
-                          <Image
-                            src="/images/b.png"
-                            alt="Orizon profile"
-                            width={32}
-                            height={32}
-                          />
-                          <Image
-                            src="/images/c.png"
-                            alt="Orizon profile"
-                            width={32}
-                            height={32}
-                          />
-                          <Image
-                            src="/images/d.png"
-                            alt="Orizon profile"
-                            width={32}
-                            height={32}
-                          />
-                        </div>
-                      </th>
-                    </tr>
-                  </thead>
-                  <thead className="h-[57px]">
-                    <tr className="border-b border-[#F1F1F4]">
-                      <th className="w-[20%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
-                        Referral Link
-                      </th>
-                      <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
-                        https://studio.co/W3gvQOI35dt
-                      </th>
-                      <th className="w-[20%] text-[#1B84FF] text-xs font-medium leading-3 cursor-pointer">
-                        Re Create
-                      </th>
-                    </tr>
-                  </thead>
-                </table>
-              </div>
+
               {/* COMMUNITY */}
               <div className="border border-[#F1F1F4] rounded-[12px] w-full">
                 <div className="py-4 px-4 border-b border-[#F1F1F4]">
@@ -463,7 +323,7 @@ export default function Home() {
                 <table className="w-full pl-8">
                   <thead className=" h-[100px]">
                     <tr className="border-b border-[#F1F1F4]">
-                      <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
+                      <th className=" text-sm font-normal leading-5 text-[#78829D] text-left py-4 px-4">
                         <div className=" flex items-center gap-3">
                           <Image
                             src="/images/1.png"
@@ -497,7 +357,7 @@ export default function Home() {
               </div>
             </div>
             {/* SKILLS */}
-            <div className="w-1/2">
+            <div className="w-full md:w-[49%] mt-3 md:mt-0">
               <div className="border border-[#F1F1F4] rounded-[12px] w-full mb-4">
                 <div className="py-4 px-4 border-b border-[#F1F1F4] flex justify-between">
                   <p className="text-base font-semibold leading-4">Skills</p>
@@ -872,7 +732,7 @@ export default function Home() {
         <>
           {/* //   Tab 2 content */}
           <div className="flex flex-wrap justify-between">
-            <div className="w-[32.5%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400 mb-4">
+            <div className="w-full md:w-[32.5%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400 mb-4">
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="h-[50px] w-[50px] relative flex items-center justify-center bg-black rounded-full">
                   <Image
@@ -939,7 +799,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="w-[32.5%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400">
+            <div className="w-full md:w-[32.5%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400 mb-4">
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="h-[50px] w-[50px] relative flex items-center justify-center bg-black rounded-full">
                   <Image
@@ -1006,7 +866,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="w-[32.5%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400">
+            <div className="w-full md:w-[32.5%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400 mb-4">
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="h-[50px] w-[50px] relative flex items-center justify-center bg-black rounded-full">
                   <Image
@@ -1077,7 +937,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="w-[32.5%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400">
+            <div className="w-full md:w-[32.5%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400 mb-4">
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="h-[50px] w-[50px] relative flex items-center justify-center bg-black rounded-full">
                   <Image
@@ -1148,7 +1008,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="w-[32.5%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400">
+            <div className="w-full md:w-[32.5%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400 mb-4">
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="h-[50px] w-[50px] relative flex items-center justify-center bg-black rounded-full">
                   <Image
@@ -1219,7 +1079,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="w-[32.5%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400">
+            <div className="w-full md:w-[32.5%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400 mb-4">
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="h-[50px] w-[50px] relative flex items-center justify-center bg-black rounded-full">
                   <Image
@@ -1302,13 +1162,13 @@ export default function Home() {
                       <th className="border border-gray-300 px-4 py-2">
                         System User ID
                       </th>
-                      <th className="border border-gray-300 px-4 py-2">
+                      <th className="border border-gray-300 px-4 py-2 hidden md:table-cell">
                         Verification Type
                       </th>
-                      <th className="border border-gray-300 px-4 py-2">
+                      <th className="border border-gray-300 px-4 py-2 hidden md:table-cell">
                         Reason Rejected
                       </th>
-                      <th className="border border-gray-300 px-4 py-2">
+                      <th className="border border-gray-300 px-4 py-2 hidden md:table-cell">
                         Created At
                       </th>
                       <th className="border border-gray-300 px-4 py-2">
@@ -1320,16 +1180,40 @@ export default function Home() {
                     {customerHistory.map((item, index) => (
                       <tr key={index} className="">
                         <td className="border border-gray-300 px-4 py-2">
-                          {item.system_user_id}
+                          <div className="flex">
+                            <div className="md:hidden flex">
+                              <FaEllipsisVertical
+                                data-tooltip-id="my-tooltip"
+                                data-tooltip-html={`<div>
+                                  <strong>System User ID:</strong> <span style="text-transform: capitalize;">${
+                                    item.system_user_id
+                                  }</span><br/>
+                                  <strong>Verification Type:</strong> ${item.verification_type
+                                    .split("_")
+                                    .join(" ")}<br/>
+                                  <strong>Reason Rejected:</strong> ${
+                                    item.reason_reject
+                                  }<br/>
+                                  <strong>Created At:</strong> ${
+                                    item.created_at
+                                  }<br/>
+                                </div>`}
+                                className="text-black leading-normal capitalize relative top-1"
+                              />
+                              <Tooltip id="my-tooltip" place="right" float />
+                            </div>
+                            {item.system_user_id}
+                          </div>
+
                         </td>
-                        <td className="border border-gray-300 px-4 py-2 capitalize">
+                        <td className="border border-gray-300 px-4 py-2 capitalize hidden md:table-cell">
                           {item.verification_type.split("_").join(" ")}
                           {/* {item.verification_type.split("_").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ")} */}
                         </td>
-                        <td className="border border-gray-300 px-4 py-2">
+                        <td className="border border-gray-300 px-4 py-2 hidden md:table-cell">
                           {item.reason_reject || "N/A"}
                         </td>
-                        <td className="border border-gray-300 px-4 py-2">
+                        <td className="border border-gray-300 px-4 py-2 hidden md:table-cell">
                           {new Date(item.created_at).toLocaleString()}
                         </td>
                         <td className="border border-gray-300 px-4 py-3">
@@ -1699,14 +1583,14 @@ export default function Home() {
         {/* Left sidebar */}
         <LeftSideBar />
         {/* Main content right section */}
-        <div className=" w-[85%] bg-white min-h-[500px]  rounded p-0 mt-2">
+        <div className="w-full md:w-[85%] bg-white min-h-[500px]  rounded p-0 mt-2">
           {/* right section top row */}
           <div className=" w-full flex justify-end items-center gap-7 mb-3 p-4">
-           <DesktopHeader />
+            <DesktopHeader />
           </div>
-          <div className=" w-full   bg-[#F5F7FA] flex justify-center p-8">
-            <div className=" w-[95%] min-h-[600px] bg-white rounded-[25px]">
-              <div className="p-6">
+          <div className=" w-full   bg-[#F5F7FA] flex justify-center py-4 px-1 md:p-8">
+            <div className="w-full md:w-[95%] min-h-[600px] bg-white rounded-[25px]">
+              <div className="py-4 px-0 md:p-6">
                 <div className="flex justify-center">
                   {faceImageFromChild ? (
                     <Image
@@ -1757,12 +1641,6 @@ export default function Home() {
                       </p>
                     </div>
                   )}
-                  <div className="flex items-center justify-center gap-1">
-                    <HiOutlineEnvelope className="w-[14px] h-[20px] text-[#99A1B7]" />
-                    <p className="text-[#78829D] text-sm font-medium leading-5">
-                      {customer ? customer.email : "Loading..."}
-                    </p>
-                  </div>
                 </div>
                 <Tabs tabs={tabs} />
               </div>

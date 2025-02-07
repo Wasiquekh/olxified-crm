@@ -459,7 +459,7 @@ export default function Home() {
                               data-tooltip-id="my-tooltip"
                               data-tooltip-html={`
                                               <div>
-                                                <strong>Name and User Activity:</strong> <span style="text-transform: capitalize;">${item.name}</span><br/>
+                                                <strong>Name and User Activity:</strong> <span style="text-transform: capitalize;">${item.user_activity}</span><br/>
                                                 <strong>User's Name:</strong> ${item.name}<br/>
                                                 <strong>User's uuid:</strong> ${item.uuid}<br/>
                                                 <strong>Date:</strong> ${item.activity_timestamp}<br/>
@@ -559,32 +559,32 @@ export default function Home() {
       {isFlyoutFilterOpen && (
         <>
           <div
-            className=" min-h-screen w-full bg-[#1f1d1d80] fixed top-0 left-0 right-0 z-[999]"
-            onClick={() => {
-              setFlyoutFilterOpen(!isFlyoutFilterOpen);
-            }}
+            className="min-h-screen w-full bg-[#1f1d1d80] fixed top-0 left-0 right-0 z-[999]"
+            onClick={() => setFlyoutFilterOpen(!isFlyoutFilterOpen)}
           ></div>
           <div
             className={`filterflyout ${isFlyoutFilterOpen ? "filteropen" : ""}`}
           >
-            <div className=" w-full min-h-auto">
-              {/* Flyout content here */}
-              <div className=" flex justify-between mb-8">
-                <p className=" text-[#333B69] text-[26px] font-bold leading-9">
+            <div className="w-full min-h-auto p-4 sm:p-6 md:p-8">
+              {/* Header */}
+              <div className="flex justify-between mb-4 sm:mb-6 md:mb-8">
+                <p className="text-[#333B69] text-[22px] sm:text-[24px] md:text-[26px] font-bold leading-8 sm:leading-9">
                   User Filter
                 </p>
                 <IoCloseOutline
                   onClick={toggleFilterFlyout}
-                  className=" h-8 w-8 border border-[#E7E7E7] text-[#0A0A0A] rounded cursor-pointer"
+                  className="h-7 sm:h-8 w-7 sm:w-8 border border-[#E7E7E7] text-[#0A0A0A] rounded cursor-pointer"
                 />
               </div>
-              <div className=" w-full border-b border-[#E7E7E7] mb-4"></div>
+              <div className="w-full border-b border-[#E7E7E7] mb-4 sm:mb-6"></div>
+
               {/* FORM */}
               <form onSubmit={(e) => handleSubmit(e)}>
-                <div className=" w-full">
-                  <div className=" w-full flex gap-4 mb-4">
-                    <div className=" w-full">
-                      <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
+                <div className="w-full">
+                  {/* User Name */}
+                  <div className="w-full flex flex-col md:flex-row gap-4 md:gap-6 lg:gap-8 mb-4 sm:mb-6">
+                    <div className="w-full">
+                      <p className="text-[#0A0A0A] font-medium text-base leading-6 mb-2">
                         User Name
                       </p>
                       <Select
@@ -605,28 +605,15 @@ export default function Home() {
                         classNames={{
                           control: () =>
                             "!focus:outline-none !w-full !border !border-[#DFEAF2] !rounded-[12px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm",
-                          placeholder: () => "text-[#717171]",
-                          singleValue: () => "text-black",
-                          input: () => "text-black",
-                          menu: () =>
-                            "mt-1 bg-white border border-[#DFEAF2] rounded-[12px] shadow-lg w-full",
-                          option: ({ isFocused, isSelected }) =>
-                            `px-4 py-2 cursor-pointer rounded-[8px] ${
-                              isSelected
-                                ? "bg-blue-500 text-white"
-                                : isFocused
-                                ? "bg-gray-100"
-                                : "text-black"
-                            }`,
-                          noOptionsMessage: () => "px-4 py-2 text-gray-500",
                         }}
                       />
                     </div>
                   </div>
 
-                  <div className=" w-full flex justify-between flex-col md:flex-row mb-0">
-                    <div className="w-full  md:w-[49%]">
-                      <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
+                  {/* Date Filters */}
+                  <div className="w-full flex flex-col md:flex-row gap-4 md:gap-6 lg:gap-8 mb-4 sm:mb-6">
+                    <div className="w-full md:w-[49%]">
+                      <p className="text-[#0A0A0A] font-medium text-base leading-6 mb-2">
                         Start Date
                       </p>
                       <DatePicker
@@ -637,15 +624,15 @@ export default function Home() {
                         }
                         onChange={(date: Date | null) =>
                           handleDateChange(date, "startDate")
-                        } // Fix: Ensure `date` is a single Date
+                        }
                         name="startDate"
                         dateFormat="yyyy-MM-dd"
                         placeholderText="yyyy-mm-dd"
-                        className=" focus:outline-none !w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                        className="focus:outline-none !w-full border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 bg-white shadow-sm"
                       />
                     </div>
-                    <div className=" w-full  md:w-[49%]">
-                      <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
+                    <div className="w-full md:w-[49%]">
+                      <p className="text-[#0A0A0A] font-medium text-base leading-6 mb-2">
                         End Date
                       </p>
                       <DatePicker
@@ -660,13 +647,15 @@ export default function Home() {
                         name="endDate"
                         dateFormat="yyyy-MM-dd"
                         placeholderText="yyyy-mm-dd"
-                        className="focus:outline-none w-full border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                        className="focus:outline-none !w-full border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 bg-white shadow-sm"
                       />
                     </div>
                   </div>
-                  <div className=" w-full flex justify-between flex-col md:flex-row mb-0">
-                    <div className=" w-full  md:w-[49%]">
-                      <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
+
+                  {/* Module & Type Select (Updated UI) */}
+                  <div className="w-full flex flex-col md:flex-row gap-4 md:gap-6 lg:gap-8 mb-4 sm:mb-6">
+                    <div className="w-full md:w-[49%]">
+                      <p className="text-[#0A0A0A] font-medium text-base leading-6 mb-2">
                         Module
                       </p>
                       <Select
@@ -675,7 +664,7 @@ export default function Home() {
                             (option) => option.value === filterData.module
                           ) || null
                         }
-                        onChange={(selectedOption: OptionType | null) =>
+                        onChange={(selectedOption) =>
                           setFilterData((prev) => ({
                             ...prev,
                             module: selectedOption ? selectedOption.value : "",
@@ -687,24 +676,10 @@ export default function Home() {
                         classNames={{
                           control: () =>
                             "!focus:outline-none !w-full !border !border-[#DFEAF2] !rounded-[12px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm",
-                          placeholder: () => "text-[#717171]",
-                          singleValue: () => "text-black",
-                          input: () => "text-black",
-                          menu: () =>
-                            "mt-1 bg-white border border-[#DFEAF2] rounded-[12px] shadow-lg w-full",
-                          option: ({ isFocused, isSelected }) =>
-                            `px-4 py-2 cursor-pointer rounded-[8px] ${
-                              isSelected
-                                ? "bg-blue-500 text-white"
-                                : isFocused
-                                ? "bg-gray-100"
-                                : "text-black"
-                            }`,
-                          noOptionsMessage: () => "px-4 py-2 text-gray-500",
                         }}
                       />
                     </div>
-                    <div className="w-full  md:w-[49%]">
+                    <div className="w-full md:w-[49%]">
                       <p className="text-[#0A0A0A] font-medium text-base leading-6 mb-2">
                         Type
                       </p>
@@ -714,7 +689,7 @@ export default function Home() {
                             (option) => option.value === filterData.type
                           ) || null
                         }
-                        onChange={(selectedOption: OptionType | null) =>
+                        onChange={(selectedOption) =>
                           setFilterData((prev) => ({
                             ...prev,
                             type: selectedOption ? selectedOption.value : "",
@@ -726,38 +701,23 @@ export default function Home() {
                         classNames={{
                           control: () =>
                             "!focus:outline-none !w-full !border !border-[#DFEAF2] !rounded-[12px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm",
-                          placeholder: () => "text-[#717171]",
-                          singleValue: () => "text-black",
-                          input: () => "text-black",
-                          menu: () =>
-                            "mt-1 bg-white border border-[#DFEAF2] rounded-[12px] shadow-lg w-full",
-                          option: ({ isFocused, isSelected }) =>
-                            `px-4 py-2 cursor-pointer rounded-[8px] ${
-                              isSelected
-                                ? "bg-blue-500 text-white"
-                                : isFocused
-                                ? "bg-gray-100"
-                                : "text-black"
-                            }`,
-                          noOptionsMessage: () => "px-4 py-2 text-gray-500",
                         }}
                       />
                     </div>
                   </div>
                 </div>
 
-                {/* END FORM */}
-
-                <div className="mt-10 w-full flex flex-col md:flex-row md:justify-between items-center gap-y-4">
+                {/* BUTTONS */}
+                <div className="mt-8 md:mt-10 w-full flex flex-col md:flex-row md:justify-between items-center gap-y-4 md:gap-y-0">
                   <div
                     onClick={hadleClear}
-                    className=" py-[13px] px-[26px] bg-customBlue w-full md:w-[49%] rounded-2xl text-base font-medium leading-6 text-white cursor-pointer text-center "
+                    className="py-[13px] px-[26px] bg-customBlue w-full md:w-[49%] rounded-2xl text-base font-medium leading-6 text-white cursor-pointer text-center"
                   >
                     Clear Data
                   </div>
                   <button
                     type="submit"
-                    className=" py-[13px] px-[26px] bg-customBlue rounded-2xl w-full md:w-[49%] text-base font-medium leading-6 text-white text-center "
+                    className="py-[13px] px-[26px] bg-customBlue rounded-2xl w-full md:w-[49%] text-base font-medium leading-6 text-white text-center"
                   >
                     Filter Now
                   </button>
@@ -767,6 +727,7 @@ export default function Home() {
           </div>
         </>
       )}
+
       {/* FITLER FLYOUT END */}
     </>
   );

@@ -1,5 +1,5 @@
-'use client'
-// components/Tabs.tsx
+'use client';
+
 import { useState } from 'react';
 
 interface TabProps {
@@ -10,10 +10,10 @@ interface TabProps {
 
 const Tab: React.FC<TabProps> = ({ label, isActive, onClick }) => (
   <button
-    className={`py-2 px-2 text-base font-medium mx-3 leading-normal transition-colors duration-200 ${
+    className={`py-2 px-4 text-base font-medium transition-colors duration-200 rounded-md w-full md:w-auto text-left md:text-center ${
       isActive
-        ? ' text-customBlue border-b-[3px] border-customBlue '
-        : ' text-[#718EBF]'
+        ? 'text-customBlue border-l-[3px] md:border-l-0 md:border-b-[3px] border-customBlue'
+        : 'text-[#718EBF]'
     }`}
     onClick={onClick}
   >
@@ -27,9 +27,7 @@ interface TabPanelProps {
 }
 
 const TabPanel: React.FC<TabPanelProps> = ({ children, isActive }) => (
-  <div className={`p-4 ${isActive ? 'block' : 'hidden'}`}>
-    {children}
-  </div>
+  <div className={`p-3 ${isActive ? 'block' : 'hidden'}`}>{children}</div>
 );
 
 interface TabsProps {
@@ -44,7 +42,8 @@ const Tabs: React.FC<TabsProps> = ({ tabs }) => {
 
   return (
     <div>
-      <div className="flex border-b border-[#F4F5F7]">
+      {/* Tab buttons column-wise for mobile, row-wise for desktop */}
+      <div className="flex flex-col md:flex-row border-b border-[#F4F5F7] md:space-x-4 p-2">
         {tabs.map((tab) => (
           <Tab
             key={tab.label}
@@ -54,6 +53,8 @@ const Tabs: React.FC<TabsProps> = ({ tabs }) => {
           />
         ))}
       </div>
+      
+      {/* Tab content */}
       <div>
         {tabs.map((tab) => (
           <TabPanel key={tab.label} isActive={tab.label === activeTab}>
