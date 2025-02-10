@@ -615,7 +615,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
               <div className="LivenessDetection w-[279px] text-[#0e0e0e] text-base font-medium">
                 Scanned ID Card Verification
               </div>
-              <div className="w-full flex flex-col md:flex-row md:justify-between mb-6">
+              <div className="w-full flex flex-col md:flex-row md:justify-between mb-0 md:mb-6">
                 <div className="w-full md:w-[49%]">
                   <p className="mb-5">Front Image</p>
                   {idCardEcto ? (
@@ -637,7 +637,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                   )}
                 </div>
                 <div className="w-full md:w-[49%]">
-                  <p className="mt-0 md:mt-0 mb-5">Back Image</p>
+                  <p className="mt-5 md:mt-0 mb-5">Back Image</p>
                   {idCardVerso ? (
                     <Image
                       src={idCardVerso}
@@ -708,7 +708,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
               <div className="LivenessDetection w-[279px] text-[#0e0e0e] text-base font-medium">
                 Five Second Video Verification
               </div>
-              <div className="w-full flex flex-col md:flex-row md:justify-between mb-6">
+              <div className="w-full flex flex-col md:flex-row md:justify-between !mb-0 md:mb-6">
                 <div className="w-full">
                   {customerShortVideo ? (
                     <div className="custom-player-container">
