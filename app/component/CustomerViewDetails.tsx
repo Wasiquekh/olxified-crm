@@ -435,7 +435,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                   )}
                 </div>
                 <div className="w-full md:w-[49%]">
-                  <p className="mb-5">Face Image</p>
+                  <p className="mb-5 mt-5 md:mt-0">Face Image</p>
                   {faceImage ? (
                     <Image
                       src={faceImage}
@@ -455,7 +455,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                   )}
                 </div>
               </div>
-              <div className="mt-5 w-full">
+              <div className="mt-0 md:mt-5 w-full">
                 {livenessScore ? (
                   <div className="w-full">
                     <h1 className="text-xl font-semibold mb-2">
@@ -637,7 +637,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                   )}
                 </div>
                 <div className="w-full md:w-[49%]">
-                  <p className="mb-5">Back Image</p>
+                  <p className="mt-0 md:mt-0 mb-5">Back Image</p>
                   {idCardVerso ? (
                     <Image
                       src={idCardVerso}
