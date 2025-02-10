@@ -412,7 +412,7 @@ export default function Home() {
                                 </div>`}
                                 className="text-black leading-normal relative top-[5.3px] capitalize"
                               />
-                              <Tooltip id="my-tooltip" place="right" float />
+                              <Tooltip id="my-tooltip" place="right" float className="box"/>
                             </div>
                             <div>
                               <p className="text-[#232323] text-sm sm:text-base font-semibold leading-normal capitalize">
