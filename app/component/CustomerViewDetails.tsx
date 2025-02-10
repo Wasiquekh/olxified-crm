@@ -319,7 +319,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                 </div>
               </div>
 
-              <div className="LivenessDetection w-[279px] text-[#0e0e0e] text-base font-medium">
+              <div className="LivenessDetection w-full text-[#0e0e0e] text-base font-medium">
                 Liveness Detection
               </div>
               <p>Face Image</p>
@@ -413,9 +413,9 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
               <div className="LivenessDetection w-[279px] text-[#0e0e0e] text-base font-medium">
                 Identity Matching
               </div>
-              <div className="w-full flex flex-col md:flex-row md:justify-between">
+              <div className="w-full flex flex-col md:flex-row md:justify-between mb-5">
                 <div className="w-full md:w-[49%]">
-                  <p>Id Card Ecto</p>
+                  <p className="mb-5">Id Card Ecto</p>
                   {idCardEcto ? (
                     <Image
                       src={idCardEcto}
@@ -435,7 +435,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                   )}
                 </div>
                 <div className="w-full md:w-[49%]">
-                  <p>Face Image</p>
+                  <p className="mb-5">Face Image</p>
                   {faceImage ? (
                     <Image
                       src={faceImage}
@@ -455,21 +455,23 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                   )}
                 </div>
               </div>
-              {livenessScore ? (
-                <div className="w-full">
-                  <h1 className="text-xl font-semibold mb-2">
-                    Face Match Score: {customer.face_match_score}%
-                  </h1>
-                  <div className="w-full bg-gray-200 rounded-lg h-4">
-                    <div
-                      className="bg-blue-500 h-full rounded-lg"
-                      style={{ width: `${customer.face_match_score}%` }}
-                    ></div>
+              <div className="mt-5">
+                {livenessScore ? (
+                  <div className="w-full">
+                    <h1 className="text-xl font-semibold mb-2">
+                      Face Match Score: {customer.face_match_score}%
+                    </h1>
+                    <div className="w-full bg-gray-200 rounded-lg h-4">
+                      <div
+                        className="bg-blue-500 h-full rounded-lg"
+                        style={{ width: `${customer.face_match_score}%` }}
+                      ></div>
+                    </div>
                   </div>
-                </div>
-              ) : (
-                "loading"
-              )}
+                ) : (
+                  "loading"
+                )}
+              </div>
               <div className=" flex flex-col gap-y-3 md:flex-row md:justify-between w-full">
                 <button
                   onClick={() => approve("identity_matching")}
@@ -615,7 +617,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
               </div>
               <div className="w-full flex flex-col md:flex-row md:justify-between mb-6">
                 <div className="w-full md:w-[49%]">
-                  <p className="mb-1">Front Image</p>
+                  <p className="mb-5">Front Image</p>
                   {idCardEcto ? (
                     <Image
                       src={idCardEcto}
@@ -635,7 +637,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                   )}
                 </div>
                 <div className="w-full md:w-[49%]">
-                  <p className="mb-1">Back Image</p>
+                  <p className="mb-5">Back Image</p>
                   {idCardVerso ? (
                     <Image
                       src={idCardVerso}
@@ -655,7 +657,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                   )}
                 </div>
               </div>
-              <div className=" flex flex-col gap-y-3 md:flex-row md:justify-between w-full">
+              <div className=" flex flex-col gap-y-3 md:flex-row md:justify-between w-full mt-5">
                 <button
                   onClick={() => approve("scanned_id_card_verification")}
                   className="bg-[#379941] text-white w-full md:w-[49%] p-3 rounded"
@@ -707,7 +709,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                 Five Second Video Verification
               </div>
               <div className="w-full flex flex-col md:flex-row md:justify-between mb-6">
-                <div className="w-full md:w-[49%]">
+                <div className="w-full">
                   {customerShortVideo ? (
                     <div className="custom-player-container">
                       <ReactPlayer
@@ -730,7 +732,6 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                     />
                   )}
                 </div>
-                <div className="hidden md:w-full"></div>
               </div>
               <div className=" flex flex-col gap-y-3 md:flex-row md:justify-between w-full">
                 <button
