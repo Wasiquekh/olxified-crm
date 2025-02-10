@@ -368,7 +368,7 @@ export default function Home() {
                 <table className="w-full pl-8">
                   <thead className=" h-[100px]">
                     <tr className="border-b border-[#F1F1F4]">
-                      <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
+                      <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left p-5">
                         <div className="w-[80%] flex flex-wrap flex-row gap-2">
                           <div className=" bg-[#F1F1F4] px-[10px] py-[4px] rounded inline">
                             <span className="text-[11px] font-medium text-[#4B5675]">

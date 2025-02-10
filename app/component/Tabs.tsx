@@ -42,7 +42,6 @@ const Tabs: React.FC<TabsProps> = ({ tabs }) => {
 
   return (
     <div>
-      {/* Tab buttons column-wise for mobile, row-wise for desktop */}
       <div className="flex border-b border-[#F4F5F7] p-2 overflow-x-auto md:overflow-visible">
         <div className="flex flex-row md:flex-row md:space-x-4 whitespace-nowrap">
           {tabs.map((tab) => (
