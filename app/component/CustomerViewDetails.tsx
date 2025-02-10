@@ -455,7 +455,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                   )}
                 </div>
               </div>
-              <div className="mt-5">
+              <div className="mt-5 w-full">
                 {livenessScore ? (
                   <div className="w-full">
                     <h1 className="text-xl font-semibold mb-2">
