@@ -196,7 +196,7 @@ export default function OtpHome() {
             {code.map((digit, index) => (
               <input
                 key={index}
-                type="text"
+                type="number"
                 maxLength={1}
                 value={digit}
                 onChange={(e) => handleChange(e, index)}
