@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 
 interface TabProps {
   label: string;
@@ -12,8 +12,8 @@ const Tab: React.FC<TabProps> = ({ label, isActive, onClick }) => (
   <button
     className={`py-2 px-4 text-base font-medium transition-colors duration-200 rounded-md w-full md:w-auto text-left md:text-center ${
       isActive
-        ? 'text-customBlue border-l-[3px] md:border-l-0 md:border-b-[3px] border-customBlue'
-        : 'text-[#718EBF]'
+        ? "text-customBlue border-l-[3px] md:border-l-0 md:border-b-[3px] border-customBlue"
+        : "text-[#718EBF]"
     }`}
     onClick={onClick}
   >
@@ -27,7 +27,7 @@ interface TabPanelProps {
 }
 
 const TabPanel: React.FC<TabPanelProps> = ({ children, isActive }) => (
-  <div className={`p-3 ${isActive ? 'block' : 'hidden'}`}>{children}</div>
+  <div className={`p-3 ${isActive ? "block" : "hidden"}`}>{children}</div>
 );
 
 interface TabsProps {
@@ -43,17 +43,19 @@ const Tabs: React.FC<TabsProps> = ({ tabs }) => {
   return (
     <div>
       {/* Tab buttons column-wise for mobile, row-wise for desktop */}
-      <div className="flex flex-col md:flex-row border-b border-[#F4F5F7] md:space-x-4 p-2">
-        {tabs.map((tab) => (
-          <Tab
-            key={tab.label}
-            label={tab.label}
-            isActive={tab.label === activeTab}
-            onClick={() => setActiveTab(tab.label)}
-          />
-        ))}
+      <div className="flex border-b border-[#F4F5F7] p-2 overflow-x-auto md:overflow-visible">
+        <div className="flex flex-row md:flex-row md:space-x-4 whitespace-nowrap">
+          {tabs.map((tab) => (
+            <Tab
+              key={tab.label}
+              label={tab.label}
+              isActive={tab.label === activeTab}
+              onClick={() => setActiveTab(tab.label)}
+            />
+          ))}
+        </div>
       </div>
-      
+
       {/* Tab content */}
       <div>
         {tabs.map((tab) => (
