@@ -47,7 +47,7 @@ body {
   position: fixed;
   right: 0;
   top: 0;
-  width: 80%;
+  width: 90%;
   height: 100vh;
   overflow-y: auto;
   background-color: white;
@@ -66,19 +66,23 @@ body {
   .filterflyout {
     width: 550px;
   }
+  .leftSideBar {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
 }
 .leftSideBar {
   position: fixed;
   left: 0;
   top: 0;
-  width: 80%;
+  width: 90%;
   height: 100vh;
   overflow-y: auto;
   background-color: white;
   padding-top: 43px;
   padding-bottom: 43px;
-  padding-left: 24px;
-  padding-right: 24px;
+  padding-left: 8px;
+  padding-right: 8px;
   z-index: 1000;
   transition: transform 0.3s ease-in-out;
   transform: translateX(100%);

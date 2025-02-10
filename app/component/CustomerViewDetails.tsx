@@ -323,23 +323,28 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                 Liveness Detection
               </div>
               <p>Face Image</p>
-              {faceImage ? (
-                <Image
-                  src={faceImage}
-                  alt="Orizon profile"
-                  width={200}
-                  height={200}
-                  className="!h-[200px] !w-[245px] rounded"
-                />
-              ) : (
-                <Image
-                  src="/images/dummy-image.jpg"
-                  alt="Orizon profile"
-                  width={200}
-                  height={200}
-                  className="!h-[200px] !w-[245px] rounded"
-                />
-              )}
+              <div className="w-full flex justify-between">
+                <div className="w-full md:w-[49%]">
+                  {faceImage ? (
+                    <Image
+                      src={faceImage}
+                      alt="Orizon profile"
+                      width={200}
+                      height={200}
+                      className="!h-full !w-full rounded"
+                    />
+                  ) : (
+                    <Image
+                      src="/images/dummy-image.jpg"
+                      alt="Orizon profile"
+                      width={200}
+                      height={200}
+                      className="!h-full !w-full rounded"
+                    />
+                  )}
+                </div>
+                <div className="hidden md:block w-[49%]"></div>
+              </div>
               {livenessScore ? (
                 <div className="w-full">
                   <h1 className="text-xl font-semibold mb-2">
@@ -356,16 +361,16 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                 "loading"
               )}
 
-              <div className=" flex justify-between w-full">
+              <div className=" flex flex-col gap-y-3 md:flex-row md:justify-between w-full">
                 <button
                   onClick={() => approve("liveness_detection")}
-                  className="bg-[#379941] text-white w-[49%] p-3 rounded"
+                  className="bg-[#379941] text-white w-full md:w-[49%] p-3 rounded"
                 >
                   Approve
                 </button>
                 <button
                   onClick={() => reject("liveness_detection")}
-                  className="bg-[#E52020] text-white w-[49%] p-3 rounded"
+                  className="bg-[#E52020] text-white w-full md:w-[49%] p-3 rounded"
                 >
                   Reject
                 </button>
@@ -408,8 +413,8 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
               <div className="LivenessDetection w-[279px] text-[#0e0e0e] text-base font-medium">
                 Identity Matching
               </div>
-              <div className="flex gap-2">
-                <div>
+              <div className="w-full flex flex-col md:flex-row md:justify-between">
+                <div className="w-full md:w-[49%]">
                   <p>Id Card Ecto</p>
                   {idCardEcto ? (
                     <Image
@@ -417,7 +422,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                       alt="Orizon profile"
                       width={200}
                       height={200}
-                      className="!h-[200px] !w-[245px] rounded"
+                      className="!h-full !w-full rounded"
                     />
                   ) : (
                     <Image
@@ -425,11 +430,11 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                       alt="Orizon profile"
                       width={200}
                       height={200}
-                      className="!h-[200px] !w-[245px] rounded"
+                      className="!h-full !w-full rounded"
                     />
                   )}
                 </div>
-                <div>
+                <div className="w-full md:w-[49%]">
                   <p>Face Image</p>
                   {faceImage ? (
                     <Image
@@ -437,7 +442,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                       alt="Orizon profile"
                       width={200}
                       height={200}
-                      className="!h-[200px] !w-[245px] rounded"
+                      className="!h-full !w-full rounded"
                     />
                   ) : (
                     <Image
@@ -445,7 +450,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                       alt="Orizon profile"
                       width={200}
                       height={200}
-                      className="!h-[200px] !w-[245px] rounded"
+                      className="!h-full !w-full rounded"
                     />
                   )}
                 </div>
@@ -465,16 +470,16 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
               ) : (
                 "loading"
               )}
-              <div className=" flex justify-between w-full">
+              <div className=" flex flex-col gap-y-3 md:flex-row md:justify-between w-full">
                 <button
                   onClick={() => approve("identity_matching")}
-                  className="bg-[#379941] text-white w-[49%] p-3 rounded"
+                  className="bg-[#379941] text-white w-full md:w-[49%] p-3 rounded"
                 >
                   Approve
                 </button>
                 <button
                   onClick={() => reject("identity_matching")}
-                  className="bg-[#E52020] text-white w-[49%] p-3 rounded"
+                  className="bg-[#E52020] text-white w-full md:w-[49%] p-3 rounded"
                 >
                   Reject
                 </button>
@@ -556,16 +561,16 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                 </table>
               </div>
 
-              <div className=" flex justify-between w-full">
+              <div className=" flex flex-col gap-y-3 md:flex-row md:justify-between w-full">
                 <button
                   onClick={() => approve("user_details_verification")}
-                  className="bg-[#379941] text-white w-[49%] p-3 rounded"
+                  className="bg-[#379941] text-white w-full md:w-[49%] p-3 rounded"
                 >
                   Approve
                 </button>
                 <button
                   onClick={() => reject("user_details_verification")}
-                  className="bg-[#E52020] text-white w-[49%] p-3 rounded"
+                  className="bg-[#E52020] text-white w-full md:w-[49%] p-3 rounded"
                 >
                   Reject
                 </button>
@@ -608,8 +613,8 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
               <div className="LivenessDetection w-[279px] text-[#0e0e0e] text-base font-medium">
                 Scanned ID Card Verification
               </div>
-              <div className="flex gap-2">
-                <div>
+              <div className="w-full flex flex-col md:flex-row md:justify-between mb-6">
+                <div className="w-full md:w-[49%]">
                   <p className="mb-1">Front Image</p>
                   {idCardEcto ? (
                     <Image
@@ -617,7 +622,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                       alt="Orizon profile"
                       width={200}
                       height={200}
-                      className="!h-[200px] !w-[245px] rounded"
+                      className="!h-full !w-full rounded"
                     />
                   ) : (
                     <Image
@@ -625,11 +630,11 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                       alt="Orizon profile"
                       width={200}
                       height={200}
-                      className="!h-[200px] !w-[245px] rounded"
+                      className="!h-full !w-full rounded"
                     />
                   )}
                 </div>
-                <div>
+                <div className="w-full md:w-[49%]">
                   <p className="mb-1">Back Image</p>
                   {idCardVerso ? (
                     <Image
@@ -637,7 +642,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                       alt="Orizon profile"
                       width={200}
                       height={200}
-                      className="!h-[200px] !w-[245px] rounded"
+                      className="!h-full !w-full rounded"
                     />
                   ) : (
                     <Image
@@ -645,21 +650,21 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                       alt="Orizon profile"
                       width={200}
                       height={200}
-                      className="!h-[200px] !w-[245px] rounded"
+                      className="!h-full !w-full rounded"
                     />
                   )}
                 </div>
               </div>
-              <div className=" flex justify-between w-full">
+              <div className=" flex flex-col gap-y-3 md:flex-row md:justify-between w-full">
                 <button
                   onClick={() => approve("scanned_id_card_verification")}
-                  className="bg-[#379941] text-white w-[49%] p-3 rounded"
+                  className="bg-[#379941] text-white w-full md:w-[49%] p-3 rounded"
                 >
                   Approve
                 </button>
                 <button
                   onClick={() => reject("scanned_id_card_verification")}
-                  className="bg-[#E52020] text-white w-[49%] p-3 rounded"
+                  className="bg-[#E52020] text-white w-full md:w-[49%] p-3 rounded"
                 >
                   Reject
                 </button>
@@ -701,38 +706,42 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
               <div className="LivenessDetection w-[279px] text-[#0e0e0e] text-base font-medium">
                 Five Second Video Verification
               </div>
-              {customerShortVideo ? (
-                <div className="custom-player-container">
-                  <ReactPlayer
-                    url={customerShortVideo}
-                    controls={true}
-                    playing={true}
-                    muted={false}
-                    className="custom-player"
-                    width="100%" // Fill the container
-                    height="100%" // Fill the container
-                  />
+              <div className="w-full flex flex-col md:flex-row md:justify-between mb-6">
+                <div className="w-full md:w-[49%]">
+                  {customerShortVideo ? (
+                    <div className="custom-player-container">
+                      <ReactPlayer
+                        url={customerShortVideo}
+                        controls={true}
+                        playing={true}
+                        muted={false}
+                        className="custom-player"
+                        width="100%" // Fill the container
+                        height="100%" // Fill the container
+                      />
+                    </div>
+                  ) : (
+                    <Image
+                      src="/images/novideo.jpg"
+                      alt="Orizon profile"
+                      width={200}
+                      height={200}
+                      className="!h-full !w-full rounded"
+                    />
+                  )}
                 </div>
-              ) : (
-                <Image
-                  src="/images/novideo.jpg"
-                  alt="Orizon profile"
-                  width={200}
-                  height={200}
-                  className="!h-[200px] !w-[245px] rounded"
-                />
-              )}
-
-              <div className=" flex justify-between w-full">
+                <div className="hidden md:w-full"></div>
+              </div>
+              <div className=" flex flex-col gap-y-3 md:flex-row md:justify-between w-full">
                 <button
                   onClick={() => approve("five_second_face_video_verification")}
-                  className="bg-[#379941] text-white w-[49%] p-3 rounded"
+                  className="bg-[#379941] text-white w-full md:w-[49%] p-3 rounded"
                 >
                   Approve
                 </button>
                 <button
                   onClick={() => reject("five_second_face_video_verification")}
-                  className="bg-[#E52020] text-white w-[49%] p-3 rounded"
+                  className="bg-[#E52020] text-white w-full md:w-[49%] p-3 rounded"
                 >
                   Reject
                 </button>
@@ -775,33 +784,38 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
               <div className="LivenessDetection w-[279px] text-[#0e0e0e] text-base font-medium">
                 Signature Verification
               </div>
-              {customerSignature ? (
-                <Image
-                  src={customerSignature}
-                  alt="Orizon profile"
-                  width={200}
-                  height={200}
-                  className="!h-[200px] !w-[245px] rounded"
-                />
-              ) : (
-                <Image
-                  src="/images/dummy-image.jpg"
-                  alt="Orizon profile"
-                  width={200}
-                  height={200}
-                  className="!h-[200px] !w-[245px] rounded"
-                />
-              )}
-              <div className=" flex justify-between w-full">
+              <div className="flex flex-col md:flex-row md:justify-between w-full">
+                <div className="w-full md:w-[49%]">
+                  {customerSignature ? (
+                    <Image
+                      src={customerSignature}
+                      alt="Orizon profile"
+                      width={200}
+                      height={200}
+                      className="!h-full !w-full rounded"
+                    />
+                  ) : (
+                    <Image
+                      src="/images/dummy-image.jpg"
+                      alt="Orizon profile"
+                      width={200}
+                      height={200}
+                      className="!h-full !w-full rounded"
+                    />
+                  )}
+                </div>
+                <div className="hidden md:w-[49%]"></div>
+              </div>
+              <div className=" flex flex-col gap-y-3 md:flex-row md:justify-between w-full">
                 <button
                   onClick={() => approve("signature_verification")}
-                  className="bg-[#379941] text-white w-[49%] p-3 rounded"
+                  className="bg-[#379941] text-white w-full md:w-[49%] p-3 rounded"
                 >
                   Approve
                 </button>
                 <button
                   onClick={() => reject("signature_verification")}
-                  className="bg-[#E52020] text-white w-[49%] p-3 rounded"
+                  className="bg-[#E52020] text-white w-full md:w-[49%] p-3 rounded"
                 >
                   Reject
                 </button>
