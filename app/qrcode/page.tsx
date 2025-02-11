@@ -31,7 +31,6 @@ export default function OtpHome() {
   ) => {
     const value = e.target.value;
 
-    // Allow only single numeric values
     if (/^\d?$/.test(value)) {
       const newCode = [...code];
       newCode[index] = value;
@@ -42,27 +41,36 @@ export default function OtpHome() {
         inputRefs.current[index + 1]?.focus();
       }
     }
-
-    // If input is cleared, handle backspace behavior
-    if (value === "") {
-      handleBackspace(index);
-    }
   };
 
   const handleBackspace = (index: number) => {
     const newCode = [...code];
     newCode[index] = "";
 
-    // If user clears one input, remove all (reset behavior)
-    if (code.every((num) => num === "")) {
-      setCode(Array(6).fill(""));
-      inputRefs.current[0]?.focus(); // Reset focus to first input
-    } else {
-      setCode(newCode);
-      if (index > 0) {
-        inputRefs.current[index - 1]?.focus(); // Move to previous input
-      }
+    setCode(newCode);
+
+    // Move focus to the previous input
+    if (index > 0) {
+      inputRefs.current[index - 1]?.focus();
     }
+  };
+
+  const handleKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    if (e.key === "Backspace" && code[index] === "") {
+      handleBackspace(index);
+    }
+  };
+
+  const handleInput = (e: React.FormEvent<HTMLInputElement>, index: number) => {
+    const input = e.currentTarget;
+
+    // Ensure cursor stays at the rightmost side
+    requestAnimationFrame(() => {
+      input.setSelectionRange(1, 1);
+    });
   };
 
   const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
@@ -82,14 +90,6 @@ export default function OtpHome() {
       // Move focus to the last filled input
       const lastIndex = pastedNumbers.length < 6 ? pastedNumbers.length : 5;
       inputRefs.current[lastIndex]?.focus();
-    }
-  };
-  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>, index: number) => {
-    if (e.key === "Backspace" && code[index] === "") {
-      // Move focus to the previous input on backspace
-      if (index > 0 && inputRefs.current[index - 1]) {
-        inputRefs.current[index - 1]?.focus();
-      }
     }
   };
 
@@ -245,6 +245,8 @@ export default function OtpHome() {
                   maxLength={1}
                   value={digit}
                   onChange={(e) => handleChange(e, index)}
+                  onKeyDown={(e) => handleKeyDown(e, index)}
+                  onInput={(e) => handleInput(e, index)} // Ensures backspace works on mobile
                   onPaste={handlePaste}
                   ref={(el) => {
                     inputRefs.current[index] = el;
@@ -253,7 +255,6 @@ export default function OtpHome() {
                 />
               ))}
             </div>
-
             <div className="w-full">
               <button
                 type="submit"
