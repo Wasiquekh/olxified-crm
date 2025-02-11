@@ -25,17 +25,49 @@ export default function OtpHome() {
 
   const { setAccessToken } = useContext(AppContext);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
     const value = e.target.value;
-    if (/^\d{0,1}$/.test(value)) {
+
+    // Allow only single numeric values
+    if (/^\d?$/.test(value)) {
       const newCode = [...code];
       newCode[index] = value;
       setCode(newCode);
 
-      // Move focus to the next input
-      if (value && index < 5 && inputRefs.current[index + 1]) {
+      // Move to the next input if a digit is entered
+      if (value && index < 5) {
         inputRefs.current[index + 1]?.focus();
       }
+    }
+
+    // Handle backspace (delete and move focus back)
+    if (value === "" && index > 0) {
+      inputRefs.current[index - 1]?.focus();
+    }
+  };
+
+  const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const pasteData = e.clipboardData.getData("text").trim();
+
+    // Allow only numeric values and limit to OTP length
+    if (/^\d+$/.test(pasteData)) {
+      const pastedNumbers = pasteData.slice(0, 6).split("");
+      const newCode = [...code];
+
+      // Distribute pasted digits across input fields
+      pastedNumbers.forEach((num, i) => {
+        if (i < 6) newCode[i] = num;
+      });
+
+      setCode(newCode);
+
+      // Move focus to the last filled input
+      const lastIndex = pastedNumbers.length < 6 ? pastedNumbers.length : 5;
+      inputRefs.current[lastIndex]?.focus();
     }
   };
 
@@ -200,7 +232,7 @@ export default function OtpHome() {
                   maxLength={1}
                   value={digit}
                   onChange={(e) => handleChange(e, index)}
-                  onKeyDown={(e) => handleKeyDown(e, index)}
+                  onPaste={handlePaste} // ✅ Handles pasting
                   ref={(el) => {
                     inputRefs.current[index] = el;
                   }}
