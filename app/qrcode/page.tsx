@@ -13,9 +13,9 @@ const axiosProvider = new AxiosProvider();
 
 export default function OtpHome() {
   const storage = new StorageManager();
-  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const router = useRouter();
-  const [code, setCode] = useState<string[]>(new Array(6).fill(""));
+  const [code, setCode] = useState<string[]>(Array(6).fill(""));
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [qrCode, setQrCode] = useState<string | undefined>();
   const [secretKey, setSecretKey] = useState<string | null>(
@@ -43,9 +43,25 @@ export default function OtpHome() {
       }
     }
 
-    // Handle backspace (delete and move focus back)
-    if (value === "" && index > 0) {
-      inputRefs.current[index - 1]?.focus();
+    // If input is cleared, handle backspace behavior
+    if (value === "") {
+      handleBackspace(index);
+    }
+  };
+
+  const handleBackspace = (index: number) => {
+    const newCode = [...code];
+    newCode[index] = "";
+
+    // If user clears one input, remove all (reset behavior)
+    if (code.every((num) => num === "")) {
+      setCode(Array(6).fill(""));
+      inputRefs.current[0]?.focus(); // Reset focus to first input
+    } else {
+      setCode(newCode);
+      if (index > 0) {
+        inputRefs.current[index - 1]?.focus(); // Move to previous input
+      }
     }
   };
 
@@ -53,12 +69,10 @@ export default function OtpHome() {
     e.preventDefault();
     const pasteData = e.clipboardData.getData("text").trim();
 
-    // Allow only numeric values and limit to OTP length
     if (/^\d+$/.test(pasteData)) {
       const pastedNumbers = pasteData.slice(0, 6).split("");
       const newCode = [...code];
 
-      // Distribute pasted digits across input fields
       pastedNumbers.forEach((num, i) => {
         if (i < 6) newCode[i] = num;
       });
@@ -70,7 +84,6 @@ export default function OtpHome() {
       inputRefs.current[lastIndex]?.focus();
     }
   };
-
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>, index: number) => {
     if (e.key === "Backspace" && code[index] === "") {
       // Move focus to the previous input on backspace
@@ -232,7 +245,7 @@ export default function OtpHome() {
                   maxLength={1}
                   value={digit}
                   onChange={(e) => handleChange(e, index)}
-                  onPaste={handlePaste} // ✅ Handles pasting
+                  onPaste={handlePaste}
                   ref={(el) => {
                     inputRefs.current[index] = el;
                   }}
