@@ -2,8 +2,6 @@
 import Image from "next/image";
 import { useState, useRef, useEffect, ChangeEvent, KeyboardEvent } from "react";
 import { useRouter } from "next/navigation";
-//import { appCheck } from "../firebase-config";
-//import { getToken } from "firebase/app-check";
 import { toast } from "react-toastify";
 import AxiosProvider from "../../provider/AxiosProvider";
 import StorageManager from "../../provider/StorageManager";
@@ -165,7 +163,7 @@ export default function OtpHome() {
           className=" absolute  top-[90%] right-0 left-0 mx-auto"
         />
       </div>
-      
+
       <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[90%] max-w-[500px] h-[587px] shadow-loginBoxShadow bg-white px-6 sm:px-12 py-10 sm:py-16 rounded-lg">
         <Image
           src="/images/loginicon.svg"
@@ -191,32 +189,35 @@ export default function OtpHome() {
           to your authenticator app
         </p>
         <form onSubmit={handleSubmit} className="w-full">
-        <div>
-          <div className="flex items-center justify-between mb-10 sm:mb-14 w-[96%] mx-auto">
-            {code.map((digit, index) => (
-              <input
-                key={index}
-                type="number"
-                maxLength={1}
-                value={digit}
-                onChange={(e) => handleChange(e, index)}
-                onKeyDown={(e) => handleKeyDown(e, index)}
-                ref={(el) => {
-                  inputRefs.current[index] = el;
-                }}
-                className="w-[14%] sm:w-[14%] h-12 sm:h-14 py-3 sm:py-4 text-center sm:px-5 border-b border-[#BDD1E0] text-black text-lg sm:text-xl font-semibold leading-normal focus:outline-none focus:border-b-2 focus-within:border-[#0E6874]"
-              />
-            ))}
-          </div>
-          <div className="w-full">
-            <button
-              type="submit"
-              className="bg-[#1814F3] border rounded-[15px] w-full h-[50px] text-center text-white text-lg font-medium leading-normal mb-3"
-              disabled={loading}
-            >
-              {loading ? "Code Verifying..." : "Verify Code"}
-            </button>
-          </div>
+          <div>
+            <div className="flex items-center justify-between mb-10 sm:mb-14 w-[96%] mx-auto">
+              {code.map((digit, index) => (
+                <input
+                  key={index}
+                  type="text"
+                  inputMode="numeric"
+                  pattern="\d*"
+                  maxLength={1}
+                  value={digit}
+                  onChange={(e) => handleChange(e, index)}
+                  onKeyDown={(e) => handleKeyDown(e, index)}
+                  ref={(el) => {
+                    inputRefs.current[index] = el;
+                  }}
+                  className="w-[14%] sm:w-[14%] h-12 sm:h-14 py-3 sm:py-4 text-center sm:px-5 border-b border-[#BDD1E0] text-black text-lg sm:text-xl font-semibold leading-normal focus:outline-none focus:border-b-2 focus-within:border-[#0E6874]"
+                />
+              ))}
+            </div>
+
+            <div className="w-full">
+              <button
+                type="submit"
+                className="bg-[#1814F3] border rounded-[15px] w-full h-[50px] text-center text-white text-lg font-medium leading-normal mb-3"
+                disabled={loading}
+              >
+                {loading ? "Code Verifying..." : "Verify Code"}
+              </button>
+            </div>
           </div>
         </form>
       </div>
