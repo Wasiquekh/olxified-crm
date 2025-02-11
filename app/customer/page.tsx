@@ -274,7 +274,7 @@ export default function Home() {
                     {/* Add gap for spacing between items */}
                     {appliedFilters.map((filter, index) => (
                       <li
-                        className=" items-center text-[#1814F3] bg-[#EDF2FE] inline-flex  p-2 rounded gap-1 text-xs ml-2"
+                        className=" items-center text-[#1814F3] bg-[#EDF2FE] inline-flex  p-2 rounded gap-1 text-xs ml-2 mb-2"
                         key={index}
                       >
                         <RiAccountCircleLine className="text-[#1814F3]" />
@@ -287,14 +287,14 @@ export default function Home() {
                         />
                       </li>
                     ))}
+                    <li className="items-center text-[#1814F3] bg-[#EDF2FE] inline-flex  p-2 rounded gap-1 text-xs ml-2 mb-2">
+                      Clear All
+                      <RxCross2
+                        className="text-[#1814F3] cursor-pointer"
+                        onClick={clearAllFilteredData}
+                      ></RxCross2>
+                    </li>
                   </ul>
-                  <span className="items-center text-[#1814F3] bg-[#EDF2FE] inline-flex  p-2 rounded gap-1 text-xs ml-2">
-                    Clear All
-                    <RxCross2
-                      className="text-[#1814F3] cursor-pointer"
-                      onClick={clearAllFilteredData}
-                    ></RxCross2>
-                  </span>
                 </div>
               )}
             </div>
@@ -412,7 +412,12 @@ export default function Home() {
                                 </div>`}
                                 className="text-black leading-normal relative top-[5.3px] capitalize"
                               />
-                              <Tooltip id="my-tooltip" place="right" float className="box"/>
+                              <Tooltip
+                                id="my-tooltip"
+                                place="right"
+                                float
+                                className="box"
+                              />
                             </div>
                             <div>
                               <p className="text-[#232323] text-sm sm:text-base font-semibold leading-normal capitalize">
@@ -615,7 +620,7 @@ export default function Home() {
                     type="submit"
                     className=" py-[13px] px-[26px] bg-customBlue rounded-2xl text-base font-medium leading-6 text-white cursor-pointer w-full md:w-[49%] text-center "
                   >
-                    Update Details
+                   Filter Now
                   </button>
                 </div>
               </form>

@@ -1204,7 +1204,6 @@ export default function Home() {
                             </div>
                             {item.system_user_id}
                           </div>
-
                         </td>
                         <td className="border border-gray-300 px-4 py-2 capitalize hidden md:table-cell">
                           {item.verification_type.split("_").join(" ")}
@@ -1248,51 +1247,61 @@ export default function Home() {
         <>
           {/* Tab content 3 */}
           <div className="container mx-auto p-4">
-            <h2 className="text-xl font-semibold mb-4">Transaction History</h2>
+            <h2 className="text-lg md:text-xl font-semibold mb-4">
+              Transaction History
+            </h2>
             <div className="overflow-x-auto rounded-lg shadow">
-              <table className="min-w-full bg-white">
+              <table className="w-full min-w-max bg-white">
                 <thead>
-                  <tr className="bg-blue-500 text-white">
-                    <th className="text-left px-6 py-3">Transaction ID</th>
-                    <th className="text-left px-6 py-3">Date</th>
-                    <th className="text-left px-6 py-3">Amount</th>
-                    <th className="text-left px-6 py-3">Status</th>
-                    <th className="text-left px-6 py-3">Description</th>
+                  <tr className="bg-blue-500 text-white text-xs md:text-sm">
+                    <th className="text-left px-4 md:px-6 py-3">
+                      Transaction ID
+                    </th>
+                    <th className="text-left px-4 md:px-6 py-3">Date</th>
+                    <th className="text-left px-4 md:px-6 py-3">Amount</th>
+                    <th className="text-left px-4 md:px-6 py-3">Status</th>
+                    <th className="text-left px-4 md:px-6 py-3">Description</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="text-xs md:text-sm">
                   <tr className="bg-gray-100 hover:bg-gray-200">
-                    <td className="px-6 py-4">TXN001</td>
-                    <td className="px-6 py-4">2025-01-20</td>
-                    <td className="px-6 py-4">$250.00</td>
-                    <td className="px-6 py-4">
-                      <span className="px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                    <td className="px-4 md:px-6 py-3">TXN001</td>
+                    <td className="px-4 md:px-6 py-3">2025-01-20</td>
+                    <td className="px-4 md:px-6 py-3">$250.00</td>
+                    <td className="px-4 md:px-6 py-3">
+                      <span className="px-2 py-1 rounded-full text-xs md:text-sm font-medium bg-green-100 text-green-800">
                         Completed
                       </span>
                     </td>
-                    <td className="px-6 py-4">Payment for order #1234</td>
+                    <td className="px-4 md:px-6 py-3">
+                      Payment for order #1234
+                    </td>
                   </tr>
                   <tr className="bg-white hover:bg-gray-200">
-                    <td className="px-6 py-4">TXN002</td>
-                    <td className="px-6 py-4">2025-01-22</td>
-                    <td className="px-6 py-4">$150.50</td>
-                    <td className="px-6 py-4">
-                      <span className="px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
+                    <td className="px-4 md:px-6 py-3">TXN002</td>
+                    <td className="px-4 md:px-6 py-3">2025-01-22</td>
+                    <td className="px-4 md:px-6 py-3">$150.50</td>
+                    <td className="px-4 md:px-6 py-3">
+                      <span className="px-2 py-1 rounded-full text-xs md:text-sm font-medium bg-yellow-100 text-yellow-800">
                         Pending
                       </span>
                     </td>
-                    <td className="px-6 py-4">Refund for order #5678</td>
+                    <td className="px-4 md:px-6 py-3">
+                      Refund for order #5678
+                    </td>
                   </tr>
                   <tr className="bg-gray-100 hover:bg-gray-200">
-                    <td className="px-6 py-4">TXN003</td>
-                    <td className="px-6 py-4">2025-01-25</td>
-                    <td className="px-6 py-4">$300.00</td>
-                    <td className="px-6 py-4">
-                      <span className="px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800">
+                    <td className="px-4 md:px-6 py-3">TXN003</td>
+                    <td className="px-4 md:px-6 py-3">2025-01-25</td>
+                    <td className="px-4 md:px-6 py-3">$300.00</td>
+                    <td className="px-4 md:px-6 py-3">
+                      <span className="px-2 py-1 rounded-full text-xs md:text-sm font-medium bg-red-100 text-red-800">
                         Failed
                       </span>
                     </td>
-                    <td className="px-6 py-4">Payment for subscription</td>
+                    <td className="px-4 md:px-6 py-3">
+                      Payment for subscription
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -1307,61 +1316,54 @@ export default function Home() {
       label: "Card",
       content: (
         <>
-          {/* Tab content 3 */}
+          {/* Tab content 4 */}
           <div className="container mx-auto p-4">
             {/* Card Tab Section */}
-            <div className=" flex gap-6 justify-between items-center">
-              {/* CARD */}
-              <div className=" w-full h-[225px] bg-cardBg rounded-2xl p-4 relative mb-8">
-                <div className=" flex justify-between items-center mb-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {/* CARD 1 */}
+              <div className="w-full h-[225px] bg-cardBg rounded-2xl p-4 relative">
+                <div className="flex justify-between items-center mb-5">
                   <div>
-                    <p className=" text-white text-[11px] leading-normal">
+                    <p className="text-white text-[11px] leading-normal">
                       Balance
                     </p>
-                    <p className=" text-white text-base font-semibold leading-normal">
+                    <p className="text-white text-base font-semibold leading-normal">
                       $5,756
                     </p>
                   </div>
                   <div>
                     <Image
                       src="/images/Chip_Card.svg"
-                      width={0}
-                      height={0}
-                      alt="Picture of the author"
-                      className=" w-[29px] h-full"
+                      width={29}
+                      height={29}
+                      alt="Chip"
+                      className="w-[29px] h-auto"
                     />
                   </div>
                 </div>
-
-                <div className=" flex justify-between items-center w-full">
+                <div className="flex justify-between items-center w-full">
                   <div>
-                    <p className=" text-white opacity-70 text-[10px] leading-normal">
+                    <p className="text-white opacity-70 text-[10px] leading-normal">
                       CARD HOLDER
                     </p>
-                    <p className=" text-white text-[13px] font-semibold leading-normal">
+                    <p className="text-white text-[13px] font-semibold leading-normal">
                       Eddy Cusuma
                     </p>
                   </div>
                   <div>
-                    <p className=" text-white opacity-70 text-[10px] leading-normal">
+                    <p className="text-white opacity-70 text-[10px] leading-normal">
                       VALID THRU
                     </p>
-                    <p className=" text-white text-[13px] font-semibold leading-normal">
+                    <p className="text-white text-[13px] font-semibold leading-normal">
                       12/22
                     </p>
                   </div>
                 </div>
-                <div className=" flex justify-between items-center bg-cardFooter absolute bottom-0 left-0 right-0 w-full h-[70px] mx-auto p-4">
-                  <p className=" text-[15pox] font-semibold text-white">
+                <div className="flex justify-between items-center bg-cardFooter absolute bottom-0 left-0 right-0 w-full h-[70px] p-4">
+                  <p className="text-[13px] font-semibold text-white">
                     3778 **** **** 1234
                   </p>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="44"
-                    height="30"
-                    viewBox="0 0 44 30"
-                    fill="none"
-                  >
+                  <svg width="44" height="30" viewBox="0 0 44 30" fill="none">
                     <circle
                       cx="15"
                       cy="15"
@@ -1379,58 +1381,51 @@ export default function Home() {
                   </svg>
                 </div>
               </div>
-              {/* END  CARD */}
-              {/* CARD */}
-              <div className=" w-full h-[225px] bg-card rounded-2xl p-4 relative mb-8">
-                <div className=" flex justify-between items-center mb-5">
+
+              {/* CARD 2 */}
+              <div className="w-full h-[225px] bg-card rounded-2xl p-4 relative">
+                <div className="flex justify-between items-center mb-5">
                   <div>
-                    <p className=" text-white text-[11px] leading-normal">
+                    <p className="text-white text-[11px] leading-normal">
                       Balance
                     </p>
-                    <p className=" text-white text-base font-semibold leading-normal">
+                    <p className="text-white text-base font-semibold leading-normal">
                       $5,756
                     </p>
                   </div>
                   <div>
                     <Image
                       src="/images/Chip_Card.svg"
-                      width={0}
-                      height={0}
-                      alt="Picture of the author"
-                      className=" w-[29px] h-full"
+                      width={29}
+                      height={29}
+                      alt="Chip"
+                      className="w-[29px] h-auto"
                     />
                   </div>
                 </div>
-
-                <div className=" flex justify-between items-center w-full">
+                <div className="flex justify-between items-center w-full">
                   <div>
-                    <p className=" text-white opacity-70 text-[10px] leading-normal">
+                    <p className="text-white opacity-70 text-[10px] leading-normal">
                       CARD HOLDER
                     </p>
-                    <p className=" text-white text-[13px] font-semibold leading-normal">
+                    <p className="text-white text-[13px] font-semibold leading-normal">
                       Eddy Cusuma
                     </p>
                   </div>
                   <div>
-                    <p className=" text-white opacity-70 text-[10px] leading-normal">
+                    <p className="text-white opacity-70 text-[10px] leading-normal">
                       VALID THRU
                     </p>
-                    <p className=" text-white text-[13px] font-semibold leading-normal">
+                    <p className="text-white text-[13px] font-semibold leading-normal">
                       12/22
                     </p>
                   </div>
                 </div>
-                <div className=" flex justify-between items-center bg-cardFooter absolute bottom-0 left-0 right-0 w-full h-[70px] mx-auto p-4">
-                  <p className=" text-[15pox] font-semibold text-white">
+                <div className="flex justify-between items-center bg-cardFooter absolute bottom-0 left-0 right-0 w-full h-[70px] p-4">
+                  <p className="text-[13px] font-semibold text-white">
                     3778 **** **** 1234
                   </p>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="44"
-                    height="30"
-                    viewBox="0 0 44 30"
-                    fill="none"
-                  >
+                  <svg width="44" height="30" viewBox="0 0 44 30" fill="none">
                     <circle
                       cx="15"
                       cy="15"
@@ -1448,58 +1443,51 @@ export default function Home() {
                   </svg>
                 </div>
               </div>
-              {/* END  CARD */}
-              {/* CARD */}
-              <div className=" w-full h-[225px] border bg-white border-[#DFEAF2] rounded-2xl p-4 relative mb-8">
-                <div className=" flex justify-between items-center mb-5">
+
+              {/* CARD 3 */}
+              <div className="w-full h-[225px] border bg-white border-[#DFEAF2] rounded-2xl p-4 relative">
+                <div className="flex justify-between items-center mb-5">
                   <div>
-                    <p className=" text-[#718EBF] text-[11px] leading-normal">
+                    <p className="text-[#718EBF] text-[11px] leading-normal">
                       Balance
                     </p>
-                    <p className=" text-[#343C6A] text-base font-semibold leading-normal">
+                    <p className="text-[#343C6A] text-base font-semibold leading-normal">
                       $5,756
                     </p>
                   </div>
                   <div>
                     <Image
                       src="/images/white-card.svg"
-                      width={0}
-                      height={0}
-                      alt="Picture of the author"
-                      className=" w-[29px] h-full"
+                      width={29}
+                      height={29}
+                      alt="Chip"
+                      className="w-[29px] h-auto"
                     />
                   </div>
                 </div>
-
-                <div className=" flex justify-between items-center w-full">
+                <div className="flex justify-between items-center w-full">
                   <div>
-                    <p className=" text-[#718EBF] opacity-70 text-[10px] leading-normal">
+                    <p className="text-[#718EBF] opacity-70 text-[10px] leading-normal">
                       CARD HOLDER
                     </p>
-                    <p className=" text-[#343C6A] text-[13px] font-semibold leading-normal">
+                    <p className="text-[#343C6A] text-[13px] font-semibold leading-normal">
                       Eddy Cusuma
                     </p>
                   </div>
                   <div>
-                    <p className=" text-[#718EBF] opacity-70 text-[10px] leading-normal">
+                    <p className="text-[#718EBF] opacity-70 text-[10px] leading-normal">
                       VALID THRU
                     </p>
-                    <p className=" text-[#343C6A] text-[13px] font-semibold leading-normal">
+                    <p className="text-[#343C6A] text-[13px] font-semibold leading-normal">
                       12/22
                     </p>
                   </div>
                 </div>
-                <div className=" flex justify-between items-center bg-cardFooter absolute bottom-0 left-0 right-0 w-full h-[70px] mx-auto p-4 border-t border-[#DFEAF2]">
-                  <p className=" text-[15pox] font-semibold text-[#343C6A] ">
+                <div className="flex justify-between items-center bg-cardFooter absolute bottom-0 left-0 right-0 w-full h-[70px] p-4 border-t border-[#DFEAF2]">
+                  <p className="text-[13px] font-semibold text-[#343C6A]">
                     3778 **** **** 1234
                   </p>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="44"
-                    height="30"
-                    viewBox="0 0 44 30"
-                    fill="none"
-                  >
+                  <svg width="44" height="30" viewBox="0 0 44 30" fill="none">
                     <circle
                       cx="15"
                       cy="15"
@@ -1517,62 +1505,45 @@ export default function Home() {
                   </svg>
                 </div>
               </div>
-              {/* END  CARD */}
             </div>
 
             {/* Transaction Table */}
-            <h2 className="text-xl font-semibold mb-4">Transaction History</h2>
-            <div className="overflow-x-auto rounded-lg shadow">
-              <table className="min-w-full bg-white">
+            <h2 className="text-lg md:text-xl font-semibold mt-6">
+              Transaction History
+            </h2>
+            <div className="overflow-x-auto rounded-lg shadow mt-4">
+              <table className="w-full min-w-max bg-white">
                 <thead>
-                  <tr className="bg-blue-500 text-white">
-                    <th className="text-left px-6 py-3">Transaction ID</th>
-                    <th className="text-left px-6 py-3">Date</th>
-                    <th className="text-left px-6 py-3">Amount</th>
-                    <th className="text-left px-6 py-3">Status</th>
-                    <th className="text-left px-6 py-3">Description</th>
+                  <tr className="bg-blue-500 text-white text-xs md:text-sm">
+                    <th className="text-left px-4 md:px-6 py-3">
+                      Transaction ID
+                    </th>
+                    <th className="text-left px-4 md:px-6 py-3">Date</th>
+                    <th className="text-left px-4 md:px-6 py-3">Amount</th>
+                    <th className="text-left px-4 md:px-6 py-3">Status</th>
+                    <th className="text-left px-4 md:px-6 py-3">Description</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="text-xs md:text-sm">
                   <tr className="bg-gray-100 hover:bg-gray-200">
-                    <td className="px-6 py-4">TXN001</td>
-                    <td className="px-6 py-4">2025-01-20</td>
-                    <td className="px-6 py-4">$250.00</td>
-                    <td className="px-6 py-4">
-                      <span className="px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                    <td className="px-4 md:px-6 py-3">TXN001</td>
+                    <td className="px-4 md:px-6 py-3">2025-01-20</td>
+                    <td className="px-4 md:px-6 py-3">$250.00</td>
+                    <td className="px-4 md:px-6 py-3">
+                      <span className="px-2 py-1 rounded-full text-xs md:text-sm font-medium bg-green-100 text-green-800">
                         Completed
                       </span>
                     </td>
-                    <td className="px-6 py-4">Payment for order #1234</td>
-                  </tr>
-                  <tr className="bg-white hover:bg-gray-200">
-                    <td className="px-6 py-4">TXN002</td>
-                    <td className="px-6 py-4">2025-01-22</td>
-                    <td className="px-6 py-4">$150.50</td>
-                    <td className="px-6 py-4">
-                      <span className="px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
-                        Pending
-                      </span>
+                    <td className="px-4 md:px-6 py-3">
+                      Payment for order #1234
                     </td>
-                    <td className="px-6 py-4">Refund for order #5678</td>
-                  </tr>
-                  <tr className="bg-gray-100 hover:bg-gray-200">
-                    <td className="px-6 py-4">TXN003</td>
-                    <td className="px-6 py-4">2025-01-25</td>
-                    <td className="px-6 py-4">$300.00</td>
-                    <td className="px-6 py-4">
-                      <span className="px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800">
-                        Failed
-                      </span>
-                    </td>
-                    <td className="px-6 py-4">Payment for subscription</td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
 
-          {/* End Tab content 3 */}
+          {/* End Tab content 4 */}
         </>
       ),
     },

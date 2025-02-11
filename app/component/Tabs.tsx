@@ -12,7 +12,7 @@ const Tab: React.FC<TabProps> = ({ label, isActive, onClick }) => (
   <button
     className={`py-2 px-4 text-base font-medium transition-colors duration-200 rounded-md w-full md:w-auto text-left md:text-center ${
       isActive
-        ? "text-customBlue border-l-[3px] md:border-l-0 md:border-b-[3px] border-customBlue"
+        ? "text-customBlue border-b-[3px] md:border-l-0 md:border-b-[3px] border-customBlue"
         : "text-[#718EBF]"
     }`}
     onClick={onClick}

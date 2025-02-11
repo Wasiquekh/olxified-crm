@@ -202,10 +202,13 @@ export default function Home() {
 
           {/* ----------------Table----------------------- */}
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <table className="w-full table-fixed text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
               <thead className="text-xs text-[#999999]">
-                <tr className=" border border-tableBorder">
-                  <th scope="col" className="p-4 border border-tableBorder">
+                <tr className="border border-tableBorder">
+                  <th
+                    scope="col"
+                    className="p-3 border border-tableBorder w-[85%]"
+                  >
                     <div className="flex items-center gap-2">
                       <RxAvatar className="w-5 h-5" />
                       <div className="font-semibold text-[#717171] text-base leading-normal">
@@ -215,7 +218,7 @@ export default function Home() {
                   </th>
                   <th
                     scope="col"
-                    className="px-2 py-0 border border-tableBorder hidden md:table-cell"
+                    className="px-2 py-1 border border-tableBorder hidden md:table-cell"
                   >
                     <div className="flex items-center gap-2">
                       <MdOutlineCall className="w-5 h-5" />
@@ -226,7 +229,7 @@ export default function Home() {
                   </th>
                   <th
                     scope="col"
-                    className="px-2 py-0 border border-tableBorder hidden md:table-cell"
+                    className="px-2 py-1 border border-tableBorder hidden md:table-cell"
                   >
                     <div className="flex items-center gap-2">
                       <LiaArrowCircleDownSolid className="w-5 h-5" />
@@ -237,7 +240,7 @@ export default function Home() {
                   </th>
                   <th
                     scope="col"
-                    className="px-2 py-0 border border-tableBorder"
+                    className="px-2 py-1 border border-tableBorder w-[15%]"
                   >
                     <div className="flex items-center gap-2">
                       <LiaArrowCircleDownSolid className="w-5 h-5" />
@@ -250,9 +253,9 @@ export default function Home() {
               </thead>
               <tbody>
                 {isError ? (
-                  <tr className="">
-                    <td colSpan={8} className="text-center text-xl mt-5">
-                      <div className="mt-5">Data not found</div>
+                  <tr>
+                    <td colSpan={4} className="text-center text-xl py-4">
+                      Data not found
                     </td>
                   </tr>
                 ) : (
@@ -262,88 +265,69 @@ export default function Home() {
                       className="border border-tableBorder bg-white"
                       key={index}
                     >
-                      <td className="px-4 py-2 border border-tableBorder flex  gap-2">
+                      <td className="px-3 py-2 border border-tableBorder flex gap-2 text-xs md:text-sm truncate w-[85%]">
                         <div className="md:hidden flex">
                           <FaEllipsisVertical
                             data-tooltip-id="my-tooltip"
                             data-tooltip-html={`<div>
-                                  <strong>Name:</strong> <span style="text-transform: capitalize;">${item.name}</span><br/>
-                                  <strong>Email:</strong> ${item.email}<br/>
-                                  <strong>Mobile:</strong> ${item.mobile_number}<br/>
-                                  <strong>Role:</strong> ${item.role}<br/>
-                                </div>`}
+                    <strong>Name:</strong> <span style="text-transform: capitalize;">${item.name}</span><br/>
+                    <strong>Email:</strong> ${item.email}<br/>
+                    <strong>Mobile:</strong> ${item.mobile_number}<br/>
+                    <strong>Role:</strong> ${item.role}<br/>
+                  </div>`}
                             className="text-black leading-normal capitalize relative top-1"
                           />
                           <Tooltip id="my-tooltip" place="right" float />
                         </div>
-                        <div className="">
-                          <p className="text-[#232323] text-base font-semibold leading-normal mb-[6px]">
+                        <div>
+                          <p className="text-[#232323] text-sm font-semibold leading-normal mb-[4px]">
                             {item.name}
                           </p>
-                          <p
-                            key={item.email}
-                            className="text-[#232323] text-sm leading-normal"
-                          >
+                          <p className="text-[#232323] text-xs md:text-sm leading-normal truncate">
                             {item.email}
                           </p>
                         </div>
                       </td>
-                      <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
-                        <p className="text-[#232323] text-base leading-normal">
+                      <td className="px-2 py-1 border border-tableBorder hidden md:table-cell">
+                        <p className="text-[#232323] text-sm leading-normal truncate">
                           {item.mobile_number}
                         </p>
                       </td>
-                      <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
-                        <button className="py-[6px] px-8 bg-[#DCF8DC] rounded-[16px] w-36">
-                          <p className="text-sm leading-normal text-[#0C390C]">
-                            {item.role}
-                          </p>
+                      <td className="px-2 py-1 border border-tableBorder hidden md:table-cell">
+                        <button className="py-[4px] px-6 bg-[#DCF8DC] rounded-[16px] w-28 text-xs md:text-sm">
+                          <p className="text-[#0C390C]">{item.role}</p>
                         </button>
                       </td>
-                      <td className="px-2 py-0 border border-tableBorder">
-                        <div className="flex gap-1.5">
+                      <td className="px-2 py-1 border border-tableBorder w-[15%]">
+                        <div className="flex gap-1">
                           {hasSystemUserView ? (
                             <button
                               onClick={() => changeCurrentUserData(item)}
-                              className="py-[6px] px-4 bg-[#C6F7FE] flex gap-1.5 items-center rounded-full"
+                              className="py-[4px] px-3 bg-[#C6F7FE] flex gap-1 items-center rounded-full text-xs md:text-sm"
                             >
                               <MdRemoveRedEye className="text-customBlue w-4 h-4" />
-                              <p className="text-sm leading-normal text-customBlue">
-                                View
-                              </p>
                             </button>
                           ) : (
                             <button
                               disabled
-                              onClick={() => changeCurrentUserData(item)}
-                              className="py-[6px] px-4 bg-[#C6F7FE] flex gap-1.5 items-center rounded-full cursor-not-allowed"
+                              className="py-[4px] px-3 bg-[#C6F7FE] flex gap-1 items-center rounded-full cursor-not-allowed text-xs md:text-sm"
                             >
                               <MdRemoveRedEye className="text-customBlue w-4 h-4" />
-                              <p className="text-sm leading-normal text-customBlue">
-                                Not Access
-                              </p>
                             </button>
                           )}
                           {hasSystemUserDelete ? (
                             <button
                               onClick={() => deleteUserData(item)}
-                              className="py-[6px] px-4 bg-[#FFD0D1] flex gap-1.5 items-center rounded-full"
+                              className="py-[4px] px-3 bg-[#FFD0D1] flex gap-1 items-center rounded-full text-xs md:text-sm"
                             >
                               <RiDeleteBin6Line className="text-[#FF1C1F] w-4 h-4" />
-                              <p className="text-sm leading-normal text-[#FF1C1F]">
-                                Delete
-                              </p>
                             </button>
                           ) : (
                             <button
-                              onClick={() => deleteUserData(item)}
                               disabled
-                              className="py-[6px] px-4 bg-[#FFD0D1] flex gap-1.5 items-center rounded-full cursor-not-allowed"
+                              className="py-[4px] px-3 bg-[#FFD0D1] flex gap-1 items-center rounded-full cursor-not-allowed text-xs md:text-sm"
                             >
                               <RiDeleteBin6Line className="text-[#FF1C1F] w-4 h-4" />
-                              <p className="text-sm leading-normal text-[#FF1C1F]">
-                                Not Access
-                              </p>
                             </button>
                           )}
                         </div>

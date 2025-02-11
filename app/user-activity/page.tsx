@@ -347,7 +347,7 @@ export default function Home() {
                     {/* Add gap for spacing between items */}
                     {appliedFilters.map((filter, index) => (
                       <li
-                        className=" items-center text-[#1814F3] bg-[#EDF2FE] inline-flex  p-2 rounded gap-1 text-xs ml-2"
+                        className=" items-center text-[#1814F3] bg-[#EDF2FE] inline-flex  p-2 rounded gap-1 text-xs ml-2 mb-2"
                         key={index}
                       >
                         <RiAccountCircleLine className="text-[#1814F3]" />
@@ -360,14 +360,14 @@ export default function Home() {
                         />
                       </li>
                     ))}
-                  </ul>
-                  <span className="items-center text-[#1814F3] bg-[#EDF2FE] inline-flex  p-2 rounded gap-1 text-xs ml-2">
-                    Clear All
-                    <RxCross2
-                      className="text-[#1814F3] cursor-pointer"
+                    <li
                       onClick={clearAllFilteredData}
-                    ></RxCross2>
-                  </span>
+                      className="items-center text-[#1814F3] bg-[#EDF2FE] inline-flex  p-2 rounded gap-1 text-xs ml-2 mb-2"
+                    >
+                      Clear All
+                      <RxCross2 className="text-[#1814F3] cursor-pointer"></RxCross2>
+                    </li>
+                  </ul>
                 </div>
               )}
             </div>
