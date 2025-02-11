@@ -59,19 +59,23 @@ export default function OtpHome() {
     if (!input.value) {
       moveFocusBack(index);
     }
-
-    // Ensure cursor stays at the rightmost side
-    requestAnimationFrame(() => {
-      input.setSelectionRange(1, 1);
-    });
   };
 
   const moveFocusBack = (index: number) => {
     if (index > 0) {
       const newCode = [...code];
-      newCode[index - 1] = ""; // Clear previous input as well
+      newCode[index - 1] = ""; // Clear previous input
       setCode(newCode);
-      inputRefs.current[index - 1]?.focus();
+
+      const prevInput = inputRefs.current[index - 1];
+      if (prevInput) {
+        prevInput.focus();
+
+        // ✅ Force cursor to the right (end of input)
+        requestAnimationFrame(() => {
+          prevInput.setSelectionRange(1, 1);
+        });
+      }
     }
   };
 
