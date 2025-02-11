@@ -43,34 +43,36 @@ export default function OtpHome() {
     }
   };
 
-  const handleBackspace = (index: number) => {
-    const newCode = [...code];
-    newCode[index] = "";
-
-    setCode(newCode);
-
-    // Move focus to the previous input
-    if (index > 0) {
-      inputRefs.current[index - 1]?.focus();
-    }
-  };
-
   const handleKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>,
     index: number
   ) => {
     if (e.key === "Backspace" && code[index] === "") {
-      handleBackspace(index);
+      moveFocusBack(index);
     }
   };
 
   const handleInput = (e: React.FormEvent<HTMLInputElement>, index: number) => {
     const input = e.currentTarget;
 
+    // Detect backspace manually for mobile when input gets cleared
+    if (!input.value) {
+      moveFocusBack(index);
+    }
+
     // Ensure cursor stays at the rightmost side
     requestAnimationFrame(() => {
       input.setSelectionRange(1, 1);
     });
+  };
+
+  const moveFocusBack = (index: number) => {
+    if (index > 0) {
+      const newCode = [...code];
+      newCode[index - 1] = ""; // Clear previous input as well
+      setCode(newCode);
+      inputRefs.current[index - 1]?.focus();
+    }
   };
 
   const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
