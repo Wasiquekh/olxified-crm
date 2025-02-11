@@ -341,36 +341,33 @@ export default function Home() {
             {/* Show Applied Filters */}
             <div className="w-[99%] mx-auto mb-3">
               {appliedFilters.length > 0 && (
-                <div className="flex gap-3">
-                  <ul>
-                    {" "}
-                    {/* Add gap for spacing between items */}
+                <div className="flex flex-wrap gap-x-3 gap-y-2 items-center">
+                  <ul className="flex flex-wrap items-center gap-x-3 gap-y-2">
                     {appliedFilters.map((filter, index) => (
                       <li
-                        className=" items-center text-[#1814F3] bg-[#EDF2FE] inline-flex  p-2 rounded gap-1 text-xs ml-2 mb-2"
                         key={index}
+                        className="flex items-center text-[#1814F3] bg-[#EDF2FE] px-3 py-2 rounded-md text-xs"
                       >
-                        <RiAccountCircleLine className="text-[#1814F3]" />
+                        <RiAccountCircleLine className="text-[#1814F3] mr-1" />
                         {filter}
                         <RxCross2
-                          onClick={() => {
-                            removeFilter(filter);
-                          }}
-                          className="text-[#1814F3] cursor-pointer"
+                          onClick={() => removeFilter(filter)}
+                          className="text-[#1814F3] cursor-pointer ml-2"
                         />
                       </li>
                     ))}
                     <li
                       onClick={clearAllFilteredData}
-                      className="items-center text-[#1814F3] bg-[#EDF2FE] inline-flex  p-2 rounded gap-1 text-xs ml-2 mb-2"
+                      className="flex items-center text-[#1814F3] bg-[#EDF2FE] px-3 py-2 rounded-md text-xs cursor-pointer"
                     >
                       Clear All
-                      <RxCross2 className="text-[#1814F3] cursor-pointer"></RxCross2>
+                      <RxCross2 className="text-[#1814F3] ml-2" />
                     </li>
                   </ul>
                 </div>
               )}
             </div>
+
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
               <thead className="text-xs text-[#999999]">
                 <tr className="border border-tableBorder">
