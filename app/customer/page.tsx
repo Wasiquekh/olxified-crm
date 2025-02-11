@@ -64,6 +64,7 @@ export default function Home() {
   const [isFlyoutOpen, setFlyoutOpen] = useState<boolean>(false);
   const [isFlyoutFilterOpen, setFlyoutFilterOpen] = useState<boolean>(false);
   const [data, setData] = useState<Customer[]>([]);
+  //console.log('DATAAAAA',data)
   const [page, setPage] = useState<number>(1);
   const [filterPage, setFilterPage] = useState<number>(1);
   const [limit] = useState<number>(10);
@@ -83,7 +84,7 @@ export default function Home() {
   const [isFilter, setIsFilter] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedData, setSelectedData] = useState<Customer | null>(null);
-  console.log("SELECTED DATA", selectedData);
+  //console.log("SELECTED DATA", selectedData);
   const storage = new StorageManager();
   //console.log("Get all user Data", data);
   const router = useRouter();
@@ -136,11 +137,12 @@ export default function Home() {
         `/filter?page=${page}&limit=${limit}`,
         data
       );
-      console.log("VVVVVVVVVVVVVVVVV", response.data.data);
+      //console.log("VVVVVVVVVVVVVVVVV", response.data.data);
       const result = response.data.data;
       setData(result.customers);
       setTotalPagesFilter(result.totalPages);
     } catch (error: any) {
+      setData([]);
     } finally {
       setIsLoading(false);
     }
@@ -383,14 +385,7 @@ export default function Home() {
                   </tr>
                 </thead>
                 <tbody>
-                  {isError ? (
-                    <tr>
-                      <td colSpan={7} className="text-center text-xl py-5">
-                        Data not found
-                      </td>
-                    </tr>
-                  ) : (
-                    data &&
+                  {Array.isArray(data) && data.length > 0 ? (
                     data.map((item, index) => (
                       <tr
                         className="border border-tableBorder bg-white"
@@ -403,13 +398,13 @@ export default function Home() {
                               <FaEllipsisVertical
                                 data-tooltip-id="my-tooltip"
                                 data-tooltip-html={`<div>
-                                  <strong>Name:</strong> <span style="text-transform: capitalize;">${item.firstname} ${item.lastname}</span><br/>
-                                  <strong>Date of birth:</strong> ${item.birthdate}<br/>
-                                   <strong>Country of birth:</strong> ${item.countryofbirth}<br/>
-                                   <strong>Gender:</strong> ${item.gender}<br/>
-                                   <strong>Country of residence:</strong> ${item.countryofresidence}<br/>
-                                   <strong>Mobile number:</strong> ${item.mobilephonenumber}<br/>
-                                </div>`}
+                                                     <strong>Name:</strong> <span style="text-transform: capitalize;">${item.firstname} ${item.lastname}</span><br/>
+                                                     <strong>Date of birth:</strong> ${item.birthdate}<br/>
+                                                     <strong>Country of birth:</strong> ${item.countryofbirth}<br/>
+                                                     <strong>Gender:</strong> ${item.gender}<br/>
+                                                     <strong>Country of residence:</strong> ${item.countryofresidence}<br/>
+                                                     <strong>Mobile number:</strong> ${item.mobilephonenumber}<br/>
+                                                  </div>`}
                                 className="text-black leading-normal relative top-[5.3px] capitalize"
                               />
                               <Tooltip
@@ -466,7 +461,7 @@ export default function Home() {
                             {item.mainStatus}
                           </span>
                         </td>
-                        <td className="px-3 py-2 border border-tableBorder  md:table-cell">
+                        <td className="px-3 py-2 border border-tableBorder md:table-cell">
                           <button
                             onClick={() => handleClick(item)}
                             className="py-1 px-3 bg-[#C6F7FE] flex gap-2 items-center rounded-full"
@@ -479,6 +474,12 @@ export default function Home() {
                         </td>
                       </tr>
                     ))
+                  ) : (
+                    <tr>
+                      <td colSpan={7} className="text-center text-xl py-5">
+                        Data not found
+                      </td>
+                    </tr>
                   )}
                 </tbody>
               </table>
@@ -620,7 +621,7 @@ export default function Home() {
                     type="submit"
                     className=" py-[13px] px-[26px] bg-customBlue rounded-2xl text-base font-medium leading-6 text-white cursor-pointer w-full md:w-[49%] text-center "
                   >
-                   Filter Now
+                    Filter Now
                   </button>
                 </div>
               </form>
