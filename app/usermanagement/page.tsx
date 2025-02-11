@@ -202,13 +202,10 @@ export default function Home() {
 
           {/* ----------------Table----------------------- */}
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table className="w-full table-fixed text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
               <thead className="text-xs text-[#999999]">
                 <tr className="border border-tableBorder">
-                  <th
-                    scope="col"
-                    className="p-3 border border-tableBorder w-[85%]"
-                  >
+                  <th scope="col" className="p-3 border border-tableBorder">
                     <div className="flex items-center gap-2">
                       <RxAvatar className="w-5 h-5" />
                       <div className="font-semibold text-[#717171] text-base leading-normal">
@@ -240,7 +237,7 @@ export default function Home() {
                   </th>
                   <th
                     scope="col"
-                    className="px-2 py-1 border border-tableBorder w-[15%]"
+                    className="px-2 py-1 border border-tableBorder"
                   >
                     <div className="flex items-center gap-2">
                       <LiaArrowCircleDownSolid className="w-5 h-5" />
@@ -265,7 +262,7 @@ export default function Home() {
                       className="border border-tableBorder bg-white"
                       key={index}
                     >
-                      <td className="px-3 py-2 border border-tableBorder flex gap-2 text-xs md:text-sm truncate w-[85%]">
+                      <td className="px-3 py-2  flex  md:flex-row gap-2">
                         <div className="md:hidden flex">
                           <FaEllipsisVertical
                             data-tooltip-id="my-tooltip"
@@ -280,7 +277,7 @@ export default function Home() {
                           <Tooltip id="my-tooltip" place="right" float />
                         </div>
                         <div>
-                          <p className="text-[#232323] text-sm font-semibold leading-normal mb-[4px]">
+                          <p className="text-[#232323] text-sm font-semibold leading-normal mb-1 truncate">
                             {item.name}
                           </p>
                           <p className="text-[#232323] text-xs md:text-sm leading-normal truncate">
@@ -294,18 +291,21 @@ export default function Home() {
                         </p>
                       </td>
                       <td className="px-2 py-1 border border-tableBorder hidden md:table-cell">
-                        <button className="py-[4px] px-6 bg-[#DCF8DC] rounded-[16px] w-28 text-xs md:text-sm">
+                        <button className="py-[4px] px-6 bg-[#DCF8DC] rounded-[16px] w-auto text-xs md:text-sm">
                           <p className="text-[#0C390C]">{item.role}</p>
                         </button>
                       </td>
-                      <td className="px-2 py-1 border border-tableBorder w-[15%]">
-                        <div className="flex gap-1">
+                      <td className="px-2 py-1 border border-tableBorder">
+                        <div className="flex gap-1 justify-center md:justify-start">
                           {hasSystemUserView ? (
                             <button
                               onClick={() => changeCurrentUserData(item)}
                               className="py-[4px] px-3 bg-[#C6F7FE] flex gap-1 items-center rounded-full text-xs md:text-sm"
                             >
                               <MdRemoveRedEye className="text-customBlue w-4 h-4" />
+                              <p className="text-customBlue hidden md:block">
+                                View
+                              </p>
                             </button>
                           ) : (
                             <button
@@ -313,6 +313,9 @@ export default function Home() {
                               className="py-[4px] px-3 bg-[#C6F7FE] flex gap-1 items-center rounded-full cursor-not-allowed text-xs md:text-sm"
                             >
                               <MdRemoveRedEye className="text-customBlue w-4 h-4" />
+                              <p className="text-customBlue hidden md:block">
+                                Not Access
+                              </p>
                             </button>
                           )}
                           {hasSystemUserDelete ? (
@@ -321,6 +324,9 @@ export default function Home() {
                               className="py-[4px] px-3 bg-[#FFD0D1] flex gap-1 items-center rounded-full text-xs md:text-sm"
                             >
                               <RiDeleteBin6Line className="text-[#FF1C1F] w-4 h-4" />
+                              <p className="text-[#FF1C1F] hidden md:block">
+                                Delete
+                              </p>
                             </button>
                           ) : (
                             <button
@@ -328,6 +334,9 @@ export default function Home() {
                               className="py-[4px] px-3 bg-[#FFD0D1] flex gap-1 items-center rounded-full cursor-not-allowed text-xs md:text-sm"
                             >
                               <RiDeleteBin6Line className="text-[#FF1C1F] w-4 h-4" />
+                              <p className="text-[#FF1C1F] hidden md:block">
+                                Not Access
+                              </p>
                             </button>
                           )}
                         </div>
