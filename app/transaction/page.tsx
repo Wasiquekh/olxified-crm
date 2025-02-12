@@ -161,7 +161,7 @@ export default function Home() {
                       key={index}
                     >
                       <td className="p-4 border border-tableBorder flex items-center gap-2">
-                      <div className="md:hidden">
+                        <div className="md:hidden">
                           <FaEllipsisVertical
                             data-tooltip-id="my-tooltip"
                             data-tooltip-html={`<div>
@@ -208,9 +208,15 @@ export default function Home() {
                       </td>
                       <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
                         <div className="flex gap-1.5">
-                          <p className="text-[#FE5C73] text-base font-medium leading-normal">
-                            {item.amount}
-                          </p>
+                          {item.type === "credit" ? (
+                            <p className="text-green-500 text-base font-medium leading-normal">
+                              {item.amount}
+                            </p>
+                          ) : (
+                            <p className="text-[#FE5C73] text-base font-medium leading-normal">
+                              {item.amount}
+                            </p>
+                          )}
                         </div>
                       </td>
                     </tr>

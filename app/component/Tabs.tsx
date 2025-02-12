@@ -10,7 +10,7 @@ interface TabProps {
 
 const Tab: React.FC<TabProps> = ({ label, isActive, onClick }) => (
   <button
-    className={`py-2 px-4 text-base font-medium transition-colors duration-200 rounded-md w-full md:w-auto text-left md:text-center ${
+    className={`py-2 px-4 text-base font-medium transition-colors duration-200  w-full md:w-auto text-left md:text-center ${
       isActive
         ? "text-customBlue border-b-[3px] md:border-l-0 md:border-b-[3px] border-customBlue"
         : "text-[#718EBF]"
@@ -42,7 +42,7 @@ const Tabs: React.FC<TabsProps> = ({ tabs }) => {
 
   return (
     <div>
-      <div className="flex border-b border-[#F4F5F7] p-2 overflow-x-auto md:overflow-visible">
+      <div className="flex border-b-[2px] border-[#F4F5F7]  overflow-x-auto md:overflow-visible m-auto w-[97.5%]">
         <div className="flex flex-row md:flex-row md:space-x-4 whitespace-nowrap">
           {tabs.map((tab) => (
             <Tab

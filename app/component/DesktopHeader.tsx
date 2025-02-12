@@ -17,7 +17,7 @@ const DesktopHeader = () => {
           <input
             type="text"
             placeholder="Search for something"
-            className=" bg-[#F5F7FA] w-64 h-[50px] rounded-[40px] px-6 border border-[#E7E7E7]  focus:outline-none placeholder-[#8BA3CB] text-[15px] leading-normal"
+            className=" bg-[#F5F7FA] w-64 h-[50px] rounded-xl px-6 border border-[#E7E7E7]  focus:outline-none placeholder-[#8BA3CB] text-[15px] leading-normal"
           />
           <div className=" w-[50px] h-[50px] bg-[#F5F7FA] rounded-full flex justify-center items-center">
             <CiSettings className=" text-[#718EBF] w-[25px] h-[25px]" />

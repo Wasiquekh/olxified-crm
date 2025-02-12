@@ -61,8 +61,8 @@ const LeftSideBar: React.FC = () => {
         {/* MENU WITH ICONS */}
         <Link href="/customer">
           <div className=" mb-9 flex gap-6 items-center  cursor-pointer group">
-            <BiSolidHome className=" w-6 h-6 text-[#232323] group-hover:text-customBlue" />
-            <p className=" text-[#232323] text-base leading-normal font-medium group-hover:text-customBlue">
+            <BiSolidHome className=" w-6 h-6 text-[#171717] group-hover:text-customBlue" />
+            <p className=" text-[#171717] text-base leading-normal font-medium group-hover:text-customBlue">
               Dashboard
             </p>
           </div>
@@ -71,7 +71,7 @@ const LeftSideBar: React.FC = () => {
           hasCustomerView && 
           (        <Link href="/customer">
             {pathname === "/customer" || pathname === "/customerdetails" ? (
-              <div className=" mb-9 flex gap-6 items-center group">
+              <div className=" mb-9 flex gap-6 items-center group bg-[#E5EDFC] px-3 py-2 rounded-[6px]">
                 <MdOutlineBarChart className=" w-6 h-6 text-customBlue group-hover:text-customBlue " />
                 <p className=" text-customBlue text-base leading-normal font-medium group-hover:text-customBlue">
                   Customers
@@ -79,8 +79,8 @@ const LeftSideBar: React.FC = () => {
               </div>
             ) : (
               <div className=" mb-9 flex gap-6 items-center group">
-                <MdOutlineBarChart className=" w-6 h-6 text-[#232323] group-hover:text-customBlue " />
-                <p className=" text-[#232323] text-base leading-normal font-medium group-hover:text-customBlue">
+                <MdOutlineBarChart className=" w-6 h-6 text-[#171717] group-hover:text-customBlue " />
+                <p className=" text-[#171717] text-base leading-normal font-medium group-hover:text-customBlue">
                   Customers
                 </p>
               </div>
@@ -89,7 +89,7 @@ const LeftSideBar: React.FC = () => {
         }
         <Link href="/transaction">
           {pathname === "/transaction" ? (
-            <div className=" mb-9 flex gap-6 items-center group">
+            <div className=" mb-9 flex gap-6 items-center group bg-[#E5EDFC] px-3 py-2 rounded-[6px]">
               <TbDeviceMobileDollar className=" w-6 h-6 text-customBlue group-hover:text-customBlue" />
               <p className=" text-customBlue text-base leading-normal font-medium group-hover:text-customBlue">
                 Transaction
@@ -97,32 +97,32 @@ const LeftSideBar: React.FC = () => {
             </div>
           ) : (
             <div className=" mb-9 flex gap-6 items-center group">
-              <TbDeviceMobileDollar className=" w-6 h-6 text-[#232323] group-hover:text-customBlue" />
-              <p className=" text-[#232323] text-base leading-normal font-medium group-hover:text-customBlue">
+              <TbDeviceMobileDollar className=" w-6 h-6 text-[#171717] group-hover:text-customBlue" />
+              <p className=" text-[#171717] text-base leading-normal font-medium group-hover:text-customBlue">
                 Transaction
               </p>
             </div>
           )}
         </Link>
         <Link href="/customer">
-          <div className=" mb-9 flex gap-6 items-center group">
-            <HiWrenchScrewdriver className=" w-6 h-6 text-[#232323] group-hover:text-customBlue" />
-            <p className=" text-[#232323] text-base leading-normal font-medium group-hover:text-customBlue">
+          <div className=" mb-9 flex gap-6 items-center group ">
+            <HiWrenchScrewdriver className=" w-6 h-6 text-[#171717] group-hover:text-customBlue" />
+            <p className=" text-[#171717] text-base leading-normal font-medium group-hover:text-customBlue">
               Point of Services
             </p>
           </div>
         </Link>
         <Link href="/customer">
-          <div className=" mb-9 flex gap-6 items-center group">
-            <FaMoneyCheckDollar className=" w-6 h-6 text-[#232323] group-hover:text-customBlue" />
-            <p className=" text-[#232323] text-base leading-normal font-medium group-hover:text-customBlue">
+          <div className=" mb-9 flex gap-6 items-center group ">
+            <FaMoneyCheckDollar className=" w-6 h-6 text-[#171717] group-hover:text-customBlue" />
+            <p className=" text-[#171717] text-base leading-normal font-medium group-hover:text-customBlue">
               Payment Terminal
             </p>
           </div>
         </Link>
         <Link href="/cards">
           {pathname === "/cards" ? (
-            <div className=" mb-9 flex gap-6 items-center group">
+            <div className=" mb-9 flex gap-6 items-center group bg-[#E5EDFC] px-3 py-2 rounded-[6px]">
               <BsCreditCard2Back className=" w-6 h-6 text-customBlue group-hover:text-customBlue" />
               <p className=" text-customBlue text-base leading-normal font-medium group-hover:text-customBlue">
                 Credit Cards
@@ -130,8 +130,8 @@ const LeftSideBar: React.FC = () => {
             </div>
           ) : (
             <div className=" mb-9 flex gap-6 items-center group">
-              <BsCreditCard2Back className=" w-6 h-6 text-[#232323] group-hover:text-customBlue" />
-              <p className=" text-[#232323] text-base leading-normal font-medium group-hover:text-customBlue">
+              <BsCreditCard2Back className=" w-6 h-6 text-[#171717] group-hover:text-customBlue" />
+              <p className=" text-[#171717] text-base leading-normal font-medium group-hover:text-customBlue">
                 Credit Cards
               </p>
             </div>
@@ -142,7 +142,7 @@ const LeftSideBar: React.FC = () => {
           (
             <Link href="/usermanagement">
             {pathname === "/usermanagement" || pathname === "/useradd" ? (
-              <div className=" mb-9 flex gap-6 items-center group">
+              <div className=" mb-9 flex gap-6 items-center group bg-[#E5EDFC] px-3 py-2 rounded-[6px]">
                 <BiSolidUser className=" w-6 h-6 text-customBlue group-hover:text-customBlue" />
                 <p className=" text-customBlue text-base leading-normal font-medium group-hover:text-customBlue">
                   User Management
@@ -150,8 +150,8 @@ const LeftSideBar: React.FC = () => {
               </div>
             ) : (
               <div className=" mb-9 flex gap-6 items-center group">
-                <BiSolidUser className=" w-6 h-6 text-[#232323] group-hover:text-customBlue" />
-                <p className=" text-[#232323] text-base leading-normal font-medium group-hover:text-customBlue">
+                <BiSolidUser className=" w-6 h-6 text-[#171717] group-hover:text-customBlue" />
+                <p className=" text-[#171717] text-base leading-normal font-medium group-hover:text-customBlue">
                   User Management
                 </p>
               </div>
@@ -162,7 +162,7 @@ const LeftSideBar: React.FC = () => {
         {hasUserActivityView && 
         <Link href="/user-activity">
         {pathname === "/user-activity" ? (
-            <div className=" mb-9 flex gap-6 items-center group">
+            <div className=" mb-9 flex gap-6 items-center group bg-[#E5EDFC] px-3 py-2 rounded-[6px]">
               <BiSolidUser className=" w-6 h-6 text-customBlue group-hover:text-customBlue" />
               <p className=" text-customBlue text-base leading-normal font-medium group-hover:text-customBlue">
                 User Activity
@@ -170,8 +170,8 @@ const LeftSideBar: React.FC = () => {
             </div>
         ) : (
             <div className=" mb-9 flex gap-6 items-center group">
-              <BiSolidUser className=" w-6 h-6 text-[#232323] group-hover:text-customBlue" />
-              <p className=" text-[#232323] text-base leading-normal font-medium group-hover:text-customBlue">
+              <BiSolidUser className=" w-6 h-6 text-[#171717] group-hover:text-customBlue" />
+              <p className=" text-[#171717] text-base leading-normal font-medium group-hover:text-customBlue">
                 User Activity
               </p>
             </div>
@@ -179,8 +179,8 @@ const LeftSideBar: React.FC = () => {
         </Link>
         }
         <div className=" mb-9 flex gap-6 items-center group">
-          <IoMdSettings className=" w-6 h-6 text-[#232323] group-hover:text-customBlue" />
-          <p className=" text-[#232323] text-base leading-normal font-medium group-hover:text-customBlue">
+          <IoMdSettings className=" w-6 h-6 text-[#171717] group-hover:text-customBlue" />
+          <p className=" text-[#171717] text-base leading-normal font-medium group-hover:text-customBlue">
             Settings
           </p>
         </div>

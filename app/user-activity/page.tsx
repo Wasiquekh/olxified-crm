@@ -608,7 +608,7 @@ export default function Home() {
                   </div>
 
                   {/* Date Filters */}
-                  <div className="w-full flex flex-col md:flex-row gap-4 md:gap-6 lg:gap-8 mb-4 sm:mb-6">
+                  <div className="w-full flex flex-col md:flex-row gap-4 md:justify-between mb-4 sm:mb-6">
                     <div className="w-full md:w-[49%]">
                       <p className="text-[#0A0A0A] font-medium text-base leading-6 mb-2">
                         Start Date
@@ -650,7 +650,7 @@ export default function Home() {
                   </div>
 
                   {/* Module & Type Select (Updated UI) */}
-                  <div className="w-full flex flex-col md:flex-row gap-4 md:gap-6 lg:gap-8 mb-4 sm:mb-6">
+                  <div className="w-full flex flex-col md:flex-row gap-4 md:justify-between mb-4 sm:mb-6">
                     <div className="w-full md:w-[49%]">
                       <p className="text-[#0A0A0A] font-medium text-base leading-6 mb-2">
                         Module

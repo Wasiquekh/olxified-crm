@@ -256,7 +256,7 @@ export default function Home() {
             <div className=" flex justify-end items-center mb-6  w-[98%] mx-auto">
               <div className=" flex justify-center items-center gap-4">
                 <div
-                  className=" flex gap-2 py-3 px-4 rounded-[16px] border border-[#E7E7E7] cursor-pointer"
+                  className=" flex gap-2 py-3 px-4 rounded-xl border border-[#E7E7E7] cursor-pointer"
                   onClick={toggleFilterFlyout}
                 >
                   <FiFilter className=" w-6 h-6" />
@@ -448,7 +448,7 @@ export default function Home() {
                         </td>
                         <td className="px-3 py-2 border border-tableBorder hidden md:table-cell">
                           <span
-                            className={`text-white text-xs sm:text-sm flex justify-center items-center p-1 rounded-full ${
+                            className={`text-white text-xs sm:text-sm flex justify-center items-center p-1 rounded-xl ${
                               item.mainStatus === "On Progress"
                                 ? "bg-[#2DB3FF]"
                                 : item.mainStatus === "Approved"
@@ -464,7 +464,7 @@ export default function Home() {
                         <td className="px-3 py-2 border border-tableBorder md:table-cell">
                           <button
                             onClick={() => handleClick(item)}
-                            className="py-1 px-3 bg-[#C6F7FE] flex gap-2 items-center rounded-full"
+                            className="py-1 px-3 bg-[#C6F7FE] flex gap-2 items-center rounded-xl"
                           >
                             <MdRemoveRedEye className="text-customBlue w-4 h-4" />
                             <span className="text-xs sm:text-sm text-customBlue">
@@ -602,7 +602,8 @@ export default function Home() {
                         disabled
                         name="birthdate"
                         placeholder=""
-                        className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 cursor-not-allowed"
+                        className="w-full border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 cursor-not-allowed bg-[#F5F5F5] text-[#A0A0A0] focus:outline-none"
+
                       />
                     </div>
                   </div>
