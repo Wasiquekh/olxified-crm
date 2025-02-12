@@ -289,7 +289,7 @@ export default function Home() {
                         />
                       </li>
                     ))}
-                    <li className="items-center text-[#1814F3] bg-[#EDF2FE] inline-flex  p-2 rounded gap-1 text-xs ml-2 mb-2">
+                    <li className="items-center text-[#1814F3] bg-[#EDF2FE] inline-flex  p-2 rounded gap-1 text-xs ml-2 mb-2 relative top-[-2px]">
                       Clear All
                       <RxCross2
                         className="text-[#1814F3] cursor-pointer"
