@@ -230,7 +230,7 @@ export default function Home() {
       <div className=" flex justify-end  min-h-screen">
         <LeftSideBar />
         {/* Main content right section */}
-        <div className=" w-full md:w-[85%] bg-white min-h-[500px]  rounded p-4 mt-2">
+        <div className=" w-full md:w-[83%] bg-white min-h-[500px]  rounded p-4 mt-2">
           {/* left section top row */}
           <DesktopHeader />
 
@@ -548,7 +548,7 @@ export default function Home() {
           >
             <div className=" w-full min-h-auto">
               {/* Flyout content here */}
-              <div className=" flex justify-between mb-8">
+              <div className=" flex justify-between mb-4">
                 <p className=" text-[#333B69] text-[26px] font-bold leading-9">
                   User Details
                 </p>

@@ -163,7 +163,7 @@ export default function Home() {
         {/* Left sidebar */}
         <LeftSideBar />
         {/* Main content right section */}
-        <div className="w-full md:w-[85%] bg-white min-h-[500px]  rounded p-4 mt-2">
+        <div className="w-full md:w-[83%] bg-white min-h-[500px]  rounded p-4 mt-2">
           {/* {data && data.map((item) => (
             <li key={item.email}>{item.name}</li>
           ))} */}

@@ -301,7 +301,7 @@ export default function Home() {
       <div className=" flex  min-h-screen">
         <LeftSideBar />
         {/* Main content right section */}
-        <div className="w-full md:w-[85%] bg-white min-h-[500px]  rounded p-4 mt-2">
+        <div className="w-full md:w-[83%] bg-white min-h-[500px]  rounded p-4 mt-2">
           {/* left section top row */}
           <div className=" w-full flex justify-end items-center gap-7 mb-8">
             <DesktopHeader />
