@@ -235,7 +235,7 @@ export default function Home() {
           <DesktopHeader />
 
           {/* Main content middle section */}
-          <div className="w-full flex justify-between items-center h-[74px] mt-3 mb-8">
+          <div className="w-full flex justify-between items-center h-[74px] mt-3 mb-8 rounded-3xl">
             <div>
               <p className=" text-[#0A0A0A] text-[32px] font-semibold leading-[41.6px]">
                 Customers
@@ -251,9 +251,9 @@ export default function Home() {
             <div></div>
           </div>
           {/* ----------------Table----------------------- */}
-          <div className="relative overflow-x-auto shadow-lastTransaction sm:rounded-3xl p-6 !bg-white">
+          <div className="relative overflow-x-auto shadow-lastTransaction rounded-xl sm:rounded-3xl px-1 py-6 md:p-6 !bg-white">
             {/* Search and filter table row */}
-            <div className=" flex justify-end items-center mb-6  w-[98%] mx-auto">
+            <div className=" flex justify-end items-center mb-6  w-full mx-auto">
               <div className=" flex justify-center items-center gap-4">
                 <div
                   className=" flex gap-2 py-3 px-4 rounded-xl border border-[#E7E7E7] cursor-pointer"
@@ -306,7 +306,7 @@ export default function Home() {
                 <thead className="text-xs text-[#999999] bg-white">
                   <tr className="border border-tableBorder">
                     {/* Name - Birth Date: Always Visible */}
-                    <th scope="col" className="p-3 border border-tableBorder">
+                    <th scope="col" className=" px- py-3 md:p-3 border border-tableBorder">
                       <div className="flex items-center gap-2">
                         <RxAvatar className="w-5 h-5 sm:w-6 sm:h-6" />
                         <span className="font-medium text-[#717171] text-sm sm:text-base">
@@ -392,7 +392,7 @@ export default function Home() {
                         key={index}
                       >
                         {/* Name - Birth Date: Always Visible */}
-                        <td className="px-3 py-2 border-tableBorder flex items-center gap-2">
+                        <td className="px-1 py-2 md:px-3 md:py-2 border-tableBorder flex items-center gap-2">
                           <div className="flex gap-2">
                             <div className="md:hidden">
                               <FaEllipsisVertical

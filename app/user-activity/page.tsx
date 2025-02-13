@@ -326,7 +326,7 @@ export default function Home() {
           {/* ----------------Table----------------------- */}
           <div className="relative overflow-x-auto  sm:rounded-lg">
             {/* Search and filter table row */}
-            <div className=" flex justify-end items-center mb-6  w-[98%] mx-auto">
+            <div className=" flex justify-end items-center mb-6  w-full mx-auto">
               <div className=" flex justify-center items-center gap-4">
                 <div
                   className=" flex gap-2 py-3 px-4 rounded-[16px] border border-[#E7E7E7] cursor-pointer"

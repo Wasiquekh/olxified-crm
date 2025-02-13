@@ -172,7 +172,7 @@ export default function Home() {
           <div className=" w-full flex justify-end items-center gap-7 mb-8">
             <DesktopHeader />
           </div>
-          <div className="rounded-3xl shadow-lastTransaction bg-white p-6">
+          <div className="rounded-3xl shadow-lastTransaction bg-white py-6 px-1  md:p-6">
             {/* Main content middle section */}
             <div className="w-full flex justify-between items-center h-[74px] mt-3 mb-8 flex-wrap sm:flex-nowrap">
               <div className="w-full sm:w-auto mb-2 sm:mb-0">
@@ -205,7 +205,7 @@ export default function Home() {
               <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-[#999999]">
                   <tr className="border border-tableBorder">
-                    <th scope="col" className="p-3 border border-tableBorder">
+                    <th scope="col" className="px-1 p-3 md:p-3 border border-tableBorder">
                       <div className="flex items-center gap-2">
                         <RxAvatar className="w-5 h-5" />
                         <div className="font-semibold text-[#717171] text-base leading-normal">
@@ -262,16 +262,16 @@ export default function Home() {
                         className="border border-tableBorder bg-white"
                         key={index}
                       >
-                        <td className="px-3 py-2  flex  md:flex-row gap-2">
+                        <td className="px-1 md:p-3 py-2  flex  md:flex-row gap-2">
                           <div className="md:hidden flex">
                             <FaEllipsisVertical
                               data-tooltip-id="my-tooltip"
                               data-tooltip-html={`<div>
-                    <strong>Name:</strong> <span style="text-transform: capitalize;">${item.name}</span><br/>
-                    <strong>Email:</strong> ${item.email}<br/>
-                    <strong>Mobile:</strong> ${item.mobile_number}<br/>
-                    <strong>Role:</strong> ${item.role}<br/>
-                  </div>`}
+                                                  <strong>Name:</strong> <span style="text-transform: capitalize;">${item.name}</span><br/>
+                                                  <strong>Email:</strong> ${item.email}<br/>
+                                                  <strong>Mobile:</strong> ${item.mobile_number}<br/>
+                                                  <strong>Role:</strong> ${item.role}<br/>
+                                                </div>`}
                               className="text-black leading-normal capitalize relative top-1"
                             />
                             <Tooltip id="my-tooltip" place="right" float />
