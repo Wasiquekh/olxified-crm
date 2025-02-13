@@ -307,9 +307,9 @@ export default function Home() {
             <DesktopHeader />
           </div>
           {/* Main content middle section */}
-          <div className="rounded-3xl shadow-lastTransaction bg-white p-6">
-          <div className="w-full flex justify-between items-center h-[74px] mt-3 mb-8">
-            <div>
+          <div className="rounded-3xl shadow-lastTransaction bg-white px-1 py-6 md:p-6">
+          <div className="hidden md:block w-full justify-between items-center h-[74px] mt-3 mb-8">
+            <div className="">
               <p className=" text-[#0A0A0A] text-[32px] font-semibold leading-[41.6px]">
                 User Activity
               </p>
