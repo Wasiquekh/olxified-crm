@@ -81,7 +81,7 @@ export default function Home() {
       content: (
         <>
           {/* ----------------Table----------------------- */}
-          <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+          <div className="relative overflow-x-auto shadow-md sm:rounded-xl">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
               <thead className="text-xs text-[#999999]">
                 <tr className="border border-tableBorder">
@@ -255,15 +255,15 @@ export default function Home() {
       {/* Left sidebar */}
       <LeftSideBar />
       {/* Main content right section */}
-      <div className="w-full md:w-[83%] bg-white min-h-[500px] rounded p-0 mt-2">
+      <div className="w-full md:w-[83%] bg-[#F5F7FA] min-h-[500px] rounded p-0 mt-0">
         {/* Right section top row */}
         <div className="w-full flex justify-end items-center gap-7 mb-3 p-4">
           <DesktopHeader />
         </div>
-        <div className="w-full bg-[#F5F7FA] flex justify-center p-1 md:p-8">
-          <div className="w-[96%] min-h-[600px] bg-white rounded-[25px]">
+        <div className="w-full bg-[#F5F7FA] flex justify-center p-1 md:p-4">
+          <div className="w-full min-h-[600px] bg-white rounded-3xl shadow-lastTransaction">
             <div className="p-1 md:p-6">
-              <p className="text-[#343C6A] text-[22px] font-medium leading-normal ml-2 mb-4 mt-2">
+              <p className="text-[#343C6A] text-[22px] font-medium leading-normal ml-0 mb-4 mt-2">
                 Recent Transactions
               </p>
               <Tabs tabs={tabs} />

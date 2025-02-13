@@ -133,7 +133,7 @@ export default function LoginHome() {
                     name="email"
                     autoComplete="username"
                     placeholder="Enter your User ID/Email"
-                    className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-7 text-[#718EBF]"
+                    className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[12px] text-[15px] placeholder-[#718EBF] pl-4 mb-7 text-[#718EBF]"
                   />
                   <ErrorMessage
                     name="email"
@@ -151,7 +151,7 @@ export default function LoginHome() {
                     onChange={(e) => setFieldValue("password", e.target.value)}
                     autoComplete="current-password"
                     placeholder="Enter your password"
-                    className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-8 text-[#718EBF]"
+                    className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[12px] text-[15px] placeholder-[#718EBF] pl-4 mb-8 text-[#718EBF]"
                   />
                   {showPassword ? (
                     <FaRegEye
@@ -173,7 +173,7 @@ export default function LoginHome() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="bg-[#1814F3] border rounded-[15px] w-full h-[50px] text-center text-white text-lg font-medium leading-normal mb-3"
+                  className="bg-[#1814F3] border rounded-[12px] w-full h-[50px] text-center text-white text-lg font-medium leading-normal mb-3"
                 >
                   {loading ? "Logging in..." : "Login"}
                 </button>

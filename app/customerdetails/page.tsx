@@ -780,7 +780,7 @@ export default function Home() {
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="w-[150px] h-9 relative">
                   <button
-                    className=" bg-customBlue text-white py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    className=" bg-customBlue text-white py-1.5 px-6 rounded-xl text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={
                       liveDetection === "Approved" ||
                       liveDetection === "Rejected"
@@ -1217,7 +1217,7 @@ export default function Home() {
                         </td>
                         <td className="border border-gray-300 px-4 py-3">
                           <p
-                            className={`text-[#fff] text-sm px-4 pt-1 pb-1.5 rounded-full w-24 text-center ${
+                            className={`text-[#fff] text-sm px-4 pt-1 pb-1.5 rounded-xl w-24 text-center ${
                               item.status === "Approved"
                                 ? "bg-[#379941]"
                                 : item.status === "Rejected"
@@ -1554,13 +1554,13 @@ export default function Home() {
         {/* Left sidebar */}
         <LeftSideBar />
         {/* Main content right section */}
-        <div className="w-full md:w-[85%] bg-white min-h-[500px]  rounded p-0 mt-2">
+        <div className="w-full md:w-[85%] bg-[#F5F7FA] min-h-[500px]  rounded p-0 mt-0">
           {/* right section top row */}
           <div className=" w-full flex justify-end items-center gap-7 mb-3 p-4">
             <DesktopHeader />
           </div>
-          <div className=" w-full   bg-[#F5F7FA] flex justify-center py-4 px-1 md:p-8">
-            <div className="w-full md:w-[95%] min-h-[600px] bg-white rounded-[25px]">
+          <div className=" w-full   bg-[#F5F7FA] flex justify-center py-4 px-1 md:p-4">
+            <div className="w-full md:w-full min-h-[600px] bg-white rounded-3xl mb-4 shadow-lastTransaction">
               <div className="py-4 px-0 md:p-6">
                 <div className="flex justify-center">
                   {faceImageFromChild ? (

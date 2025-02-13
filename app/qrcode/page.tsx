@@ -264,7 +264,7 @@ export default function OtpHome() {
             <div className="w-full">
               <button
                 type="submit"
-                className="bg-[#1814F3] border rounded-[15px] w-full h-[50px] text-center text-white text-lg font-medium leading-normal mb-3"
+                className="bg-[#1814F3] border rounded-[12px] w-full h-[50px] text-center text-white text-lg font-medium leading-normal mb-3"
                 disabled={loading}
               >
                 {loading ? "Code Verifying..." : "Verify Code"}

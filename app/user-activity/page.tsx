@@ -301,12 +301,13 @@ export default function Home() {
       <div className=" flex  min-h-screen">
         <LeftSideBar />
         {/* Main content right section */}
-        <div className="w-full md:w-[83%] bg-white min-h-[500px]  rounded p-4 mt-2">
+        <div className="w-full md:w-[83%] bg-[#F5F7FA] min-h-[500px]  rounded p-4 mt-0">
           {/* left section top row */}
           <div className=" w-full flex justify-end items-center gap-7 mb-8">
             <DesktopHeader />
           </div>
           {/* Main content middle section */}
+          <div className="rounded-3xl shadow-lastTransaction bg-white p-6">
           <div className="w-full flex justify-between items-center h-[74px] mt-3 mb-8">
             <div>
               <p className=" text-[#0A0A0A] text-[32px] font-semibold leading-[41.6px]">
@@ -323,7 +324,7 @@ export default function Home() {
             <div></div>
           </div>
           {/* ----------------Table----------------------- */}
-          <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+          <div className="relative overflow-x-auto  sm:rounded-lg">
             {/* Search and filter table row */}
             <div className=" flex justify-end items-center mb-6  w-[98%] mx-auto">
               <div className=" flex justify-center items-center gap-4">
@@ -548,6 +549,7 @@ export default function Home() {
               </div>
             )}
             {/* ------------------- */}
+          </div>
           </div>
           {/* ----------------End table--------------------------- */}
         </div>

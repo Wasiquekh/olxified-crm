@@ -230,7 +230,7 @@ export default function Home() {
       <div className=" flex justify-end  min-h-screen">
         <LeftSideBar />
         {/* Main content right section */}
-        <div className=" w-full md:w-[83%] bg-white min-h-[500px]  rounded p-4 mt-2">
+        <div className=" w-full md:w-[83%] bg-[#F5F7FA] min-h-[500px]  rounded p-4 mt-0">
           {/* left section top row */}
           <DesktopHeader />
 
@@ -251,7 +251,7 @@ export default function Home() {
             <div></div>
           </div>
           {/* ----------------Table----------------------- */}
-          <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+          <div className="relative overflow-x-auto shadow-lastTransaction sm:rounded-3xl p-6 !bg-white">
             {/* Search and filter table row */}
             <div className=" flex justify-end items-center mb-6  w-[98%] mx-auto">
               <div className=" flex justify-center items-center gap-4">
@@ -303,7 +303,7 @@ export default function Home() {
             {/* ---------------- Table--------------------------- */}
             <div className="w-full overflow-x-auto">
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 whitespace-nowrap">
-                <thead className="text-xs text-[#999999] bg-gray-100">
+                <thead className="text-xs text-[#999999] bg-white">
                   <tr className="border border-tableBorder">
                     {/* Name - Birth Date: Always Visible */}
                     <th scope="col" className="p-3 border border-tableBorder">

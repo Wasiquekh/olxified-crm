@@ -27,7 +27,7 @@ interface TabPanelProps {
 }
 
 const TabPanel: React.FC<TabPanelProps> = ({ children, isActive }) => (
-  <div className={`p-3 ${isActive ? "block" : "hidden"}`}>{children}</div>
+  <div className={`py-3 ${isActive ? "block" : "hidden"}`}>{children}</div>
 );
 
 interface TabsProps {
@@ -42,7 +42,7 @@ const Tabs: React.FC<TabsProps> = ({ tabs }) => {
 
   return (
     <div>
-      <div className="flex border-b-[2px] border-[#F4F5F7]  overflow-x-auto md:overflow-visible m-auto w-[97.5%]">
+      <div className="flex border-b-[2px] border-[#F4F5F7]  overflow-x-auto md:overflow-visible">
         <div className="flex flex-row md:flex-row md:space-x-4 whitespace-nowrap">
           {tabs.map((tab) => (
             <Tab

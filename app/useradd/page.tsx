@@ -209,7 +209,8 @@ export default function Home() {
                     </div>
 
                     {/* Role Field */}
-                    <div className="w-full flex flex-col md:flex-row gap-6">
+                    <div className="w-full justify-between">
+                    <div className="w-[49%]  flex flex-col md:flex-row gap-6">
                       <div className="w-full relative mb-8">
                         <p className="text-[#232323] text-base leading-normal mb-2">
                           Role
@@ -252,17 +253,22 @@ export default function Home() {
                         />
                       </div>
                     </div>
+                    <div className="w-[49%]"></div>
+                    </div>
 
                     {/* Submit Button */}
                     <div className="w-full flex gap-6">
-                      <div className="w-full">
+                      <div className="w-full flex justify-between">
+                        <div className="w-[49%]">
                         <button
                           type="submit"
                           disabled={isSubmitting}
-                          className="w-full md:w-[190px] h-[50px] bg-customBlue rounded-[15px] text-white text-lg leading-normal font-medium"
+                          className="w-full  h-[50px] bg-customBlue rounded-[15px] text-white text-lg leading-normal font-medium"
                         >
                           {isSubmitting ? "Submitting..." : "Submit"}
                         </button>
+                        </div>
+                        <div className="w-[49%]"></div>
                       </div>
                     </div>
                   </div>
@@ -274,149 +280,6 @@ export default function Home() {
         </>
       ),
     },
-    // {
-    //   label: "Preferences",
-    //   content: (
-    //     <>
-    //       {/* //   Tab 2 content */}
-    //       <div className=" flex gap-8 pt-8">
-    //         <div className=" w-full">
-    //           <div className=" w-full flex gap-6">
-    //             <div className=" w-full">
-    //               <p className=" text-[#232323] text-base leading-normal mb-2">
-    //                 Currency
-    //               </p>
-    //               <input
-    //                 type="text"
-    //                 placeholder="USD"
-    //                 className=" focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-6"
-    //               />
-    //             </div>
-    //             <div className=" w-full">
-    //               <p className=" text-[#232323] text-base leading-normal mb-2">
-    //                 Time Zone
-    //               </p>
-    //               <input
-    //                 type="text"
-    //                 placeholder="(GMT-12:00) International Date Line West"
-    //                 className=" focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-6"
-    //               />
-    //             </div>
-    //           </div>
-    //           <div className=" w-full flex gap-6">
-    //             <div className=" w-full">
-    //               <p className=" text-[#333B69] text-[17px] font-medium leading-normal mb-2">
-    //                 Controlls
-    //               </p>
-    //               <label className="inline-flex items-center cursor-pointer mt-4">
-    //                 <input
-    //                   type="checkbox"
-    //                   value=""
-    //                   className="sr-only peer"
-    //                   readOnly
-    //                 />
-    //                 <div className="relative w-14 h-[30.71px] bg-gray-200 peer-focus:outline-none   rounded-full peer dark:bg-[#DFEAF2] peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[3px] after:start-[4px] after:bg-white   after:rounded-full after:h-6 after:w-6 after:transition-all  peer-checked:bg-[#16DBCC]"></div>
-    //                 <span className="ms-3 text-base  text-[#232323] leading-normal">
-    //                   Lorem ipsum dolor sit amet, consectetur adipiscing elit
-    //                 </span>
-    //               </label>
-    //               <label className="inline-flex items-center cursor-pointer mt-4">
-    //                 <input type="checkbox" value="" className="sr-only peer" />
-    //                 <div className="relative w-14 h-[30.71px] bg-gray-200 peer-focus:outline-none   rounded-full peer dark:bg-[#DFEAF2] peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[3px] after:start-[4px] after:bg-white   after:rounded-full after:h-6 after:w-6 after:transition-all  peer-checked:bg-[#16DBCC]"></div>
-    //                 <span className="ms-3 text-base  text-[#232323] leading-normal">
-    //                   Delete User Detais
-    //                 </span>
-    //               </label>
-    //               <label className="inline-flex items-center cursor-pointer mt-4">
-    //                 <input
-    //                   type="checkbox"
-    //                   value=""
-    //                   className="sr-only peer"
-    //                   readOnly
-    //                 />
-    //                 <div className="relative w-14 h-[30.71px] bg-gray-200 peer-focus:outline-none   rounded-full peer dark:bg-[#DFEAF2] peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[3px] after:start-[4px] after:bg-white   after:rounded-full after:h-6 after:w-6 after:transition-all  peer-checked:bg-[#16DBCC]"></div>
-    //                 <span className="ms-3 text-base  text-[#232323] leading-normal">
-    //                   Lorem ipsum dolor sit amet, consectetur adipiscing elit
-    //                 </span>
-    //               </label>
-    //             </div>
-    //             <div className=" w-full"></div>
-    //           </div>
-    //           <div className=" w-full flex gap-6">
-    //             <div className=" w-full"></div>
-    //             <div className=" w-full flex justify-end">
-    //               <button className=" w-[190px] h-[50px] bg-customBlue rounded-[15px] text-white text-lg leading-normal font-medium">
-    //                 Save
-    //               </button>
-    //             </div>
-    //           </div>
-    //         </div>
-    //       </div>
-    //     </>
-    //   ),
-    //   // End Tab content 2
-    // },
-    // {
-    //   label: "Security",
-    //   content: (
-    //     <>
-    //       {/* Tab content 3 */}
-    //       <div className=" w-full flex gap-6">
-    //         <div className=" w-full">
-    //           <p className=" text-[#333B69] text-[17px] font-medium leading-normal mb-2">
-    //             Controlls
-    //           </p>
-    //           <label className="inline-flex items-center cursor-pointer mt-4">
-    //             <input
-    //               type="checkbox"
-    //               value=""
-    //               className="sr-only peer"
-    //               readOnly
-    //             />
-    //             <div className="relative w-14 h-[30.71px] bg-gray-200 peer-focus:outline-none   rounded-full peer dark:bg-[#DFEAF2] peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[3px] after:start-[4px] after:bg-white   after:rounded-full after:h-6 after:w-6 after:transition-all  peer-checked:bg-[#16DBCC]"></div>
-    //             <span className="ms-3 text-base  text-[#232323] leading-normal">
-    //               Lorem ipsum dolor sit amet, consectetur adipiscing elit
-    //             </span>
-    //           </label>
-    //         </div>
-    //         <div className=" w-full"></div>
-    //       </div>
-    //       <p className=" text-[#333B69] text-[17px] font-medium leading-normal mb-2 mt-4">
-    //         Change Password
-    //       </p>
-    //       <div className=" w-full">
-    //         <div className=" w-full flex gap-6">
-    //           <div className=" w-full">
-    //             <p className=" text-[#232323] text-base leading-normal mb-2">
-    //               Current Password
-    //             </p>
-    //             <input
-    //               type="password"
-    //               placeholder="********"
-    //               className=" focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-6"
-    //             />
-    //           </div>
-    //           <div className=" w-full"></div>
-    //         </div>
-    //         <div className=" w-full flex gap-6">
-    //           <div className=" w-full">
-    //             <p className=" text-[#232323] text-base leading-normal mb-2">
-    //               New Password
-    //             </p>
-    //             <input
-    //               type="password"
-    //               placeholder="********"
-    //               className=" focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-6"
-    //             />
-    //           </div>
-    //           <div className=" w-full"></div>
-    //         </div>
-    //       </div>
-
-    //       {/* End Tab content 3 */}
-    //     </>
-    //   ),
-    // },
   ];
   return (
     <>

@@ -41,7 +41,7 @@ const LeftSideBar: React.FC = () => {
   }
   }
   return (
-    <div className="w-full hidden md:w-[17%]  md:flex flex-col justify-between py-4 px-1 border-r-2 border-customBorder shadow-borderShadow mt-2">
+    <div className="w-full hidden md:w-[17%]  md:flex flex-col justify-between py-4 px-1 border-r-2 border-customBorder shadow-borderShadow mt-0">
       {/* SIDE LEFT BAR TOP SECTION */}
       <div>
         <Link href="/customer">

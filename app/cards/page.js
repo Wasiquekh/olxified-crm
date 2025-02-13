@@ -50,7 +50,7 @@ export default function Home() {
         {/* Left sidebar */}
         <LeftSideBar />
         {/* Main content right section */}
-        <div className=" w-[83%] bg-white min-h-[500px]  rounded p-0 mt-2">
+        <div className=" w-[83%] bg-[#F5F7FA] min-h-[500px]  rounded p-0 mt-0">
           {/* right section top row */}
           <div className=" w-full flex justify-end items-center gap-7 mb-3 p-4">
             <DesktopHeader />
