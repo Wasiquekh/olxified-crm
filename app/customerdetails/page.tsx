@@ -1560,7 +1560,7 @@ export default function Home() {
             <DesktopHeader />
           </div>
           <div className=" w-full   bg-[#F5F7FA] flex justify-center py-4 px-4 md:p-4">
-            <div className="w-full md:w-full min-h-[600px] bg-white rounded-3xl mb-4 shadow-lastTransaction">
+            <div className="w-full md:w-full min-h-[600px] bg-white !rounded-3xl mb-4 shadow-lastTransaction">
               <div className="py-4 px-0 md:p-6">
                 <div className="flex justify-center">
                   {faceImageFromChild ? (
