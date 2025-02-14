@@ -210,8 +210,8 @@ export default function Home() {
 
                     {/* Role Field */}
                     <div className="w-full justify-between">
-                    <div className="w-[49%]  flex flex-col md:flex-row gap-6">
-                      <div className="w-full relative mb-8">
+                    <div className=" w-full md:w-[49%]  flex flex-col md:flex-row gap-6">
+                      <div className="w-full md:w-full relative mb-8">
                         <p className="text-[#232323] text-base leading-normal mb-2">
                           Role
                         </p>
@@ -253,13 +253,13 @@ export default function Home() {
                         />
                       </div>
                     </div>
-                    <div className="w-[49%]"></div>
+                    <div className=" hidden md:block w-[49%]"></div>
                     </div>
 
                     {/* Submit Button */}
                     <div className="w-full flex gap-6">
                       <div className="w-full flex justify-between">
-                        <div className="w-[49%]">
+                        <div className="w-full md:w-[49%]">
                         <button
                           type="submit"
                           disabled={isSubmitting}
@@ -268,7 +268,7 @@ export default function Home() {
                           {isSubmitting ? "Submitting..." : "Submit"}
                         </button>
                         </div>
-                        <div className="w-[49%]"></div>
+                        <div className="hidden md:block w-[49%]"></div>
                       </div>
                     </div>
                   </div>
@@ -287,13 +287,13 @@ export default function Home() {
         {/* Left sidebar */}
         <LeftSideBar />
         {/* Main content right section */}
-        <div className="w-full md:w-[85%] bg-white min-h-[500px]  rounded p-0 mt-2">
+        <div className="w-full md:w-[85%]  min-h-[500px]  rounded p-0 mt-0 bg-[#F5F7FA]">
           {/* right section top row */}
-          <div className=" w-full flex justify-end items-center gap-7 mb-3 p-4">
+          <div className=" w-full flex justify-end items-center gap-7 mb-3 p-4 ">
             <DesktopHeader />
           </div>
           <div className=" w-full   bg-[#F5F7FA] flex justify-center p-4 md:p-8">
-            <div className=" w-[95%] min-h-[600px] bg-white rounded-[25px]">
+            <div className=" w-full min-h-[600px] bg-white rounded-[25px]">
               <div className="p-2 md:p-6">
                 <Tabs tabs={tabs} />
               </div>
