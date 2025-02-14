@@ -260,10 +260,10 @@ export default function Home() {
         <div className="w-full flex justify-end items-center gap-7 mb-3 p-4">
           <DesktopHeader />
         </div>
-        <div className="w-full bg-[#F5F7FA] flex justify-center p-1 md:p-4">
+        <div className="w-full bg-[#F5F7FA] flex justify-center p-4 md:p-4">
           <div className="w-full min-h-[600px] bg-white rounded-3xl shadow-lastTransaction">
             <div className="p-1 md:p-6">
-              <p className="text-[#343C6A] text-[22px] font-medium leading-normal ml-0 mb-4 mt-2">
+              <p className="text-[#343C6A] text-[22px] font-medium leading-normal ml-1 mb-4 mt-2">
                 Recent Transactions
               </p>
               <Tabs tabs={tabs} />
