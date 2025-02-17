@@ -308,21 +308,6 @@ export default function Home() {
           </div>
           {/* Main content middle section */}
           <div className="rounded-3xl shadow-lastTransaction bg-white px-1 py-6 md:p-6">
-          <div className="hidden md:block w-full justify-between items-center h-[74px] mt-3 mb-8">
-            <div className="">
-              <p className=" text-[#0A0A0A] text-[32px] font-semibold leading-[41.6px]">
-                User Activity
-              </p>
-              <div className=" flex gap-2 ml-[1px] items-center">
-                <p className=" text-[#717171] text-xl ">User Activity</p>
-                <FaGreaterThan className=" text-[#717171]" />
-                <p className=" text-[#0A0A0A] text-xl font-semibold ">
-                  Recently added
-                </p>
-              </div>
-            </div>
-            <div></div>
-          </div>
           {/* ----------------Table----------------------- */}
           <div className="relative overflow-x-auto  sm:rounded-lg">
             {/* Search and filter table row */}

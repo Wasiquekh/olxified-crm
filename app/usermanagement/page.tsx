@@ -174,12 +174,7 @@ export default function Home() {
           </div>
           <div className="rounded-3xl shadow-lastTransaction bg-white py-6 px-1  md:p-6">
             {/* Main content middle section */}
-            <div className="w-full flex justify-between items-center h-[74px] mt-3 mb-8 flex-wrap sm:flex-nowrap">
-              <div className="w-full sm:w-auto mb-2 sm:mb-0">
-                <p className=" text-[#0A0A0A] text-[26px] font-semibold leading-normal">
-                  User Management
-                </p>
-              </div>
+            <div className="w-full flex justify-end items-center mt-0 mb-8 flex-wrap sm:flex-nowrap">
               <div className="w-full sm:w-auto">
                 {hasSystemUserAdd ? (
                   <Link href="/useradd">

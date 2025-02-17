@@ -5,15 +5,22 @@ import { IoIosNotificationsOutline } from "react-icons/io";
 import { RiMenu2Line } from "react-icons/ri";
 import { IoCloseOutline } from "react-icons/io5";
 import LeftSideBarMobile from "./LeftSideBarMobile";
+import DynamicBreadCrum from "./DynamicBreadCrum";
+
+import { usePathname } from "next/navigation";
 
 const DesktopHeader = () => {
   const [isFlyoutFilterOpen, setFlyoutFilterOpen] = useState<boolean>(false);
   const toggleFilterFlyout = () => setFlyoutFilterOpen(!isFlyoutFilterOpen);
+  const pathname = usePathname();
   return (
     <>
-      <div className=" w-full flex justify-between items-center gap-7 mb-0">
+      <div className=" w-full flex justify-between items-center gap-7 mb-3">
         {/* SEARCH INPUT WITH ICON */}
-        <div className=" hidden md:w-full md:flex md:justify-end md:items-center md:gap-7">
+        <div className=" hidden md:block md:w-[30%]">
+          <DynamicBreadCrum />
+        </div>
+        <div className=" hidden md:w-[70%] md:flex md:justify-end md:items-center md:gap-7 w-auto">
           <input
             type="text"
             placeholder="Search for something"
@@ -40,6 +47,9 @@ const DesktopHeader = () => {
           />
         </div>
       </div>
+      <div className="w-full md:hidden ">
+          <DynamicBreadCrum />
+        </div>
       {/* LEFT SIDEBAR MENU */}
       {isFlyoutFilterOpen && (
         <>

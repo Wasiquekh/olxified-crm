@@ -89,6 +89,7 @@ export default function Home() {
   //console.log("Get all user Data", data);
   const router = useRouter();
 
+
   const handleClick = async (customer: Customer) => {
     // console.log('Object customer data',customer.id)
     router.push(`/customerdetails?id=${customer.customer_id}`);
@@ -235,23 +236,8 @@ export default function Home() {
           <DesktopHeader />
 
           {/* Main content middle section */}
-          <div className="w-full flex justify-between items-center h-[74px] mt-3 mb-8 rounded-3xl">
-            <div>
-              <p className=" text-[#0A0A0A] text-[32px] font-semibold leading-[41.6px]">
-                Customers
-              </p>
-              <div className=" flex gap-2 ml-[1px] items-center">
-                <p className=" text-[#717171] text-xl ">Customers</p>
-                <FaGreaterThan className=" text-[#717171]" />
-                <p className=" text-[#0A0A0A] text-xl font-semibold ">
-                  Recently added
-                </p>
-              </div>
-            </div>
-            <div></div>
-          </div>
           {/* ----------------Table----------------------- */}
-          <div className="relative overflow-x-auto shadow-lastTransaction rounded-xl sm:rounded-3xl px-1 py-6 md:p-6 !bg-white">
+          <div className="relative overflow-x-auto shadow-lastTransaction rounded-xl sm:rounded-3xl px-1 py-6 md:p-6 !bg-white mt-11">
             {/* Search and filter table row */}
             <div className=" flex justify-end items-center mb-6  w-full mx-auto">
               <div className=" flex justify-center items-center gap-4">
