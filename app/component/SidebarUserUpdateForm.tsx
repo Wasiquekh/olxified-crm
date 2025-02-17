@@ -328,7 +328,7 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
             )}
           </Formik>
         ) : (
-          <div className="w-full border rounded-lg p-4 shadow-md">
+          <div className="w-full border rounded-lg p-0 sm:p-4 shadow-md">
             <table className="w-full border-collapse border border-gray-300">
               <thead>
                 <tr className=" border-b">
@@ -371,7 +371,7 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
                         className="py-2 px-4 bg-red-200 flex gap-1.5 items-center rounded-full cursor-not-allowed opacity-85"
                       >
                         <RiDeleteBin6Line className="text-red-600 w-4 h-4" />
-                        <p className="text-sm leading-normal text-red-600">
+                        <p className=" hidden sm:block text-sm leading-normal text-red-600">
                           Deleted
                         </p>
                       </button>
