@@ -287,12 +287,12 @@ export default function Home() {
         {/* Left sidebar */}
         <LeftSideBar />
         {/* Main content right section */}
-        <div className="w-full md:w-[85%]  min-h-[500px]  rounded p-0 mt-0 bg-[#F5F7FA]">
+        <div className="w-full md:w-[83%]  min-h-[500px]  rounded p-4  bg-[#F5F7FA]">
           {/* right section top row */}
-          <div className=" w-full flex justify-end items-center gap-7 mb-3 p-4 ">
+          {/* <div className=" w-full flex justify-end items-center gap-7 mb-3 p-4 "> */}
             <DesktopHeader />
-          </div>
-          <div className=" w-full   bg-[#F5F7FA] flex justify-center p-4 md:p-8">
+          {/* </div> */}
+          <div className=" w-full   bg-[#F5F7FA] flex justify-center ">
             <div className=" w-full min-h-[600px] bg-white rounded-[25px]">
               <div className="p-2 md:p-6">
                 <Tabs tabs={tabs} />

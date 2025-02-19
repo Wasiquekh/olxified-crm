@@ -1554,13 +1554,13 @@ export default function Home() {
         {/* Left sidebar */}
         <LeftSideBar />
         {/* Main content right section */}
-        <div className="w-full md:w-[85%] bg-[#F5F7FA] min-h-[500px]  rounded p-0 mt-0">
+        <div className="w-full md:w-[83%] bg-[#F5F7FA] min-h-[500px]  rounded p-4 mt-0">
           {/* right section top row */}
-          <div className=" w-full flex justify-end items-center gap-7 mb-3 p-4">
+          {/* <div className=" w-full flex justify-end items-center   p-4 pb-0"> */}
             <DesktopHeader />
-          </div>
-          <div className=" w-full   bg-[#F5F7FA] flex justify-center py-4 px-4 md:p-4 -mt-8">
-            <div className="w-full md:w-full min-h-[600px] bg-white !rounded-3xl mb-4 shadow-lastTransaction">
+          {/* </div> */}
+          <div className=" w-full   bg-[#F5F7FA] flex justify-center">
+            <div className="w-full md:w-full min-h-[600px] bg-white !rounded-3xl  shadow-lastTransaction">
               <div className="py-4 px-0 md:p-6">
                 <div className="flex justify-center">
                   {faceImageFromChild ? (

@@ -169,9 +169,9 @@ export default function Home() {
           ))} */}
 
           {/* right section top row */}
-          <div className=" w-full flex justify-end items-center gap-7 mb-0">
+          {/* <div className=" w-full flex justify-end items-center gap-7 mb-0"> */}
             <DesktopHeader />
-          </div>
+          {/* </div> */}
           <div className="rounded-3xl shadow-lastTransaction bg-white py-6 px-1  md:p-6">
             {/* Main content middle section */}
             <div className="w-full flex justify-end items-center mt-0 mb-8 flex-wrap sm:flex-nowrap">

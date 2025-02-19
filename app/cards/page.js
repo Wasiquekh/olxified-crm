@@ -50,60 +50,60 @@ export default function Home() {
         {/* Left sidebar */}
         <LeftSideBar />
         {/* Main content right section */}
-        <div className=" w-[83%] bg-[#F5F7FA] min-h-[500px]  rounded p-0 mt-0">
+        <div className=" w-[83%] bg-[#F5F7FA] min-h-[500px]  rounded p-4">
           {/* right section top row */}
-          <div className=" w-full flex justify-end items-center gap-7 mb-3 p-4">
-            <DesktopHeader />
-          </div>
-          <div className=" w-full   bg-[#F5F7FA] flex justify-center p-8">
+          {/* <div className=" w-full flex justify-end items-center   p-4"> */}
+          <DesktopHeader />
+          {/* </div> */}
+          <div className=" w-full   bg-[#F5F7FA] flex justify-center">
             <div className=" w-full min-h-[600px] bg-[#F5F7FA] rounded-[25px]">
-              <div className="p-6">
+              <div className="">
                 <p className="text-[#333B69] text-2xl font-semibold leading-normal mb-5">
                   My Cards
                 </p>
-                <div className=" flex gap-6 justify-between items-center">
-                  {/* CARD */}
-                  <div className=" w-full h-[225px] bg-cardBg rounded-2xl p-4 relative mb-8">
-                    <div className=" flex justify-between items-center mb-5">
+                {/* THREE CARDS */}
+                <div className="flex flex-col md:flex-row gap-6 justify-between items-center mb-8 w-full">
+                  {/* CARD 1 */}
+                  <div className="w-full md:w-1/3 h-[225px] bg-cardBg rounded-2xl p-4 relative">
+                    <div className="flex justify-between items-center mb-5">
                       <div>
-                        <p className=" text-white text-[11px] leading-normal">
+                        <p className="text-white text-[11px] leading-normal">
                           Balance
                         </p>
-                        <p className=" text-white text-base font-semibold leading-normal">
+                        <p className="text-white text-base font-semibold leading-normal">
                           $5,756
                         </p>
                       </div>
                       <div>
                         <Image
                           src="/images/Chip_Card.svg"
-                          width={0}
-                          height={0}
-                          alt="Picture of the author"
-                          className=" w-[29px] h-full"
+                          width={29}
+                          height={29}
+                          alt="Card Chip"
+                          className="w-[29px] h-full"
                         />
                       </div>
                     </div>
-
-                    <div className=" flex justify-between items-center w-full">
+                    <div className="flex justify-between items-center w-full">
                       <div>
-                        <p className=" text-white opacity-70 text-[10px] leading-normal">
+                        <p className="text-white opacity-70 text-[10px] leading-normal">
                           CARD HOLDER
                         </p>
-                        <p className=" text-white text-[13px] font-semibold leading-normal">
+                        <p className="text-white text-[13px] font-semibold leading-normal">
                           Eddy Cusuma
                         </p>
                       </div>
                       <div>
-                        <p className=" text-white opacity-70 text-[10px] leading-normal">
+                        <p className="text-white opacity-70 text-[10px] leading-normal">
                           VALID THRU
                         </p>
-                        <p className=" text-white text-[13px] font-semibold leading-normal">
+                        <p className="text-white text-[13px] font-semibold leading-normal">
                           12/22
                         </p>
                       </div>
                     </div>
-                    <div className=" flex justify-between items-center bg-cardFooter absolute bottom-0 left-0 right-0 w-full h-[70px] mx-auto p-4">
-                      <p className=" text-[15pox] font-semibold text-white">
+                    <div className="flex justify-between items-center bg-cardFooter absolute bottom-0 left-0 right-0 w-full h-[70px] mx-auto p-4">
+                      <p className="text-[15px] font-semibold text-white">
                         3778 **** **** 1234
                       </p>
                       <svg
@@ -130,49 +130,49 @@ export default function Home() {
                       </svg>
                     </div>
                   </div>
-                  {/* END  CARD */}
-                  {/* CARD */}
-                  <div className=" w-full h-[225px] bg-card rounded-2xl p-4 relative mb-8">
-                    <div className=" flex justify-between items-center mb-5">
+                  {/* END CARD 1 */}
+
+                  {/* CARD 2 */}
+                  <div className="w-full md:w-1/3 h-[225px] bg-card rounded-2xl p-4 relative">
+                    <div className="flex justify-between items-center mb-5">
                       <div>
-                        <p className=" text-white text-[11px] leading-normal">
+                        <p className="text-white text-[11px] leading-normal">
                           Balance
                         </p>
-                        <p className=" text-white text-base font-semibold leading-normal">
+                        <p className="text-white text-base font-semibold leading-normal">
                           $5,756
                         </p>
                       </div>
                       <div>
                         <Image
                           src="/images/Chip_Card.svg"
-                          width={0}
-                          height={0}
-                          alt="Picture of the author"
-                          className=" w-[29px] h-full"
+                          width={29}
+                          height={29}
+                          alt="Card Chip"
+                          className="w-[29px] h-full"
                         />
                       </div>
                     </div>
-
-                    <div className=" flex justify-between items-center w-full">
+                    <div className="flex justify-between items-center w-full">
                       <div>
-                        <p className=" text-white opacity-70 text-[10px] leading-normal">
+                        <p className="text-white opacity-70 text-[10px] leading-normal">
                           CARD HOLDER
                         </p>
-                        <p className=" text-white text-[13px] font-semibold leading-normal">
+                        <p className="text-white text-[13px] font-semibold leading-normal">
                           Eddy Cusuma
                         </p>
                       </div>
                       <div>
-                        <p className=" text-white opacity-70 text-[10px] leading-normal">
+                        <p className="text-white opacity-70 text-[10px] leading-normal">
                           VALID THRU
                         </p>
-                        <p className=" text-white text-[13px] font-semibold leading-normal">
+                        <p className="text-white text-[13px] font-semibold leading-normal">
                           12/22
                         </p>
                       </div>
                     </div>
-                    <div className=" flex justify-between items-center bg-cardFooter absolute bottom-0 left-0 right-0 w-full h-[70px] mx-auto p-4">
-                      <p className=" text-[15pox] font-semibold text-white">
+                    <div className="flex justify-between items-center bg-cardFooter absolute bottom-0 left-0 right-0 w-full h-[70px] mx-auto p-4">
+                      <p className="text-[15px] font-semibold text-white">
                         3778 **** **** 1234
                       </p>
                       <svg
@@ -199,49 +199,49 @@ export default function Home() {
                       </svg>
                     </div>
                   </div>
-                  {/* END  CARD */}
-                  {/* CARD */}
-                  <div className=" w-full h-[225px] border bg-white border-[#DFEAF2] rounded-2xl p-4 relative mb-8">
-                    <div className=" flex justify-between items-center mb-5">
+                  {/* END CARD 2 */}
+
+                  {/* CARD 3 */}
+                  <div className="w-full md:w-1/3 h-[225px] border bg-white border-[#DFEAF2] rounded-2xl p-4 relative">
+                    <div className="flex justify-between items-center mb-5">
                       <div>
-                        <p className=" text-[#718EBF] text-[11px] leading-normal">
+                        <p className="text-[#718EBF] text-[11px] leading-normal">
                           Balance
                         </p>
-                        <p className=" text-[#343C6A] text-base font-semibold leading-normal">
+                        <p className="text-[#343C6A] text-base font-semibold leading-normal">
                           $5,756
                         </p>
                       </div>
                       <div>
                         <Image
                           src="/images/white-card.svg"
-                          width={0}
-                          height={0}
-                          alt="Picture of the author"
-                          className=" w-[29px] h-full"
+                          width={29}
+                          height={29}
+                          alt="Card Chip"
+                          className="w-[29px] h-full"
                         />
                       </div>
                     </div>
-
-                    <div className=" flex justify-between items-center w-full">
+                    <div className="flex justify-between items-center w-full">
                       <div>
-                        <p className=" text-[#718EBF] opacity-70 text-[10px] leading-normal">
+                        <p className="text-[#718EBF] opacity-70 text-[10px] leading-normal">
                           CARD HOLDER
                         </p>
-                        <p className=" text-[#343C6A] text-[13px] font-semibold leading-normal">
+                        <p className="text-[#343C6A] text-[13px] font-semibold leading-normal">
                           Eddy Cusuma
                         </p>
                       </div>
                       <div>
-                        <p className=" text-[#718EBF] opacity-70 text-[10px] leading-normal">
+                        <p className="text-[#718EBF] opacity-70 text-[10px] leading-normal">
                           VALID THRU
                         </p>
-                        <p className=" text-[#343C6A] text-[13px] font-semibold leading-normal">
+                        <p className="text-[#343C6A] text-[13px] font-semibold leading-normal">
                           12/22
                         </p>
                       </div>
                     </div>
-                    <div className=" flex justify-between items-center bg-cardFooter absolute bottom-0 left-0 right-0 w-full h-[70px] mx-auto p-4 border-t border-[#DFEAF2]">
-                      <p className=" text-[15pox] font-semibold text-[#343C6A] ">
+                    <div className="flex justify-between items-center bg-cardFooter absolute bottom-0 left-0 right-0 w-full h-[70px] mx-auto p-4 border-t border-[#DFEAF2]">
+                      <p className="text-[15px] font-semibold text-[#343C6A]">
                         3778 **** **** 1234
                       </p>
                       <svg
@@ -268,7 +268,7 @@ export default function Home() {
                       </svg>
                     </div>
                   </div>
-                  {/* END  CARD */}
+                  {/* END CARD 3 */}
                 </div>
                 {/* CARD EXPENSE */}
                 <div className="flex justify-between">
@@ -283,182 +283,104 @@ export default function Home() {
                     </p>
                   </div>
                 </div>
-                <div className="flex justify-between mb-8">
-                  <div className=" w-[34%] h-[310] bg-white flex justify-center items-center rounded-[25px]">
-                    <div className=" flex flex-col justify-center items-center p-[25px]">
+                <div className="flex flex-col md:flex-row justify-between mb-8 gap-6">
+                  {/* Left Card */}
+                  <div className="w-full md:w-[34%] h-auto md:h-[310px] bg-white flex justify-center items-center rounded-[25px] p-6">
+                    <div className="flex flex-col justify-center items-center">
                       <Image
                         src="/images/cardStatic.svg"
                         alt="Orizon profile"
-                        width={0}
-                        height={0}
-                        className=" h-[169px] w-[173px]"
+                        width={173}
+                        height={169}
+                        className="h-[169px] w-[173px]"
                       />
-                      <div className=" flex gap-8 mb-4">
-                        <div className=" flex gap-3 justify-center items-center">
+                      <div className="flex flex-wrap gap-4 mt-4">
+                        <div className="flex gap-3 justify-center items-center">
                           <GoDotFill className="text-[#4C78FF] text-[28px]" />
-                          <p className="text-[#718EBF] text-[15px] font-medium leading-normal">
+                          <p className="text-[#718EBF] text-[15px] font-medium">
                             DBL Bank
                           </p>
                         </div>
-                        <div className=" flex gap-3 justify-center items-center">
+                        <div className="flex gap-3 justify-center items-center">
                           <GoDotFill className="text-[#FF82AC] text-[28px]" />
-                          <p className="text-[#718EBF] text-[15px] font-medium leading-normal">
+                          <p className="text-[#718EBF] text-[15px] font-medium">
                             DBL Bank
                           </p>
                         </div>
-                      </div>
-                      <div className=" flex gap-8">
-                        <div className=" flex gap-3 justify-center items-center relative left-[4.8px]">
+                        <div className="flex gap-3 justify-center items-center">
                           <GoDotFill className="text-[#16DBCC] text-[28px]" />
-                          <p className="text-[#718EBF] text-[15px] font-medium leading-normal">
+                          <p className="text-[#718EBF] text-[15px] font-medium">
                             ABM Bank
                           </p>
                         </div>
-                        <div className=" flex gap-3 justify-center items-center">
+                        <div className="flex gap-3 justify-center items-center">
                           <GoDotFill className="text-[#FFBB38] text-[28px]" />
-                          <p className="text-[#718EBF] text-[15px] font-medium leading-normal">
+                          <p className="text-[#718EBF] text-[15px] font-medium">
                             MCP Bank
                           </p>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div className="  w-[64%]">
-                    <div className=" p-[20px] h-[90px] rounded-[20px] bg-white flex justify-between items-center mb-5">
-                      <div className=" flex items-center w-full">
-                        <div className="bg-[#E7EDFF] rounded-[12px] h-[45px] w-[45px] flex justify-center items-center mr-5">
-                          <HiOutlineWallet className=" h-5 w-5 text-[#396AFF]" />
-                        </div>
-                        <div className="flex items-center justify-between w-full">
-                          <div className="">
-                            <p className="text-[#232323] text-base font-medium leading-normal">
-                              Card Type
-                            </p>
-                            <p className="text-[#718EBF] text-[15px] leading-normal">
-                              Secondary
-                            </p>
+
+                  {/* Right Cards Section */}
+                  <div className="w-full md:w-[64%] flex flex-col gap-6">
+                    {["#E7EDFF", "#FFE0EB", "#FFF5D9"].map((bgColor, index) => (
+                      <div
+                        key={index}
+                        className="p-[20px] rounded-[20px] bg-white flex justify-between items-center shadow-md"
+                      >
+                        <div className="flex items-center w-full">
+                          <div
+                            className={`bg-[${bgColor}] rounded-[12px] h-[45px] w-[45px] flex justify-center items-center mr-5`}
+                          >
+                            <HiOutlineWallet
+                              className={`h-5 w-5 text-${bgColor}`}
+                            />
                           </div>
-                          <div className="">
-                            <p className="text-[#232323] text-base font-medium leading-normal">
-                              Bank
-                            </p>
-                            <p className="text-[#718EBF] text-[15px] leading-normal">
-                              BRC Bank
-                            </p>
-                          </div>
-                          <div className="">
-                            <p className="text-[#232323] text-base font-medium leading-normal">
-                              Card Number
-                            </p>
-                            <p className="text-[#718EBF] text-[15px] leading-normal">
-                              **** **** 5600
-                            </p>
-                          </div>
-                          <div className="">
-                            <p className="text-[#232323] text-base font-medium leading-normal">
-                              Namain Card
-                            </p>
-                            <p className="text-[#718EBF] text-[15px] leading-normal">
-                              William
-                            </p>
-                          </div>
-                          <div className="text-[#1814F3] text-[15px] font-medium leading-normal">
-                            View Details
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className=" p-[20px] h-[90px] rounded-[20px] bg-white flex justify-between items-center mb-5">
-                      <div className=" flex items-center w-full">
-                        <div className="bg-[#FFE0EB] rounded-[12px] h-[45px] w-[45px] flex justify-center items-center mr-5">
-                          <HiOutlineWallet className=" h-5 w-5 text-[#FF82AC]" />
-                        </div>
-                        <div className="flex items-center justify-between w-full">
-                          <div className="">
-                            <p className="text-[#232323] text-base font-medium leading-normal">
-                              Card Type
-                            </p>
-                            <p className="text-[#718EBF] text-[15px] leading-normal">
-                              Secondary
-                            </p>
-                          </div>
-                          <div className="">
-                            <p className="text-[#232323] text-base font-medium leading-normal">
-                              Bank
-                            </p>
-                            <p className="text-[#718EBF] text-[15px] leading-normal">
-                              BRC Bank
-                            </p>
-                          </div>
-                          <div className="">
-                            <p className="text-[#232323] text-base font-medium leading-normal">
-                              Card Number
-                            </p>
-                            <p className="text-[#718EBF] text-[15px] leading-normal">
-                              **** **** 5600
-                            </p>
-                          </div>
-                          <div className="">
-                            <p className="text-[#232323] text-base font-medium leading-normal">
-                              Namain Card
-                            </p>
-                            <p className="text-[#718EBF] text-[15px] leading-normal">
-                              William
-                            </p>
-                          </div>
-                          <div className="text-[#1814F3] text-[15px] font-medium leading-normal">
-                            View Details
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between w-full gap-4 sm:gap-0">
+                            <div>
+                              <p className="text-[#232323] text-base font-medium">
+                                Card Type
+                              </p>
+                              <p className="text-[#718EBF] text-[15px]">
+                                Secondary
+                              </p>
+                            </div>
+                            <div>
+                              <p className="text-[#232323] text-base font-medium">
+                                Bank
+                              </p>
+                              <p className="text-[#718EBF] text-[15px]">
+                                BRC Bank
+                              </p>
+                            </div>
+                            <div>
+                              <p className="text-[#232323] text-base font-medium">
+                                Card Number
+                              </p>
+                              <p className="text-[#718EBF] text-[15px]">
+                                **** **** 5600
+                              </p>
+                            </div>
+                            <div>
+                              <p className="text-[#232323] text-base font-medium">
+                                Name on Card
+                              </p>
+                              <p className="text-[#718EBF] text-[15px]">
+                                William
+                              </p>
+                            </div>
+                            <div className="text-[#1814F3] text-[15px] font-medium cursor-pointer">
+                              View Details
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div className=" p-[20px] h-[90px] rounded-[20px] bg-white flex justify-between items-center mb-5">
-                      <div className=" flex items-center w-full">
-                        <div className="bg-[#FFF5D9] rounded-[12px] h-[45px] w-[45px] flex justify-center items-center mr-5">
-                          <HiOutlineWallet className=" h-5 w-5 text-[#FFBB38]" />
-                        </div>
-                        <div className="flex items-center justify-between w-full">
-                          <div className="">
-                            <p className="text-[#232323] text-base font-medium leading-normal">
-                              Card Type
-                            </p>
-                            <p className="text-[#718EBF] text-[15px] leading-normal">
-                              Secondary
-                            </p>
-                          </div>
-                          <div className="">
-                            <p className="text-[#232323] text-base font-medium leading-normal">
-                              Bank
-                            </p>
-                            <p className="text-[#718EBF] text-[15px] leading-normal">
-                              BRC Bank
-                            </p>
-                          </div>
-                          <div className="">
-                            <p className="text-[#232323] text-base font-medium leading-normal">
-                              Card Number
-                            </p>
-                            <p className="text-[#718EBF] text-[15px] leading-normal">
-                              **** **** 5600
-                            </p>
-                          </div>
-                          <div className="">
-                            <p className="text-[#232323] text-base font-medium leading-normal">
-                              Namain Card
-                            </p>
-                            <p className="text-[#718EBF] text-[15px] leading-normal">
-                              William
-                            </p>
-                          </div>
-                          <div className="text-[#1814F3] text-[15px] font-medium leading-normal">
-                            View Details
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
-                {/* ADD NEW CARD */}
+                {/* Card Expense Statistics*/}
                 <div className="flex justify-between">
                   <div className=" w-[75%]">
                     <p className="text-[#333B69] text-2xl font-semibold leading-normal  mb-5">
@@ -471,127 +393,87 @@ export default function Home() {
                     </p>
                   </div>
                 </div>
-                <div className="flex justify-between">
-                  <div className=" w-[69%] h-[310] bg-white p-[25px] rounded-[25px]">
+                <div className="flex flex-col lg:flex-row justify-between gap-4">
+                  <div className="w-full lg:w-[69%] bg-white p-6 rounded-[25px] shadow-md">
                     <p className="text-[#718EBF] text-base leading-7 mb-8">
                       Credit Card generally means a plastic card issued by
                       Scheduled Commercial Banks assigned to a Cardholder, with
                       a credit limit, that can be used to purchase goods and
                       services on credit or obtain cash advances.
                     </p>
-                    <div className=" w-full flex gap-4 mb-4">
-                      <div className=" w-full">
-                        <p className=" text-[#232323]  text-base leading-normal mb-2">
+                    <div className="w-full flex flex-col md:flex-row gap-4 mb-4">
+                      <div className="w-full">
+                        <p className="text-[#232323] text-base leading-normal mb-2">
                           Card Type
                         </p>
                         <input
                           type="text"
                           placeholder="Diners Club"
-                          className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-[15px] leading-4  placeholder-[#718EBF] py-4 px-4"
+                          className="focus:outline-none w-full border border-[#DFEAF2] rounded-[12px] text-[15px] leading-4 placeholder-[#718EBF] py-4 px-4"
                         />
                       </div>
-                      <div className=" w-full">
-                        <p className=" text-[#232323]  text-base leading-normal mb-2">
+                      <div className="w-full">
+                        <p className="text-[#232323] text-base leading-normal mb-2">
                           Name On Card
                         </p>
                         <input
                           type="text"
                           placeholder="My Cards"
-                          className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-[15px] leading-4  placeholder-[#718EBF] py-4 px-4"
+                          className="focus:outline-none w-full border border-[#DFEAF2] rounded-[12px] text-[15px] leading-4 placeholder-[#718EBF] py-4 px-4"
                         />
                       </div>
                     </div>
-                    <div className=" w-full flex gap-4 mb-4">
-                      <div className=" w-full">
-                        <p className="text-[#232323]  text-base leading-normal mb-2 ">
+                    <div className="w-full flex flex-col md:flex-row gap-4 mb-4">
+                      <div className="w-full">
+                        <p className="text-[#232323] text-base leading-normal mb-2">
                           Card Number
                         </p>
                         <input
                           type="text"
                           placeholder="**** **** **** ****"
-                          className="focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-[15px] leading-4  placeholder-[#718EBF] py-4 px-4"
+                          className="focus:outline-none w-full border border-[#DFEAF2] rounded-[12px] text-[15px] leading-4 placeholder-[#718EBF] py-4 px-4"
                         />
                       </div>
-                      <div className=" w-full">
-                        <p className=" text-[#232323]  text-base leading-normal mb-2">
+                      <div className="w-full">
+                        <p className="text-[#232323] text-base leading-normal mb-2">
                           Expiration Date
                         </p>
                         <input
                           type="text"
                           placeholder="25 January 2025"
-                          className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-[15px] leading-4  placeholder-[#718EBF] py-4 px-4"
+                          className="focus:outline-none w-full border border-[#DFEAF2] rounded-[12px] text-[15px] leading-4 placeholder-[#718EBF] py-4 px-4"
                         />
                       </div>
                     </div>
                   </div>
-                  <div className="  w-[29%]  p-[25px] bg-white rounded-[25px]">
-                    <div className=" w-full flex flex-col gap-2 justify-between items-center mb-4">
-                      <div className=" flex items-center gap-2 mb-4">
-                        <div className=" bg-[#FFF5D9] rounded-[20px] w-[60px] h-[60px] flex items-center justify-center mr-2">
-                          <HiOutlineWallet className=" h-[25px] w-[25px] text-[#FFBB38]" />
+                  <div className="w-full lg:w-[29%] p-6 bg-white rounded-[25px] shadow-md">
+                    <div className="w-full flex flex-col gap-4">
+                      {[
+                        "#FFF5D9",
+                        "#E7EDFF",
+                        "#FFE0EB",
+                        "#DCFAF8",
+                        "#DCFAF8",
+                      ].map((bgColor, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center gap-2 w-full"
+                        >
+                          <div
+                            className={`bg-[${bgColor}] rounded-[20px] w-[60px] h-[60px] flex items-center justify-center mr-2`}
+                          >
+                            <HiOutlineWallet className="h-[25px] w-[25px] text-[#232323]" />
+                          </div>
+                          <div className="flex flex-col gap-1">
+                            <p className="text-[#232323] text-base font-medium leading-normal">
+                              Block Card
+                            </p>
+                            <p className="text-[#718EBF] text-[15px] leading-normal">
+                              Instantly block your card
+                            </p>
+                          </div>
                         </div>
-                        <div className="flex flex-col  gap-1">
-                          <p className=" text-[#232323] text-base font-medium leading-normal">
-                            Block Card
-                          </p>
-                          <p className=" text-[#718EBF] text-[15px] leading-normal">
-                            Instantly block your card
-                          </p>
-                        </div>
-                      </div>
-                      <div className=" flex items-center gap-2 mb-4">
-                        <div className=" bg-[#E7EDFF] rounded-[20px] w-[60px] h-[60px] flex items-center justify-center mr-2">
-                          <HiOutlineWallet className=" h-[25px] w-[25px] text-[#396AFF]" />
-                        </div>
-                        <div className="flex flex-col  gap-1">
-                          <p className=" text-[#232323] text-base font-medium leading-normal">
-                            Block Card
-                          </p>
-                          <p className=" text-[#718EBF] text-[15px] leading-normal">
-                            Instantly block your card
-                          </p>
-                        </div>
-                      </div>
-                      <div className=" flex items-center gap-2 mb-4">
-                        <div className=" bg-[#FFE0EB] rounded-[20px] w-[60px] h-[60px] flex items-center justify-center mr-2">
-                          <HiOutlineWallet className=" h-[25px] w-[25px] text-[#FF82AC]" />
-                        </div>
-                        <div className="flex flex-col  gap-1">
-                          <p className=" text-[#232323] text-base font-medium leading-normal">
-                            Block Card
-                          </p>
-                          <p className=" text-[#718EBF] text-[15px] leading-normal">
-                            Instantly block your card
-                          </p>
-                        </div>
-                      </div>
-                      <div className=" flex items-center gap-2 mb-4">
-                        <div className=" bg-[#DCFAF8] rounded-[20px] w-[60px] h-[60px] flex items-center justify-center mr-2">
-                          <HiOutlineWallet className=" h-[25px] w-[25px] text-[#16DBCC]" />
-                        </div>
-                        <div className="flex flex-col  gap-1">
-                          <p className=" text-[#232323] text-base font-medium leading-normal">
-                            Block Card
-                          </p>
-                          <p className=" text-[#718EBF] text-[15px] leading-normal">
-                            Instantly block your card
-                          </p>
-                        </div>
-                      </div>
-                      <div className=" flex items-center gap-2 mb-4">
-                        <div className=" bg-[#DCFAF8] rounded-[20px] w-[60px] h-[60px] flex items-center justify-center mr-2">
-                          <HiOutlineWallet className=" h-[25px] w-[25px] text-[#16DBCC]" />
-                        </div>
-                        <div className="flex flex-col  gap-1">
-                          <p className=" text-[#232323] text-base font-medium leading-normal">
-                            Block Card
-                          </p>
-                          <p className=" text-[#718EBF] text-[15px] leading-normal">
-                            Instantly block your card
-                          </p>
-                        </div>
-                      </div>
-                      
+                      ))}
                     </div>
                   </div>
                 </div>

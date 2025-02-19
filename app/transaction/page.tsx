@@ -160,7 +160,7 @@ export default function Home() {
                       className="border border-tableBorder bg-white"
                       key={index}
                     >
-                      <td className="p-4 border border-tableBorder flex items-center gap-2">
+                      <td className="p-4  flex items-center gap-2">
                         <div className="md:hidden">
                           <FaEllipsisVertical
                             data-tooltip-id="my-tooltip"
@@ -255,12 +255,12 @@ export default function Home() {
       {/* Left sidebar */}
       <LeftSideBar />
       {/* Main content right section */}
-      <div className="w-full md:w-[83%] bg-[#F5F7FA] min-h-[500px] rounded p-0 mt-0">
+      <div className="w-full md:w-[83%] bg-[#F5F7FA] min-h-[500px] rounded p-4 mt-0">
         {/* Right section top row */}
-        <div className="w-full flex justify-end items-center  p-4">
+        {/* <div className="w-full flex justify-end items-center  p-4"> */}
           <DesktopHeader />
-        </div>
-        <div className="w-full bg-[#F5F7FA] flex justify-center p-4 md:p-4 -mt-8">
+        {/* </div> */}
+        <div className="w-full bg-[#F5F7FA] flex justify-center p-0 md:p-0">
           <div className="w-full min-h-[600px] bg-white rounded-3xl shadow-lastTransaction">
             <div className="p-1 md:p-6">
               <Tabs tabs={tabs} />

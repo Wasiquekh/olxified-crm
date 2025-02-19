@@ -15,7 +15,7 @@ const DesktopHeader = () => {
   const pathname = usePathname();
   return (
     <>
-      <div className=" w-full flex justify-between items-center gap-7 mb-14">
+      <div className=" w-full flex justify-between items-center gap-7 md:mb-14">
         {/* SEARCH INPUT WITH ICON */}
         <div className=" hidden md:block md:w-[30%]">
           <DynamicBreadCrum />
@@ -47,7 +47,7 @@ const DesktopHeader = () => {
           />
         </div>
       </div>
-      <div className="w-full md:hidden ">
+      <div className="w-full mt-1 mb-4 md:hidden">
           <DynamicBreadCrum />
         </div>
       {/* LEFT SIDEBAR MENU */}
