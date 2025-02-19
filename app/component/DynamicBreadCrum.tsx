@@ -18,7 +18,7 @@ const DynamicBreadCrum = () => {
         </div>
       )}
       {pathname === "/transaction" && (
-        <div className="  md:flex gap-2 w-auto items-center">
+        <div className="flex  md:flex gap-2 w-auto items-center">
           <p className="text-[#4B5675] text-sm font-medium leading-5">
             Transactions
           </p>
@@ -29,7 +29,7 @@ const DynamicBreadCrum = () => {
         </div>
       )}
       {pathname === "/cards" && (
-        <div className=" md:flex gap-2 w-auto items-center">
+        <div className="flex md:flex gap-2 w-auto items-center">
           <p className="text-[#4B5675] text-sm font-medium leading-5">Cards</p>
           <IoChevronForward className="text-[#99A1B7] w-3 h-3" />
           <p className="text-[#007AFF] text-sm leading-5 font-medium">
@@ -38,7 +38,7 @@ const DynamicBreadCrum = () => {
         </div>
       )}
       {pathname === "/usermanagement" && (
-        <div className="  md:flex gap-2 w-auto items-center">
+        <div className="flex  md:flex gap-2 w-auto items-center">
           <p className="text-[#4B5675] text-sm font-medium leading-5">
             User Management
           </p>
@@ -49,7 +49,7 @@ const DynamicBreadCrum = () => {
         </div>
       )}
       {pathname === "/useradd" && (
-        <div className="  md:flex gap-2 w-auto items-center">
+        <div className="flex  md:flex gap-2 w-auto items-center">
           <p className="text-[#4B5675] text-sm font-medium leading-5">
             User Add
           </p>
@@ -60,7 +60,7 @@ const DynamicBreadCrum = () => {
         </div>
       )}
       {pathname === "/user-activity" && (
-        <div className=" md:flex gap-2 w-auto items-center">
+        <div className="flex md:flex gap-2 w-auto items-center">
           <p className="text-[#4B5675] text-sm font-medium leading-5">
             User Activity
           </p>

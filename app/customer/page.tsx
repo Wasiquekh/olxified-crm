@@ -234,10 +234,9 @@ export default function Home() {
         <div className=" w-full md:w-[83%] bg-[#F5F7FA] min-h-[500px]  rounded p-4 mt-0">
           {/* left section top row */}
           <DesktopHeader />
-
           {/* Main content middle section */}
           {/* ----------------Table----------------------- */}
-          <div className="relative overflow-x-auto shadow-lastTransaction rounded-xl sm:rounded-3xl px-1 py-6 md:p-6 !bg-white mt-11">
+          <div className="relative overflow-x-auto shadow-lastTransaction rounded-xl sm:rounded-3xl px-1 py-6 md:p-6 !bg-white">
             {/* Search and filter table row */}
             <div className=" flex justify-end items-center mb-6  w-full mx-auto">
               <div className=" flex justify-center items-center gap-4">

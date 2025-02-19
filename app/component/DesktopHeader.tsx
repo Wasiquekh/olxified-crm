@@ -15,7 +15,7 @@ const DesktopHeader = () => {
   const pathname = usePathname();
   return (
     <>
-      <div className=" w-full flex justify-between items-center gap-7 mb-3">
+      <div className=" w-full flex justify-between items-center gap-7 mb-14">
         {/* SEARCH INPUT WITH ICON */}
         <div className=" hidden md:block md:w-[30%]">
           <DynamicBreadCrum />

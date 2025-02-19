@@ -260,7 +260,7 @@ export default function Home() {
         <div className="w-full flex justify-end items-center  p-4">
           <DesktopHeader />
         </div>
-        <div className="w-full bg-[#F5F7FA] flex justify-center p-4 md:p-4">
+        <div className="w-full bg-[#F5F7FA] flex justify-center p-4 md:p-4 -mt-8">
           <div className="w-full min-h-[600px] bg-white rounded-3xl shadow-lastTransaction">
             <div className="p-1 md:p-6">
               <Tabs tabs={tabs} />

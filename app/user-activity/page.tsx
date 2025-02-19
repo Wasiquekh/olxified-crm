@@ -301,11 +301,10 @@ export default function Home() {
       <div className=" flex  min-h-screen">
         <LeftSideBar />
         {/* Main content right section */}
-        <div className="w-full md:w-[83%] bg-[#F5F7FA] min-h-[500px]  rounded p-4 mt-0">
+        <div className=" w-full md:w-[83%] bg-[#F5F7FA] min-h-[500px]  rounded p-4 mt-0">
           {/* left section top row */}
-          <div className=" w-full flex justify-end items-center gap-7 mb-8">
             <DesktopHeader />
-          </div>
+          
           {/* Main content middle section */}
           <div className="rounded-3xl shadow-lastTransaction bg-white px-1 py-6 md:p-6">
           {/* ----------------Table----------------------- */}
