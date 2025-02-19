@@ -1563,7 +1563,7 @@ export default function Home() {
           {/* </div> */}
           <div className=" w-full   bg-[#F5F7FA] flex justify-center">
             <div className="w-full md:w-full min-h-[600px] bg-white !rounded-3xl  shadow-lastTransaction">
-              <div className="py-4 px-0 md:p-6">
+              <div className="py-4 px-2 md:p-6">
                 <div className="flex justify-center">
                   {faceImageFromChild ? (
                     <Image
