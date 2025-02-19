@@ -1156,7 +1156,8 @@ export default function Home() {
             <>
               <div className="container mx-auto mt-6">
                 <h2 className="text-lg font-bold mb-4">Customer History</h2>
-                <table className="table-auto border-collapse border border-gray-300 w-full">
+                <div className="rounded-lg overflow-hidden border border-gray-300">
+                <table className="table-auto border-collapse border border-gray-300 rounded w-full overflow-hidden">
                   <thead>
                     <tr>
                       <th className="border border-gray-300 px-4 py-2">
@@ -1232,6 +1233,7 @@ export default function Home() {
                     ))}
                   </tbody>
                 </table>
+                </div>
               </div>
             </>
           )}
