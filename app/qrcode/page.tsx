@@ -217,7 +217,7 @@ export default function OtpHome() {
 
       <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[90%] max-w-[500px] h-[587px] shadow-loginBoxShadow bg-white px-6 sm:px-12 py-10 sm:py-16 rounded-lg">
         <Image
-          src="/images/loginicon.svg"
+          src="/images/orizonIcon.svg"
           alt="OrizonIcon"
           width={82}
           height={52}
@@ -257,14 +257,14 @@ export default function OtpHome() {
                   ref={(el) => {
                     inputRefs.current[index] = el;
                   }}
-                  className="w-[14%] sm:w-[14%] h-12 sm:h-14 py-3 sm:py-4 text-center sm:px-5 border-b border-[#BDD1E0] text-black text-lg sm:text-xl font-semibold leading-normal focus:outline-none focus:border-b-2 focus-within:border-[#0E6874]"
+                  className="w-[14%] sm:w-[14%] h-12 sm:h-14 py-3 sm:py-4 text-center sm:px-5 border-b border-[#BDD1E0] text-black text-lg sm:text-xl font-semibold leading-normal focus:outline-none focus:border-b-2 focus-within:border-darkMaroon"
                 />
               ))}
             </div>
             <div className="w-full">
               <button
                 type="submit"
-                className="bg-[#1814F3] border rounded-[12px] w-full h-[50px] text-center text-white text-lg font-medium leading-normal mb-3"
+                className="bg-darkMaroon border rounded-[4px] w-full h-[50px] text-center text-white text-lg font-medium leading-normal mb-3 hover:bg-darkestMaroon"
                 disabled={loading}
               >
                 {loading ? "Code Verifying..." : "Verify Code"}

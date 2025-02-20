@@ -107,7 +107,7 @@ export default function LoginHome() {
       </div>
       <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[90%] max-w-[500px] h-[587px] shadow-loginBoxShadow bg-white px-6 sm:px-12 py-10 sm:py-16 rounded-lg">
         <Image
-          src="/images/loginicon.svg"
+          src="/images/orizonIcon.svg"
           alt="OrizonIcon"
           width={82}
           height={52}
@@ -133,7 +133,7 @@ export default function LoginHome() {
                     name="email"
                     autoComplete="username"
                     placeholder="Enter your User ID/Email"
-                    className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[12px] text-[15px] placeholder-[#718EBF] pl-4 mb-7 text-[#718EBF]"
+                    className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-7 text-[#718EBF]"
                   />
                   <ErrorMessage
                     name="email"
@@ -151,7 +151,7 @@ export default function LoginHome() {
                     onChange={(e) => setFieldValue("password", e.target.value)}
                     autoComplete="current-password"
                     placeholder="Enter your password"
-                    className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[12px] text-[15px] placeholder-[#718EBF] pl-4 mb-8 text-[#718EBF]"
+                    className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-8 text-[#718EBF]"
                   />
                   {showPassword ? (
                     <FaRegEye
@@ -173,7 +173,7 @@ export default function LoginHome() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="bg-[#1814F3] border rounded-[12px] w-full h-[50px] text-center text-white text-lg font-medium leading-normal mb-3"
+                  className=" bg-darkMaroon  rounded-[4px] w-full h-[50px] text-center text-white text-lg font-medium leading-normal mb-3 hover:bg-darkestMaroon transition duration-100"
                 >
                   {loading ? "Logging in..." : "Login"}
                 </button>

@@ -20,7 +20,7 @@ const DesktopHeader = () => {
         <div className=" hidden md:block md:w-[30%]">
           <DynamicBreadCrum />
         </div>
-        <div className=" hidden md:w-[70%] md:flex md:justify-end md:items-center md:gap-7 w-auto">
+        <div className=" hidden md:w-[70%] md:flex md:justify-end md:items-center md:gap-7 w-auto z-10">
           <input
             type="text"
             placeholder="Search for something"
@@ -37,7 +37,7 @@ const DesktopHeader = () => {
           onClick={toggleFilterFlyout}
           className="text-black text-xl cursor-pointer md:hidden"
         />
-        <div className=" w-[50px] h-[50px]  rounded-full flex justify-center items-center">
+        <div className=" w-[50px] h-[50px]  rounded-full flex justify-center items-center z-10">
           <Image
             src="/images/dummy-image.jpg"
             alt="Orizon profile"

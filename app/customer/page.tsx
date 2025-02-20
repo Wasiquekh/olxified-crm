@@ -89,7 +89,6 @@ export default function Home() {
   //console.log("Get all user Data", data);
   const router = useRouter();
 
-
   const handleClick = async (customer: Customer) => {
     // console.log('Object customer data',customer.id)
     router.push(`/customerdetails?id=${customer.customer_id}`);
@@ -231,12 +230,21 @@ export default function Home() {
       <div className=" flex justify-end  min-h-screen">
         <LeftSideBar />
         {/* Main content right section */}
-        <div className=" w-full md:w-[83%] bg-[#F5F7FA] min-h-[500px]  rounded p-4 mt-0">
+        <div className=" w-full md:w-[83%] bg-[#F5F7FA] min-h-[500px]  rounded p-4 mt-0 relative">
+          <div className="absolute bottom-0 right-0">
+            <Image
+              src="/images/sideDesign.svg"
+              alt="side desgin"
+              width={100}
+              height={100}
+              className=" w-full h-full"
+            />
+          </div>
           {/* left section top row */}
           <DesktopHeader />
           {/* Main content middle section */}
           {/* ----------------Table----------------------- */}
-          <div className="relative overflow-x-auto shadow-lastTransaction rounded-xl sm:rounded-3xl px-1 py-6 md:p-6 !bg-white">
+          <div className="relative overflow-x-auto shadow-lastTransaction rounded-xl sm:rounded-3xl px-1 py-6 md:p-6 !bg-white  z-10">
             {/* Search and filter table row */}
             <div className=" flex justify-end items-center mb-6  w-full mx-auto">
               <div className=" flex justify-center items-center gap-4">
@@ -245,7 +253,7 @@ export default function Home() {
                   onClick={toggleFilterFlyout}
                 >
                   <FiFilter className=" w-6 h-6" />
-                  <p className=" text-[#0A0A0A] text-base font-medium">
+                  <p className=" text-secondBlack text-base font-medium">
                     Filter
                   </p>
                 </div>
@@ -291,10 +299,13 @@ export default function Home() {
                 <thead className="text-xs text-[#999999] bg-white">
                   <tr className="border border-tableBorder">
                     {/* Name - Birth Date: Always Visible */}
-                    <th scope="col" className=" px- py-3 md:p-3 border border-tableBorder">
+                    <th
+                      scope="col"
+                      className=" px- py-3 md:p-3 border border-tableBorder"
+                    >
                       <div className="flex items-center gap-2">
                         <RxAvatar className="w-5 h-5 sm:w-6 sm:h-6" />
-                        <span className="font-medium text-[#717171] text-sm sm:text-base">
+                        <span className=" font-semibold text-secondBlack text-lg sm:text-base">
                           Name - Birth Date
                         </span>
                       </div>
@@ -307,7 +318,7 @@ export default function Home() {
                     >
                       <div className="flex items-center gap-2">
                         <HiOutlineBookOpen className="w-5 h-5 sm:w-6 sm:h-6" />
-                        <span className="font-medium text-[#717171] text-sm sm:text-base">
+                        <span className="font-semibold text-secondBlack text-lg sm:text-base">
                           Birth Country
                         </span>
                       </div>
@@ -318,7 +329,7 @@ export default function Home() {
                     >
                       <div className="flex items-center gap-2">
                         <HiOutlineBookOpen className="w-5 h-5 sm:w-6 sm:h-6" />
-                        <span className="font-medium text-[#717171] text-sm sm:text-base">
+                        <span className="font-semibold text-secondBlack text-lg sm:text-base">
                           Gender
                         </span>
                       </div>
@@ -329,7 +340,7 @@ export default function Home() {
                     >
                       <div className="flex items-center gap-2">
                         <SiHomeassistantcommunitystore className="w-5 h-5 sm:w-6 sm:h-6" />
-                        <span className="font-medium text-[#717171] text-sm sm:text-base">
+                        <span className="font-semibold text-secondBlack text-lg sm:text-base">
                           Country of Residence
                         </span>
                       </div>
@@ -340,7 +351,7 @@ export default function Home() {
                     >
                       <div className="flex items-center gap-2">
                         <MdOutlineCall className="w-5 h-5 sm:w-6 sm:h-6" />
-                        <span className="font-medium text-[#717171] text-sm sm:text-base">
+                        <span className="font-semibold text-secondBlack text-lg sm:text-base">
                           Phone
                         </span>
                       </div>
@@ -351,7 +362,7 @@ export default function Home() {
                     >
                       <div className="flex items-center gap-2">
                         <MdOutlineCall className="w-5 h-5 sm:w-6 sm:h-6" />
-                        <span className="font-medium text-[#717171] text-sm sm:text-base">
+                        <span className="font-semibold text-secondBlack text-lg sm:text-base">
                           Status
                         </span>
                       </div>
@@ -362,7 +373,7 @@ export default function Home() {
                     >
                       <div className="flex items-center gap-2">
                         <LiaArrowCircleDownSolid className="w-5 h-5 sm:w-6 sm:h-6" />
-                        <span className="font-medium text-[#717171] text-sm sm:text-base">
+                        <span className="font-semibold text-secondBlack text-lg sm:text-base">
                           Action
                         </span>
                       </div>
@@ -373,7 +384,7 @@ export default function Home() {
                   {Array.isArray(data) && data.length > 0 ? (
                     data.map((item, index) => (
                       <tr
-                        className="border border-tableBorder bg-white"
+                        className="border border-tableBorder bg-white hover:bg-lighterMaroon"
                         key={index}
                       >
                         {/* Name - Birth Date: Always Visible */}
@@ -400,7 +411,7 @@ export default function Home() {
                               />
                             </div>
                             <div>
-                              <p className="text-[#232323] text-sm sm:text-base font-semibold leading-normal capitalize">
+                              <p className="text-[#232323] text-sm sm:text-base font-medium leading-normal capitalize">
                                 {item.firstname} {item.lastname}
                               </p>
                               <p className="text-[#232323] text-xs sm:text-sm leading-normal">
@@ -433,7 +444,7 @@ export default function Home() {
                         </td>
                         <td className="px-3 py-2 border border-tableBorder hidden md:table-cell">
                           <span
-                            className={`text-white text-xs sm:text-sm flex justify-center items-center p-1 rounded-xl ${
+                            className={`text-white text-xs sm:text-sm flex justify-center items-center p-1 rounded-[4px] ${
                               item.mainStatus === "On Progress"
                                 ? "bg-[#2DB3FF]"
                                 : item.mainStatus === "Approved"
@@ -449,10 +460,10 @@ export default function Home() {
                         <td className="px-3 py-2 border border-tableBorder md:table-cell">
                           <button
                             onClick={() => handleClick(item)}
-                            className="py-1 px-3 bg-[#C6F7FE] flex gap-2 items-center rounded-xl"
+                            className="py-1 px-3 bg-black hover:bg-darkMaroon flex gap-2 items-center rounded-[4px]"
                           >
-                            <MdRemoveRedEye className="text-customBlue w-4 h-4" />
-                            <span className="text-xs sm:text-sm text-customBlue">
+                            <MdRemoveRedEye className="text-white w-4 h-4 hover:text-white" />
+                            <span className="text-xs sm:text-sm text-white hover:text-white">
                               View Details
                             </span>
                           </button>
@@ -471,51 +482,52 @@ export default function Home() {
             </div>
 
             {/* ----------------End table------------------------ */}
-
-            {/* Pagination Controls */}
-            {isFilter ? (
-              <div className="flex justify-center items-center my-6">
-                <button
-                  onClick={() => handlePageChangeFilter(filterPage - 1)}
-                  disabled={filterPage === 1}
-                  className="px-2 py-2 mx-2 border rounded bg-customBlue text-white disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <HiChevronDoubleLeft className=" w-6 h-auto" />
-                </button>
-                <span className="text-[#232323] text-sm">
-                  Page {filterPage} of {totalPagesFilter}
-                </span>
-                <button
-                  onClick={() => handlePageChangeFilter(filterPage + 1)}
-                  disabled={filterPage === totalPagesFilter}
-                  className="px-2 py-2 mx-2 border rounded bg-customBlue text-white disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <HiChevronDoubleRight className=" w-6 h-auto" />
-                </button>
-              </div>
-            ) : (
-              <div className="flex justify-center items-center my-6">
-                <button
-                  onClick={() => handlePageChange(page - 1)}
-                  disabled={page === 1}
-                  className="px-2 py-2 mx-2 border rounded bg-customBlue text-white disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <HiChevronDoubleLeft className=" w-6 h-auto" />
-                </button>
-                <span className="text-[#717171] text-sm">
-                  Page {page} of {totalPages}
-                </span>
-                <button
-                  onClick={() => handlePageChange(page + 1)}
-                  disabled={page === totalPages}
-                  className="px-2 py-2 mx-2 border rounded bg-customBlue text-white disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <HiChevronDoubleRight className=" w-6 h-auto" />
-                </button>
-              </div>
-            )}
           </div>
+          {/* Pagination Controls */}
+          {isFilter ? (
+            <div className="flex justify-center items-center my-10">
+              <button
+                onClick={() => handlePageChangeFilter(filterPage - 1)}
+                disabled={filterPage === 1}
+                className="px-2 py-2 mx-2 border rounded bg-darkMaroon text-white disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <HiChevronDoubleLeft className=" w-6 h-auto" />
+              </button>
+              <span className="text-[#232323] text-sm">
+                Page {filterPage} of {totalPagesFilter}
+              </span>
+              <button
+                onClick={() => handlePageChangeFilter(filterPage + 1)}
+                disabled={filterPage === totalPagesFilter}
+                className="px-2 py-2 mx-2 border rounded bg-darkMaroon text-white disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <HiChevronDoubleRight className=" w-6 h-auto" />
+              </button>
+            </div>
+          ) : (
+            <div className="flex justify-center items-center my-10">
+              <button
+                onClick={() => handlePageChange(page - 1)}
+                disabled={page === 1}
+                className="px-2 py-2 mx-2 border rounded bg-darkMaroon text-white disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <HiChevronDoubleLeft className=" w-6 h-auto" />
+              </button>
+              <span className="text-[#717171] text-sm">
+                Page {page} of {totalPages}
+              </span>
+              <button
+                onClick={() => handlePageChange(page + 1)}
+                disabled={page === totalPages}
+                className="px-2 py-2 mx-2 border rounded bg-darkMaroon text-white disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <HiChevronDoubleRight className=" w-6 h-auto" />
+              </button>
+            </div>
+          )}
           {/* ----------------End prgination--------------------------- */}
+
+          <div className="w-full h-24 bg-header-gradient opacity-20 absolute top-0 left-0 right-0 "></div>
         </div>
       </div>
 
@@ -539,7 +551,7 @@ export default function Home() {
                 </p>
                 <IoCloseOutline
                   onClick={toggleFilterFlyout}
-                  className=" h-8 w-8 border border-[#E7E7E7] text-[#0A0A0A] rounded cursor-pointer"
+                  className=" h-8 w-8 border border-[#E7E7E7] text-secondBlack rounded cursor-pointer"
                 />
               </div>
               <div className=" w-full border-b border-[#E7E7E7] mb-4"></div>
@@ -548,7 +560,7 @@ export default function Home() {
                 <div className=" w-full">
                   <div className=" w-full flex gap-4 mb-4">
                     <div className=" w-full">
-                      <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
+                      <p className=" text-secondBlack font-medium text-base leading-6 mb-2">
                         First Name
                       </p>
                       <input
@@ -564,7 +576,7 @@ export default function Home() {
 
                   <div className=" w-full flex flex-col md:flex-row gap-4 mb-4">
                     <div className=" w-full">
-                      <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
+                      <p className=" text-secondBlack font-medium text-base leading-6 mb-2">
                         Phone
                       </p>
                       <input
@@ -577,7 +589,7 @@ export default function Home() {
                       />
                     </div>
                     <div className=" w-full">
-                      <p className=" text-[#0A0A0A] font-medium text-base leading-6 mb-2">
+                      <p className=" text-secondBlack font-medium text-base leading-6 mb-2">
                         Birth Date
                       </p>
                       <input
@@ -588,7 +600,6 @@ export default function Home() {
                         name="birthdate"
                         placeholder=""
                         className="w-full border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 cursor-not-allowed bg-[#F5F5F5] text-[#A0A0A0] focus:outline-none"
-
                       />
                     </div>
                   </div>
