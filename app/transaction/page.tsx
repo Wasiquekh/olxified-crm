@@ -81,7 +81,7 @@ export default function Home() {
       content: (
         <>
           {/* ----------------Table----------------------- */}
-          <div className="relative overflow-x-auto shadow-md sm:rounded-xl">
+          <div className="relative overflow-x-auto  sm:rounded-[12px]">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
               <thead className="text-xs text-[#999999]">
                 <tr className="border border-tableBorder">
@@ -90,7 +90,7 @@ export default function Home() {
                     className="p-2 py-0 border border-tableBorder"
                   >
                     <div className="flex items-center gap-2 p-3">
-                      <div className="font-medium text-[#718EBF] text-base leading-normal">
+                      <div className="font-medium text-firstBlack text-base leading-normal">
                         Description
                       </div>
                     </div>
@@ -100,7 +100,7 @@ export default function Home() {
                     className="px-2 py-0 border border-tableBorder hidden md:table-cell"
                   >
                     <div className="flex items-center gap-2">
-                      <div className="font-medium text-[#718EBF] text-base leading-normal">
+                      <div className="font-medium text-firstBlack text-base leading-normal">
                         Transaction ID
                       </div>
                     </div>
@@ -110,7 +110,7 @@ export default function Home() {
                     className="px-2 py-0 border border-tableBorder hidden md:table-cell"
                   >
                     <div className="flex items-center gap-2">
-                      <div className="font-medium text-[#718EBF] text-base leading-normal">
+                      <div className="font-medium text-firstBlack text-base leading-normal">
                         Type
                       </div>
                     </div>
@@ -120,7 +120,7 @@ export default function Home() {
                     className="px-2 py-0 border border-tableBorder hidden md:table-cell"
                   >
                     <div className="flex items-center gap-2">
-                      <div className="font-medium text-[#718EBF] text-base leading-normal">
+                      <div className="font-medium text-firstBlack text-base leading-normal">
                         Card
                       </div>
                     </div>
@@ -130,7 +130,7 @@ export default function Home() {
                     className="px-2 py-0 border border-tableBorder hidden md:table-cell"
                   >
                     <div className="flex items-center gap-2">
-                      <div className="font-medium text-[#718EBF] text-base leading-normal">
+                      <div className="font-medium text-firstBlack text-base leading-normal">
                         Date
                       </div>
                     </div>
@@ -140,7 +140,7 @@ export default function Home() {
                     className="px-2 py-0 border border-tableBorder hidden md:table-cell"
                   >
                     <div className="flex items-center gap-2">
-                      <div className="font-medium text-[#718EBF] text-base leading-normal">
+                      <div className="font-medium text-firstBlack text-base leading-normal">
                         Amount
                       </div>
                     </div>
@@ -157,7 +157,7 @@ export default function Home() {
                 ) : (
                   data.map((item, index) => (
                     <tr
-                      className="border border-tableBorder bg-white"
+                      className="border border-tableBorder bg-white hover:bg-lighterMaroon"
                       key={index}
                     >
                       <td className="p-4  flex items-center gap-2">
@@ -224,26 +224,8 @@ export default function Home() {
                 )}
               </tbody>
             </table>
-            <div className="flex justify-center items-center my-6">
-              <button
-                onClick={() => handlePageChange(page - 1)}
-                disabled={page === 1}
-                className="px-2 py-2 mx-2 border rounded bg-customBlue text-white disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <HiChevronDoubleLeft className=" w-6 h-auto" />
-              </button>
-              <span className="text-[#717171] text-sm">
-                Page {page} of {totalPages}
-              </span>
-              <button
-                onClick={() => handlePageChange(page + 1)}
-                disabled={page === totalPages}
-                className="px-2 py-2 mx-2 border rounded bg-customBlue text-white disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <HiChevronDoubleRight className=" w-6 h-auto" />
-              </button>
-            </div>
           </div>
+
           {/* ----------------End table--------------------------- */}
         </>
       ),
@@ -255,18 +237,48 @@ export default function Home() {
       {/* Left sidebar */}
       <LeftSideBar />
       {/* Main content right section */}
-      <div className="w-full md:w-[83%] bg-[#F5F7FA] min-h-[500px] rounded p-4 mt-0">
+      <div className="w-full md:w-[83%] bg-[#F5F7FA] min-h-[500px] rounded p-4 mt-0 relative">
+        <div className="absolute bottom-0 right-0">
+          <Image
+            src="/images/sideDesign.svg"
+            alt="side desgin"
+            width={100}
+            height={100}
+            className=" w-full h-full"
+          />
+        </div>
         {/* Right section top row */}
         {/* <div className="w-full flex justify-end items-center  p-4"> */}
-          <DesktopHeader />
+        <DesktopHeader />
         {/* </div> */}
         <div className="w-full bg-[#F5F7FA] flex justify-center p-0 md:p-0">
-          <div className="w-full min-h-[600px] bg-white rounded-3xl shadow-lastTransaction">
+          <div className="w-full min-h-[600px] bg-white rounded-3xl shadow-lastTransaction z-10">
             <div className="p-1 md:p-6">
               <Tabs tabs={tabs} />
             </div>
           </div>
         </div>
+        {/* PAGINATION */}
+        <div className="flex justify-center items-center my-10 relative">
+          <button
+            onClick={() => handlePageChange(page - 1)}
+            disabled={page === 1}
+            className="px-2 py-2 mx-2 border rounded bg-darkMaroon text-white disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <HiChevronDoubleLeft className=" w-6 h-auto" />
+          </button>
+          <span className="text-[#717171] text-sm">
+            Page {page} of {totalPages}
+          </span>
+          <button
+            onClick={() => handlePageChange(page + 1)}
+            disabled={page === totalPages}
+            className="px-2 py-2 mx-2 border rounded bg-darkMaroon text-white disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <HiChevronDoubleRight className=" w-6 h-auto" />
+          </button>
+        </div>
+        {/* END PAGINATION */}
       </div>
     </div>
   );

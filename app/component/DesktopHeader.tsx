@@ -16,6 +16,7 @@ const DesktopHeader = () => {
   return (
     <>
       <div className=" w-full flex justify-between items-center gap-7 md:mb-14">
+      <div className="w-full h-24 bg-header-gradient opacity-20 absolute top-0 left-0 right-0 "></div>
         {/* SEARCH INPUT WITH ICON */}
         <div className=" hidden md:block md:w-[30%]">
           <DynamicBreadCrum />
@@ -35,7 +36,7 @@ const DesktopHeader = () => {
         </div>
         <RiMenu2Line
           onClick={toggleFilterFlyout}
-          className="text-black text-xl cursor-pointer md:hidden"
+          className="text-black text-xl cursor-pointer md:hidden z-20"
         />
         <div className=" w-[50px] h-[50px]  rounded-full flex justify-center items-center z-10">
           <Image
@@ -43,7 +44,7 @@ const DesktopHeader = () => {
             alt="Orizon profile"
             width={50}
             height={50}
-            className="rounded-full border-2 border-[#17C653]"
+            className="rounded-full border-2 border-darkMaroon"
           />
         </div>
       </div>

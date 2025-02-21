@@ -125,7 +125,7 @@ export default function Home() {
                           type="text"
                           name="name"
                           placeholder="Charlene Reed"
-                          className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-[#718EBF]"
+                          className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-[#718EBF]"
                         />
                         <ErrorMessage
                           name="name"
@@ -170,7 +170,7 @@ export default function Home() {
                           type="email"
                           name="email"
                           placeholder="Janedoe@gmail.com"
-                          className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-[#718EBF]"
+                          className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-[#718EBF]"
                         />
                         <ErrorMessage
                           name="email"
@@ -187,7 +187,7 @@ export default function Home() {
                           type={showPassword ? "text" : "password"}
                           name="password"
                           placeholder="********"
-                          className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[15px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-[#718EBF]"
+                          className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-[#718EBF]"
                         />
                         {showPassword ? (
                           <FaRegEye
@@ -210,63 +210,63 @@ export default function Home() {
 
                     {/* Role Field */}
                     <div className="w-full justify-between">
-                    <div className=" w-full md:w-[49%]  flex flex-col md:flex-row gap-6">
-                      <div className="w-full md:w-full relative mb-8">
-                        <p className="text-[#232323] text-base leading-normal mb-2">
-                          Role
-                        </p>
-                        <Select
-                          options={roleOptions}
-                          value={
-                            roleOptions.find(
-                              (option) => option.value === values.roleLevel
-                            ) || null
-                          }
-                          onChange={(selectedOption) => {
-                            setFieldValue(
-                              "roleLevel",
-                              selectedOption ? selectedOption.value : ""
-                            );
-                          }}
-                          onBlur={() =>
-                            setFieldValue("roleLevel", values.roleLevel)
-                          }
-                          isSearchable={false} // Disables typing
-                          classNames={{
-                            control: () =>
-                              "!focus:outline-none !w-full !border !border-[#DFEAF2] !rounded-[12px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm",
-                            placeholder: () => "text-[#717171]",
-                            singleValue: () => "text-black",
-                            input: () => "text-black",
-                            menu: () =>
-                              "mt-1 bg-white border border-[#DFEAF2] rounded-[12px] shadow-lg w-full",
-                            option: ({ isFocused, isSelected }) =>
-                              `px-4 py-2 cursor-pointer rounded-[8px] ${
-                                isSelected
-                                  ? "bg-blue-500 text-white"
-                                  : isFocused
-                                  ? "bg-gray-100"
-                                  : "text-black"
-                              }`,
-                            noOptionsMessage: () => "px-4 py-2 text-gray-500",
-                          }}
-                        />
+                      <div className=" w-full md:w-[49%]  flex flex-col md:flex-row gap-6">
+                        <div className="w-full md:w-full relative mb-8">
+                          <p className="text-[#232323] text-base leading-normal mb-2">
+                            Role
+                          </p>
+                          <Select
+                            options={roleOptions}
+                            value={
+                              roleOptions.find(
+                                (option) => option.value === values.roleLevel
+                              ) || null
+                            }
+                            onChange={(selectedOption) => {
+                              setFieldValue(
+                                "roleLevel",
+                                selectedOption ? selectedOption.value : ""
+                              );
+                            }}
+                            onBlur={() =>
+                              setFieldValue("roleLevel", values.roleLevel)
+                            }
+                            isSearchable={false} // Disables typing
+                            classNames={{
+                              control: () =>
+                                "!focus:outline-none !w-full !border !border-[#DFEAF2] !rounded-[4px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm",
+                              placeholder: () => "text-[#717171]",
+                              singleValue: () => "text-black",
+                              input: () => "text-black",
+                              menu: () =>
+                                "mt-1 bg-white border border-[#DFEAF2] rounded-[4px] shadow-lg w-full",
+                              option: ({ isFocused, isSelected }) =>
+                                `px-4 py-2 cursor-pointer rounded-[8px] ${
+                                  isSelected
+                                    ? "bg-blue-500 text-white"
+                                    : isFocused
+                                    ? "bg-gray-100"
+                                    : "text-black"
+                                }`,
+                              noOptionsMessage: () => "px-4 py-2 text-gray-500",
+                            }}
+                          />
+                        </div>
                       </div>
-                    </div>
-                    <div className=" hidden md:block w-[49%]"></div>
+                      <div className=" hidden md:block w-[49%]"></div>
                     </div>
 
                     {/* Submit Button */}
                     <div className="w-full flex gap-6">
                       <div className="w-full flex justify-between">
                         <div className="w-full md:w-[49%]">
-                        <button
-                          type="submit"
-                          disabled={isSubmitting}
-                          className="w-full  h-[50px] bg-customBlue rounded-[15px] text-white text-lg leading-normal font-medium"
-                        >
-                          {isSubmitting ? "Submitting..." : "Submit"}
-                        </button>
+                          <button
+                            type="submit"
+                            disabled={isSubmitting}
+                            className="w-full  h-[50px] bg-darkMaroon rounded-[4px] text-white text-lg leading-normal font-medium hover:bg-lightMaroon hover:text-darkMaroon"
+                          >
+                            {isSubmitting ? "Submitting..." : "Submit"}
+                          </button>
                         </div>
                         <div className="hidden md:block w-[49%]"></div>
                       </div>
@@ -287,12 +287,21 @@ export default function Home() {
         {/* Left sidebar */}
         <LeftSideBar />
         {/* Main content right section */}
-        <div className="w-full md:w-[83%]  min-h-[500px]  rounded p-4  bg-[#F5F7FA]">
+        <div className="w-full md:w-[83%]  min-h-[500px]  rounded p-4  bg-[#F5F7FA] relative">
+          <div className="absolute bottom-0 right-0">
+            <Image
+              src="/images/sideDesign.svg"
+              alt="side desgin"
+              width={100}
+              height={100}
+              className=" w-full h-full"
+            />
+          </div>
           {/* right section top row */}
           {/* <div className=" w-full flex justify-end items-center gap-7 mb-3 p-4 "> */}
-            <DesktopHeader />
+          <DesktopHeader />
           {/* </div> */}
-          <div className=" w-full   bg-[#F5F7FA] flex justify-center ">
+          <div className=" w-full   bg-[#F5F7FA] flex justify-center relative ">
             <div className=" w-full min-h-[600px] bg-white rounded-[25px]">
               <div className="p-2 md:p-6">
                 <Tabs tabs={tabs} />

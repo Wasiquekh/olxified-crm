@@ -222,7 +222,7 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.name}
-                        className={`focus:outline-none w-full border rounded-[12px] text-sm leading-4 font-medium text-[#717171] py-4 px-4 ${
+                        className={`focus:outline-none w-full border rounded-[4px] text-sm leading-4 font-medium text-[#717171] py-4 px-4 ${
                           touched.name && errors.name
                             ? "border-red-500"
                             : "border-[#DFEAF2]"
@@ -244,7 +244,7 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.mobile_number}
-                        className={`focus:outline-none w-full border rounded-[12px] text-sm leading-4 font-medium text-[#717171] py-4 px-4 ${
+                        className={`focus:outline-none w-full border rounded-[4px] text-sm leading-4 font-medium text-[#717171] py-4 px-4 ${
                           touched.mobile_number && errors.mobile_number
                             ? "border-red-500"
                             : "border-[#DFEAF2]"
@@ -268,7 +268,7 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.email}
-                        className={`focus:outline-none w-full border rounded-[12px] text-sm leading-4 font-medium text-[#717171] py-4 px-4 ${
+                        className={`focus:outline-none w-full border rounded-[4px] text-sm leading-4 font-medium text-[#717171] py-4 px-4 ${
                           touched.email && errors.email
                             ? "border-red-500"
                             : "border-[#DFEAF2]"
@@ -288,7 +288,7 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
                         as="select"
                         name="role"
                         onChange={handleChange}
-                        className="focus:outline-none w-full border rounded-[12px] text-sm leading-4 font-medium text-[#717171] py-4 px-4"
+                        className="focus:outline-none w-full border rounded-[4px] text-sm leading-4 font-medium text-[#717171] py-4 px-4"
                       >
                         <option value="" disabled>
                           Select Role
@@ -309,7 +309,7 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
                       type="submit"
                       onClick={() => setIsEditFlyoutOpen(false)}
                       disabled={isSubmitting}
-                      className="py-[13px] px-[26px] bg-customBlue rounded-2xl text-base font-medium leading-6 text-white"
+                      className="py-[13px] px-[26px] bg-darkMaroon rounded-[4px] text-base font-medium leading-6 text-white hover:bg-lightMaroon hover:text-darkMaroon w-[48%]"
                     >
                       {isSubmitting ? "Updating Details" : "Update Details"}
                     </button>
@@ -318,7 +318,7 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
                       type="submit"
                       onClick={() => setIsEditFlyoutOpen(false)}
                       disabled
-                      className="py-[13px] px-[26px] bg-customBlue rounded-2xl text-base font-medium leading-6 text-white cursor-not-allowed"
+                      className="py-[13px] px-[26px] bg-customBlue rounded-[4px] text-base font-medium leading-6 text-white cursor-not-allowed"
                     >
                       Not Access
                     </button>

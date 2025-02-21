@@ -291,7 +291,6 @@ export default function Home() {
           style={{ width: "150px", height: "auto" }}
           className="animate-pulse rounded"
         />
-        <p className="text-black text-xl font-medium">Data Loading...</p>
       </div>
     );
   }
@@ -301,145 +300,154 @@ export default function Home() {
       <div className=" flex  min-h-screen">
         <LeftSideBar />
         {/* Main content right section */}
-        <div className=" w-full md:w-[83%] bg-[#F5F7FA] min-h-[500px]  rounded p-4 mt-0">
+        <div className=" w-full md:w-[83%] bg-[#F5F7FA] min-h-[500px]  rounded p-4 mt-0 relative">
+          <div className="absolute bottom-0 right-0">
+            <Image
+              src="/images/sideDesign.svg"
+              alt="side desgin"
+              width={100}
+              height={100}
+              className=" w-full h-full"
+            />
+          </div>
           {/* left section top row */}
-            <DesktopHeader />
-          
+          <DesktopHeader />
+
           {/* Main content middle section */}
-          <div className="rounded-3xl shadow-lastTransaction bg-white px-1 py-6 md:p-6">
-          {/* ----------------Table----------------------- */}
-          <div className="relative overflow-x-auto  sm:rounded-lg">
-            {/* Search and filter table row */}
-            <div className=" flex justify-end items-center mb-6  w-full mx-auto">
-              <div className=" flex justify-center items-center gap-4">
-                <div
-                  className=" flex gap-2 py-3 px-4 rounded-[16px] border border-[#E7E7E7] cursor-pointer"
-                  onClick={toggleFilterFlyout}
-                >
-                  <FiFilter className=" w-6 h-6" />
-                  <p className=" text-[#0A0A0A] text-base font-medium">
-                    Filter
-                  </p>
+          <div className="rounded-3xl shadow-lastTransaction bg-white px-1 py-6 md:p-6 relative">
+            {/* ----------------Table----------------------- */}
+            <div className="relative overflow-x-auto  sm:rounded-lg">
+              {/* Search and filter table row */}
+              <div className=" flex justify-end items-center mb-6  w-full mx-auto">
+                <div className=" flex justify-center items-center gap-4">
+                  <div
+                    className=" flex gap-2 py-3 px-4 rounded-[16px] border border-[#E7E7E7] cursor-pointer bg-darkMaroon group hover:bg-lightMaroon"
+                    onClick={toggleFilterFlyout}
+                  >
+                    <FiFilter className=" w-5 h-5 text-white group-hover:text-darkMaroon" />
+                    <p className=" text-white  text-base font-medium group-hover:text-darkMaroon">
+                      Filter
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-            {/* Show Applied Filters */}
-            <div className="w-[99%] mx-auto mb-3">
-              {appliedFilters.length > 0 && (
-                <div className="flex flex-wrap gap-x-3 gap-y-2 items-center">
-                  <ul className="flex flex-wrap items-center gap-x-3 gap-y-2">
-                    {appliedFilters.map((filter, index) => (
+              {/* Show Applied Filters */}
+              <div className="w-[99%] mx-auto mb-3">
+                {appliedFilters.length > 0 && (
+                  <div className="flex flex-wrap gap-x-3 gap-y-2 items-center">
+                    <ul className="flex flex-wrap items-center gap-x-3 gap-y-2">
+                      {appliedFilters.map((filter, index) => (
+                        <li
+                          key={index}
+                          className="flex items-center text-[#1814F3] bg-[#EDF2FE] px-3 py-2 rounded-md text-xs"
+                        >
+                          <RiAccountCircleLine className="text-[#1814F3] mr-1" />
+                          {filter}
+                          <RxCross2
+                            onClick={() => removeFilter(filter)}
+                            className="text-[#1814F3] cursor-pointer ml-2"
+                          />
+                        </li>
+                      ))}
                       <li
-                        key={index}
-                        className="flex items-center text-[#1814F3] bg-[#EDF2FE] px-3 py-2 rounded-md text-xs"
+                        onClick={clearAllFilteredData}
+                        className="flex items-center text-[#1814F3] bg-[#EDF2FE] px-3 py-2 rounded-md text-xs cursor-pointer"
                       >
-                        <RiAccountCircleLine className="text-[#1814F3] mr-1" />
-                        {filter}
-                        <RxCross2
-                          onClick={() => removeFilter(filter)}
-                          className="text-[#1814F3] cursor-pointer ml-2"
-                        />
+                        Clear All
+                        <RxCross2 className="text-[#1814F3] ml-2" />
                       </li>
-                    ))}
-                    <li
-                      onClick={clearAllFilteredData}
-                      className="flex items-center text-[#1814F3] bg-[#EDF2FE] px-3 py-2 rounded-md text-xs cursor-pointer"
-                    >
-                      Clear All
-                      <RxCross2 className="text-[#1814F3] ml-2" />
-                    </li>
-                  </ul>
-                </div>
-              )}
-            </div>
+                    </ul>
+                  </div>
+                )}
+              </div>
 
-            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-              <thead className="text-xs text-[#999999]">
-                <tr className="border border-tableBorder">
-                  <th scope="col" className="p-2 border border-tableBorder">
-                    <div className="flex items-center gap-2">
-                      <RxAvatar className="w-6 h-6" />
-                      <div className="font-medium text-[#717171] text-base leading-normal">
-                        Name and User Activity{" "}
+              <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                <thead className="text-xs text-[#999999]">
+                  <tr className="border border-tableBorder">
+                    <th scope="col" className="p-2 border border-tableBorder">
+                      <div className="flex items-center gap-2">
+                        <RxAvatar className="w-6 h-6" />
+                        <div className="font-medium text-firstBlack text-base leading-normal">
+                          Name and User Activity{" "}
+                        </div>
                       </div>
-                    </div>
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-2 py-0 border border-tableBorder hidden sm:table-cell"
-                  >
-                    <div className="flex items-center gap-2 whitespace-nowrap">
-                      <HiOutlineBookOpen className="w-6 h-6" />
-                      <div className="font-medium text-[#717171] text-base leading-normal">
-                        User&apos;s Name
-                      </div>
-                    </div>
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-2 py-0 border border-tableBorder hidden sm:table-cell"
-                  >
-                    <div className="flex items-center gap-2">
-                      <HiOutlineBookOpen className="w-6 h-6" />
-                      <div className="font-medium text-[#717171] text-base leading-normal">
-                        User&apos;s uuid
-                      </div>
-                    </div>
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-2 py-0 border border-tableBorder hidden sm:table-cell"
-                  >
-                    <div className="flex items-center gap-2">
-                      <HiOutlineBookOpen className="w-6 h-6" />
-                      <div className="font-medium text-[#717171] text-base leading-normal">
-                        Date
-                      </div>
-                    </div>
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-2 py-0 border border-tableBorder hidden sm:table-cell"
-                  >
-                    <div className="flex items-center gap-2">
-                      <HiOutlineBookOpen className="w-6 h-6" />
-                      <div className="font-medium text-[#717171] text-base leading-normal">
-                        Module
-                      </div>
-                    </div>
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-2 py-0 border border-tableBorder hidden sm:table-cell"
-                  >
-                    <div className="flex items-center gap-2">
-                      <HiOutlineBookOpen className="w-6 h-6" />
-                      <div className="font-medium text-[#717171] text-base leading-normal">
-                        Type
-                      </div>
-                    </div>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.length === 0 ? (
-                  <tr>
-                    <td colSpan={8} className="text-center text-xl mt-5">
-                      <div className="mt-5">Data not found</div>
-                    </td>
-                  </tr>
-                ) : (
-                  data.map((item, index) => (
-                    <tr
-                      className="border border-tableBorder bg-white"
-                      key={index}
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-2 py-0 border border-tableBorder hidden sm:table-cell"
                     >
-                      <td className="px-2 py-2 border border-tableBorder">
-                        <div className="flex">
-                          <div className="md:hidden flex mr-1">
-                            <FaEllipsisVertical
-                              data-tooltip-id="my-tooltip"
-                              data-tooltip-html={`
+                      <div className="flex items-center gap-2 whitespace-nowrap">
+                        <HiOutlineBookOpen className="w-6 h-6" />
+                        <div className="font-medium text-firstBlack text-base leading-normal">
+                          User&apos;s Name
+                        </div>
+                      </div>
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-2 py-0 border border-tableBorder hidden sm:table-cell"
+                    >
+                      <div className="flex items-center gap-2">
+                        <HiOutlineBookOpen className="w-6 h-6" />
+                        <div className="font-medium text-firstBlack text-base leading-normal">
+                          User&apos;s uuid
+                        </div>
+                      </div>
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-2 py-0 border border-tableBorder hidden sm:table-cell"
+                    >
+                      <div className="flex items-center gap-2">
+                        <HiOutlineBookOpen className="w-6 h-6" />
+                        <div className="font-medium text-firstBlack text-base leading-normal">
+                          Date
+                        </div>
+                      </div>
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-2 py-0 border border-tableBorder hidden sm:table-cell"
+                    >
+                      <div className="flex items-center gap-2">
+                        <HiOutlineBookOpen className="w-6 h-6" />
+                        <div className="font-medium text-firstBlack text-base leading-normal">
+                          Module
+                        </div>
+                      </div>
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-2 py-0 border border-tableBorder hidden sm:table-cell"
+                    >
+                      <div className="flex items-center gap-2">
+                        <HiOutlineBookOpen className="w-6 h-6" />
+                        <div className="font-medium text-firstBlack text-base leading-normal">
+                          Type
+                        </div>
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data.length === 0 ? (
+                    <tr>
+                      <td colSpan={8} className="text-center text-xl mt-5">
+                        <div className="mt-5">Data not found</div>
+                      </td>
+                    </tr>
+                  ) : (
+                    data.map((item, index) => (
+                      <tr
+                        className="border border-tableBorder bg-white hover:bg-lighterMaroon"
+                        key={index}
+                      >
+                        <td className="px-2 py-2 border border-tableBorder">
+                          <div className="flex">
+                            <div className="md:hidden flex mr-1">
+                              <FaEllipsisVertical
+                                data-tooltip-id="my-tooltip"
+                                data-tooltip-html={`
                                               <div>
                                                 <strong>Name and User Activity:</strong> <span style="text-transform: capitalize;">${item.user_activity}</span><br/>
                                                 <strong>User's Name:</strong> ${item.name}<br/>
@@ -448,94 +456,93 @@ export default function Home() {
                                                 <strong>Module:</strong> ${item.module}<br/>
                                                 <strong>Type:</strong> ${item.type}<br/>
                                               </div>`}
-                              className="text-black leading-normal capitalize relative top-1"
-                            />
-                            <Tooltip id="my-tooltip" place="right" float />
+                                className="text-black leading-normal capitalize relative top-1"
+                              />
+                              <Tooltip id="my-tooltip" place="right" float />
+                            </div>
+                            <div>
+                              <p className="text-[#232323] text-base leading-normal ">
+                                {item.user_activity}
+                              </p>
+                            </div>
                           </div>
-                          <div>
-                            <p className="text-[#232323] text-base leading-normal ">
-                              {item.user_activity}
-                            </p>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-2 py-2 border border-tableBorder hidden sm:table-cell">
-                        <p className="text-[#232323] text-base leading-normal">
-                          {item.name}
-                        </p>
-                      </td>
-                      <td className="px-2 py-2 border border-tableBorder hidden sm:table-cell">
-                        <p className="text-[#232323] text-base leading-normal">
-                          {item.uuid}
-                        </p>
-                      </td>
-                      <td className="px-2 py-2 border border-tableBorder hidden sm:table-cell">
-                        <p className="text-[#232323] text-base leading-normal">
-                          {item.activity_timestamp}
-                        </p>
-                      </td>
-                      <td className="px-2 py-2 border border-tableBorder hidden sm:table-cell">
-                        <p className="text-[#232323] text-base leading-normal">
-                          {item.module}
-                        </p>
-                      </td>
-                      <td className="px-2 py-2 border border-tableBorder hidden sm:table-cell">
-                        <p className="text-[#232323] text-base leading-normal">
-                          {item.type}
-                        </p>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-
-            {/* Pagination Controls */}
-            {isFilter ? (
-              <div className="flex justify-center items-center my-6">
-                <button
-                  onClick={() => handlePageChangeFilter(filterPage - 1)}
-                  disabled={filterPage === 1}
-                  className="px-2 py-2 mx-2 border rounded bg-customBlue text-white disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <HiChevronDoubleLeft className=" w-6 h-auto" />
-                </button>
-                <span className="text-[#717171] text-sm">
-                  Page {filterPage} of {totalPagesFilter}
-                </span>
-                <button
-                  onClick={() => handlePageChangeFilter(filterPage + 1)}
-                  disabled={filterPage === totalPagesFilter}
-                  className="px-2 py-2 mx-2 border rounded bg-customBlue text-white disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <HiChevronDoubleRight className=" w-6 h-auto" />
-                </button>
-              </div>
-            ) : (
-              <div className="flex justify-center items-center my-6">
-                <button
-                  onClick={() => handlePageChange(page - 1)}
-                  disabled={page === 1}
-                  className="px-2 py-2 mx-2 border rounded bg-customBlue text-white disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <HiChevronDoubleLeft className=" w-6 h-auto" />
-                </button>
-                <span className="text-[#717171] text-sm">
-                  Page {page} of {totalPages}
-                </span>
-                <button
-                  onClick={() => handlePageChange(page + 1)}
-                  disabled={page === totalPages}
-                  className="px-2 py-2 mx-2 border rounded bg-customBlue text-white disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <HiChevronDoubleRight className=" w-6 h-auto" />
-                </button>
-              </div>
-            )}
-            {/* ------------------- */}
-          </div>
+                        </td>
+                        <td className="px-2 py-2 border border-tableBorder hidden sm:table-cell">
+                          <p className="text-[#232323] text-base leading-normal">
+                            {item.name}
+                          </p>
+                        </td>
+                        <td className="px-2 py-2 border border-tableBorder hidden sm:table-cell">
+                          <p className="text-[#232323] text-base leading-normal">
+                            {item.uuid}
+                          </p>
+                        </td>
+                        <td className="px-2 py-2 border border-tableBorder hidden sm:table-cell">
+                          <p className="text-[#232323] text-base leading-normal">
+                            {item.activity_timestamp}
+                          </p>
+                        </td>
+                        <td className="px-2 py-2 border border-tableBorder hidden sm:table-cell">
+                          <p className="text-[#232323] text-base leading-normal">
+                            {item.module}
+                          </p>
+                        </td>
+                        <td className="px-2 py-2 border border-tableBorder hidden sm:table-cell">
+                          <p className="text-[#232323] text-base leading-normal">
+                            {item.type}
+                          </p>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
           {/* ----------------End table--------------------------- */}
+          {/* Pagination Controls */}
+          {isFilter ? (
+            <div className="flex justify-center items-center my-10 relative">
+              <button
+                onClick={() => handlePageChangeFilter(filterPage - 1)}
+                disabled={filterPage === 1}
+                className="px-2 py-2 mx-2 border rounded bg-darkMaroon text-white disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <HiChevronDoubleLeft className=" w-6 h-auto" />
+              </button>
+              <span className="text-[#717171] text-sm">
+                Page {filterPage} of {totalPagesFilter}
+              </span>
+              <button
+                onClick={() => handlePageChangeFilter(filterPage + 1)}
+                disabled={filterPage === totalPagesFilter}
+                className="px-2 py-2 mx-2 border rounded bg-darkMaroon text-white disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <HiChevronDoubleRight className=" w-6 h-auto" />
+              </button>
+            </div>
+          ) : (
+            <div className="flex justify-center items-center my-10 relative">
+              <button
+                onClick={() => handlePageChange(page - 1)}
+                disabled={page === 1}
+                className="px-2 py-2 mx-2 border rounded bg-darkMaroon text-white disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <HiChevronDoubleLeft className=" w-6 h-auto" />
+              </button>
+              <span className="text-[#717171] text-sm">
+                Page {page} of {totalPages}
+              </span>
+              <button
+                onClick={() => handlePageChange(page + 1)}
+                disabled={page === totalPages}
+                className="px-2 py-2 mx-2 border rounded bg-darkMaroon text-white disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <HiChevronDoubleRight className=" w-6 h-auto" />
+              </button>
+            </div>
+          )}
+          {/* ------------------- */}
         </div>
       </div>
       {/* FITLER FLYOUT */}
@@ -587,7 +594,7 @@ export default function Home() {
                         isClearable
                         classNames={{
                           control: () =>
-                            "!focus:outline-none !w-full !border !border-[#DFEAF2] !rounded-[12px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm",
+                            "!focus:outline-none !w-full !border !border-[#DFEAF2] !rounded-[4px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm",
                         }}
                       />
                     </div>
@@ -611,7 +618,7 @@ export default function Home() {
                         name="startDate"
                         dateFormat="yyyy-MM-dd"
                         placeholderText="yyyy-mm-dd"
-                        className="focus:outline-none !w-full border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 bg-white shadow-sm"
+                        className="focus:outline-none !w-full border border-[#DFEAF2] rounded-[4px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 bg-white shadow-sm"
                       />
                     </div>
                     <div className="w-full md:w-[49%]">
@@ -630,7 +637,7 @@ export default function Home() {
                         name="endDate"
                         dateFormat="yyyy-MM-dd"
                         placeholderText="yyyy-mm-dd"
-                        className="focus:outline-none !w-full border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 bg-white shadow-sm"
+                        className="focus:outline-none !w-full border border-[#DFEAF2] rounded-[4px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 bg-white shadow-sm"
                       />
                     </div>
                   </div>
@@ -658,7 +665,7 @@ export default function Home() {
                         isClearable
                         classNames={{
                           control: () =>
-                            "!focus:outline-none !w-full !border !border-[#DFEAF2] !rounded-[12px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm",
+                            "!focus:outline-none !w-full !border !border-[#DFEAF2] !rounded-[4px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm",
                         }}
                       />
                     </div>
@@ -683,7 +690,7 @@ export default function Home() {
                         isClearable
                         classNames={{
                           control: () =>
-                            "!focus:outline-none !w-full !border !border-[#DFEAF2] !rounded-[12px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm",
+                            "!focus:outline-none !w-full !border !border-[#DFEAF2] !rounded-[4px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm",
                         }}
                       />
                     </div>
@@ -694,13 +701,13 @@ export default function Home() {
                 <div className="mt-8 md:mt-10 w-full flex flex-col md:flex-row md:justify-between items-center gap-y-4 md:gap-y-0">
                   <div
                     onClick={hadleClear}
-                    className="py-[13px] px-[26px] bg-[#C6F7FE] w-full md:w-[49%] rounded-2xl text-base font-medium leading-6 text-customBlue cursor-pointer text-center"
+                    className="py-[13px] px-[26px] bg-lightMaroon w-full md:w-[49%] rounded-[4px] text-base font-medium leading-6 text-darkMaroon cursor-pointer text-center"
                   >
                     Clear Data
                   </div>
                   <button
                     type="submit"
-                    className="py-[13px] px-[26px] bg-customBlue rounded-2xl w-full md:w-[49%] text-base font-medium leading-6 text-white text-center"
+                    className="py-[13px] px-[26px] bg-darkMaroon rounded-[4px] w-full md:w-[49%] text-base font-medium leading-6 text-white text-center"
                   >
                     Filter Now
                   </button>

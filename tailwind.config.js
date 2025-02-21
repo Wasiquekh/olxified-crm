@@ -17,6 +17,10 @@ module.exports = {
         secondBlack: "#0A0A0A",
         tableBorder: "#F1F1F1",
         customBorder: "#F5F6F7",
+        progressBtn: "#0300A3",
+        approveBtn: "#00A310",
+        underreviewbtn: "#A34E00",
+        rejectBtn: "#A30000",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

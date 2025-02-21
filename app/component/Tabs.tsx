@@ -10,10 +10,10 @@ interface TabProps {
 
 const Tab: React.FC<TabProps> = ({ label, isActive, onClick }) => (
   <button
-    className={`py-2 px-4 text-base font-medium transition-colors duration-200  w-full md:w-auto text-left md:text-center ${
+    className={`py-2 px-4 text-base font-medium transition-colors duration-200  w-full md:w-auto text-left md:text-center border-b-[3px] md:border-l-0 md:border-b-[3px] border-transparent hover:text-[#FE5C73] hover:!border-[#FE5C73] ${
       isActive
-        ? "text-customBlue border-b-[3px] md:border-l-0 md:border-b-[3px] border-customBlue"
-        : "text-[#718EBF]"
+        ? "text-darkMaroon border-b-[3px] md:border-l-0 md:border-b-[3px] !border-darkMaroon"
+        : "text-[#4B5675]"
     }`}
     onClick={onClick}
   >

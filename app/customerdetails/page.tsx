@@ -188,9 +188,9 @@ export default function Home() {
 
   // Determine background color based on liveDetection value
   const getBgColor = (status: string | null) => {
-    if (status === "Approved") return "bg-[#379941]";
-    if (status === "On Progress") return "bg-[#2DB3FF]";
-    if (status === "Rejected") return "bg-[#E52020]";
+    if (status === "Approved") return "bg-approveBtn";
+    if (status === "On Progress") return "bg-progressBtn";
+    if (status === "Rejected") return "bg-rejectBtn";
     return ""; // Default background color
   };
   const liveDetectionBg = getBgColor(liveDetection);
@@ -233,7 +233,7 @@ export default function Home() {
                               alt="Profile"
                               width={60}
                               height={60}
-                              className="rounded-full border-2 border-[#17C653]"
+                              className="rounded-full border-2 border-darkMaroon"
                             />
                           ) : (
                             <Image
@@ -241,7 +241,7 @@ export default function Home() {
                               alt="Profile"
                               width={60}
                               height={60}
-                              className="rounded-full border-2 border-[#17C653]"
+                              className="rounded-full border-2 border-darkMaroon"
                             />
                           )}
                         </td>
@@ -264,8 +264,8 @@ export default function Home() {
                         <td className="text-sm text-[#78829D] py-4 px-4">
                           Availability
                         </td>
-                        <td className="text-sm font-medium text-[#17C653] py-4 px-4">
-                          <span className="bg-[#EAFFF1] py-1 px-2 rounded border border-[#17C653]">
+                        <td className="text-sm font-medium text-darkMaroon py-4 px-4">
+                          <span className="bg-lighterMaroon py-1 px-2 rounded border border-darkMaroon">
                             Available now
                           </span>
                         </td>
@@ -744,7 +744,7 @@ export default function Home() {
                     className="!h-[40px]"
                   />
                   <div
-                    className={`w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute rounded-xl justify-center items-center gap-2.5 inline-flex  ${
+                    className={`w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute rounded-[4px] justify-center items-center gap-2.5 inline-flex  ${
                       liveDetectionBg ? liveDetectionBg : "bg-customBlue"
                     }`}
                   >
@@ -763,8 +763,8 @@ export default function Home() {
               <div className="self-stretch h-[93px] rounded border border-[#232323] flex-col justify-start items-start gap-2.5 flex">
                 <div className="self-stretch h-[72px] pl-4 py-1 rounded-tl rounded-tr justify-start items-start gap-1 inline-flex">
                   <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
-                    <div className="px-1 bg-[#ece6f0] justify-start items-center inline-flex relative bottom-[13px]">
-                      <div className="text-[#2953e8] text-xs font-normal leading-none tracking-wide">
+                    <div className="px-1 bg-lighterMaroon justify-start items-center inline-flex relative bottom-[13px]">
+                      <div className="text-darkMaroon text-xs font-normal leading-none tracking-wide">
                         Instructions
                       </div>
                     </div>
@@ -780,7 +780,7 @@ export default function Home() {
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="w-[150px] h-9 relative">
                   <button
-                    className=" bg-customBlue text-white py-1.5 px-6 rounded-xl text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    className=" bg-darkMaroon text-white py-1.5 px-6 rounded-[4px] text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={
                       liveDetection === "Approved" ||
                       liveDetection === "Rejected"
@@ -792,8 +792,8 @@ export default function Home() {
                     Verify User
                   </button>
                 </div>
-                <div className="px-4 py-2 bg-[#eef1ff] rounded-xl justify-center items-center gap-2.5 flex">
-                  <div className="text-[#2953e8] text-sm font-bold">
+                <div className="px-4 py-2 bg-lighterMaroon rounded-[4px] justify-center items-center gap-2.5 flex">
+                  <div className="text-darkMaroon text-sm font-bold">
                     Notify User
                   </div>
                 </div>
@@ -811,7 +811,7 @@ export default function Home() {
                     className="!h-[40px]"
                   />
                   <div
-                    className={`w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute rounded-xl justify-center items-center gap-2.5 inline-flex  ${
+                    className={`w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute rounded-[4px] justify-center items-center gap-2.5 inline-flex  ${
                       identityMatchingBg ? identityMatchingBg : "bg-customBlue"
                     }`}
                   >
@@ -830,8 +830,8 @@ export default function Home() {
               <div className="self-stretch h-[93px] rounded border border-[#232323] flex-col justify-start items-start gap-2.5 flex">
                 <div className="self-stretch h-[72px] pl-4 py-1 rounded-tl rounded-tr justify-start items-start gap-1 inline-flex">
                   <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
-                    <div className="px-1 bg-[#ece6f0] justify-start items-center inline-flex relative bottom-[13px]">
-                      <div className="text-[#2953e8] text-xs font-normal leading-none tracking-wide">
+                    <div className="px-1 bg-lighterMaroon justify-start items-center inline-flex relative bottom-[13px]">
+                      <div className="text-darkMaroon text-xs font-normal leading-none tracking-wide">
                         Instructions
                       </div>
                     </div>
@@ -847,7 +847,7 @@ export default function Home() {
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="w-[150px] h-9 relative">
                   <button
-                    className=" bg-customBlue text-white py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    className=" bg-darkMaroon text-white py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={
                       identityMatching === "Approved" ||
                       identityMatching === "Rejected"
@@ -859,8 +859,8 @@ export default function Home() {
                     Verify User
                   </button>
                 </div>
-                <div className="px-4 py-2 bg-[#eef1ff] rounded-xl justify-center items-center gap-2.5 flex">
-                  <div className="text-[#2953e8] text-sm font-bold">
+                <div className="px-4 py-2 bg-lighterMaroon rounded-[4px] justify-center items-center gap-2.5 flex">
+                  <div className="text-darkMaroon text-sm font-bold">
                     Notify User
                   </div>
                 </div>
@@ -878,7 +878,7 @@ export default function Home() {
                     className="!h-[40px]"
                   />
                   <div
-                    className={`w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute rounded-xl justify-center items-center gap-2.5 inline-flex  ${
+                    className={`w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute rounded-[4px] justify-center items-center gap-2.5 inline-flex  ${
                       userDetailsVerificationBg
                         ? userDetailsVerificationBg
                         : "bg-customBlue"
@@ -901,8 +901,8 @@ export default function Home() {
               <div className="self-stretch h-[93px] rounded border border-[#232323] flex-col justify-start items-start gap-2.5 flex">
                 <div className="self-stretch h-[72px] pl-4 py-1 rounded-tl rounded-tr justify-start items-start gap-1 inline-flex">
                   <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
-                    <div className="px-1 bg-[#ece6f0] justify-start items-center inline-flex relative bottom-[13px]">
-                      <div className="text-[#2953e8] text-xs font-normal leading-none tracking-wide">
+                    <div className="px-1 bg-lighterMaroon justify-start items-center inline-flex relative bottom-[13px]">
+                      <div className="text-darkMaroon text-xs font-normal leading-none tracking-wide">
                         Instructions
                       </div>
                     </div>
@@ -918,7 +918,7 @@ export default function Home() {
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="w-[150px] h-9 relative">
                   <button
-                    className=" bg-customBlue text-white py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    className=" bg-darkMaroon text-white py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={
                       userDetailsVerification === "Approved" ||
                       userDetailsVerification === "Rejected"
@@ -930,8 +930,8 @@ export default function Home() {
                     Verify User
                   </button>
                 </div>
-                <div className="px-4 py-2 bg-[#eef1ff] rounded-xl justify-center items-center gap-2.5 flex">
-                  <div className="text-[#2953e8] text-sm font-bold">
+                <div className="px-4 py-2 bg-lighterMaroon rounded-[4px] justify-center items-center gap-2.5 flex">
+                  <div className="text-darkMaroon text-sm font-bold">
                     Notify User
                   </div>
                 </div>
@@ -949,7 +949,7 @@ export default function Home() {
                     className="!h-[40px]"
                   />
                   <div
-                    className={`w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute rounded-xl justify-center items-center gap-2.5 inline-flex  ${
+                    className={`w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute rounded-[4px] justify-center items-center gap-2.5 inline-flex  ${
                       scannedIdCardVerificationBg
                         ? scannedIdCardVerificationBg
                         : "bg-customBlue"
@@ -972,8 +972,8 @@ export default function Home() {
               <div className="self-stretch h-[93px] rounded border border-[#232323] flex-col justify-start items-start gap-2.5 flex">
                 <div className="self-stretch h-[72px] pl-4 py-1 rounded-tl rounded-tr justify-start items-start gap-1 inline-flex">
                   <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
-                    <div className="px-1 bg-[#ece6f0] justify-start items-center inline-flex relative bottom-[13px]">
-                      <div className="text-[#2953e8] text-xs font-normal leading-none tracking-wide">
+                    <div className="px-1 bg-lighterMaroon justify-start items-center inline-flex relative bottom-[13px]">
+                      <div className="text-darkMaroon text-xs font-normal leading-none tracking-wide">
                         Instructions
                       </div>
                     </div>
@@ -989,7 +989,7 @@ export default function Home() {
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="w-[150px] h-9 relative">
                   <button
-                    className=" bg-customBlue text-white py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    className=" bg-darkMaroon text-white py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={
                       scannedIdCardVerification === "Approved" ||
                       scannedIdCardVerification === "Rejected"
@@ -1001,8 +1001,8 @@ export default function Home() {
                     Verify User
                   </button>
                 </div>
-                <div className="px-4 py-2 bg-[#eef1ff] rounded-xl justify-center items-center gap-2.5 flex">
-                  <div className="text-[#2953e8] text-sm font-bold">
+                <div className="px-4 py-2 bg-lighterMaroon rounded-[4px] justify-center items-center gap-2.5 flex">
+                  <div className="text-darkMaroon text-sm font-bold">
                     Notify User
                   </div>
                 </div>
@@ -1020,7 +1020,7 @@ export default function Home() {
                     className="!h-[40px]"
                   />
                   <div
-                    className={`w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute rounded-xl justify-center items-center gap-2.5 inline-flex  ${
+                    className={`w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute rounded-[4px] justify-center items-center gap-2.5 inline-flex  ${
                       fiveSecondVideoVerificationBg
                         ? fiveSecondVideoVerificationBg
                         : "bg-customBlue"
@@ -1043,8 +1043,8 @@ export default function Home() {
               <div className="self-stretch h-[93px] rounded border border-[#232323] flex-col justify-start items-start gap-2.5 flex">
                 <div className="self-stretch h-[72px] pl-4 py-1 rounded-tl rounded-tr justify-start items-start gap-1 inline-flex">
                   <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
-                    <div className="px-1 bg-[#ece6f0] justify-start items-center inline-flex relative bottom-[13px]">
-                      <div className="text-[#2953e8] text-xs font-normal leading-none tracking-wide">
+                    <div className="px-1 bg-lighterMaroon justify-start items-center inline-flex relative bottom-[13px]">
+                      <div className="text-darkMaroon text-xs font-normal leading-none tracking-wide">
                         Instructions
                       </div>
                     </div>
@@ -1060,7 +1060,7 @@ export default function Home() {
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="w-[150px] h-9 relative">
                   <button
-                    className=" bg-customBlue text-white py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    className=" bg-darkMaroon text-white py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={
                       fiveSecondVideoVerification === "Approved" ||
                       fiveSecondVideoVerification === "Rejected"
@@ -1072,8 +1072,8 @@ export default function Home() {
                     Verify User
                   </button>
                 </div>
-                <div className="px-4 py-2 bg-[#eef1ff] rounded-xl justify-center items-center gap-2.5 flex">
-                  <div className="text-[#2953e8] text-sm font-bold">
+                <div className="px-4 py-2 bg-lighterMaroon rounded-[4px] justify-center items-center gap-2.5 flex">
+                  <div className="text-darkMaroon text-sm font-bold">
                     Notify User
                   </div>
                 </div>
@@ -1091,7 +1091,7 @@ export default function Home() {
                     className="!h-[40px]"
                   />
                   <div
-                    className={`w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute rounded-xl justify-center items-center gap-2.5 inline-flex  ${
+                    className={`w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute rounded-[4px] justify-center items-center gap-2.5 inline-flex  ${
                       signatureVerificationBg
                         ? signatureVerificationBg
                         : "bg-customBlue"
@@ -1114,8 +1114,8 @@ export default function Home() {
               <div className="self-stretch h-[93px] rounded border border-[#232323] flex-col justify-start items-start gap-2.5 flex">
                 <div className="self-stretch h-[72px] pl-4 py-1 rounded-tl rounded-tr justify-start items-start gap-1 inline-flex">
                   <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
-                    <div className="px-1 bg-[#ece6f0] justify-start items-center inline-flex relative bottom-[13px]">
-                      <div className="text-[#2953e8] text-xs font-normal leading-none tracking-wide">
+                    <div className="px-1 bg-lighterMaroon justify-start items-center inline-flex relative bottom-[13px]">
+                      <div className="text-darkMaroon text-xs font-normal leading-none tracking-wide">
                         Instructions
                       </div>
                     </div>
@@ -1131,7 +1131,7 @@ export default function Home() {
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="w-[150px] h-9 relative">
                   <button
-                    className=" bg-customBlue text-white py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    className=" bg-darkMaroon text-white py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={
                       signatureVerification === "Approved" ||
                       signatureVerification === "Rejected"
@@ -1143,8 +1143,8 @@ export default function Home() {
                     Verify User
                   </button>
                 </div>
-                <div className="px-4 py-2 bg-[#eef1ff] rounded-xl justify-center items-center gap-2.5 flex">
-                  <div className="text-[#2953e8] text-sm font-bold">
+                <div className="px-4 py-2 bg-lighterMaroon rounded-[4px] justify-center items-center gap-2.5 flex">
+                  <div className="text-darkMaroon text-sm font-bold">
                     Notify User
                   </div>
                 </div>
@@ -1157,35 +1157,35 @@ export default function Home() {
               <div className="container mx-auto mt-6">
                 <h2 className="text-lg font-bold mb-4">Customer History</h2>
                 <div className="rounded-lg overflow-hidden border border-gray-300">
-                <table className="table-auto border-collapse border border-gray-300 rounded w-full overflow-hidden">
-                  <thead>
-                    <tr>
-                      <th className="border border-gray-300 px-4 py-2">
-                        System User ID
-                      </th>
-                      <th className="border border-gray-300 px-4 py-2 hidden md:table-cell">
-                        Verification Type
-                      </th>
-                      <th className="border border-gray-300 px-4 py-2 hidden md:table-cell">
-                        Reason Rejected
-                      </th>
-                      <th className="border border-gray-300 px-4 py-2 hidden md:table-cell">
-                        Created At
-                      </th>
-                      <th className="border border-gray-300 px-4 py-2">
-                        Status
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {customerHistory.map((item, index) => (
-                      <tr key={index} className="">
-                        <td className="border border-gray-300 px-4 py-2">
-                          <div className="flex">
-                            <div className="md:hidden flex">
-                              <FaEllipsisVertical
-                                data-tooltip-id="my-tooltip"
-                                data-tooltip-html={`<div>
+                  <table className="table-auto border-collapse border border-gray-300 rounded w-full overflow-hidden">
+                    <thead>
+                      <tr>
+                        <th className="border border-gray-300 px-4 py-2">
+                          System User ID
+                        </th>
+                        <th className="border border-gray-300 px-4 py-2 hidden md:table-cell">
+                          Verification Type
+                        </th>
+                        <th className="border border-gray-300 px-4 py-2 hidden md:table-cell">
+                          Reason Rejected
+                        </th>
+                        <th className="border border-gray-300 px-4 py-2 hidden md:table-cell">
+                          Created At
+                        </th>
+                        <th className="border border-gray-300 px-4 py-2">
+                          Status
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {customerHistory.map((item, index) => (
+                        <tr key={index} className="">
+                          <td className="border border-gray-300 px-4 py-2">
+                            <div className="flex">
+                              <div className="md:hidden flex">
+                                <FaEllipsisVertical
+                                  data-tooltip-id="my-tooltip"
+                                  data-tooltip-html={`<div>
                                   <strong>System User ID:</strong> <span style="text-transform: capitalize;">${
                                     item.system_user_id
                                   }</span><br/>
@@ -1199,40 +1199,40 @@ export default function Home() {
                                     item.created_at
                                   }<br/>
                                 </div>`}
-                                className="text-black leading-normal capitalize relative top-1"
-                              />
-                              <Tooltip id="my-tooltip" place="right" float />
+                                  className="text-black leading-normal capitalize relative top-1"
+                                />
+                                <Tooltip id="my-tooltip" place="right" float />
+                              </div>
+                              {item.system_user_id}
                             </div>
-                            {item.system_user_id}
-                          </div>
-                        </td>
-                        <td className="border border-gray-300 px-4 py-2 capitalize hidden md:table-cell">
-                          {item.verification_type.split("_").join(" ")}
-                          {/* {item.verification_type.split("_").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ")} */}
-                        </td>
-                        <td className="border border-gray-300 px-4 py-2 hidden md:table-cell">
-                          {item.reason_reject || "N/A"}
-                        </td>
-                        <td className="border border-gray-300 px-4 py-2 hidden md:table-cell">
-                          {new Date(item.created_at).toLocaleString()}
-                        </td>
-                        <td className="border border-gray-300 px-4 py-3">
-                          <p
-                            className={`text-[#fff] text-sm px-4 pt-1 pb-1.5 rounded-xl w-24 text-center ${
-                              item.status === "Approved"
-                                ? "bg-[#379941]"
-                                : item.status === "Rejected"
-                                ? "bg-[#E52020]"
-                                : "bg-customBlue"
-                            }`}
-                          >
-                            {item.status}
-                          </p>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                          </td>
+                          <td className="border border-gray-300 px-4 py-2 capitalize hidden md:table-cell">
+                            {item.verification_type.split("_").join(" ")}
+                            {/* {item.verification_type.split("_").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ")} */}
+                          </td>
+                          <td className="border border-gray-300 px-4 py-2 hidden md:table-cell">
+                            {item.reason_reject || "N/A"}
+                          </td>
+                          <td className="border border-gray-300 px-4 py-2 hidden md:table-cell">
+                            {new Date(item.created_at).toLocaleString()}
+                          </td>
+                          <td className="border border-gray-300 px-4 py-3">
+                            <p
+                              className={`text-[#fff] text-sm px-4 pt-1 pb-1.5 rounded-[4px] w-24 text-center ${
+                                item.status === "Approved"
+                                  ? "bg-approveBtn"
+                                  : item.status === "Rejected"
+                                  ? "bg-rejectBtn"
+                                  : "bg-customBlue"
+                              }`}
+                            >
+                              {item.status}
+                            </p>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </>
@@ -1556,12 +1556,21 @@ export default function Home() {
         {/* Left sidebar */}
         <LeftSideBar />
         {/* Main content right section */}
-        <div className="w-full md:w-[83%] bg-[#F5F7FA] min-h-[500px]  rounded p-4 mt-0">
+        <div className="w-full md:w-[83%] bg-[#F5F7FA] min-h-[500px]  rounded p-4 mt-0 relative">
+          <div className="absolute bottom-0 right-0">
+            <Image
+              src="/images/sideDesign.svg"
+              alt="side desgin"
+              width={100}
+              height={100}
+              className=" w-full h-full"
+            />
+          </div>
           {/* right section top row */}
           {/* <div className=" w-full flex justify-end items-center   p-4 pb-0"> */}
-            <DesktopHeader />
+          <DesktopHeader />
           {/* </div> */}
-          <div className=" w-full   bg-[#F5F7FA] flex justify-center">
+          <div className=" w-full   bg-[#F5F7FA] flex justify-center relative">
             <div className="w-full md:w-full min-h-[600px] bg-white !rounded-3xl  shadow-lastTransaction">
               <div className="py-4 px-2 md:p-6">
                 <div className="flex justify-center">
@@ -1571,7 +1580,7 @@ export default function Home() {
                       alt="Orizon profile"
                       width={100}
                       height={100}
-                      className="rounded-full mb-4 border-[3px] border-[#17C653] !w-[100px] !h-[100px]"
+                      className="rounded-full mb-4 border-[3px] border-darkMaroon !w-[100px] !h-[100px]"
                     />
                   ) : (
                     <Image
@@ -1579,7 +1588,7 @@ export default function Home() {
                       alt="Orizon profile"
                       width={100}
                       height={100}
-                      className="rounded-full mb-4 border-[3px] border-[#17C653] !w-[100px] !h-[100px]"
+                      className="rounded-full mb-4 border-[3px] border-darkMaroon !w-[100px] !h-[100px]"
                     />
                   )}
                 </div>

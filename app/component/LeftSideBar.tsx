@@ -206,7 +206,7 @@ const LeftSideBar: React.FC = () => {
       {/* END SIDE LEFT BAR TOP SECTION */}
 
       {/*  SIDE LEFT BAR BOTTOM SECTION */}
-      <div className=" flex gap-2 items-center px-3 py-2">
+      <div className=" flex gap-2 items-center px-3 py-2 z-10">
         <div>
           <Image
             src="/images/logoutIcon.svg"

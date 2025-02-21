@@ -220,7 +220,7 @@ export default function Home() {
           style={{ width: "150px", height: "auto" }}
           className="animate-pulse rounded"
         />
-        <p className="text-black text-xl font-medium">Data Loading...</p>
+      
       </div>
     );
   }
@@ -249,11 +249,11 @@ export default function Home() {
             <div className=" flex justify-end items-center mb-6  w-full mx-auto">
               <div className=" flex justify-center items-center gap-4">
                 <div
-                  className=" flex gap-2 py-3 px-4 rounded-xl border border-[#E7E7E7] cursor-pointer"
+                  className=" flex gap-2 py-3 px-4 rounded-xl border border-[#E7E7E7] cursor-pointer bg-darkMaroon items-center hover:bg-lightMaroon group"
                   onClick={toggleFilterFlyout}
                 >
-                  <FiFilter className=" w-6 h-6" />
-                  <p className=" text-secondBlack text-base font-medium">
+                  <FiFilter className=" w-5 h-5 text-white group-hover:text-darkMaroon" />
+                  <p className=" text-white text-base font-medium group-hover:text-darkMaroon">
                     Filter
                   </p>
                 </div>
@@ -446,11 +446,11 @@ export default function Home() {
                           <span
                             className={`text-white text-xs sm:text-sm flex justify-center items-center p-1 rounded-[4px] ${
                               item.mainStatus === "On Progress"
-                                ? "bg-[#2DB3FF]"
+                                ? "bg-progressBtn"
                                 : item.mainStatus === "Approved"
-                                ? "bg-[#379941]"
+                                ? "bg-approveBtn"
                                 : item.mainStatus === "Rejected"
-                                ? "bg-[#E52020]"
+                                ? "bg-rejectBtn"
                                 : "bg-customBlue"
                             }`}
                           >
@@ -485,7 +485,7 @@ export default function Home() {
           </div>
           {/* Pagination Controls */}
           {isFilter ? (
-            <div className="flex justify-center items-center my-10">
+            <div className="flex justify-center items-center my-10 relative">
               <button
                 onClick={() => handlePageChangeFilter(filterPage - 1)}
                 disabled={filterPage === 1}
@@ -505,7 +505,7 @@ export default function Home() {
               </button>
             </div>
           ) : (
-            <div className="flex justify-center items-center my-10">
+            <div className="flex justify-center items-center my-10 relative">
               <button
                 onClick={() => handlePageChange(page - 1)}
                 disabled={page === 1}
@@ -527,7 +527,7 @@ export default function Home() {
           )}
           {/* ----------------End prgination--------------------------- */}
 
-          <div className="w-full h-24 bg-header-gradient opacity-20 absolute top-0 left-0 right-0 "></div>
+          {/* <div className="w-full h-24 bg-header-gradient opacity-20 absolute top-0 left-0 right-0 "></div> */}
         </div>
       </div>
 
@@ -569,7 +569,7 @@ export default function Home() {
                         name="name"
                         onChange={handleChange}
                         placeholder="Alexandre"
-                        className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                        className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[4px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
                       />
                     </div>
                   </div>
@@ -585,7 +585,7 @@ export default function Home() {
                         onChange={handleChange}
                         name="mobilephonenumber"
                         placeholder="1 (800) 667-6389"
-                        className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                        className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[4px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
                       />
                     </div>
                     <div className=" w-full">
@@ -599,7 +599,7 @@ export default function Home() {
                         disabled
                         name="birthdate"
                         placeholder=""
-                        className="w-full border border-[#DFEAF2] rounded-[12px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 cursor-not-allowed bg-[#F5F5F5] text-[#A0A0A0] focus:outline-none"
+                        className="w-full border border-[#DFEAF2] rounded-[4px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 cursor-not-allowed bg-[#F5F5F5] text-[#A0A0A0] focus:outline-none"
                       />
                     </div>
                   </div>
@@ -610,13 +610,13 @@ export default function Home() {
                 <div className="mt-10 w-full flex flex-col gap-y-4 md:flex-row justify-between items-center ">
                   <div
                     onClick={hadleClear}
-                    className=" py-[13px] px-[26px] bg-[#C6F7FE] rounded-2xl text-base font-medium leading-6  cursor-pointer w-full md:w-[49%] text-center text-customBlue "
+                    className=" py-[13px] px-[26px] bg-lightMaroon rounded-[4px] text-base font-medium leading-6  cursor-pointer w-full md:w-[49%] text-center text-darkMaroon "
                   >
                     Clear Data
                   </div>
                   <button
                     type="submit"
-                    className=" py-[13px] px-[26px] bg-customBlue rounded-2xl text-base font-medium leading-6 text-white cursor-pointer w-full md:w-[49%] text-center "
+                    className=" py-[13px] px-[26px] bg-darkMaroon rounded-[4px] text-base font-medium leading-6 text-white hover:text-dark cursor-pointer w-full md:w-[49%] text-center "
                   >
                     Filter Now
                   </button>

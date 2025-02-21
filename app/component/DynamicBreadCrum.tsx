@@ -12,7 +12,7 @@ const DynamicBreadCrum = () => {
             Customers
           </p>
           <IoChevronForward className="text-[#99A1B7] w-3 h-3" />
-          <p className="text-[#007AFF] text-sm leading-5 font-medium">
+          <p className="text-darkMaroon text-sm leading-5 font-medium">
             Recently added
           </p>
         </div>
@@ -23,7 +23,7 @@ const DynamicBreadCrum = () => {
             Transactions
           </p>
           <IoChevronForward className="text-[#99A1B7] w-3 h-3" />
-          <p className="text-[#007AFF] text-sm leading-5 font-medium">
+          <p className="text-darkMaroon text-sm leading-5 font-medium">
             Recently added
           </p>
         </div>
@@ -32,7 +32,7 @@ const DynamicBreadCrum = () => {
         <div className="flex md:flex gap-2 w-auto items-center">
           <p className="text-[#4B5675] text-sm font-medium leading-5">Cards</p>
           <IoChevronForward className="text-[#99A1B7] w-3 h-3" />
-          <p className="text-[#007AFF] text-sm leading-5 font-medium">
+          <p className="text-darkMaroon text-sm leading-5 font-medium">
             Recently added
           </p>
         </div>
@@ -43,7 +43,7 @@ const DynamicBreadCrum = () => {
             User Management
           </p>
           <IoChevronForward className="text-[#99A1B7] w-3 h-3" />
-          <p className="text-[#007AFF] text-sm leading-5 font-medium">
+          <p className="text-darkMaroon text-sm leading-5 font-medium">
             Recently added
           </p>
         </div>
@@ -54,7 +54,7 @@ const DynamicBreadCrum = () => {
             User Add
           </p>
           <IoChevronForward className="text-[#99A1B7] w-3 h-3" />
-          <p className="text-[#007AFF] text-sm leading-5 font-medium">
+          <p className="text-darkMaroon text-sm leading-5 font-medium">
             Recently added
           </p>
         </div>
@@ -65,7 +65,7 @@ const DynamicBreadCrum = () => {
             User Activity
           </p>
           <IoChevronForward className="text-[#99A1B7] w-3 h-3" />
-          <p className="text-[#007AFF] text-sm leading-5 font-medium">
+          <p className="text-darkMaroon text-sm leading-5 font-medium">
             Recently added
           </p>
         </div>

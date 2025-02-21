@@ -109,8 +109,8 @@ body {
   left: 0 !important;
   background-color: #f5f5f5 !important;
   border: 1px solid #DFEAF2 !important;
-  border-top-left-radius: 15px !important;
-  border-bottom-left-radius: 15px !important;
+  border-top-left-radius: 4px !important;
+  border-bottom-left-radius: 4px !important;
 }
 .react-tel-input .form-control {
   position: relative !important;
@@ -122,7 +122,7 @@ body {
   margin-left: 0 !important;
   background: #FFFFFF !important;
   border: 1px solid #DFEAF2 !important;
-  border-radius: 15px !important;
+  border-radius: 4px !important;
   line-height: 25px !important;
   height: 50px !important;
   width: 100% !important;
@@ -134,7 +134,7 @@ body {
   /* max-width: 500px;  */
   /* Optional: Limit maximum width */
   height: 100% !important; /* Set a fixed height */
-  border-radius: 5px !important; /* Apply rounded corners */
+  border-radius: 4px !important; /* Apply rounded corners */
   overflow: hidden; /* Ensure border radius affects the child content */
   position: relative; /* Optional: For positioning adjustments */
 }

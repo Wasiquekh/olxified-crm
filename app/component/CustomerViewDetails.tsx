@@ -302,7 +302,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                       className="!h-[40px]"
                     />
                   </div>
-                  <div className=" px-7 py-3 bg-[#2db3ff] rounded-xl ">
+                  <div className=" px-7 py-3 bg-progressBtn rounded-[4px] ">
                     <div className="OnProgress text-white text-sm font-semibold">
                       On Progress
                     </div>
@@ -364,13 +364,13 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
               <div className=" flex flex-col gap-y-3 md:flex-row md:justify-between w-full">
                 <button
                   onClick={() => approve("liveness_detection")}
-                  className="bg-[#379941] text-white w-full md:w-[49%] p-3 rounded"
+                  className="bg-approveBtn text-white w-full md:w-[49%] p-3 rounded"
                 >
                   Approve
                 </button>
                 <button
                   onClick={() => reject("liveness_detection")}
-                  className="bg-[#E52020] text-white w-full md:w-[49%] p-3 rounded"
+                  className="bg-rejectBtn text-white w-full md:w-[49%] p-3 rounded"
                 >
                   Reject
                 </button>
@@ -393,7 +393,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                       className="!h-[40px]"
                     />
                   </div>
-                  <div className=" px-7 py-3 bg-[#2db3ff] rounded-xl ">
+                  <div className=" px-7 py-3 bg-progressBtn rounded-[4px] ">
                     <div className="OnProgress text-white text-sm font-semibold">
                       On Progress
                     </div>
@@ -475,13 +475,13 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
               <div className=" flex flex-col gap-y-3 md:flex-row md:justify-between w-full">
                 <button
                   onClick={() => approve("identity_matching")}
-                  className="bg-[#379941] text-white w-full md:w-[49%] p-3 rounded"
+                  className="bg-approveBtn text-white w-full md:w-[49%] p-3 rounded"
                 >
                   Approve
                 </button>
                 <button
                   onClick={() => reject("identity_matching")}
-                  className="bg-[#E52020] text-white w-full md:w-[49%] p-3 rounded"
+                  className="bg-rejectBtn text-white w-full md:w-[49%] p-3 rounded"
                 >
                   Reject
                 </button>
@@ -504,7 +504,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                       className="!h-[40px]"
                     />
                   </div>
-                  <div className=" px-7 py-3 bg-[#2db3ff] rounded-xl ">
+                  <div className=" px-7 py-3 bg-progressBtn rounded-[4px] ">
                     <div className="OnProgress text-white text-sm font-semibold">
                       On Progress
                     </div>
@@ -566,13 +566,13 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
               <div className=" flex flex-col gap-y-3 md:flex-row md:justify-between w-full">
                 <button
                   onClick={() => approve("user_details_verification")}
-                  className="bg-[#379941] text-white w-full md:w-[49%] p-3 rounded"
+                  className="bg-approveBtn text-white w-full md:w-[49%] p-3 rounded"
                 >
                   Approve
                 </button>
                 <button
                   onClick={() => reject("user_details_verification")}
-                  className="bg-[#E52020] text-white w-full md:w-[49%] p-3 rounded"
+                  className="bg-rejectBtn text-white w-full md:w-[49%] p-3 rounded"
                 >
                   Reject
                 </button>
@@ -595,7 +595,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                       className="!h-[40px]"
                     />
                   </div>
-                  <div className=" px-7 py-3 bg-[#2db3ff] rounded-xl ">
+                  <div className=" px-7 py-3 bg-progressBtn rounded-[4px] ">
                     <div className="OnProgress text-white text-sm font-semibold">
                       On Progress
                     </div>
@@ -660,13 +660,13 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
               <div className=" flex flex-col gap-y-3 md:flex-row md:justify-between w-full mt-5">
                 <button
                   onClick={() => approve("scanned_id_card_verification")}
-                  className="bg-[#379941] text-white w-full md:w-[49%] p-3 rounded"
+                  className="bg-approveBtn text-white w-full md:w-[49%] p-3 rounded"
                 >
                   Approve
                 </button>
                 <button
                   onClick={() => reject("scanned_id_card_verification")}
-                  className="bg-[#E52020] text-white w-full md:w-[49%] p-3 rounded"
+                  className="bg-rejectBtn text-white w-full md:w-[49%] p-3 rounded"
                 >
                   Reject
                 </button>
@@ -689,7 +689,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                       className="!h-[40px]"
                     />
                   </div>
-                  <div className=" px-7 py-3 bg-[#2db3ff] rounded-xl ">
+                  <div className=" px-7 py-3 bg-progressBtn rounded-[4px] ">
                     <div className="OnProgress text-white text-sm font-semibold">
                       On Progress
                     </div>
@@ -736,13 +736,13 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
               <div className=" flex flex-col gap-y-3 md:flex-row md:justify-between w-full">
                 <button
                   onClick={() => approve("five_second_face_video_verification")}
-                  className="bg-[#379941] text-white w-full md:w-[49%] p-3 rounded"
+                  className="bg-approveBtn text-white w-full md:w-[49%] p-3 rounded"
                 >
                   Approve
                 </button>
                 <button
                   onClick={() => reject("five_second_face_video_verification")}
-                  className="bg-[#E52020] text-white w-full md:w-[49%] p-3 rounded"
+                  className="bg-rejectBtn text-white w-full md:w-[49%] p-3 rounded"
                 >
                   Reject
                 </button>
@@ -765,7 +765,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                       className="!h-[40px]"
                     />
                   </div>
-                  <div className=" px-7 py-3 bg-[#2db3ff] rounded-xl ">
+                  <div className=" px-7 py-3 bg-progressBtn rounded-[4px] ">
                     <div className="OnProgress text-white text-sm font-semibold">
                       On Progress
                     </div>
@@ -810,13 +810,13 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
               <div className=" flex flex-col gap-y-3 md:flex-row md:justify-between w-full">
                 <button
                   onClick={() => approve("signature_verification")}
-                  className="bg-[#379941] text-white w-full md:w-[49%] p-3 rounded"
+                  className="bg-approveBtn text-white w-full md:w-[49%] p-3 rounded"
                 >
                   Approve
                 </button>
                 <button
                   onClick={() => reject("signature_verification")}
-                  className="bg-[#E52020] text-white w-full md:w-[49%] p-3 rounded"
+                  className="bg-rejectBtn text-white w-full md:w-[49%] p-3 rounded"
                 >
                   Reject
                 </button>
