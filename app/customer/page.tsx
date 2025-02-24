@@ -249,7 +249,7 @@ export default function Home() {
             <div className=" flex justify-end items-center mb-6  w-full mx-auto">
               <div className=" flex justify-center items-center gap-4">
                 <div
-                  className=" flex gap-2 py-3 px-4 rounded-xl border border-[#E7E7E7] cursor-pointer bg-darkMaroon items-center hover:bg-lightMaroon group"
+                  className=" flex gap-2 py-3 px-4 rounded-[4px] border border-[#E7E7E7] cursor-pointer bg-darkMaroon items-center hover:bg-lightMaroon group"
                   onClick={toggleFilterFlyout}
                 >
                   <FiFilter className=" w-5 h-5 text-white group-hover:text-darkMaroon" />
