@@ -108,7 +108,7 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
       )}
       <div className={`filterflyout ${isEditFlyoutOpen ? "filteropen" : ""}`}>
         <div className="flex  md:flex-row justify-between mb-4">
-          <p className="text-[#333B69] text-[26px] font-bold leading-9 hover:cursor-pointer block">
+          <p className="text-darkMaroon text-[26px] font-bold leading-9 hover:cursor-pointer block">
             User Details
           </p>
           <button
@@ -123,9 +123,9 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
         <div className="flex flex-row justify-between  mb-4 w-full md:w-[50%]">
           <p
             onClick={() => setIsVisible(true)}
-            className={`text-[16px] font-medium leading-9 hover:cursor-pointer ${
+            className={`text-[16px] font-medium leading-9 hover:cursor-pointer  hover:text-lightMaroon hover:border-lightMaroon hover:border-b-2 ${
               isVisible
-                ? "text-customBlue border-b-2 border-customBlue"
+                ? "text-darkMaroon border-b-2 border-darkMaroon"
                 : "text-gray-500"
             }`}
           >
@@ -133,9 +133,9 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
           </p>
           <p
             onClick={() => setIsVisible(false)}
-            className={`text-[16px] font-medium leading-9 hover:cursor-pointer ${
+            className={`text-[16px] font-medium leading-9 hover:cursor-pointer  hover:text-lightMaroon hover:border-lightMaroon hover:border-b-2 ${
               !isVisible
-                ? "text-customBlue border-b-2 border-customBlue"
+                ? "text-darkMaroon border-b-2 border-darkMaroon "
                 : "text-gray-500"
             }`}
           >
@@ -309,7 +309,7 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
                       type="submit"
                       onClick={() => setIsEditFlyoutOpen(false)}
                       disabled={isSubmitting}
-                      className="py-[13px] px-[26px] bg-darkMaroon rounded-[4px] text-base font-medium leading-6 text-white hover:bg-lightMaroon hover:text-darkMaroon w-[48%]"
+                      className="py-[13px] px-[26px] bg-darkMaroon rounded-[4px] text-base font-medium leading-6 text-white hover:bg-lightMaroon hover:text-darkMaroon w-full md:w-[48%]"
                     >
                       {isSubmitting ? "Updating Details" : "Update Details"}
                     </button>
