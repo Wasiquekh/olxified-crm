@@ -42,7 +42,7 @@ const DynamicBreadCrum = () => {
           </p>
           <IoChevronForward className="text-[#99A1B7] w-3 h-3" />
           <p className="text-darkMaroon text-sm leading-5 font-medium">
-            Recently added
+            All Transactions
           </p>
         </div>
       )}
