@@ -364,7 +364,7 @@ export default function Home() {
               <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-[#999999]">
                   <tr className="border border-tableBorder">
-                    <th scope="col" className="p-2 border border-tableBorder">
+                    <th scope="col" className="p-3 border border-tableBorder">
                       <div className="flex items-center gap-2">
                         <RxAvatar className="w-6 h-6" />
                         <div className="font-medium text-firstBlack text-base leading-normal">
