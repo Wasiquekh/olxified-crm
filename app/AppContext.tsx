@@ -2,31 +2,32 @@
 import { createContext, useEffect, useState, ReactNode, Dispatch, SetStateAction } from "react";
 import StorageManager from "../provider/StorageManager";
 
-// Define the shape of the context value
 interface AppContextType {
-  accessToken: string | null; // accessToken can be a string or null
-  setAccessToken: Dispatch<SetStateAction<string | null>>; // Setter for accessToken
+  accessToken: string | null;
+  setAccessToken: Dispatch<SetStateAction<string | null>>;
+  customerFullName: string;
+  setCustomerFullName: Dispatch<SetStateAction<string>>;
 }
 
-// Create context with a default value of undefined (for TypeScript safety)
+// Create context
 export const AppContext = createContext<AppContextType | undefined>(undefined);
 
 const storageManager = new StorageManager();
 
-// Define the props for the AppProvider component
 interface AppProviderProps {
   children: ReactNode;
 }
 
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [accessToken, setAccessToken] = useState<string | null>(storageManager.getAccessToken());
+  const [customerFullName, setCustomerFullName] = useState<string>("");
 
   useEffect(() => {
     storageManager.saveAccessToken(accessToken);
   }, [accessToken]);
 
   return (
-    <AppContext.Provider value={{ accessToken, setAccessToken }}>
+    <AppContext.Provider value={{ accessToken, setAccessToken, customerFullName, setCustomerFullName }}>
       {children}
     </AppContext.Provider>
   );

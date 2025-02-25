@@ -283,7 +283,7 @@ export default function Home() {
   ];
   return (
     <>
-      <div className=" flex  min-h-screen">
+      <div className=" flex justify-end  min-h-screen">
         {/* Left sidebar */}
         <LeftSideBar />
         {/* Main content right section */}

@@ -61,7 +61,7 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
       } catch (error: any) {
         console.log("Error occurred:", error);
         setUserDescription("");
-        toast.error(error.response.data.msg || "An error occurred"); // Display the error message from the API response
+        // toast.error(error.response.data.msg || "An error occurred"); // Display the error message from the API response
       }
     };
 
@@ -345,38 +345,34 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
               </thead>
               <tbody>
                 <tr className="border-b">
-                  <td className="p-2 border">{currentUserData.name}</td>
-                  <td className="p-2 border">
-                    <input
-                      type="text"
-                      value={userDescription || "No Description"}
-                      className="border px-2 py-1 rounded w-full"
-                      readOnly
-                    />
-                  </td>
-                  <td className="p-2 border">
-                    {userDescription ? (
-                      <button
-                        onClick={hanldleDelete}
-                        className="py-2 px-4 bg-red-200 flex gap-1.5 items-center rounded-full hover:bg-red-300 transition"
-                      >
-                        <RiDeleteBin6Line className="text-red-600 w-4 h-4" />
-                        <p className="text-sm leading-normal text-red-600">
-                          Delete
-                        </p>
-                      </button>
-                    ) : (
-                      <button
-                        disabled
-                        className="py-2 px-4 bg-red-200 flex gap-1.5 items-center rounded-full cursor-not-allowed opacity-85"
-                      >
-                        <RiDeleteBin6Line className="text-red-600 w-4 h-4" />
-                        <p className=" hidden sm:block text-sm leading-normal text-red-600">
-                          Deleted
-                        </p>
-                      </button>
-                    )}
-                  </td>
+                  {userDescription ? (
+                    <>
+                      <td className="p-2 border">{currentUserData.name}</td>
+                      <td className="p-2 border">
+                        <input
+                          type="text"
+                          value={userDescription || "No Description"}
+                          className="border px-2 py-1 rounded w-full"
+                          readOnly
+                        />
+                      </td>
+                      <td className="p-2 border">
+                        <button
+                          onClick={hanldleDelete}
+                          className="py-2 px-4 bg-red-200 flex gap-1.5 items-center rounded-full hover:bg-red-300 transition"
+                        >
+                          <RiDeleteBin6Line className="text-red-600 w-4 h-4" />
+                          <p className="text-sm leading-normal text-red-600">
+                            Delete
+                          </p>
+                        </button>
+                      </td>
+                    </>
+                  ) : (
+                    <td colSpan={3} className="p-2 text-center">
+                      NO SECRET KEY FOUND
+                    </td>
+                  )}
                 </tr>
               </tbody>
             </table>

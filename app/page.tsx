@@ -177,15 +177,6 @@ export default function LoginHome() {
                 >
                   {loading ? "Logging in..." : "Login"}
                 </button>
-
-                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-center sm:text-left">
-                  <p className="text-[#424955] text-[15px] leading-normal">
-                    Forgot User ID or Password?
-                  </p>
-                  <p className="text-[#1814F3] text-[15px] font-semibold underline cursor-pointer">
-                    Reset Now
-                  </p>
-                </div>
               </div>
             </Form>
           )}

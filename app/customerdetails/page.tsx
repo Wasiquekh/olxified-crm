@@ -13,7 +13,6 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
-import { AppContext } from "../AppContext";
 import LeftSideBar from "../component/LeftSideBar";
 import UserActivityLogger from "../../provider/UserActivityLogger";
 import { MdVerified } from "react-icons/md";
@@ -27,6 +26,7 @@ import ReactPlayer from "react-player";
 import DesktopHeader from "../component/DesktopHeader";
 import { Tooltip } from "react-tooltip";
 import { FaEllipsisVertical } from "react-icons/fa6";
+import { AppContext } from "../AppContext";
 
 interface Customer {
   id: string;
@@ -105,7 +105,11 @@ export default function Home() {
   const [isModalOpenVideo, setIsModalOpenVideo] = useState<boolean>(false);
   //console.log('BBBBBBBBBBBBB',isModalOpenVideo)
   const [modalImage, setModalImage] = useState<string>("");
-
+  const context = useContext(AppContext);
+  if (!context) {
+    throw new Error("FetchCustomerComponent must be used within an AppProvider");
+  }
+  const { setCustomerFullName } = context;
   // Function to open modal with specific image
   const openModal = (imageSrc: SetStateAction<string>) => {
     setModalImage(imageSrc);
@@ -128,6 +132,11 @@ export default function Home() {
           const res = await axiosProvider.post("/viewcustomer", { id }); // Use POST and pass `id` in the body
           //console.log("VIEW CUSTOMER", res);
           setCustomer(res.data.data.customer);
+
+        if (res?.data.data.customer.firstname && res?.data.data.customer.lastname) {
+          setCustomerFullName(`${res.data.data.customer.firstname} ${res.data.data.customer.lastname}`);
+        }
+
         } catch (error: any) {
           console.log("Error occurred:", error);
         }
@@ -135,7 +144,7 @@ export default function Home() {
 
       fetchData();
     }
-  }, [id]);
+  }, [id,setCustomerFullName]);
   const fetchUserStatus = async () => {
     // console.log('USE EFFECT CUS ID',id);
     try {
@@ -638,7 +647,10 @@ export default function Home() {
                       </th>
                       <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
                         {" "}
-                        English -Fluent
+                        <span className="text-[#252F4A] font-semibold">
+                          English
+                        </span>{" "}
+                        -Fluent
                       </th>
                     </tr>
                   </thead>
@@ -648,7 +660,9 @@ export default function Home() {
                         Hourly Rate
                       </th>
                       <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px]">
-                        Hourly Rate
+                        <span className="text-[#252F4A] font-semibold">
+                          $28 / hour
+                        </span>
                       </th>
                     </tr>
                   </thead>
@@ -712,8 +726,12 @@ export default function Home() {
                         About
                       </th>
                       <th className="w-[60%] text-sm font-normal leading-5 text-[#78829D] text-left pl-[20px] py-3">
-                        We&apos;re open to partnerships, guest posts, and more.
-                        Join us to share your insights and grow your audience.
+                        <span className="text-[#252F4A] font-semibold">
+                          {" "}
+                          We&apos;re open to partnerships, guest posts, and
+                          more. Join us to share your insights and grow your
+                          audience.
+                        </span>
                       </th>
                       <th className="w-[20%] text-[#1B84FF] text-xs font-medium leading-3 cursor-pointer"></th>
                     </tr>
@@ -1552,7 +1570,7 @@ export default function Home() {
   ];
   return (
     <>
-      <div className=" flex  min-h-screen">
+      <div className=" flex justify-end  min-h-screen">
         {/* Left sidebar */}
         <LeftSideBar />
         {/* Main content right section */}

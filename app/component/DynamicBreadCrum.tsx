@@ -1,9 +1,17 @@
 import React from "react";
 import { usePathname } from "next/navigation";
 import { IoChevronForward } from "react-icons/io5";
+import { useContext } from "react";
+import { AppContext } from "../AppContext";
+import Link from "next/link";
 
 const DynamicBreadCrum = () => {
   const pathname = usePathname();
+  const context = useContext(AppContext);
+  const { customerFullName } = context;
+  if (!context) {
+    throw new Error("ProfileComponent must be used within an AppProvider");
+  }
   return (
     <div>
       {(pathname === "/customer" || pathname === "/customerdetails") && (
@@ -12,8 +20,18 @@ const DynamicBreadCrum = () => {
             Customers
           </p>
           <IoChevronForward className="text-[#99A1B7] w-3 h-3" />
-          <p className="text-darkMaroon text-sm leading-5 font-medium">
-            Recently added
+          <Link href="/customer">
+            <span className="text-darkMaroon text-sm leading-5 font-medium hover:text-lightMaroon">
+              All customers
+            </span>
+          </Link>
+          <p className="text-darkMaroon text-sm leading-5 font-medium capitalize">
+            {pathname === "/customerdetails" && (
+              <div className="flex items-center">
+                <IoChevronForward className="text-[#99A1B7] w-3 h-3 mr-1" />
+                {customerFullName}
+              </div>
+            )}
           </p>
         </div>
       )}
@@ -44,7 +62,7 @@ const DynamicBreadCrum = () => {
           </p>
           <IoChevronForward className="text-[#99A1B7] w-3 h-3" />
           <p className="text-darkMaroon text-sm leading-5 font-medium">
-            Recently added
+            All Users
           </p>
         </div>
       )}
@@ -66,7 +84,7 @@ const DynamicBreadCrum = () => {
           </p>
           <IoChevronForward className="text-[#99A1B7] w-3 h-3" />
           <p className="text-darkMaroon text-sm leading-5 font-medium">
-            Recently added
+            All Logs
           </p>
         </div>
       )}
