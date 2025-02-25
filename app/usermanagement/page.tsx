@@ -178,7 +178,7 @@ export default function Home() {
           <div className="rounded-3xl shadow-lastTransaction bg-white py-6 px-1  md:p-6 z-10 relative">
             {/* Main content middle section */}
             <div className="w-full flex justify-end items-center mt-0 mb-8 flex-wrap sm:flex-nowrap">
-              <div className="w-full sm:w-auto">
+              <div className=" sm:w-auto">
                 {hasSystemUserAdd ? (
                   <Link href="/useradd">
                     <button className="flex items-center gap-[10px]  h-12 px-3 py-[6px] rounded-[4px] shadow-borderShadow w-full sm:w-auto bg-darkMaroon group hover:bg-lightMaroon">
