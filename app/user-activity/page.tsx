@@ -339,22 +339,22 @@ export default function Home() {
                       {appliedFilters.map((filter, index) => (
                         <li
                           key={index}
-                          className="flex items-center text-[#1814F3] bg-[#EDF2FE] px-3 py-2 rounded-md text-xs"
+                          className="flex items-center text-darkMaroon bg-lighterMaroon px-3 py-2 rounded-md text-xs"
                         >
-                          <RiAccountCircleLine className="text-[#1814F3] mr-1" />
+                          <RiAccountCircleLine className="text-darkMaroon mr-1" />
                           {filter}
                           <RxCross2
                             onClick={() => removeFilter(filter)}
-                            className="text-[#1814F3] cursor-pointer ml-2"
+                            className="text-darkMaroon cursor-pointer ml-2"
                           />
                         </li>
                       ))}
                       <li
                         onClick={clearAllFilteredData}
-                        className="flex items-center text-[#1814F3] bg-[#EDF2FE] px-3 py-2 rounded-md text-xs cursor-pointer"
+                        className="flex items-center text-darkMaroon bg-lighterMaroon px-3 py-2 rounded-md text-xs cursor-pointer"
                       >
                         Clear All
-                        <RxCross2 className="text-[#1814F3] ml-2" />
+                        <RxCross2 className="text-darkMaroon ml-2" />
                       </li>
                     </ul>
                   </div>
@@ -594,7 +594,7 @@ export default function Home() {
                         isClearable
                         classNames={{
                           control: () =>
-                            "!focus:outline-none !w-full !border !border-[#DFEAF2] !rounded-[4px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm",
+                            "!hover:shadow-hoverInputShadow focus:border-darkMaroon focus:outline-none !w-full !border !border-[#DFEAF2] !rounded-[4px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm",
                         }}
                       />
                     </div>
@@ -618,7 +618,7 @@ export default function Home() {
                         name="startDate"
                         dateFormat="yyyy-MM-dd"
                         placeholderText="yyyy-mm-dd"
-                        className="focus:outline-none !w-full border border-[#DFEAF2] rounded-[4px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 bg-white shadow-sm"
+                        className="hover:shadow-hoverInputShadow focus:border-darkMaroon focus:outline-none !w-full border border-[#DFEAF2] rounded-[4px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 bg-white shadow-sm"
                       />
                     </div>
                     <div className="w-full md:w-[49%]">
@@ -637,7 +637,7 @@ export default function Home() {
                         name="endDate"
                         dateFormat="yyyy-MM-dd"
                         placeholderText="yyyy-mm-dd"
-                        className="focus:outline-none !w-full border border-[#DFEAF2] rounded-[4px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 bg-white shadow-sm"
+                        className="hover:shadow-hoverInputShadow focus:border-darkMaroon focus:outline-none !w-full border border-[#DFEAF2] rounded-[4px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 bg-white shadow-sm"
                       />
                     </div>
                   </div>
@@ -665,7 +665,7 @@ export default function Home() {
                         isClearable
                         classNames={{
                           control: () =>
-                            "!focus:outline-none !w-full !border !border-[#DFEAF2] !rounded-[4px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm",
+                            "!hover:shadow-hoverInputShadow focus:border-darkMaroon focus:outline-none !w-full !border !border-[#DFEAF2] !rounded-[4px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm",
                         }}
                       />
                     </div>
@@ -690,7 +690,7 @@ export default function Home() {
                         isClearable
                         classNames={{
                           control: () =>
-                            "!focus:outline-none !w-full !border !border-[#DFEAF2] !rounded-[4px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm",
+                            "!hover:shadow-hoverInputShadow focus:border-darkMaroon focus:outline-none !w-full !border !border-[#DFEAF2] !rounded-[4px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm",
                         }}
                       />
                     </div>

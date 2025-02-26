@@ -129,6 +129,14 @@ body {
   outline: none !important;
   color: #171717 !important;
 }
+ :hover.react-tel-input .form-control {
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);
+}
+.react-tel-input .form-control:focus{
+  border: 1px solid !important;
+  border-color: #A3000E !important;
+  outline: none !important;
+}
 .custom-player-container {
   width: 100% !important; /* Full width */
   /* max-width: 500px;  */

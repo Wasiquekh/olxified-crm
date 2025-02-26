@@ -125,7 +125,7 @@ export default function Home() {
                           type="text"
                           name="name"
                           placeholder="Charlene Reed"
-                          className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
+                          className="hover:shadow-hoverInputShadow focus:border-darkMaroon focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
                         />
                         <ErrorMessage
                           name="name"
@@ -170,7 +170,7 @@ export default function Home() {
                           type="email"
                           name="email"
                           placeholder="Janedoe@gmail.com"
-                          className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
+                          className="hover:shadow-hoverInputShadow focus:border-darkMaroon focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
                         />
                         <ErrorMessage
                           name="email"
@@ -187,7 +187,7 @@ export default function Home() {
                           type={showPassword ? "text" : "password"}
                           name="password"
                           placeholder="********"
-                          className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
+                          className="hover:shadow-hoverInputShadow focus:border-darkMaroon focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
                         />
                         {showPassword ? (
                           <FaRegEye
@@ -234,7 +234,7 @@ export default function Home() {
                             isSearchable={false} // Disables typing
                             classNames={{
                               control: () =>
-                                "!focus:outline-none !w-full !border !border-[#DFEAF2] !rounded-[4px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm",
+                                "!hover:shadow-hoverInputShadow !focus:border-darkMaroon !focus:outline-none !w-full !border !border-[#DFEAF2] !rounded-[4px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm",
                               placeholder: () => "text-[#717171]",
                               singleValue: () => "text-black",
                               input: () => "text-black",

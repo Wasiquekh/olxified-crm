@@ -37,6 +37,7 @@ module.exports = {
         borderShadow: "0px 1px 1px 0px rgba(0, 0, 0, 0.25)",
         lastTransaction: "0px 1px 4px 0px rgba(0, 0, 0, 0.25)",
         lastTransactionList: "0px 0px 1px 0px rgba(0, 0, 0, 0.25)",
+        hoverInputShadow: "0px 0px 4px 0px rgba(0, 0, 0, 0.25)",
       },
     },
   },

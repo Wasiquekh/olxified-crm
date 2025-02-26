@@ -222,7 +222,7 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.name}
-                        className={`focus:outline-none w-full border rounded-[4px] text-sm leading-4 font-medium text-[#717171] py-4 px-4 ${
+                        className={`hover:shadow-hoverInputShadow focus:border-darkMaroon focus:outline-none w-full border rounded-[4px] text-sm leading-4 font-medium text-[#717171] py-4 px-4 ${
                           touched.name && errors.name
                             ? "border-red-500"
                             : "border-[#DFEAF2]"
@@ -244,7 +244,7 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.mobile_number}
-                        className={`focus:outline-none w-full border rounded-[4px] text-sm leading-4 font-medium text-[#717171] py-4 px-4 ${
+                        className={`hover:shadow-hoverInputShadow focus:border-darkMaroon focus:outline-none w-full border rounded-[4px] text-sm leading-4 font-medium text-[#717171] py-4 px-4 ${
                           touched.mobile_number && errors.mobile_number
                             ? "border-red-500"
                             : "border-[#DFEAF2]"
@@ -268,7 +268,7 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.email}
-                        className={`focus:outline-none w-full border rounded-[4px] text-sm leading-4 font-medium text-[#717171] py-4 px-4 ${
+                        className={`hover:shadow-hoverInputShadow focus:border-darkMaroon focus:outline-none w-full border rounded-[4px] text-sm leading-4 font-medium text-[#717171] py-4 px-4 ${
                           touched.email && errors.email
                             ? "border-red-500"
                             : "border-[#DFEAF2]"
@@ -288,7 +288,7 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
                         as="select"
                         name="role"
                         onChange={handleChange}
-                        className="focus:outline-none w-full border rounded-[4px] text-sm leading-4 font-medium text-[#717171] py-4 px-4"
+                        className="hover:shadow-hoverInputShadow focus:border-darkMaroon focus:outline-none w-full border rounded-[4px] text-sm leading-4 font-medium text-[#717171] py-4 px-4"
                       >
                         <option value="" disabled>
                           Select Role

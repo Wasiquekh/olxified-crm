@@ -569,7 +569,7 @@ export default function Home() {
                         name="name"
                         onChange={handleChange}
                         placeholder="Alexandre"
-                        className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[4px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 text-firstBlack"
+                        className=" hover:shadow-hoverInputShadow focus:border-darkMaroon focus:outline-none w-full  border border-[#DFEAF2] rounded-[4px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 text-firstBlack"
                       />
                     </div>
                   </div>
@@ -585,7 +585,7 @@ export default function Home() {
                         onChange={handleChange}
                         name="mobilephonenumber"
                         placeholder="1 (800) 667-6389"
-                        className=" focus:outline-none w-full  border border-[#DFEAF2] rounded-[4px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                        className=" hover:shadow-hoverInputShadow focus:border-darkMaroon focus:outline-none w-full  border border-[#DFEAF2] rounded-[4px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
                       />
                     </div>
                     <div className=" w-full">
