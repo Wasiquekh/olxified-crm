@@ -593,8 +593,30 @@ export default function Home() {
                         placeholder="Select User ID"
                         isClearable
                         classNames={{
-                          control: () =>
-                            "!hover:shadow-hoverInputShadow focus:border-darkMaroon focus:outline-none !w-full !border !border-[#DFEAF2] !rounded-[4px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm",
+                          control: ({ isFocused }) =>
+                            `onHoverBoxShadow !w-full !border !rounded-[4px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm ${
+                              isFocused
+                                ? "!border-[#A3000E]"
+                                : "!border-[#DFEAF2]"
+                            }`,
+                        }}
+                        styles={{
+                          menu: (base) => ({
+                            ...base,
+                            borderRadius: "4px",
+                            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                            backgroundColor: "#fff",
+                          }),
+                          option: (base, { isFocused, isSelected }) => ({
+                            ...base,
+                            backgroundColor: isSelected
+                              ? "#A3000E" // Active (selected) background color
+                              : isFocused
+                              ? "#FCE4EC" // Hover background color
+                              : "#fff", // Default background
+                            color: isSelected ? "#fff" : "#333",
+                            cursor: "pointer",
+                          }),
                         }}
                       />
                     </div>
@@ -618,7 +640,22 @@ export default function Home() {
                         name="startDate"
                         dateFormat="yyyy-MM-dd"
                         placeholderText="yyyy-mm-dd"
-                        className="hover:shadow-hoverInputShadow focus:border-darkMaroon focus:outline-none !w-full border border-[#DFEAF2] rounded-[4px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 bg-white shadow-sm"
+                        className="hover:shadow-hoverInputShadow focus:border-[#A3000E] focus:outline-none 
+             !w-full border border-[#DFEAF2] rounded-[4px] text-sm leading-4 
+             font-medium placeholder-[#717171] py-4 px-4 bg-white shadow-sm"
+                        popperClassName="custom-datepicker"
+                        dayClassName={(date) => {
+                          const today = new Date().toDateString();
+                          const selectedDate = filterData.startDate
+                            ? new Date(filterData.startDate).toDateString()
+                            : null;
+
+                          if (today === date.toDateString())
+                            return "bg-[#FFF0F1] text-[#A3000E]"; // Current date
+                          if (selectedDate === date.toDateString())
+                            return "bg-[#A3000E] text-white"; // Selected date
+                          return "hover:bg-[#FFCCD0] hover:text-[#A3000E]"; // Hover effect
+                        }}
                       />
                     </div>
                     <div className="w-full md:w-[49%]">
@@ -637,7 +674,22 @@ export default function Home() {
                         name="endDate"
                         dateFormat="yyyy-MM-dd"
                         placeholderText="yyyy-mm-dd"
-                        className="hover:shadow-hoverInputShadow focus:border-darkMaroon focus:outline-none !w-full border border-[#DFEAF2] rounded-[4px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 bg-white shadow-sm"
+                        className="hover:shadow-hoverInputShadow focus:border-[#A3000E] focus:outline-none 
+             !w-full border border-[#DFEAF2] rounded-[4px] text-sm leading-4 
+             font-medium placeholder-[#717171] py-4 px-4 bg-white shadow-sm"
+                        popperClassName="custom-datepicker"
+                        dayClassName={(date) => {
+                          const today = new Date().toDateString();
+                          const selectedDate = filterData.endDate
+                            ? new Date(filterData.endDate).toDateString()
+                            : null;
+
+                          if (today === date.toDateString())
+                            return "bg-[#FFF0F1] text-[#A3000E]"; // Current date
+                          if (selectedDate === date.toDateString())
+                            return "bg-[#A3000E] text-white"; // Selected date
+                          return "hover:bg-[#FFCCD0] hover:text-[#A3000E]"; // Hover effect
+                        }}
                       />
                     </div>
                   </div>
@@ -664,8 +716,30 @@ export default function Home() {
                         placeholder="Select Module"
                         isClearable
                         classNames={{
-                          control: () =>
-                            "!hover:shadow-hoverInputShadow focus:border-darkMaroon focus:outline-none !w-full !border !border-[#DFEAF2] !rounded-[4px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm",
+                          control: ({ isFocused }) =>
+                            `onHoverBoxShadow !w-full !border !rounded-[4px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm ${
+                              isFocused
+                                ? "!border-[#A3000E]"
+                                : "!border-[#DFEAF2]"
+                            }`,
+                        }}
+                        styles={{
+                          menu: (base) => ({
+                            ...base,
+                            borderRadius: "4px",
+                            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                            backgroundColor: "#fff",
+                          }),
+                          option: (base, { isFocused, isSelected }) => ({
+                            ...base,
+                            backgroundColor: isSelected
+                              ? "#A3000E" // Active (selected) background color
+                              : isFocused
+                              ? "#FCE4EC" // Hover background color
+                              : "#fff", // Default background
+                            color: isSelected ? "#fff" : "#333",
+                            cursor: "pointer",
+                          }),
                         }}
                       />
                     </div>
@@ -689,8 +763,30 @@ export default function Home() {
                         placeholder="Select Type"
                         isClearable
                         classNames={{
-                          control: () =>
-                            "!hover:shadow-hoverInputShadow focus:border-darkMaroon focus:outline-none !w-full !border !border-[#DFEAF2] !rounded-[4px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm",
+                          control: ({ isFocused }) =>
+                            `onHoverBoxShadow !w-full !border !rounded-[4px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm ${
+                              isFocused
+                                ? "!border-[#A3000E]"
+                                : "!border-[#DFEAF2]"
+                            }`,
+                        }}
+                        styles={{
+                          menu: (base) => ({
+                            ...base,
+                            borderRadius: "4px",
+                            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                            backgroundColor: "#fff",
+                          }),
+                          option: (base, { isFocused, isSelected }) => ({
+                            ...base,
+                            backgroundColor: isSelected
+                              ? "#A3000E" // Active (selected) background color
+                              : isFocused
+                              ? "#FCE4EC" // Hover background color
+                              : "#fff", // Default background
+                            color: isSelected ? "#fff" : "#333",
+                            cursor: "pointer",
+                          }),
                         }}
                       />
                     </div>
@@ -701,13 +797,13 @@ export default function Home() {
                 <div className="mt-8 md:mt-10 w-full flex flex-col md:flex-row md:justify-between items-center gap-y-4 md:gap-y-0">
                   <div
                     onClick={hadleClear}
-                    className="py-[13px] px-[26px] bg-lightMaroon w-full md:w-[49%] rounded-[4px] text-base font-medium leading-6 text-darkMaroon cursor-pointer text-center"
+                    className="py-[13px] px-[26px] bg-lightMaroon w-full md:w-[49%] rounded-[4px] text-base font-medium leading-6 text-darkMaroon cursor-pointer text-center hover:bg-darkMaroon hover:text-white"
                   >
                     Clear Data
                   </div>
                   <button
                     type="submit"
-                    className="py-[13px] px-[26px] bg-darkMaroon rounded-[4px] w-full md:w-[49%] text-base font-medium leading-6 text-white text-center"
+                    className="py-[13px] px-[26px] bg-darkMaroon rounded-[4px] w-full md:w-[49%] text-base font-medium leading-6 text-white text-center hover:bg-lightMaroon hover:text-darkMaroon  "
                   >
                     Filter Now
                   </button>

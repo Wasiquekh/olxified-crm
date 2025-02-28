@@ -56,12 +56,16 @@ interface CustomerViewDetailsProps {
   setIdVersoFromChild: (value: string) => void;
   setUserSignatureFromChild: (value: string) => void;
   setUserVideoFromChild: (value: string) => void;
+  setHitApi:Dispatch<SetStateAction<boolean>>;
+  hitApi: boolean;
 }
 
 // SidebarUserUpdateForm Component
 const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
   isCustomerViewDetailOpen,
   setIsEditFlyoutOpen,
+  setHitApi,
+  hitApi,
   customer,
   selectedButton,
   setFaceImageFromChild,
@@ -264,6 +268,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
             });
             toast.success("Customer is Approved");
             // toast.success("Successfully get");
+            setHitApi(!hitApi);
             await activityLogger.approvedUser(id, verification);
           } catch (error) {
             console.error("Customer is not Approved:", error);

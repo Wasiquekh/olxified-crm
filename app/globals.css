@@ -107,29 +107,30 @@ body {
   bottom: 0 !important;
   padding: 0 !important;
   left: 0 !important;
-  background-color: #f5f5f5 !important;
+  background-color: #FFF0F1 !important;
   border: 1px solid #DFEAF2 !important;
   border-top-left-radius: 4px !important;
   border-bottom-left-radius: 4px !important;
 }
 .react-tel-input .form-control {
   position: relative !important;
+  left: 40px !important;
   font-size: 15px !important;
   letter-spacing: .01rem !important;
   margin-top: 0 !important;
   margin-bottom: 0 !important;
-  padding-left: 48px !important;
+  padding-left: 10px !important;
   margin-left: 0 !important;
   background: #FFFFFF !important;
   border: 1px solid #DFEAF2 !important;
   border-radius: 4px !important;
   line-height: 25px !important;
   height: 50px !important;
-  width: 100% !important;
+  width: 90.7% !important;
   outline: none !important;
   color: #171717 !important;
 }
- :hover.react-tel-input .form-control {
+.react-tel-input .form-control:hover {
   box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);
 }
 .react-tel-input .form-control:focus{
@@ -157,4 +158,63 @@ body {
 .bg-custom {
   background-image: url('/images/headerBg.svg');
   background-repeat: no-repeat;
+}
+.onHoverBoxShadow:hover {
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25) !important;
+}
+.onFocusBorderColor:focus {
+  border-color: #800000!important; /* Dark Maroon */
+  outline: none!important;
+}
+
+/* ------------------------------------- */
+/* DATE PICKER CSS */
+/* Header section (month/year title & arrows) */
+.custom-datepicker .react-datepicker__header {
+  background-color: #A3000E !important; /* Dark maroon */
+  color: white !important;
+  border-bottom: none !important;
+}
+
+/* Month & year text */
+.custom-datepicker .react-datepicker__current-month {
+  color: white !important;
+  font-weight: bold;
+}
+
+.custom-datepicker .react-datepicker__navigation {
+  filter: brightness(0) invert(1); /* Makes left/right arrows white */
+}
+
+/* Weekday names (Sun, Mon, Tue, etc.) */
+.custom-datepicker .react-datepicker__day-name {
+  background-color: #A3000E !important;
+  color: white !important;
+}
+
+/* Current date */
+.custom-datepicker .react-datepicker__day--today {
+  background-color: #FFF0F1 !important; /* Light pink */
+  color: #A3000E !important;
+  font-weight: bold;
+}
+
+/* Hover effect */
+.custom-datepicker .react-datepicker__day:hover {
+  background-color: #FFCCD0 !important; /* Medium pink */
+  color: #A3000E !important;
+}
+
+/* Selected date */
+.custom-datepicker .react-datepicker__day--selected {
+  background-color: #A3000E !important; /* Dark maroon */
+  color: white !important;
+}
+
+/* Datepicker dropdown background */
+.custom-datepicker {
+  background-color: #FFF0F1 !important; /* Light pink */
+  border: 1px solid #A3000E !important;
+  border-radius: 4px !important;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1) !important;
 }

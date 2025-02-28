@@ -103,6 +103,7 @@ export default function Home() {
   );
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isModalOpenVideo, setIsModalOpenVideo] = useState<boolean>(false);
+  const [hitApi, setHitApi] = useState<boolean>(true);
   //console.log('BBBBBBBBBBBBB',isModalOpenVideo)
   const [modalImage, setModalImage] = useState<string>("");
   const context = useContext(AppContext);
@@ -148,7 +149,7 @@ export default function Home() {
   const fetchUserStatus = async () => {
     // console.log('USE EFFECT CUS ID',id);
     try {
-      console.log("USE EFFECT CUS ID", id);
+     // console.log("USE EFFECT CUS ID", id);
       const response = await axiosProvider.post("/getuserstatus", {
         customer_id: id,
       });
@@ -193,7 +194,7 @@ export default function Home() {
   useEffect(() => {
     fetchUserStatus();
     getUserHistory();
-  }, []);
+  }, [hitApi]);
 
   // Determine background color based on liveDetection value
   const getBgColor = (status: string | null) => {
@@ -1658,6 +1659,8 @@ export default function Home() {
         setIdVersoFromChild={setIdVersoFromChild}
         setUserSignatureFromChild={setUserSignatureFromChild}
         setUserVideoFromChild={setUserVideoFromChild}
+        hitApi={hitApi}
+        setHitApi={setHitApi}
       />
     </>
   );
