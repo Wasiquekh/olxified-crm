@@ -234,6 +234,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
               reason_reject: reason,
             });
             toast.success("Customer is rejected");
+            setHitApi(!hitApi);
             // toast.success("Successfully get");
             await activityLogger.rejectedUser(id, verification);
           } catch (error) {
