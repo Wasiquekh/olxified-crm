@@ -610,13 +610,13 @@ export default function Home() {
                 <div className="mt-10 w-full flex flex-col gap-y-4 md:flex-row justify-between items-center ">
                   <div
                     onClick={hadleClear}
-                    className=" py-[13px] px-[26px] bg-lightMaroon rounded-[4px] text-base font-medium leading-6  cursor-pointer w-full md:w-[49%] text-center text-darkMaroon "
+                    className=" py-[13px] px-[26px] bg-lightMaroon rounded-[4px] text-base font-medium leading-6  cursor-pointer w-full md:w-[49%] text-center text-darkMaroon hover:bg-darkMaroon hover:text-white "
                   >
                     Clear Data
                   </div>
                   <button
                     type="submit"
-                    className=" py-[13px] px-[26px] bg-darkMaroon rounded-[4px] text-base font-medium leading-6 text-white hover:text-dark cursor-pointer w-full md:w-[49%] text-center "
+                    className=" py-[13px] px-[26px] bg-darkMaroon rounded-[4px] text-base font-medium leading-6 text-white hover:text-dark cursor-pointer w-full md:w-[49%] text-center hover:bg-lightMaroon hover:text-darkMaroon "
                   >
                     Filter Now
                   </button>
