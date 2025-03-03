@@ -269,23 +269,23 @@ export default function Home() {
                     {/* Add gap for spacing between items */}
                     {appliedFilters.map((filter, index) => (
                       <li
-                        className=" items-center text-[#1814F3] bg-[#EDF2FE] inline-flex  p-2 rounded gap-1 text-xs ml-2 mb-2"
+                        className=" items-center text-darkMaroon bg-lighterMaroon inline-flex  p-2 rounded gap-1 text-xs ml-2 mb-2"
                         key={index}
                       >
-                        <RiAccountCircleLine className="text-[#1814F3]" />
+                        <RiAccountCircleLine className="text-darkMaroon" />
                         {filter}
                         <RxCross2
                           onClick={() => {
                             removeFilter(filter);
                           }}
-                          className="text-[#1814F3] cursor-pointer"
+                          className="text-darkMaroon cursor-pointer"
                         />
                       </li>
                     ))}
-                    <li className="items-center text-[#1814F3] bg-[#EDF2FE] inline-flex  p-2 rounded gap-1 text-xs ml-2 mb-2 relative top-[-2px]">
+                    <li className="items-center text-darkMaroon bg-lighterMaroon inline-flex  p-2 rounded gap-1 text-xs ml-2 mb-2 relative top-[-2px]">
                       Clear All
                       <RxCross2
-                        className="text-[#1814F3] cursor-pointer"
+                        className="text-darkMaroon cursor-pointer"
                         onClick={clearAllFilteredData}
                       ></RxCross2>
                     </li>
