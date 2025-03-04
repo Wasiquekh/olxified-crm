@@ -714,7 +714,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
               <div className="LivenessDetection w-[279px] text-[#0e0e0e] text-base font-medium">
                 Five Second Video Verification
               </div>
-              <div className="w-full flex flex-col md:flex-row md:justify-between !mb-0 md:mb-6">
+              <div className="w-full flex flex-col md:flex-row md:justify-between !mb-0 md:mb-6 md:!h-[450px]">
                 <div className="w-full">
                   {customerShortVideo ? (
                     <div className="custom-player-container">
