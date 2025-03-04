@@ -91,8 +91,8 @@ export default function Home() {
       showCancelButton: true,
       confirmButtonText: "Yes",
       cancelButtonText: "No",
-      confirmButtonColor: "#d33",
-      cancelButtonColor: "#3085d6",
+      confirmButtonColor: "#FFCCD0",
+      cancelButtonColor: "#A3000E",
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {

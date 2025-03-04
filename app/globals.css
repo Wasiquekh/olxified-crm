@@ -218,6 +218,27 @@ body {
   border-radius: 4px !important;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1) !important;
 }
+button.swal2-confirm.swal2-styled.swal2-default-outline {
+  color: #A3000E !important;
+  background-color: #FFCCD0 !important;
+}
+button.swal2-cancel.swal2-styled.swal2-default-outline {
+  background: #A3000E !important;
+}
+.swal2-icon.swal2-warning.swal2-icon-show {
+  color: #A3000E !important;
+  border-color: #A3000E !important;
+}
+
+button.swal2-confirm.swal2-styled.swal2-default-outline:hover {
+  background: #A3000E !important;
+  color: #fff !important;
+}
+button.swal2-cancel.swal2-styled.swal2-default-outline:hover {
+  background-color: #FFCCD0 !important;
+  color: #A3000E !important;
+}
+
 @media only screen and (max-width: 767px) {
   .react-tel-input .form-control {
     width: 87.8% !important;
