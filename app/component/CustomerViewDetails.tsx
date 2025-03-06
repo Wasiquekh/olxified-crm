@@ -358,7 +358,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                   </h1>
                   <div className="w-full bg-gray-200 rounded-lg h-4">
                     <div
-                      className="bg-blue-500 h-full rounded-lg"
+                      className="bg-progressBtn h-full rounded-lg"
                       style={{ width: `${livenessScore}%` }}
                     ></div>
                   </div>
@@ -469,7 +469,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                     </h1>
                     <div className="w-full bg-gray-200 rounded-lg h-4">
                       <div
-                        className="bg-blue-500 h-full rounded-lg"
+                        className="bg-progressBtn h-full rounded-lg"
                         style={{ width: `${customer.face_match_score}%` }}
                       ></div>
                     </div>
