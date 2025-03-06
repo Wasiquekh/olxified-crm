@@ -125,7 +125,7 @@ export default function Home() {
                           type="text"
                           name="name"
                           placeholder="Charlene Reed"
-                          className="hover:shadow-hoverInputShadow focus:border-darkMaroon focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
+                          className="hover:shadow-hoverInputShadow focus:border-primary-500 focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
                         />
                         <ErrorMessage
                           name="name"
@@ -170,7 +170,7 @@ export default function Home() {
                           type="email"
                           name="email"
                           placeholder="Janedoe@gmail.com"
-                          className="hover:shadow-hoverInputShadow focus:border-darkMaroon focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
+                          className="hover:shadow-hoverInputShadow focus:border-primary-500 focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
                         />
                         <ErrorMessage
                           name="email"
@@ -187,7 +187,7 @@ export default function Home() {
                           type={showPassword ? "text" : "password"}
                           name="password"
                           placeholder="********"
-                          className="hover:shadow-hoverInputShadow focus:border-darkMaroon focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
+                          className="hover:shadow-hoverInputShadow focus:border-primary-500 focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
                         />
                         {showPassword ? (
                           <FaRegEye
@@ -271,7 +271,7 @@ export default function Home() {
                           <button
                             type="submit"
                             disabled={isSubmitting}
-                            className="w-full  h-[50px] bg-darkMaroon rounded-[4px] text-white text-lg leading-normal font-medium hover:bg-lightMaroon hover:text-darkMaroon"
+                            className="w-full  h-[50px] bg-primary-500 rounded-[4px] text-white text-lg leading-normal font-medium hover:bg-lightMaroon hover:text-primary-500"
                           >
                             {isSubmitting ? "Submitting..." : "Submit"}
                           </button>

@@ -257,14 +257,14 @@ export default function OtpHome() {
                   ref={(el) => {
                     inputRefs.current[index] = el;
                   }}
-                  className="w-[14%] sm:w-[14%] h-12 sm:h-14 py-3 sm:py-4 text-center sm:px-5 border-b border-[#BDD1E0] text-black text-lg sm:text-xl font-semibold leading-normal focus:outline-none focus:border-b-2 focus-within:border-darkMaroon"
+                  className="w-[14%] sm:w-[14%] h-12 sm:h-14 py-3 sm:py-4 text-center sm:px-5 border-b border-[#BDD1E0] text-black text-lg sm:text-xl font-semibold leading-normal focus:outline-none focus:border-b-2 focus-within:border-primary-500"
                 />
               ))}
             </div>
             <div className="w-full">
               <button
                 type="submit"
-                className="bg-darkMaroon border rounded-[4px] w-full h-[50px] text-center text-white text-lg font-medium leading-normal mb-3 hover:bg-darkestMaroon"
+                className="bg-primary-500 border rounded-[4px] w-full h-[50px] text-center text-white text-lg font-medium leading-normal mb-3 hover:bg-primary-600"
                 disabled={loading}
               >
                 {loading ? "Code Verifying..." : "Verify Code"}

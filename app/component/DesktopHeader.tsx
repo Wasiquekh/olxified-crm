@@ -25,7 +25,7 @@ const DesktopHeader = () => {
           <input
             type="text"
             placeholder="Search for something"
-            className=" bg-white w-64 h-[50px] rounded-xl px-6 border border-[#E7E7E7] hover:shadow-hoverInputShadow focus:border-darkMaroon focus:outline-none placeholder-[#8BA3CB] text-[15px] leading-normal"
+            className=" bg-white w-64 h-[50px] rounded-xl px-6 border border-[#E7E7E7] hover:shadow-hoverInputShadow focus:border-primary-500 focus:outline-none placeholder-[#8BA3CB] text-[15px] leading-normal"
           />
           <div className=" w-[50px] h-[50px] bg-white rounded-full flex justify-center items-center">
             <CiSettings className=" text-[#718EBF] w-[25px] h-[25px]" />
@@ -39,7 +39,7 @@ const DesktopHeader = () => {
               alt="Orizon profile"
               width={50}
               height={50}
-              className="rounded-full border-2 border-darkMaroon"
+              className="rounded-full border-2 border-primary-500"
             />
           </div>
         </div>
@@ -53,7 +53,7 @@ const DesktopHeader = () => {
             alt="Orizon profile"
             width={50}
             height={50}
-            className="rounded-full border-2 border-darkMaroon"
+            className="rounded-full border-2 border-primary-500"
           />
         </div>
       </div>

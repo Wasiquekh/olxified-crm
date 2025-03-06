@@ -321,11 +321,11 @@ export default function Home() {
               <div className=" flex justify-end items-center mb-6  w-full mx-auto">
                 <div className=" flex justify-center items-center gap-4">
                   <div
-                    className=" flex gap-2 py-3 px-4 rounded-[4px] border border-[#E7E7E7] cursor-pointer bg-darkMaroon group hover:bg-lightMaroon"
+                    className=" flex gap-2 py-3 px-4 rounded-[4px] border border-[#E7E7E7] cursor-pointer bg-primary-500 group hover:bg-lightMaroon"
                     onClick={toggleFilterFlyout}
                   >
-                    <FiFilter className=" w-5 h-5 text-white group-hover:text-darkMaroon" />
-                    <p className=" text-white  text-base font-medium group-hover:text-darkMaroon">
+                    <FiFilter className=" w-5 h-5 text-white group-hover:text-primary-500" />
+                    <p className=" text-white  text-base font-medium group-hover:text-primary-500">
                       Filter
                     </p>
                   </div>
@@ -339,22 +339,22 @@ export default function Home() {
                       {appliedFilters.map((filter, index) => (
                         <li
                           key={index}
-                          className="flex items-center text-darkMaroon bg-lighterMaroon px-3 py-2 rounded-md text-xs"
+                          className="flex items-center text-primary-500 bg-primary-300 px-3 py-2 rounded-md text-xs"
                         >
-                          <RiAccountCircleLine className="text-darkMaroon mr-1" />
+                          <RiAccountCircleLine className="text-primary-500 mr-1" />
                           {filter}
                           <RxCross2
                             onClick={() => removeFilter(filter)}
-                            className="text-darkMaroon cursor-pointer ml-2"
+                            className="text-primary-500 cursor-pointer ml-2"
                           />
                         </li>
                       ))}
                       <li
                         onClick={clearAllFilteredData}
-                        className="flex items-center text-darkMaroon bg-lighterMaroon px-3 py-2 rounded-md text-xs cursor-pointer"
+                        className="flex items-center text-primary-500 bg-primary-300 px-3 py-2 rounded-md text-xs cursor-pointer"
                       >
                         Clear All
-                        <RxCross2 className="text-darkMaroon ml-2" />
+                        <RxCross2 className="text-primary-500 ml-2" />
                       </li>
                     </ul>
                   </div>
@@ -439,7 +439,7 @@ export default function Home() {
                   ) : (
                     data.map((item, index) => (
                       <tr
-                        className="border border-tableBorder bg-white hover:bg-lighterMaroon"
+                        className="border border-tableBorder bg-white hover:bg-primary-300"
                         key={index}
                       >
                         <td className="px-2 py-2 border border-tableBorder">
@@ -506,7 +506,7 @@ export default function Home() {
               <button
                 onClick={() => handlePageChangeFilter(filterPage - 1)}
                 disabled={filterPage === 1}
-                className="px-2 py-2 mx-2 border rounded bg-darkMaroon text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-2 py-2 mx-2 border rounded bg-primary-500 text-white disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <HiChevronDoubleLeft className=" w-6 h-auto" />
               </button>
@@ -516,7 +516,7 @@ export default function Home() {
               <button
                 onClick={() => handlePageChangeFilter(filterPage + 1)}
                 disabled={filterPage === totalPagesFilter}
-                className="px-2 py-2 mx-2 border rounded bg-darkMaroon text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-2 py-2 mx-2 border rounded bg-primary-500 text-white disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <HiChevronDoubleRight className=" w-6 h-auto" />
               </button>
@@ -526,7 +526,7 @@ export default function Home() {
               <button
                 onClick={() => handlePageChange(page - 1)}
                 disabled={page === 1}
-                className="px-2 py-2 mx-2 border rounded bg-darkMaroon text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-2 py-2 mx-2 border rounded bg-primary-500 text-white disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <HiChevronDoubleLeft className=" w-6 h-auto" />
               </button>
@@ -536,7 +536,7 @@ export default function Home() {
               <button
                 onClick={() => handlePageChange(page + 1)}
                 disabled={page === totalPages}
-                className="px-2 py-2 mx-2 border rounded bg-darkMaroon text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-2 py-2 mx-2 border rounded bg-primary-500 text-white disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <HiChevronDoubleRight className=" w-6 h-auto" />
               </button>
@@ -558,7 +558,7 @@ export default function Home() {
             <div className="w-full min-h-auto p-4 sm:p-4 md:p-4">
               {/* Header */}
               <div className="flex justify-between mb-4 sm:mb-6 md:mb-8">
-                <p className="text-darkMaroon text-[22px] sm:text-[24px] md:text-[26px] font-bold leading-8 sm:leading-9">
+                <p className="text-primary-500 text-[22px] sm:text-[24px] md:text-[26px] font-bold leading-8 sm:leading-9">
                   User Filter
                 </p>
                 <IoCloseOutline
@@ -797,13 +797,13 @@ export default function Home() {
                 <div className="mt-8 md:mt-10 w-full flex flex-col md:flex-row md:justify-between items-center gap-y-4 md:gap-y-0">
                   <div
                     onClick={hadleClear}
-                    className="py-[13px] px-[26px] bg-lightMaroon w-full md:w-[49%] rounded-[4px] text-base font-medium leading-6 text-darkMaroon cursor-pointer text-center hover:bg-darkMaroon hover:text-white"
+                    className="py-[13px] px-[26px] bg-lightMaroon w-full md:w-[49%] rounded-[4px] text-base font-medium leading-6 text-primary-500 cursor-pointer text-center hover:bg-primary-500 hover:text-white"
                   >
                     Clear Data
                   </div>
                   <button
                     type="submit"
-                    className="py-[13px] px-[26px] bg-darkMaroon rounded-[4px] w-full md:w-[49%] text-base font-medium leading-6 text-white text-center hover:bg-lightMaroon hover:text-darkMaroon  "
+                    className="py-[13px] px-[26px] bg-primary-500 rounded-[4px] w-full md:w-[49%] text-base font-medium leading-6 text-white text-center hover:bg-lightMaroon hover:text-primary-500  "
                   >
                     Filter Now
                   </button>

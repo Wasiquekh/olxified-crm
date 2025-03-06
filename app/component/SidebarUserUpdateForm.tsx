@@ -108,7 +108,7 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
       )}
       <div className={`filterflyout ${isEditFlyoutOpen ? "filteropen" : ""}`}>
         <div className="flex  md:flex-row justify-between mb-4">
-          <p className="text-darkMaroon text-[26px] font-bold leading-9 hover:cursor-pointer block">
+          <p className="text-primary-500 text-[26px] font-bold leading-9 hover:cursor-pointer block">
             User Details
           </p>
           <button
@@ -125,7 +125,7 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
             onClick={() => setIsVisible(true)}
             className={`text-[16px] font-medium leading-9 hover:cursor-pointer  hover:text-lightMaroon hover:border-lightMaroon hover:border-b-2 ${
               isVisible
-                ? "text-darkMaroon border-b-2 border-darkMaroon"
+                ? "text-primary-500 border-b-2 border-primary-500"
                 : "text-gray-500"
             }`}
           >
@@ -135,7 +135,7 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
             onClick={() => setIsVisible(false)}
             className={`text-[16px] font-medium leading-9 hover:cursor-pointer  hover:text-lightMaroon hover:border-lightMaroon hover:border-b-2 ${
               !isVisible
-                ? "text-darkMaroon border-b-2 border-darkMaroon "
+                ? "text-primary-500 border-b-2 border-primary-500 "
                 : "text-gray-500"
             }`}
           >
@@ -222,7 +222,7 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.name}
-                        className={`hover:shadow-hoverInputShadow focus:border-darkMaroon focus:outline-none w-full border rounded-[4px] text-sm leading-4 font-medium text-[#717171] py-4 px-4 ${
+                        className={`hover:shadow-hoverInputShadow focus:border-primary-500 focus:outline-none w-full border rounded-[4px] text-sm leading-4 font-medium text-[#717171] py-4 px-4 ${
                           touched.name && errors.name
                             ? "border-red-500"
                             : "border-[#DFEAF2]"
@@ -244,7 +244,7 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.mobile_number}
-                        className={`hover:shadow-hoverInputShadow focus:border-darkMaroon focus:outline-none w-full border rounded-[4px] text-sm leading-4 font-medium text-[#717171] py-4 px-4 ${
+                        className={`hover:shadow-hoverInputShadow focus:border-darkMprimary-500aroon focus:outline-none w-full border rounded-[4px] text-sm leading-4 font-medium text-[#717171] py-4 px-4 ${
                           touched.mobile_number && errors.mobile_number
                             ? "border-red-500"
                             : "border-[#DFEAF2]"
@@ -268,7 +268,7 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.email}
-                        className={`hover:shadow-hoverInputShadow focus:border-darkMaroon focus:outline-none w-full border rounded-[4px] text-sm leading-4 font-medium text-[#717171] py-4 px-4 ${
+                        className={`hover:shadow-hoverInputShadow focus:border-primary-500 focus:outline-none w-full border rounded-[4px] text-sm leading-4 font-medium text-[#717171] py-4 px-4 ${
                           touched.email && errors.email
                             ? "border-red-500"
                             : "border-[#DFEAF2]"
@@ -288,7 +288,7 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
                         as="select"
                         name="role"
                         onChange={handleChange}
-                        className="hover:shadow-hoverInputShadow focus:border-darkMaroon focus:outline-none w-full border rounded-[4px] text-sm leading-4 font-medium text-[#717171] py-4 px-4"
+                        className="hover:shadow-hoverInputShadow focus:border-primary-500 focus:outline-none w-full border rounded-[4px] text-sm leading-4 font-medium text-[#717171] py-4 px-4"
                       >
                         <option value="" disabled>
                           Select Role
@@ -309,7 +309,7 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
                       type="submit"
                       onClick={() => setIsEditFlyoutOpen(false)}
                       disabled={isSubmitting}
-                      className="py-[13px] px-[26px] bg-darkMaroon rounded-[4px] text-base font-medium leading-6 text-white hover:bg-lightMaroon hover:text-darkMaroon w-full md:w-[48%]"
+                      className="py-[13px] px-[26px] bg-primary-500 rounded-[4px] text-base font-medium leading-6 text-white hover:bg-lightMaroon hover:text-primary-500 w-full md:w-[48%]"
                     >
                       {isSubmitting ? "Updating Details" : "Update Details"}
                     </button>

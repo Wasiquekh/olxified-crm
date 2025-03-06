@@ -133,7 +133,7 @@ export default function LoginHome() {
                     name="email"
                     autoComplete="username"
                     placeholder="Enter your User ID/Email"
-                    className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-7 text-[#718EBF]"
+                    className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-7 text-[#718EBF] hover:shadow-hoverInputShadow focus:border-primary-500"
                   />
                   <ErrorMessage
                     name="email"
@@ -151,7 +151,7 @@ export default function LoginHome() {
                     onChange={(e) => setFieldValue("password", e.target.value)}
                     autoComplete="current-password"
                     placeholder="Enter your password"
-                    className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-8 text-[#718EBF]"
+                    className="focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-8 text-[#718EBF] hover:shadow-hoverInputShadow focus:border-primary-500"
                   />
                   {showPassword ? (
                     <FaRegEye
@@ -173,7 +173,7 @@ export default function LoginHome() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className=" bg-darkMaroon  rounded-[4px] w-full h-[50px] text-center text-white text-lg font-medium leading-normal mb-3 hover:bg-darkestMaroon transition duration-100"
+                  className=" bg-primary-500  rounded-[4px] w-full h-[50px] text-center text-white text-lg font-medium leading-normal mb-3 hover:bg-primary-600 transition duration-100"
                 >
                   {loading ? "Logging in..." : "Login"}
                 </button>

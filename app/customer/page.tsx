@@ -249,11 +249,11 @@ export default function Home() {
             <div className=" flex justify-end items-center mb-6  w-full mx-auto">
               <div className=" flex justify-center items-center gap-4">
                 <div
-                  className=" flex gap-2 py-3 px-4 rounded-[4px] border border-[#E7E7E7] cursor-pointer bg-darkMaroon items-center hover:bg-lightMaroon group"
+                  className=" flex gap-2 py-3 px-4 rounded-[4px] border border-[#E7E7E7] cursor-pointer bg-primary-500 items-center hover:bg-lightMaroon group"
                   onClick={toggleFilterFlyout}
                 >
-                  <FiFilter className=" w-5 h-5 text-white group-hover:text-darkMaroon" />
-                  <p className=" text-white text-base font-medium group-hover:text-darkMaroon">
+                  <FiFilter className=" w-5 h-5 text-white group-hover:text-primary-500" />
+                  <p className=" text-white text-base font-medium group-hover:text-primary-500">
                     Filter
                   </p>
                 </div>
@@ -269,23 +269,23 @@ export default function Home() {
                     {/* Add gap for spacing between items */}
                     {appliedFilters.map((filter, index) => (
                       <li
-                        className=" items-center text-darkMaroon bg-lighterMaroon inline-flex  p-2 rounded gap-1 text-xs ml-2 mb-2"
+                        className=" items-center text-primary-500 bg-primary-300 inline-flex  p-2 rounded gap-1 text-xs ml-2 mb-2"
                         key={index}
                       >
-                        <RiAccountCircleLine className="text-darkMaroon" />
+                        <RiAccountCircleLine className="text-primary-500" />
                         {filter}
                         <RxCross2
                           onClick={() => {
                             removeFilter(filter);
                           }}
-                          className="text-darkMaroon cursor-pointer"
+                          className="text-primary-500 cursor-pointer"
                         />
                       </li>
                     ))}
-                    <li className="items-center text-darkMaroon bg-lighterMaroon inline-flex  p-2 rounded gap-1 text-xs ml-2 mb-2 relative top-[-2px]">
+                    <li className="items-center text-primary-500 bg-primary-300 inline-flex  p-2 rounded gap-1 text-xs ml-2 mb-2 relative top-[-2px]">
                       Clear All
                       <RxCross2
-                        className="text-darkMaroon cursor-pointer"
+                        className="text-primary-500 cursor-pointer"
                         onClick={clearAllFilteredData}
                       ></RxCross2>
                     </li>
@@ -384,7 +384,7 @@ export default function Home() {
                   {Array.isArray(data) && data.length > 0 ? (
                     data.map((item, index) => (
                       <tr
-                        className="border border-tableBorder bg-white hover:bg-lighterMaroon"
+                        className="border border-tableBorder bg-white hover:bg-primary-300"
                         key={index}
                       >
                         {/* Name - Birth Date: Always Visible */}
@@ -460,7 +460,7 @@ export default function Home() {
                         <td className="px-3 py-2 border border-tableBorder md:table-cell">
                           <button
                             onClick={() => handleClick(item)}
-                            className="py-1 px-3 bg-black hover:bg-darkMaroon flex gap-2 items-center rounded-[4px]"
+                            className="py-1 px-3 bg-black hover:bg-primary-500 flex gap-2 items-center rounded-[4px]"
                           >
                             <MdRemoveRedEye className="text-white w-4 h-4 hover:text-white" />
                             <span className="text-xs sm:text-sm text-white hover:text-white">
@@ -489,7 +489,7 @@ export default function Home() {
               <button
                 onClick={() => handlePageChangeFilter(filterPage - 1)}
                 disabled={filterPage === 1}
-                className="px-2 py-2 mx-2 border rounded bg-darkMaroon text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-2 py-2 mx-2 border rounded bg-primary-500 text-white disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <HiChevronDoubleLeft className=" w-6 h-auto" />
               </button>
@@ -499,7 +499,7 @@ export default function Home() {
               <button
                 onClick={() => handlePageChangeFilter(filterPage + 1)}
                 disabled={filterPage === totalPagesFilter}
-                className="px-2 py-2 mx-2 border rounded bg-darkMaroon text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-2 py-2 mx-2 border rounded bg-primary-500 text-white disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <HiChevronDoubleRight className=" w-6 h-auto" />
               </button>
@@ -509,7 +509,7 @@ export default function Home() {
               <button
                 onClick={() => handlePageChange(page - 1)}
                 disabled={page === 1}
-                className="px-2 py-2 mx-2 border rounded bg-darkMaroon text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-2 py-2 mx-2 border rounded bg-primary-500 text-white disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <HiChevronDoubleLeft className=" w-6 h-auto" />
               </button>
@@ -519,7 +519,7 @@ export default function Home() {
               <button
                 onClick={() => handlePageChange(page + 1)}
                 disabled={page === totalPages}
-                className="px-2 py-2 mx-2 border rounded bg-darkMaroon text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-2 py-2 mx-2 border rounded bg-primary-500 text-white disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <HiChevronDoubleRight className=" w-6 h-auto" />
               </button>
@@ -546,7 +546,7 @@ export default function Home() {
             <div className=" w-full min-h-auto">
               {/* Flyout content here */}
               <div className=" flex justify-between mb-4">
-                <p className=" text-darkMaroon text-[26px] font-bold leading-9">
+                <p className=" text-primary-500 text-[26px] font-bold leading-9">
                   User Details
                 </p>
                 <IoCloseOutline
@@ -569,7 +569,7 @@ export default function Home() {
                         name="name"
                         onChange={handleChange}
                         placeholder="Alexandre"
-                        className=" hover:shadow-hoverInputShadow focus:border-darkMaroon focus:outline-none w-full  border border-[#DFEAF2] rounded-[4px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 text-firstBlack"
+                        className=" hover:shadow-hoverInputShadow focus:border-primary-500 focus:outline-none w-full  border border-[#DFEAF2] rounded-[4px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 text-firstBlack"
                       />
                     </div>
                   </div>
@@ -585,7 +585,7 @@ export default function Home() {
                         onChange={handleChange}
                         name="mobilephonenumber"
                         placeholder="1 (800) 667-6389"
-                        className=" hover:shadow-hoverInputShadow focus:border-darkMaroon focus:outline-none w-full  border border-[#DFEAF2] rounded-[4px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                        className=" hover:shadow-hoverInputShadow focus:border-primary-500 focus:outline-none w-full  border border-[#DFEAF2] rounded-[4px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
                       />
                     </div>
                     <div className=" w-full">
@@ -610,13 +610,13 @@ export default function Home() {
                 <div className="mt-10 w-full flex flex-col gap-y-4 md:flex-row justify-between items-center ">
                   <div
                     onClick={hadleClear}
-                    className=" py-[13px] px-[26px] bg-lightMaroon rounded-[4px] text-base font-medium leading-6  cursor-pointer w-full md:w-[49%] text-center text-darkMaroon hover:bg-darkMaroon hover:text-white "
+                    className=" py-[13px] px-[26px] bg-lightMaroon rounded-[4px] text-base font-medium leading-6  cursor-pointer w-full md:w-[49%] text-center text-primary-500 hover:bg-primary-500 hover:text-white "
                   >
                     Clear Data
                   </div>
                   <button
                     type="submit"
-                    className=" py-[13px] px-[26px] bg-darkMaroon rounded-[4px] text-base font-medium leading-6 text-white hover:text-dark cursor-pointer w-full md:w-[49%] text-center hover:bg-lightMaroon hover:text-darkMaroon "
+                    className=" py-[13px] px-[26px] bg-primary-500 rounded-[4px] text-base font-medium leading-6 text-white hover:text-dark cursor-pointer w-full md:w-[49%] text-center hover:bg-lightMaroon hover:text-primary-500 "
                   >
                     Filter Now
                   </button>
