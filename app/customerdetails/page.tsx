@@ -274,8 +274,8 @@ export default function Home() {
                         <td className="text-sm text-[#78829D] py-4 px-4">
                           Availability
                         </td>
-                        <td className="text-sm font-medium text-primary-500 py-4 px-4">
-                          <span className="bg-primary-300 py-1 px-2 rounded border border-primary-500">
+                        <td className="text-sm font-medium text-primary-900 py-4 px-4">
+                          <span className="bg-primary-200 py-1 px-2 rounded ">
                             Available now
                           </span>
                         </td>
@@ -782,8 +782,8 @@ export default function Home() {
               <div className="self-stretch h-[93px] rounded border border-[#232323] flex-col justify-start items-start gap-2.5 flex">
                 <div className="self-stretch h-[72px] pl-4 py-1 rounded-tl rounded-tr justify-start items-start gap-1 inline-flex">
                   <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
-                    <div className="px-1 bg-primary-300 justify-start items-center inline-flex relative bottom-[13px]">
-                      <div className="text-primary-500 text-xs font-normal leading-none tracking-wide">
+                    <div className="px-1 bg-white justify-start items-center inline-flex relative bottom-[13px]">
+                      <div className="text-black text-xs font-normal leading-none tracking-wide">
                         Instructions
                       </div>
                     </div>
@@ -799,7 +799,7 @@ export default function Home() {
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="w-[150px] h-9 relative">
                   <button
-                    className=" bg-primary-500 text-white py-1.5 px-6 rounded-[4px] text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    className=" bg-primary-500 text-white hover:bg-primary-600 py-1.5 px-6 rounded-[4px] text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={
                       liveDetection === "Approved" ||
                       liveDetection === "Rejected"
@@ -811,8 +811,8 @@ export default function Home() {
                     Verify User
                   </button>
                 </div>
-                <div className="px-4 py-2 bg-primary-300 rounded-[4px] justify-center items-center gap-2.5 flex">
-                  <div className="text-primary-500 text-sm font-bold">
+                <div className="px-4 py-2 bg-primary-200 rounded-[4px] justify-center items-center gap-2.5 flex">
+                  <div className="text-black text-sm font-medium">
                     Notify User
                   </div>
                 </div>
@@ -849,8 +849,8 @@ export default function Home() {
               <div className="self-stretch h-[93px] rounded border border-[#232323] flex-col justify-start items-start gap-2.5 flex">
                 <div className="self-stretch h-[72px] pl-4 py-1 rounded-tl rounded-tr justify-start items-start gap-1 inline-flex">
                   <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
-                    <div className="px-1 bg-primary-300 justify-start items-center inline-flex relative bottom-[13px]">
-                      <div className="text-primary-500 text-xs font-normal leading-none tracking-wide">
+                    <div className="px-1 bg-white justify-start items-center inline-flex relative bottom-[13px]">
+                      <div className="text-black text-xs font-normal leading-none tracking-wide">
                         Instructions
                       </div>
                     </div>
@@ -866,7 +866,7 @@ export default function Home() {
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="w-[150px] h-9 relative">
                   <button
-                    className=" bg-primary-500 text-white py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    className=" bg-primary-500 text-white hover:bg-primary-600 py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={
                       identityMatching === "Approved" ||
                       identityMatching === "Rejected"
@@ -878,8 +878,8 @@ export default function Home() {
                     Verify User
                   </button>
                 </div>
-                <div className="px-4 py-2 bg-primary-300 rounded-[4px] justify-center items-center gap-2.5 flex">
-                  <div className="text-primary-500 text-sm font-bold">
+                <div className="px-4 py-2 bg-primary-200 rounded-[4px] justify-center items-center gap-2.5 flex">
+                  <div className="text-black text-sm font-medium">
                     Notify User
                   </div>
                 </div>
@@ -920,8 +920,8 @@ export default function Home() {
               <div className="self-stretch h-[93px] rounded border border-[#232323] flex-col justify-start items-start gap-2.5 flex">
                 <div className="self-stretch h-[72px] pl-4 py-1 rounded-tl rounded-tr justify-start items-start gap-1 inline-flex">
                   <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
-                    <div className="px-1 bg-primary-300 justify-start items-center inline-flex relative bottom-[13px]">
-                      <div className="text-primary-500 text-xs font-normal leading-none tracking-wide">
+                    <div className="px-1 bg-white justify-start items-center inline-flex relative bottom-[13px]">
+                      <div className="text-black text-xs font-normal leading-none tracking-wide">
                         Instructions
                       </div>
                     </div>
@@ -937,7 +937,7 @@ export default function Home() {
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="w-[150px] h-9 relative">
                   <button
-                    className=" bg-primary-500 text-white py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    className=" bg-primary-500 text-white hover:bg-primary-600 py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={
                       userDetailsVerification === "Approved" ||
                       userDetailsVerification === "Rejected"
@@ -949,8 +949,8 @@ export default function Home() {
                     Verify User
                   </button>
                 </div>
-                <div className="px-4 py-2 bg-primary-300 rounded-[4px] justify-center items-center gap-2.5 flex">
-                  <div className="text-primary-500 text-sm font-bold">
+                <div className="px-4 py-2 bg-primary-200 rounded-[4px] justify-center items-center gap-2.5 flex">
+                  <div className="text-black text-sm font-medium">
                     Notify User
                   </div>
                 </div>
@@ -991,8 +991,8 @@ export default function Home() {
               <div className="self-stretch h-[93px] rounded border border-[#232323] flex-col justify-start items-start gap-2.5 flex">
                 <div className="self-stretch h-[72px] pl-4 py-1 rounded-tl rounded-tr justify-start items-start gap-1 inline-flex">
                   <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
-                    <div className="px-1 bg-primary-300 justify-start items-center inline-flex relative bottom-[13px]">
-                      <div className="text-primary-500 text-xs font-normal leading-none tracking-wide">
+                    <div className="px-1 bg-white justify-start items-center inline-flex relative bottom-[13px]">
+                      <div className="text-black text-xs font-normal leading-none tracking-wide">
                         Instructions
                       </div>
                     </div>
@@ -1008,7 +1008,7 @@ export default function Home() {
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="w-[150px] h-9 relative">
                   <button
-                    className=" bg-primary-500 text-white py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    className=" bg-primary-500 text-white hover:bg-primary-600 py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={
                       scannedIdCardVerification === "Approved" ||
                       scannedIdCardVerification === "Rejected"
@@ -1020,8 +1020,8 @@ export default function Home() {
                     Verify User
                   </button>
                 </div>
-                <div className="px-4 py-2 bg-primary-300 rounded-[4px] justify-center items-center gap-2.5 flex">
-                  <div className="text-primary-500 text-sm font-bold">
+                <div className="px-4 py-2 bg-primary-200 rounded-[4px] justify-center items-center gap-2.5 flex">
+                  <div className="text-black text-sm font-medium">
                     Notify User
                   </div>
                 </div>
@@ -1062,8 +1062,8 @@ export default function Home() {
               <div className="self-stretch h-[93px] rounded border border-[#232323] flex-col justify-start items-start gap-2.5 flex">
                 <div className="self-stretch h-[72px] pl-4 py-1 rounded-tl rounded-tr justify-start items-start gap-1 inline-flex">
                   <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
-                    <div className="px-1 bg-primary-300 justify-start items-center inline-flex relative bottom-[13px]">
-                      <div className="text-primary-500 text-xs font-normal leading-none tracking-wide">
+                    <div className="px-1 bg-white justify-start items-center inline-flex relative bottom-[13px]">
+                      <div className="text-black text-xs font-normal leading-none tracking-wide">
                         Instructions
                       </div>
                     </div>
@@ -1079,7 +1079,7 @@ export default function Home() {
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="w-[150px] h-9 relative">
                   <button
-                    className=" bg-primary-500 text-white py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    className=" bg-primary-500 text-white hover:bg-primary-600 py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={
                       fiveSecondVideoVerification === "Approved" ||
                       fiveSecondVideoVerification === "Rejected"
@@ -1091,8 +1091,8 @@ export default function Home() {
                     Verify User
                   </button>
                 </div>
-                <div className="px-4 py-2 bg-primary-300 rounded-[4px] justify-center items-center gap-2.5 flex">
-                  <div className="text-primary-500 text-sm font-bold">
+                <div className="px-4 py-2 bg-primary-200 rounded-[4px] justify-center items-center gap-2.5 flex">
+                  <div className="text-black text-sm font-medium">
                     Notify User
                   </div>
                 </div>
@@ -1133,8 +1133,8 @@ export default function Home() {
               <div className="self-stretch h-[93px] rounded border border-[#232323] flex-col justify-start items-start gap-2.5 flex">
                 <div className="self-stretch h-[72px] pl-4 py-1 rounded-tl rounded-tr justify-start items-start gap-1 inline-flex">
                   <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
-                    <div className="px-1 bg-primary-300 justify-start items-center inline-flex relative bottom-[13px]">
-                      <div className="text-primary-500 text-xs font-normal leading-none tracking-wide">
+                    <div className="px-1 bg-white justify-start items-center inline-flex relative bottom-[13px]">
+                      <div className="text-black text-xs font-normal leading-none tracking-wide">
                         Instructions
                       </div>
                     </div>
@@ -1150,7 +1150,7 @@ export default function Home() {
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="w-[150px] h-9 relative">
                   <button
-                    className=" bg-primary-500 text-white py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    className=" bg-primary-500 text-white hover:bg-primary-600 py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={
                       signatureVerification === "Approved" ||
                       signatureVerification === "Rejected"
@@ -1162,8 +1162,8 @@ export default function Home() {
                     Verify User
                   </button>
                 </div>
-                <div className="px-4 py-2 bg-primary-300 rounded-[4px] justify-center items-center gap-2.5 flex">
-                  <div className="text-primary-500 text-sm font-bold">
+                <div className="px-4 py-2 bg-primary-200 rounded-[4px] justify-center items-center gap-2.5 flex">
+                  <div className="text-black text-sm font-medium">
                     Notify User
                   </div>
                 </div>

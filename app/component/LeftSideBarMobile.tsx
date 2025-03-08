@@ -60,9 +60,9 @@ const LeftSideBarMobile: React.FC = () => {
         </Link>
         {/* MENU WITH ICONS */}
         <Link href="/customer">
-          <div className=" mb-6 flex gap-5 items-center  cursor-pointer group px-3 py-2  rounded-[6px] hover:bg-lightMaroon">
-            <BiSolidHome className=" w-6 h-6 text-[#171717] group-hover:text-primary-500" />
-            <p className=" text-[#171717] text-base leading-normal font-medium group-hover:text-primary-500">
+          <div className=" mb-6 flex gap-5 items-center  cursor-pointer group px-3 py-2  rounded-[6px] hover:bg-primary-100">
+            <BiSolidHome className=" w-6 h-6 text-[#171717] group-hover:text-black" />
+            <p className=" text-[#171717] text-base leading-normal font-medium group-hover:text-black">
               Dashboard
             </p>
           </div>
@@ -72,15 +72,15 @@ const LeftSideBarMobile: React.FC = () => {
           (        <Link href="/customer">
             {pathname === "/customer" || pathname === "/customerdetails" ? (
               <div className=" mb-6 flex gap-5 items-center  px-3 py-2  rounded-[6px] bg-primary-500">
-                <MdOutlineBarChart className=" w-6 h-6 text-white group-hover:text-customBlue " />
-                <p className=" text-white text-base leading-normal font-medium group-hover:text-customBlue">
+                <MdOutlineBarChart className=" w-6 h-6 text-white group-hover:text-black " />
+                <p className=" text-white text-base leading-normal font-medium group-hover:text-black">
                   Customers
                 </p>
               </div>
             ) : (
-              <div className=" mb-6 flex gap-5 items-center group px-3 py-2  rounded-[6px] hover:bg-lightMaroon">
-                <MdOutlineBarChart className=" w-6 h-6 text-[#171717] group-hover:text-primary-500 " />
-                <p className=" text-[#171717] text-base leading-normal font-medium group-hover:text-primary-500">
+              <div className=" mb-6 flex gap-5 items-center group px-3 py-2  rounded-[6px] hover:bg-primary-100">
+                <MdOutlineBarChart className=" w-6 h-6 text-[#171717] group-hover:text-black " />
+                <p className=" text-[#171717] text-base leading-normal font-medium group-hover:text-black">
                   Customers
                 </p>
               </div>
@@ -90,15 +90,15 @@ const LeftSideBarMobile: React.FC = () => {
         <Link href="/transaction">
           {pathname === "/transaction" ? (
             <div className=" mb-6 flex gap-5 items-center  px-3 py-2  rounded-[6px] bg-primary-500">
-              <TbDeviceMobileDollar className=" w-6 h-6 text-white group-hover:text-customBlue" />
-              <p className=" text-white text-base leading-normal font-medium group-hover:text-customBlue">
+              <TbDeviceMobileDollar className=" w-6 h-6 text-white group-hover:text-black" />
+              <p className=" text-white text-base leading-normal font-medium group-hover:text-black">
                 Transaction
               </p>
             </div>
           ) : (
-            <div className=" mb-6 flex gap-5 items-center group px-3 py-2  rounded-[6px] hover:bg-lightMaroon">
-              <TbDeviceMobileDollar className=" w-6 h-6 text-[#171717] group-hover:text-primary-500" />
-              <p className=" text-[#171717] text-base leading-normal font-medium group-hover:text-primary-500
+            <div className=" mb-6 flex gap-5 items-center group px-3 py-2  rounded-[6px] hover:bg-primary-100">
+              <TbDeviceMobileDollar className=" w-6 h-6 text-[#171717] group-hover:text-black" />
+              <p className=" text-[#171717] text-base leading-normal font-medium group-hover:text-black
               
               
               
@@ -109,17 +109,17 @@ const LeftSideBarMobile: React.FC = () => {
           )}
         </Link>
         <Link href="/customer">
-          <div className=" mb-6 flex gap-5 items-center group px-3 py-2  rounded-[6px] hover:bg-lightMaroon">
-            <HiWrenchScrewdriver className=" w-6 h-6 text-[#171717] group-hover:text-primary-500" />
-            <p className=" text-[#171717] text-base leading-normal font-medium group-hover:text-primary-500">
+          <div className=" mb-6 flex gap-5 items-center group px-3 py-2  rounded-[6px] hover:bg-primary-100">
+            <HiWrenchScrewdriver className=" w-6 h-6 text-[#171717] group-hover:text-black" />
+            <p className=" text-[#171717] text-base leading-normal font-medium group-hover:text-black">
               Point of Services
             </p>
           </div>
         </Link>
         <Link href="/customer">
-          <div className=" mb-6 flex gap-5 items-center group px-3 py-2  rounded-[6px] hover:bg-lightMaroon">
-            <FaMoneyCheckDollar className=" w-6 h-6 text-[#171717] group-hover:text-primary-500" />
-            <p className=" text-[#171717] text-base leading-normal font-medium group-hover:text-primary-500">
+          <div className=" mb-6 flex gap-5 items-center group px-3 py-2  rounded-[6px] hover:bg-primary-100">
+            <FaMoneyCheckDollar className=" w-6 h-6 text-[#171717] group-hover:text-black" />
+            <p className=" text-[#171717] text-base leading-normal font-medium group-hover:text-black">
               Payment Terminal
             </p>
           </div>
@@ -127,15 +127,15 @@ const LeftSideBarMobile: React.FC = () => {
         <Link href="/cards">
           {pathname === "/cards" ? (
             <div className=" mb-6 flex gap-5 items-center  px-3 py-2  rounded-[6px] bg-primary-500">
-              <BsCreditCard2Back className=" w-6 h-6 text-white group-hover:text-primary-500" />
-              <p className=" text-white text-base leading-normal font-medium group-hover:text-primary-500">
+              <BsCreditCard2Back className=" w-6 h-6 text-white group-hover:text-black" />
+              <p className=" text-white text-base leading-normal font-medium group-hover:text-black">
                 Credit Cards
               </p>
             </div>
           ) : (
-            <div className=" mb-6 flex gap-5 items-center group px-3 py-2  rounded-[6px] hover:bg-lightMaroon">
-              <BsCreditCard2Back className=" w-6 h-6 text-[#171717] group-hover:text-primary-500" />
-              <p className=" text-[#171717] text-base leading-normal font-medium group-hover:text-primary-500">
+            <div className=" mb-6 flex gap-5 items-center group px-3 py-2  rounded-[6px] hover:bg-primary-100">
+              <BsCreditCard2Back className=" w-6 h-6 text-[#171717] group-hover:text-black" />
+              <p className=" text-[#171717] text-base leading-normal font-medium group-hover:text-black">
                 Credit Cards
               </p>
             </div>
@@ -147,15 +147,15 @@ const LeftSideBarMobile: React.FC = () => {
             <Link href="/usermanagement">
             {pathname === "/usermanagement" || pathname === "/useradd" ? (
               <div className=" mb-6 flex gap-5 items-center  px-3 py-2  rounded-[6px] bg-primary-500">
-                <BiSolidUser className=" w-6 h-6 text-white group-hover:text-customBlue" />
-                <p className=" text-white text-base leading-normal font-medium group-hover:text-customBlue">
+                <BiSolidUser className=" w-6 h-6 text-white group-hover:text-black" />
+                <p className=" text-white text-base leading-normal font-medium group-hover:text-black">
                   User Management
                 </p>
               </div>
             ) : (
-              <div className=" mb-6 flex gap-5 items-center group px-3 py-2  rounded-[6px] hover:bg-lightMaroon">
-                <BiSolidUser className=" w-6 h-6 text-[#171717] group-hover:text-white" />
-                <p className=" text-[#171717] text-base leading-normal font-medium group-hover:text-white">
+              <div className=" mb-6 flex gap-5 items-center group px-3 py-2  rounded-[6px] hover:bg-primary-100">
+                <BiSolidUser className=" w-6 h-6 text-[#171717] group-hover:text-black" />
+                <p className=" text-[#171717] text-base leading-normal font-medium group-hover:text-black">
                   User Management
                 </p>
               </div>
@@ -167,24 +167,24 @@ const LeftSideBarMobile: React.FC = () => {
         <Link href="/user-activity">
         {pathname === "/user-activity" ? (
             <div className=" mb-6 flex gap-5 items-center  px-3 py-2  rounded-[6px] bg-primary-500">
-              <BiSolidUser className=" w-6 h-6 text-white group-hover:text-customBlue" />
-              <p className=" text-white text-base leading-normal font-medium group-hover:text-customBlue">
+              <BiSolidUser className=" w-6 h-6 text-white group-hover:text-black" />
+              <p className=" text-white text-base leading-normal font-medium group-hover:text-black">
                 User Activity
               </p>
             </div>
         ) : (
-            <div className=" mb-6 flex gap-5 items-center group px-3 py-2  rounded-[6px] hover:bg-lightMaroon">
-              <BiSolidUser className=" w-6 h-6 text-[#171717] group-hover:text-white" />
-              <p className=" text-[#171717] text-base leading-normal font-medium group-hover:text-white">
+            <div className=" mb-6 flex gap-5 items-center group px-3 py-2  rounded-[6px] hover:bg-primary-100">
+              <BiSolidUser className=" w-6 h-6 text-[#171717] group-hover:text-black" />
+              <p className=" text-[#171717] text-base leading-normal font-medium group-hover:text-black">
                 User Activity
               </p>
             </div>
         )}
         </Link>
         }
-        <div className=" mb-6 flex gap-5 items-center group px-3 py-2  rounded-[6px] hover:bg-lightMaroon">
-          <IoMdSettings className=" w-6 h-6 text-[#171717] group-hover:text-primary-500" />
-          <p className=" text-[#171717] text-base leading-normal font-medium group-hover:text-primary-500">
+        <div className=" mb-6 flex gap-5 items-center group px-3 py-2  rounded-[6px] hover:bg-primary-100">
+          <IoMdSettings className=" w-6 h-6 text-[#171717] group-hover:text-black" />
+          <p className=" text-[#171717] text-base leading-normal font-medium group-hover:text-black">
             Settings
           </p>
         </div>

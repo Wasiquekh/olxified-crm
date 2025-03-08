@@ -123,7 +123,7 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
         <div className="flex flex-row justify-between  mb-4 w-full md:w-[50%]">
           <p
             onClick={() => setIsVisible(true)}
-            className={`text-[16px] font-medium leading-9 hover:cursor-pointer  hover:text-lightMaroon hover:border-lightMaroon hover:border-b-2 ${
+            className={`text-[16px] font-medium leading-9 hover:cursor-pointer  hover:text-primary-600 hover:border-primary-600 hover:border-b-2 ${
               isVisible
                 ? "text-primary-500 border-b-2 border-primary-500"
                 : "text-gray-500"
@@ -133,7 +133,7 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
           </p>
           <p
             onClick={() => setIsVisible(false)}
-            className={`text-[16px] font-medium leading-9 hover:cursor-pointer  hover:text-lightMaroon hover:border-lightMaroon hover:border-b-2 ${
+            className={`text-[16px] font-medium leading-9 hover:cursor-pointer  hover:text-primary-600 hover:border-primary-600 hover:border-b-2 ${
               !isVisible
                 ? "text-primary-500 border-b-2 border-primary-500 "
                 : "text-gray-500"
@@ -244,7 +244,7 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.mobile_number}
-                        className={`hover:shadow-hoverInputShadow focus:border-darkMprimary-500aroon focus:outline-none w-full border rounded-[4px] text-sm leading-4 font-medium text-[#717171] py-4 px-4 ${
+                        className={`hover:shadow-hoverInputShadow focus:border-primary-500 focus:outline-none w-full border rounded-[4px] text-sm leading-4 font-medium text-[#717171] py-4 px-4 ${
                           touched.mobile_number && errors.mobile_number
                             ? "border-red-500"
                             : "border-[#DFEAF2]"
@@ -309,7 +309,7 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
                       type="submit"
                       onClick={() => setIsEditFlyoutOpen(false)}
                       disabled={isSubmitting}
-                      className="py-[13px] px-[26px] bg-primary-500 rounded-[4px] text-base font-medium leading-6 text-white hover:bg-lightMaroon hover:text-primary-500 w-full md:w-[48%]"
+                      className="py-[13px] px-[26px] bg-primary-500 rounded-[4px] text-base font-medium leading-6 text-white hover:bg-primary-600 hover:text-white w-full md:w-[48%]"
                     >
                       {isSubmitting ? "Updating Details" : "Update Details"}
                     </button>
@@ -359,10 +359,10 @@ const SidebarUserUpdateForm: React.FC<SidebarUserUpdateFormProps> = ({
                       <td className="p-2 border">
                         <button
                           onClick={hanldleDelete}
-                          className="py-2 px-4 bg-red-200 flex gap-1.5 items-center rounded-full hover:bg-red-300 transition"
+                          className="py-2 px-4 bg-black flex gap-1.5 items-center rounded-full hover:bg-primary-500 transition"
                         >
-                          <RiDeleteBin6Line className="text-red-600 w-4 h-4" />
-                          <p className="text-sm leading-normal text-red-600">
+                          <RiDeleteBin6Line className="text-white w-4 h-4" />
+                          <p className="text-sm leading-normal text-white">
                             Delete
                           </p>
                         </button>

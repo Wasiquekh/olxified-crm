@@ -156,7 +156,7 @@ export default function Home() {
                 ) : (
                   data.map((item, index) => (
                     <tr
-                      className="border border-tableBorder bg-white hover:bg-primary-300"
+                      className="border border-tableBorder bg-white hover:bg-primary-100"
                       key={index}
                     >
                       <td className="p-4  flex items-center gap-2">
@@ -262,7 +262,7 @@ export default function Home() {
           <button
             onClick={() => handlePageChange(page - 1)}
             disabled={page === 1}
-            className="px-2 py-2 mx-2 border rounded bg-primary-500 text-white disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-2 py-2 mx-2 border rounded bg-primary-500 hover:bg-primary-600 text-white disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <HiChevronDoubleLeft className=" w-6 h-auto" />
           </button>
@@ -272,7 +272,7 @@ export default function Home() {
           <button
             onClick={() => handlePageChange(page + 1)}
             disabled={page === totalPages}
-            className="px-2 py-2 mx-2 border rounded bg-primary-500 text-white disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-2 py-2 mx-2 border rounded bg-primary-500 hover:bg-primary-600 text-white disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <HiChevronDoubleRight className=" w-6 h-auto" />
           </button>

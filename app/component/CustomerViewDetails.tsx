@@ -370,13 +370,13 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
               <div className=" flex flex-col gap-y-3 md:flex-row md:justify-between w-full">
                 <button
                   onClick={() => approve("liveness_detection")}
-                  className="bg-approveBtn text-white w-full md:w-[49%] p-3 rounded"
+                  className="bg-approveBtn hover:bg-rejectBtn text-white w-full md:w-[49%] p-3 rounded"
                 >
                   Approve
                 </button>
                 <button
                   onClick={() => reject("liveness_detection")}
-                  className="bg-rejectBtn text-white w-full md:w-[49%] p-3 rounded"
+                  className="bg-rejectBtn hover:bg-approveBtn text-white w-full md:w-[49%] p-3 rounded"
                 >
                   Reject
                 </button>
@@ -481,13 +481,13 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
               <div className=" flex flex-col gap-y-3 md:flex-row md:justify-between w-full">
                 <button
                   onClick={() => approve("identity_matching")}
-                  className="bg-approveBtn text-white w-full md:w-[49%] p-3 rounded"
+                  className="bg-approveBtn hover:bg-rejectBtn text-white w-full md:w-[49%] p-3 rounded"
                 >
                   Approve
                 </button>
                 <button
                   onClick={() => reject("identity_matching")}
-                  className="bg-rejectBtn text-white w-full md:w-[49%] p-3 rounded"
+                  className="bg-rejectBtn hover:bg-approveBtn text-white w-full md:w-[49%] p-3 rounded"
                 >
                   Reject
                 </button>
@@ -572,13 +572,13 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
               <div className=" flex flex-col gap-y-3 md:flex-row md:justify-between w-full">
                 <button
                   onClick={() => approve("user_details_verification")}
-                  className="bg-approveBtn text-white w-full md:w-[49%] p-3 rounded"
+                  className="bg-approveBtn hover:bg-rejectBtn text-white w-full md:w-[49%] p-3 rounded"
                 >
                   Approve
                 </button>
                 <button
                   onClick={() => reject("user_details_verification")}
-                  className="bg-rejectBtn text-white w-full md:w-[49%] p-3 rounded"
+                  className="bg-rejectBtn hover:bg-approveBtn text-white w-full md:w-[49%] p-3 rounded"
                 >
                   Reject
                 </button>
@@ -666,13 +666,13 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
               <div className=" flex flex-col gap-y-3 md:flex-row md:justify-between w-full mt-5">
                 <button
                   onClick={() => approve("scanned_id_card_verification")}
-                  className="bg-approveBtn text-white w-full md:w-[49%] p-3 rounded"
+                  className="bg-approveBtn hover:bg-rejectBtn text-white w-full md:w-[49%] p-3 rounded"
                 >
                   Approve
                 </button>
                 <button
                   onClick={() => reject("scanned_id_card_verification")}
-                  className="bg-rejectBtn text-white w-full md:w-[49%] p-3 rounded"
+                  className="bg-rejectBtn hover:bg-approveBtn text-white w-full md:w-[49%] p-3 rounded"
                 >
                   Reject
                 </button>
@@ -742,13 +742,13 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
               <div className=" flex flex-col gap-y-3 md:flex-row md:justify-between w-full">
                 <button
                   onClick={() => approve("five_second_face_video_verification")}
-                  className="bg-approveBtn text-white w-full md:w-[49%] p-3 rounded"
+                  className="bg-approveBtn hover:bg-rejectBtn text-white w-full md:w-[49%] p-3 rounded"
                 >
                   Approve
                 </button>
                 <button
                   onClick={() => reject("five_second_face_video_verification")}
-                  className="bg-rejectBtn text-white w-full md:w-[49%] p-3 rounded"
+                  className="bg-rejectBtn hover:bg-approveBtn text-white w-full md:w-[49%] p-3 rounded"
                 >
                   Reject
                 </button>
@@ -816,13 +816,13 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
               <div className=" flex flex-col gap-y-3 md:flex-row md:justify-between w-full">
                 <button
                   onClick={() => approve("signature_verification")}
-                  className="bg-approveBtn text-white w-full md:w-[49%] p-3 rounded"
+                  className="bg-approveBtn hover:bg-rejectBtn text-white w-full md:w-[49%] p-3 rounded"
                 >
                   Approve
                 </button>
                 <button
                   onClick={() => reject("signature_verification")}
-                  className="bg-rejectBtn text-white w-full md:w-[49%] p-3 rounded"
+                  className="bg-rejectBtn hover:bg-approveBtn text-white w-full md:w-[49%] p-3 rounded"
                 >
                   Reject
                 </button>

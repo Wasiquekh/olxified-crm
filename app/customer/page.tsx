@@ -249,11 +249,11 @@ export default function Home() {
             <div className=" flex justify-end items-center mb-6  w-full mx-auto">
               <div className=" flex justify-center items-center gap-4">
                 <div
-                  className=" flex gap-2 py-3 px-4 rounded-[4px] border border-[#E7E7E7] cursor-pointer bg-primary-500 items-center hover:bg-lightMaroon group"
+                  className=" flex gap-2 py-3 px-4 rounded-[4px] border border-[#E7E7E7] cursor-pointer bg-primary-500 items-center hover:bg-primary-600 group"
                   onClick={toggleFilterFlyout}
                 >
-                  <FiFilter className=" w-5 h-5 text-white group-hover:text-primary-500" />
-                  <p className=" text-white text-base font-medium group-hover:text-primary-500">
+                  <FiFilter className=" w-5 h-5 text-white group-hover:text-white" />
+                  <p className=" text-white text-base font-medium group-hover:text-white">
                     Filter
                   </p>
                 </div>
@@ -384,7 +384,7 @@ export default function Home() {
                   {Array.isArray(data) && data.length > 0 ? (
                     data.map((item, index) => (
                       <tr
-                        className="border border-tableBorder bg-white hover:bg-primary-300"
+                        className="border border-tableBorder bg-white hover:bg-primary-100"
                         key={index}
                       >
                         {/* Name - Birth Date: Always Visible */}
@@ -509,7 +509,7 @@ export default function Home() {
               <button
                 onClick={() => handlePageChange(page - 1)}
                 disabled={page === 1}
-                className="px-2 py-2 mx-2 border rounded bg-primary-500 text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-2 py-2 mx-2 border rounded bg-primary-500 hover:bg-primary-600 text-white disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <HiChevronDoubleLeft className=" w-6 h-auto" />
               </button>
@@ -519,7 +519,7 @@ export default function Home() {
               <button
                 onClick={() => handlePageChange(page + 1)}
                 disabled={page === totalPages}
-                className="px-2 py-2 mx-2 border rounded bg-primary-500 text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-2 py-2 mx-2 border rounded bg-primary-500 hover:bg-primary-600 text-white disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <HiChevronDoubleRight className=" w-6 h-auto" />
               </button>
@@ -610,13 +610,13 @@ export default function Home() {
                 <div className="mt-10 w-full flex flex-col gap-y-4 md:flex-row justify-between items-center ">
                   <div
                     onClick={hadleClear}
-                    className=" py-[13px] px-[26px] bg-lightMaroon rounded-[4px] text-base font-medium leading-6  cursor-pointer w-full md:w-[49%] text-center text-primary-500 hover:bg-primary-500 hover:text-white "
+                    className=" py-[13px] px-[26px] bg-primary-700 rounded-[4px] text-base font-medium leading-6  cursor-pointer w-full md:w-[49%] text-center text-white hover:bg-primary-500 hover:text-white "
                   >
                     Clear Data
                   </div>
                   <button
                     type="submit"
-                    className=" py-[13px] px-[26px] bg-primary-500 rounded-[4px] text-base font-medium leading-6 text-white hover:text-dark cursor-pointer w-full md:w-[49%] text-center hover:bg-lightMaroon hover:text-primary-500 "
+                    className=" py-[13px] px-[26px] bg-primary-500 rounded-[4px] text-base font-medium leading-6 text-white hover:text-dark cursor-pointer w-full md:w-[49%] text-center hover:bg-primary-700 hover:text-white "
                   >
                     Filter Now
                   </button>

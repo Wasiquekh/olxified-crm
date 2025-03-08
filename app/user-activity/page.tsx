@@ -321,11 +321,11 @@ export default function Home() {
               <div className=" flex justify-end items-center mb-6  w-full mx-auto">
                 <div className=" flex justify-center items-center gap-4">
                   <div
-                    className=" flex gap-2 py-3 px-4 rounded-[4px] border border-[#E7E7E7] cursor-pointer bg-primary-500 group hover:bg-lightMaroon"
+                    className=" flex items-center gap-2 py-3 px-4 rounded-[4px] border border-[#E7E7E7] cursor-pointer bg-primary-500 group hover:bg-primary-600"
                     onClick={toggleFilterFlyout}
                   >
-                    <FiFilter className=" w-5 h-5 text-white group-hover:text-primary-500" />
-                    <p className=" text-white  text-base font-medium group-hover:text-primary-500">
+                    <FiFilter className=" w-4 h-4 text-white group-hover:text-white" />
+                    <p className=" text-white  text-base font-medium group-hover:text-white">
                       Filter
                     </p>
                   </div>
@@ -339,22 +339,22 @@ export default function Home() {
                       {appliedFilters.map((filter, index) => (
                         <li
                           key={index}
-                          className="flex items-center text-primary-500 bg-primary-300 px-3 py-2 rounded-md text-xs"
+                          className="flex items-center text-black bg-primary-100 px-3 py-2 rounded-md text-xs"
                         >
-                          <RiAccountCircleLine className="text-primary-500 mr-1" />
+                          <RiAccountCircleLine className="text-black mr-1" />
                           {filter}
                           <RxCross2
                             onClick={() => removeFilter(filter)}
-                            className="text-primary-500 cursor-pointer ml-2"
+                            className="text-black cursor-pointer ml-2"
                           />
                         </li>
                       ))}
                       <li
                         onClick={clearAllFilteredData}
-                        className="flex items-center text-primary-500 bg-primary-300 px-3 py-2 rounded-md text-xs cursor-pointer"
+                        className="flex items-center text-black bg-primary-100 px-3 py-2 rounded-md text-xs cursor-pointer"
                       >
                         Clear All
-                        <RxCross2 className="text-primary-500 ml-2" />
+                        <RxCross2 className="text-black ml-2" />
                       </li>
                     </ul>
                   </div>
@@ -439,7 +439,7 @@ export default function Home() {
                   ) : (
                     data.map((item, index) => (
                       <tr
-                        className="border border-tableBorder bg-white hover:bg-primary-300"
+                        className="border border-tableBorder bg-white hover:bg-primary-100"
                         key={index}
                       >
                         <td className="px-2 py-2 border border-tableBorder">
@@ -506,7 +506,7 @@ export default function Home() {
               <button
                 onClick={() => handlePageChangeFilter(filterPage - 1)}
                 disabled={filterPage === 1}
-                className="px-2 py-2 mx-2 border rounded bg-primary-500 text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-2 py-2 mx-2 border rounded bg-primary-500 hover:bg-primary-600 text-white disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <HiChevronDoubleLeft className=" w-6 h-auto" />
               </button>
@@ -516,7 +516,7 @@ export default function Home() {
               <button
                 onClick={() => handlePageChangeFilter(filterPage + 1)}
                 disabled={filterPage === totalPagesFilter}
-                className="px-2 py-2 mx-2 border rounded bg-primary-500 text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-2 py-2 mx-2 border rounded bg-primary-500 hover:bg-primary-600 text-white disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <HiChevronDoubleRight className=" w-6 h-auto" />
               </button>
@@ -526,7 +526,7 @@ export default function Home() {
               <button
                 onClick={() => handlePageChange(page - 1)}
                 disabled={page === 1}
-                className="px-2 py-2 mx-2 border rounded bg-primary-500 text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-2 py-2 mx-2 border rounded bg-primary-500 hover:bg-primary-600 text-white disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <HiChevronDoubleLeft className=" w-6 h-auto" />
               </button>
@@ -536,7 +536,7 @@ export default function Home() {
               <button
                 onClick={() => handlePageChange(page + 1)}
                 disabled={page === totalPages}
-                className="px-2 py-2 mx-2 border rounded bg-primary-500 text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-2 py-2 mx-2 border rounded bg-primary-500 hover:bg-primary-600 text-white disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <HiChevronDoubleRight className=" w-6 h-auto" />
               </button>
@@ -596,7 +596,7 @@ export default function Home() {
                           control: ({ isFocused }) =>
                             `onHoverBoxShadow !w-full !border !rounded-[4px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm ${
                               isFocused
-                                ? "!border-[#A3000E]"
+                                ? "!border-primary-500"
                                 : "!border-[#DFEAF2]"
                             }`,
                         }}
@@ -610,9 +610,9 @@ export default function Home() {
                           option: (base, { isFocused, isSelected }) => ({
                             ...base,
                             backgroundColor: isSelected
-                              ? "#A3000E" // Active (selected) background color
+                              ? "var(--primary-500)" // Active (selected) background color
                               : isFocused
-                              ? "#FCE4EC" // Hover background color
+                              ? "var(--primary-100)" // Hover background color
                               : "#fff", // Default background
                             color: isSelected ? "#fff" : "#333",
                             cursor: "pointer",
@@ -640,7 +640,7 @@ export default function Home() {
                         name="startDate"
                         dateFormat="yyyy-MM-dd"
                         placeholderText="yyyy-mm-dd"
-                        className="hover:shadow-hoverInputShadow focus:border-[#A3000E] focus:outline-none 
+                        className="hover:shadow-hoverInputShadow focus:border-primary-500 focus:outline-none 
              !w-full border border-[#DFEAF2] rounded-[4px] text-sm leading-4 
              font-medium placeholder-[#717171] py-4 px-4 bg-white shadow-sm"
                         popperClassName="custom-datepicker"
@@ -674,7 +674,7 @@ export default function Home() {
                         name="endDate"
                         dateFormat="yyyy-MM-dd"
                         placeholderText="yyyy-mm-dd"
-                        className="hover:shadow-hoverInputShadow focus:border-[#A3000E] focus:outline-none 
+                        className="hover:shadow-hoverInputShadow focus:border-primary-500 focus:outline-none 
              !w-full border border-[#DFEAF2] rounded-[4px] text-sm leading-4 
              font-medium placeholder-[#717171] py-4 px-4 bg-white shadow-sm"
                         popperClassName="custom-datepicker"
@@ -719,7 +719,7 @@ export default function Home() {
                           control: ({ isFocused }) =>
                             `onHoverBoxShadow !w-full !border !rounded-[4px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm ${
                               isFocused
-                                ? "!border-[#A3000E]"
+                                ? "!border-primary-500"
                                 : "!border-[#DFEAF2]"
                             }`,
                         }}
@@ -733,9 +733,9 @@ export default function Home() {
                           option: (base, { isFocused, isSelected }) => ({
                             ...base,
                             backgroundColor: isSelected
-                              ? "#A3000E" // Active (selected) background color
+                              ? "var(--primary-500)" // Active (selected) background color
                               : isFocused
-                              ? "#FCE4EC" // Hover background color
+                              ? "var(--primary-100)" // Hover background color
                               : "#fff", // Default background
                             color: isSelected ? "#fff" : "#333",
                             cursor: "pointer",
@@ -766,7 +766,7 @@ export default function Home() {
                           control: ({ isFocused }) =>
                             `onHoverBoxShadow !w-full !border !rounded-[4px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm ${
                               isFocused
-                                ? "!border-[#A3000E]"
+                                ? "!border-primary-500"
                                 : "!border-[#DFEAF2]"
                             }`,
                         }}
@@ -780,9 +780,9 @@ export default function Home() {
                           option: (base, { isFocused, isSelected }) => ({
                             ...base,
                             backgroundColor: isSelected
-                              ? "#A3000E" // Active (selected) background color
+                              ? "var(--primary-500)" // Active (selected) background color
                               : isFocused
-                              ? "#FCE4EC" // Hover background color
+                              ? "var(--primary-100)" // Hover background color
                               : "#fff", // Default background
                             color: isSelected ? "#fff" : "#333",
                             cursor: "pointer",
@@ -797,13 +797,13 @@ export default function Home() {
                 <div className="mt-8 md:mt-10 w-full flex flex-col md:flex-row md:justify-between items-center gap-y-4 md:gap-y-0">
                   <div
                     onClick={hadleClear}
-                    className="py-[13px] px-[26px] bg-lightMaroon w-full md:w-[49%] rounded-[4px] text-base font-medium leading-6 text-primary-500 cursor-pointer text-center hover:bg-primary-500 hover:text-white"
+                    className="py-[13px] px-[26px] bg-primary-500 hover:bg-primary-600 w-full md:w-[49%] rounded-[4px] text-base font-medium leading-6 text-white cursor-pointer text-center hover:text-white"
                   >
                     Clear Data
                   </div>
                   <button
                     type="submit"
-                    className="py-[13px] px-[26px] bg-primary-500 rounded-[4px] w-full md:w-[49%] text-base font-medium leading-6 text-white text-center hover:bg-lightMaroon hover:text-primary-500  "
+                    className="py-[13px] px-[26px] bg-primary-600 hover:bg-primary-500 rounded-[4px] w-full md:w-[49%] text-base font-medium leading-6 text-white text-center hover:bg-lightMaroon hover:text-white  "
                   >
                     Filter Now
                   </button>

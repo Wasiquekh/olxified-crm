@@ -236,7 +236,7 @@ export default function Home() {
                               control: ({ isFocused }) =>
                                 `onHoverBoxShadow !w-full !border !rounded-[4px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm ${
                                   isFocused
-                                    ? "!border-[#A3000E]"
+                                    ? "!border-primary-500"
                                     : "!border-[#DFEAF2]"
                                 }`,
                             }}
@@ -250,9 +250,9 @@ export default function Home() {
                               option: (base, { isFocused, isSelected }) => ({
                                 ...base,
                                 backgroundColor: isSelected
-                                  ? "#A3000E" // Active (selected) background color
+                                  ? "var(--primary-500)" // Active (selected) background color
                                   : isFocused
-                                  ? "#FCE4EC" // Hover background color
+                                  ? "var(--primary-100)" // Hover background color
                                   : "#fff", // Default background
                                 color: isSelected ? "#fff" : "#333",
                                 cursor: "pointer",
@@ -271,7 +271,7 @@ export default function Home() {
                           <button
                             type="submit"
                             disabled={isSubmitting}
-                            className="w-full  h-[50px] bg-primary-500 rounded-[4px] text-white text-lg leading-normal font-medium hover:bg-lightMaroon hover:text-primary-500"
+                            className="w-full  h-[50px] bg-primary-500 rounded-[4px] text-white text-lg leading-normal font-medium hover:bg-primary-600 hover:text-white"
                           >
                             {isSubmitting ? "Submitting..." : "Submit"}
                           </button>

@@ -181,9 +181,9 @@ export default function Home() {
               <div className=" sm:w-auto">
                 {hasSystemUserAdd ? (
                   <Link href="/useradd">
-                    <button className="flex items-center gap-[10px]  h-12 px-3 py-[6px] rounded-[4px] shadow-borderShadow w-full sm:w-auto bg-primary-500 group hover:bg-lightMaroon">
-                      <FaPlus className="h-[20px] w-[20px] text-white group-hover:text-primary-500" />
-                      <p className="text-white text-base leading-normal group-hover:text-primary-500">
+                    <button className="flex items-center gap-[10px]  h-12 px-3 py-[6px] rounded-[4px] shadow-borderShadow w-full sm:w-auto bg-primary-500 group hover:bg-primary-600">
+                      <FaPlus className="h-[20px] w-[20px] text-white group-hover:text-white" />
+                      <p className="text-white text-base leading-normal group-hover:text-white">
                         Create User
                       </p>
                     </button>
@@ -260,7 +260,7 @@ export default function Home() {
                     data &&
                     data.map((item, index) => (
                       <tr
-                        className="border border-tableBorder bg-white hover:bg-primary-300"
+                        className="border border-tableBorder bg-white hover:bg-primary-100"
                         key={index}
                       >
                         <td className="px-1 md:p-3 py-2  flex  md:flex-row gap-2">
@@ -292,8 +292,8 @@ export default function Home() {
                           </p>
                         </td>
                         <td className="px-2 py-1 border border-tableBorder hidden md:table-cell">
-                          <button className="py-[4px] px-6 bg-primary-300 rounded-xl w-auto text-xs md:text-sm">
-                            <p className="text-primary-500">{item.role}</p>
+                          <button className="py-[4px] px-6 bg-primary-300 rounded-xl w-auto text-xs md:text-sm sm:w-3/5">
+                            <p className="text-black">{item.role}</p>
                           </button>
                         </td>
                         <td className="px-2 py-1 border border-tableBorder">
@@ -301,10 +301,10 @@ export default function Home() {
                             {hasSystemUserView ? (
                               <button
                                 onClick={() => changeCurrentUserData(item)}
-                                className="py-[4px] px-3 bg-primary-500 group flex gap-1 items-center rounded-xl text-xs md:text-sm hover:bg-lightMaroon"
+                                className="py-[4px] px-3 bg-primary-500 group flex gap-1 items-center rounded-xl text-xs md:text-sm hover:bg-primary-600"
                               >
-                                <MdRemoveRedEye className="text-white w-4 h-4 group-hover:text-primary-500" />
-                                <p className="text-white hidden md:block group-hover:text-primary-500">
+                                <MdRemoveRedEye className="text-white w-4 h-4 group-hover:text-white" />
+                                <p className="text-white hidden md:block group-hover:text-white">
                                   View
                                 </p>
                               </button>
@@ -322,7 +322,7 @@ export default function Home() {
                             {hasSystemUserDelete ? (
                               <button
                                 onClick={() => deleteUserData(item)}
-                                className="py-[4px] px-3 bg-black flex gap-1 items-center rounded-full text-xs md:text-sm group hover:bg-primary-500"
+                                className="py-[4px] px-3 bg-black flex gap-1 items-center rounded-full text-xs md:text-sm group hover:bg-primary-600"
                               >
                                 <RiDeleteBin6Line className="text-white w-4 h-4" />
                                 <p className="text-white hidden md:block">
@@ -355,7 +355,7 @@ export default function Home() {
             <button
               onClick={() => handlePageChange(page - 1)}
               disabled={page === 1}
-              className="px-2 py-2 mx-2 border rounded bg-primary-500 text-white disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-2 py-2 mx-2 border rounded bg-primary-500 hover:bg-primary-600 text-white disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <HiChevronDoubleLeft className=" w-6 h-auto" />
             </button>
@@ -365,7 +365,7 @@ export default function Home() {
             <button
               onClick={() => handlePageChange(page + 1)}
               disabled={page === totalPages}
-              className="px-2 py-2 mx-2 border rounded bg-primary-500 text-white disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-2 py-2 mx-2 border rounded bg-primary-500 hover:bg-primary-600 text-white disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <HiChevronDoubleRight className=" w-6 h-auto" />
             </button>
