@@ -555,7 +555,7 @@ export default function Home() {
           <div
             className={`filterflyout ${isFlyoutFilterOpen ? "filteropen" : ""}`}
           >
-            <div className="w-full min-h-auto p-4 sm:p-4 md:p-4">
+            <div className="w-full min-h-auto">
               {/* Header */}
               <div className="flex justify-between mb-4 sm:mb-6 md:mb-8">
                 <p className="text-primary-500 text-[22px] sm:text-[24px] md:text-[26px] font-bold leading-8 sm:leading-9">
