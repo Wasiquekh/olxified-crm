@@ -562,7 +562,7 @@ export default function Home() {
                       </button>
 
                       <h2 className="text-xl font-bold text-center mb-2">
-                        Modal Content
+                        User`s data
                       </h2>
                       <div className="">
                         {modalImage ? (
@@ -603,7 +603,7 @@ export default function Home() {
                       </button>
 
                       <h2 className="text-xl font-bold text-center mb-2">
-                        Modal Content
+                        User`s short video
                       </h2>
                       {userVideoFromChild ? (
                         <div className="custom-player-container">
