@@ -243,7 +243,7 @@ export default function Home() {
                               alt="Profile"
                               width={60}
                               height={60}
-                              className="rounded-full border-2 border-primary-500"
+                              className="rounded-full border-2 border-primary-600 !h-[60px] max-w-[100px] object-cover"
                             />
                           ) : (
                             <Image
@@ -274,8 +274,8 @@ export default function Home() {
                         <td className="text-sm text-[#78829D] py-4 px-4">
                           Availability
                         </td>
-                        <td className="text-sm font-medium text-primary-900 py-4 px-4">
-                          <span className="bg-primary-200 py-1 px-2 rounded ">
+                        <td className="text-sm font-medium text-[#17C653] py-4 px-4">
+                          <span className="bg-[#EAFFF1] border border-[#17c65333] py-1 px-2 rounded ">
                             Available now
                           </span>
                         </td>
@@ -799,7 +799,7 @@ export default function Home() {
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="w-[150px] h-9 relative">
                   <button
-                    className=" bg-primary-500 text-white hover:bg-primary-600 py-1.5 px-6 rounded-[4px] text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    className=" bg-primary-600 text-white hover:bg-primary-600 py-1.5 px-6 rounded-[4px] text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={
                       liveDetection === "Approved" ||
                       liveDetection === "Rejected"
@@ -866,7 +866,7 @@ export default function Home() {
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="w-[150px] h-9 relative">
                   <button
-                    className=" bg-primary-500 text-white hover:bg-primary-600 py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    className=" bg-primary-600 text-white hover:bg-primary-600 py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={
                       identityMatching === "Approved" ||
                       identityMatching === "Rejected"
@@ -937,7 +937,7 @@ export default function Home() {
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="w-[150px] h-9 relative">
                   <button
-                    className=" bg-primary-500 text-white hover:bg-primary-600 py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    className=" bg-primary-600 text-white hover:bg-primary-600 py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={
                       userDetailsVerification === "Approved" ||
                       userDetailsVerification === "Rejected"
@@ -1008,7 +1008,7 @@ export default function Home() {
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="w-[150px] h-9 relative">
                   <button
-                    className=" bg-primary-500 text-white hover:bg-primary-600 py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    className=" bg-primary-600 text-white hover:bg-primary-600 py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={
                       scannedIdCardVerification === "Approved" ||
                       scannedIdCardVerification === "Rejected"
@@ -1079,7 +1079,7 @@ export default function Home() {
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="w-[150px] h-9 relative">
                   <button
-                    className=" bg-primary-500 text-white hover:bg-primary-600 py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    className=" bg-primary-600 text-white hover:bg-primary-600 py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={
                       fiveSecondVideoVerification === "Approved" ||
                       fiveSecondVideoVerification === "Rejected"
@@ -1150,7 +1150,7 @@ export default function Home() {
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="w-[150px] h-9 relative">
                   <button
-                    className=" bg-primary-500 text-white hover:bg-primary-600 py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    className=" bg-primary-600 text-white hover:bg-primary-600 py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={
                       signatureVerification === "Approved" ||
                       signatureVerification === "Rejected"
@@ -1599,7 +1599,7 @@ export default function Home() {
                       alt="Orizon profile"
                       width={100}
                       height={100}
-                      className="rounded-full mb-4 border-[3px] border-primary-500 !w-[100px] !h-[100px]"
+                      className="rounded-full mb-4 border-[3px] border-primary-600  !h-[100px] max-w-[100px] object-cover"
                     />
                   ) : (
                     <Image

@@ -249,7 +249,7 @@ export default function Home() {
             <div className=" flex justify-end items-center mb-6  w-full mx-auto">
               <div className=" flex justify-center items-center gap-4">
                 <div
-                  className=" flex gap-2 py-3 px-4 rounded-[4px] border border-[#E7E7E7] cursor-pointer bg-primary-500 items-center hover:bg-primary-600 group"
+                  className=" flex gap-2 py-3 px-4 rounded-[4px] border border-[#E7E7E7] cursor-pointer bg-primary-600 items-center hover:bg-primary-600 group"
                   onClick={toggleFilterFlyout}
                 >
                   <FiFilter className=" w-5 h-5 text-white group-hover:text-white" />
@@ -460,7 +460,7 @@ export default function Home() {
                         <td className="px-3 py-2 border border-tableBorder md:table-cell">
                           <button
                             onClick={() => handleClick(item)}
-                            className="py-1 px-3 bg-black hover:bg-primary-500 flex gap-2 items-center rounded-[4px]"
+                            className="py-1 px-3 bg-black hover:bg-viewDetailHover active:bg-viewDetailPressed flex gap-2 items-center rounded-[4px]"
                           >
                             <MdRemoveRedEye className="text-white w-4 h-4 hover:text-white" />
                             <span className="text-xs sm:text-sm text-white hover:text-white">
@@ -546,7 +546,7 @@ export default function Home() {
             <div className=" w-full min-h-auto">
               {/* Flyout content here */}
               <div className=" flex justify-between mb-4">
-                <p className=" text-primary-500 text-[26px] font-bold leading-9">
+                <p className=" text-primary-600 text-[26px] font-bold leading-9">
                   User Details
                 </p>
                 <IoCloseOutline
@@ -569,7 +569,7 @@ export default function Home() {
                         name="name"
                         onChange={handleChange}
                         placeholder="Alexandre"
-                        className=" hover:shadow-hoverInputShadow focus:border-primary-500 focus:outline-none w-full  border border-[#DFEAF2] rounded-[4px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 text-firstBlack"
+                        className=" hover:shadow-hoverInputShadow focus-border-primary w-full  border border-[#DFEAF2] rounded-[4px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4 text-firstBlack"
                       />
                     </div>
                   </div>
@@ -585,7 +585,7 @@ export default function Home() {
                         onChange={handleChange}
                         name="mobilephonenumber"
                         placeholder="1 (800) 667-6389"
-                        className=" hover:shadow-hoverInputShadow focus:border-primary-500 focus:outline-none w-full  border border-[#DFEAF2] rounded-[4px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
+                        className=" hover:shadow-hoverInputShadow focus-border-primary w-full  border border-[#DFEAF2] rounded-[4px] text-sm leading-4 font-medium placeholder-[#717171] py-4 px-4"
                       />
                     </div>
                     <div className=" w-full">

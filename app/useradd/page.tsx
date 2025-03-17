@@ -125,7 +125,7 @@ export default function Home() {
                           type="text"
                           name="name"
                           placeholder="Charlene Reed"
-                          className="hover:shadow-hoverInputShadow focus:border-primary-500 focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
+                          className="hover:shadow-hoverInputShadow  focus-border-primary w-full h-[50px] border border-[#DFEAF2] rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
                         />
                         <ErrorMessage
                           name="name"
@@ -170,7 +170,7 @@ export default function Home() {
                           type="email"
                           name="email"
                           placeholder="Janedoe@gmail.com"
-                          className="hover:shadow-hoverInputShadow focus:border-primary-500 focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
+                          className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2] rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
                         />
                         <ErrorMessage
                           name="email"
@@ -187,7 +187,7 @@ export default function Home() {
                           type={showPassword ? "text" : "password"}
                           name="password"
                           placeholder="********"
-                          className="hover:shadow-hoverInputShadow focus:border-primary-500 focus:outline-none w-full h-[50px] border border-[#DFEAF2] rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
+                          className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2] rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
                         />
                         {showPassword ? (
                           <FaRegEye
@@ -234,9 +234,9 @@ export default function Home() {
                             isSearchable={false} // Disables typing
                             classNames={{
                               control: ({ isFocused }) =>
-                                `onHoverBoxShadow !w-full !border !rounded-[4px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm ${
+                                `onHoverBoxShadow !w-full !border-[0.4px] !rounded-[4px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm ${
                                   isFocused
-                                    ? "!border-primary-500"
+                                    ? "!border-primary-600"
                                     : "!border-[#DFEAF2]"
                                 }`,
                             }}
@@ -250,7 +250,7 @@ export default function Home() {
                               option: (base, { isFocused, isSelected }) => ({
                                 ...base,
                                 backgroundColor: isSelected
-                                  ? "var(--primary-500)" // Active (selected) background color
+                                  ? "var(--primary-600)" // Active (selected) background color
                                   : isFocused
                                   ? "var(--primary-100)" // Hover background color
                                   : "#fff", // Default background
@@ -271,7 +271,7 @@ export default function Home() {
                           <button
                             type="submit"
                             disabled={isSubmitting}
-                            className="w-full  h-[50px] bg-primary-500 rounded-[4px] text-white text-lg leading-normal font-medium hover:bg-primary-600 hover:text-white"
+                            className="w-full  h-[50px] bg-primary-600 rounded-[4px] text-white text-lg leading-normal font-medium hover:bg-primary-600 hover:text-white"
                           >
                             {isSubmitting ? "Submitting..." : "Submit"}
                           </button>

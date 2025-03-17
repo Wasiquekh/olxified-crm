@@ -75,16 +75,16 @@ const LeftSideBar: React.FC = () => {
               height={0}
               className=" w-11 h-auto"
             />
-            <p className=" text-[25px] leading-normal font-bold uppercase text-primary-500">
+            <p className=" text-[25px] leading-normal font-bold uppercase text-primary-600">
               Orizon
             </p>
           </div>
         </Link>
         {/* MENU WITH ICONS */}
         <Link href="/customer">
-          <div className=" mb-4 flex gap-4 items-center  cursor-pointer group px-3 py-2 hover:bg-primary-200 rounded-[4px]">
-            <BiSolidHome className=" w-6 h-6 text-firstBlack group-hover:text-firstBlack" />
-            <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-firstBlack">
+          <div className=" mb-4 flex gap-4 items-center  cursor-pointer group px-3 py-2 hover:bg-sideBarHoverbg  active:bg-sideBarHoverbgPressed rounded-[4px]">
+            <BiSolidHome className=" w-6 h-6 text-firstBlack group-hover:text-primary-600" />
+            <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-primary-600">
               Dashboard
             </p>
           </div>
@@ -92,16 +92,16 @@ const LeftSideBar: React.FC = () => {
         {hasCustomerView && (
           <Link href="/customer">
             {pathname === "/customer" || pathname === "/customerdetails" ? (
-              <div className=" mb-4 flex gap-4 items-center group bg-primary-500 px-3 py-2 rounded-[4px] ">
+              <div className=" mb-4 flex gap-4 items-center group bg-primary-600 px-3 py-2 rounded-[4px] ">
                 <MdOutlineBarChart className=" w-6 h-6 text-white group-hover:text-white " />
                 <p className=" text-white text-base leading-normal font-medium group-hover:text-white">
                   Customers
                 </p>
               </div>
             ) : (
-              <div className=" mb-4 flex gap-4 items-center group px-3 py-2 hover:bg-primary-200 rounded-[4px] ">
-                <MdOutlineBarChart className=" w-6 h-6 text-firstBlack group-hover:text-firstBlack " />
-                <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-firstBlack">
+              <div className=" mb-4 flex gap-4 items-center group px-3 py-2 hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed rounded-[4px] ">
+                <MdOutlineBarChart className=" w-6 h-6 text-firstBlack group-hover:text-primary-600 " />
+                <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-primary-600">
                   Customers
                 </p>
               </div>
@@ -110,49 +110,49 @@ const LeftSideBar: React.FC = () => {
         )}
         <Link href="/transaction">
           {pathname === "/transaction" ? (
-            <div className=" mb-4 flex gap-4 items-center group bg-primary-500 px-3 py-2 rounded-[4px]">
+            <div className=" mb-4 flex gap-4 items-center group bg-primary-600 px-3 py-2 rounded-[4px]">
               <TbDeviceMobileDollar className=" w-6 h-6 text-white group-hover:text-white" />
               <p className=" text-white text-base leading-normal font-medium group-hover:text-white">
                 Transaction
               </p>
             </div>
           ) : (
-            <div className=" mb-4 flex gap-4 items-center group px-3 py-2 hover:bg-primary-200 rounded-[4px]">
-              <TbDeviceMobileDollar className=" w-6 h-6 text-firstBlack group-hover:text-firstBlack" />
-              <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-firstBlack">
+            <div className=" mb-4 flex gap-4 items-center group px-3 py-2 hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed rounded-[4px]">
+              <TbDeviceMobileDollar className=" w-6 h-6 text-firstBlack group-hover:text-primary-600" />
+              <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-primary-600">
                 Transaction
               </p>
             </div>
           )}
         </Link>
         <Link href="/customer">
-          <div className=" mb-4 flex gap-4 items-center group px-3 py-2 hover:bg-primary-200 rounded-[4px]">
-            <HiWrenchScrewdriver className=" w-6 h-6 text-firstBlack group-hover:text-firstBlack" />
-            <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-firstBlack">
+          <div className=" mb-4 flex gap-4 items-center group px-3 py-2 hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed rounded-[4px]">
+            <HiWrenchScrewdriver className=" w-6 h-6 text-firstBlack group-hover:text-primary-600" />
+            <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-primary-600">
               Point of Services
             </p>
           </div>
         </Link>
         <Link href="/customer">
-          <div className=" mb-4 flex gap-4 items-center group px-3 py-2 hover:bg-primary-200 rounded-[4px]">
-            <FaMoneyCheckDollar className=" w-6 h-6 text-firstBlack group-hover:text-firstBlack" />
-            <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-firstBlack">
+          <div className=" mb-4 flex gap-4 items-center group px-3 py-2 hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed rounded-[4px]">
+            <FaMoneyCheckDollar className=" w-6 h-6 text-firstBlack group-hover:text-primary-600" />
+            <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-primary-600">
               Payment Terminal
             </p>
           </div>
         </Link>
         <Link href="/cards">
           {pathname === "/cards" ? (
-            <div className=" mb-4 flex gap-4 items-center group bg-primary-500 px-3 py-2 rounded-[4px]">
+            <div className=" mb-4 flex gap-4 items-center group bg-primary-600 px-3 py-2 rounded-[4px]">
               <BsCreditCard2Back className=" w-6 h-6 text-white group-hover:text-white" />
               <p className=" text-white text-base leading-normal font-medium group-hover:text-white">
                 Credit Cards
               </p>
             </div>
           ) : (
-            <div className=" mb-4 flex gap-4 items-center group px-3 py-2 hover:bg-primary-200 rounded-[4px]">
-              <BsCreditCard2Back className=" w-6 h-6 text-firstBlack group-hover:text-firstBlack" />
-              <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-firstBlack">
+            <div className=" mb-4 flex gap-4 items-center group px-3 py-2 hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed rounded-[4px]">
+              <BsCreditCard2Back className=" w-6 h-6 text-firstBlack group-hover:text-primary-600" />
+              <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-primary-600">
                 Credit Cards
               </p>
             </div>
@@ -161,16 +161,16 @@ const LeftSideBar: React.FC = () => {
         {hasSystemUserView && (
           <Link href="/usermanagement">
             {pathname === "/usermanagement" || pathname === "/useradd" ? (
-              <div className=" mb-4 flex gap-4 items-center group bg-primary-500 px-3 py-2 rounded-[4px]">
+              <div className=" mb-4 flex gap-4 items-center group bg-primary-600 px-3 py-2 rounded-[4px]">
                 <BiSolidUser className=" w-6 h-6 text-white group-hover:text-white" />
                 <p className=" text-white text-base leading-normal font-medium group-hover:text-white">
                   User Management
                 </p>
               </div>
             ) : (
-              <div className=" mb-4 flex gap-4 items-center group px-3 py-2 hover:bg-primary-200 rounded-[4px]">
-                <BiSolidUser className=" w-6 h-6 text-firstBlack group-hover:text-firstBlack" />
-                <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-firstBlack">
+              <div className=" mb-4 flex gap-4 items-center group px-3 py-2 hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed rounded-[4px]">
+                <BiSolidUser className=" w-6 h-6 text-firstBlack group-hover:text-primary-600" />
+                <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-primary-600">
                   User Management
                 </p>
               </div>
@@ -180,25 +180,25 @@ const LeftSideBar: React.FC = () => {
         {hasUserActivityView && (
           <Link href="/user-activity">
             {pathname === "/user-activity" ? (
-              <div className=" mb-4 flex gap-4 items-center group bg-primary-500 px-3 py-2 rounded-[4px]">
+              <div className=" mb-4 flex gap-4 items-center group bg-primary-600 px-3 py-2 rounded-[4px]">
                 <BiSolidUser className=" w-6 h-6 text-white group-hover:text-white" />
                 <p className=" text-white text-base leading-normal font-medium group-hover:text-white">
                   User Activity
                 </p>
               </div>
             ) : (
-              <div className=" mb-4 flex gap-4 items-center group px-3 py-2 hover:bg-primary-200 rounded-[4px]">
-                <BiSolidUser className=" w-6 h-6 text-firstBlack group-hover:text-firstBlack" />
-                <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-firstBlack">
+              <div className=" mb-4 flex gap-4 items-center group px-3 py-2 hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed rounded-[4px]">
+                <BiSolidUser className=" w-6 h-6 text-firstBlack group-hover:text-primary-600" />
+                <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-primary-600">
                   User Activity
                 </p>
               </div>
             )}
           </Link>
         )}
-        <div className=" mb-4 flex gap-4 items-center group px-3 py-2 hover:bg-primary-200 rounded-[4px]">
-          <IoMdSettings className=" w-6 h-6 text-firstBlack group-hover:text-firstBlack" />
-          <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-firstBlack">
+        <div className=" mb-4 flex gap-4 items-center group px-3 py-2 hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed rounded-[4px]">
+          <IoMdSettings className=" w-6 h-6 text-firstBlack group-hover:text-primary-600" />
+          <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-primary-600">
             Settings
           </p>
         </div>
@@ -228,7 +228,7 @@ const LeftSideBar: React.FC = () => {
             alt="logout Icon"
             width={100}
             height={100}
-            className="w-full absolute bottom-0 right-0"
+            className="w-full absolute bottom-0 right-0 -mb-24"
           />
     </div>
   );

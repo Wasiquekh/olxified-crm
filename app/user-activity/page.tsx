@@ -321,7 +321,7 @@ export default function Home() {
               <div className=" flex justify-end items-center mb-6  w-full mx-auto">
                 <div className=" flex justify-center items-center gap-4">
                   <div
-                    className=" flex items-center gap-2 py-3 px-4 rounded-[4px] border border-[#E7E7E7] cursor-pointer bg-primary-500 group hover:bg-primary-600"
+                    className=" flex items-center gap-2 py-3 px-4 rounded-[4px] border border-[#E7E7E7] cursor-pointer bg-primary-600 group hover:bg-primary-600"
                     onClick={toggleFilterFlyout}
                   >
                     <FiFilter className=" w-4 h-4 text-white group-hover:text-white" />
@@ -558,7 +558,7 @@ export default function Home() {
             <div className="w-full min-h-auto">
               {/* Header */}
               <div className="flex justify-between mb-4 sm:mb-6 md:mb-8">
-                <p className="text-primary-500 text-[22px] sm:text-[24px] md:text-[26px] font-bold leading-8 sm:leading-9">
+                <p className="text-primary-600 text-[22px] sm:text-[24px] md:text-[26px] font-bold leading-8 sm:leading-9">
                   User Filter
                 </p>
                 <IoCloseOutline
@@ -594,7 +594,7 @@ export default function Home() {
                         isClearable
                         classNames={{
                           control: ({ isFocused }) =>
-                            `onHoverBoxShadow !w-full !border !rounded-[4px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm ${
+                            `onHoverBoxShadow !w-full !border[0.4px] !rounded-[4px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm ${
                               isFocused
                                 ? "!border-primary-500"
                                 : "!border-[#DFEAF2]"
@@ -640,7 +640,7 @@ export default function Home() {
                         name="startDate"
                         dateFormat="yyyy-MM-dd"
                         placeholderText="yyyy-mm-dd"
-                        className="hover:shadow-hoverInputShadow focus:border-primary-500 focus:outline-none 
+                        className="hover:shadow-hoverInputShadow focus-border-primary 
              !w-full border border-[#DFEAF2] rounded-[4px] text-sm leading-4 
              font-medium placeholder-[#717171] py-4 px-4 bg-white shadow-sm"
                         popperClassName="custom-datepicker"
@@ -674,7 +674,7 @@ export default function Home() {
                         name="endDate"
                         dateFormat="yyyy-MM-dd"
                         placeholderText="yyyy-mm-dd"
-                        className="hover:shadow-hoverInputShadow focus:border-primary-500 focus:outline-none 
+                        className="hover:shadow-hoverInputShadow focus-border-primary 
              !w-full border border-[#DFEAF2] rounded-[4px] text-sm leading-4 
              font-medium placeholder-[#717171] py-4 px-4 bg-white shadow-sm"
                         popperClassName="custom-datepicker"
@@ -717,7 +717,7 @@ export default function Home() {
                         isClearable
                         classNames={{
                           control: ({ isFocused }) =>
-                            `onHoverBoxShadow !w-full !border !rounded-[4px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm ${
+                            `onHoverBoxShadow !w-full !border-[0.4px] !rounded-[4px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm ${
                               isFocused
                                 ? "!border-primary-500"
                                 : "!border-[#DFEAF2]"
@@ -764,7 +764,7 @@ export default function Home() {
                         isClearable
                         classNames={{
                           control: ({ isFocused }) =>
-                            `onHoverBoxShadow !w-full !border !rounded-[4px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm ${
+                            `onHoverBoxShadow !w-full !border-[0.4px] !rounded-[4px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm ${
                               isFocused
                                 ? "!border-primary-500"
                                 : "!border-[#DFEAF2]"

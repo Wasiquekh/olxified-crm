@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .focus-border-primary {
+    @apply  focus:border-[0.4px] focus:border-solid focus:border-primary-500 focus:outline-none;
+  }
+}
 :root {
   /* --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -16,8 +21,8 @@
   --primary-800:#1f5c31;
   --primary-900:#1b4c2a;
 
-  --approveBtn:#00A310;
-  --rejectBtn:#A30000;
+  --approveBtn:#38B52B;
+  --rejectBtn:#FE0000;
 }
 
 
@@ -144,8 +149,8 @@ body {
   box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);
 }
 .react-tel-input .form-control:focus{
-  border: 1px solid !important;
-  border-color: var(--primary-500) !important;
+  border: 0.4px solid !important;
+  border-color: var(--primary-600) !important;
   outline: none !important;
 }
 .custom-player-container {
@@ -173,7 +178,7 @@ body {
   box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25) !important;
 }
 .onFocusBorderColor:focus {
-  border-color:  var(--primary-500) !important; /* Dark Maroon */
+  border-color:  var(--primary-600) !important; /* Dark Maroon */
   outline: none!important;
 }
 
@@ -181,7 +186,7 @@ body {
 /* DATE PICKER CSS */
 /* Header section (month/year title & arrows) */
 .custom-datepicker .react-datepicker__header {
-  background-color: var(--primary-500) !important; /* Dark maroon */
+  background-color: var(--primary-600) !important; /* Dark maroon */
   color: white !important;
   border-bottom: none !important;
 }
@@ -198,33 +203,33 @@ body {
 
 /* Weekday names (Sun, Mon, Tue, etc.) */
 .custom-datepicker .react-datepicker__day-name {
-  background-color:  var(--primary-500) !important;
+  background-color:  var(--primary-600) !important;
   color: white !important;
 }
 
 /* Current date */
 .custom-datepicker .react-datepicker__day--today {
   background-color:  var(--primary-100) !important; /* Light pink */
-  color:  var(--primary-500) !important;
+  color:  var(--primary-600) !important;
   font-weight: bold;
 }
 
 /* Hover effect */
 .custom-datepicker .react-datepicker__day:hover {
   background-color:  var(--primary-100) !important; /* Medium pink */
-  color:  var(--primary-500) !important;
+  color:  var(--primary-600) !important;
 }
 
 /* Selected date */
 .custom-datepicker .react-datepicker__day--selected {
-  background-color:  var(--primary-500) !important; /* Dark maroon */
+  background-color:  var(--primary-600) !important; /* Dark maroon */
   color: white !important;
 }
 
 /* Datepicker dropdown background */
 .custom-datepicker {
   background-color:  var(--primary-100) !important; /* Light pink */
-  border: 1px solid  var(--primary-500) !important;
+  border: 1px solid  var(--primary-600) !important;
   border-radius: 4px !important;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1) !important;
 }
@@ -232,7 +237,7 @@ input#swal2-input:hover {
   box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);
 }
 input#swal2-input:focus {
- border-color: var(--primary-500) !important;
+ border-color: var(--primary-600) !important;
 outline: none !important;
 box-shadow: none !important;
 }
@@ -247,8 +252,8 @@ button.swal2-cancel.swal2-styled.swal2-default-outline {
   background: var(--rejectBtn) !important;
 }
 .swal2-icon.swal2-warning.swal2-icon-show {
-  color: var(--primary-500) !important;
-  border-color: var(--primary-500) !important;
+  color: var(--primary-600) !important;
+  border-color: var(--primary-600) !important;
 }
 
 button.swal2-confirm.swal2-styled.swal2-default-outline:hover {

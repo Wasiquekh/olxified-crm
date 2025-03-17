@@ -21,11 +21,11 @@ const DynamicBreadCrum = () => {
           </p>
           <IoChevronForward className="text-[#99A1B7] w-3 h-3" />
           <Link href="/customer">
-            <span className="text-primary-500 text-sm leading-5 font-medium hover:text-primary-600">
+            <span className="text-primary-600 text-sm leading-5 font-medium hover:text-primary-600">
               All customers
             </span>
           </Link>
-          <p className="text-primary-500 text-sm leading-5 font-medium capitalize">
+          <p className="text-primary-600 text-sm leading-5 font-medium capitalize">
             {pathname === "/customerdetails" && (
               <div className="flex items-center">
                 <IoChevronForward className="text-[#99A1B7] w-3 h-3 mr-1" />
@@ -41,7 +41,7 @@ const DynamicBreadCrum = () => {
             Transactions
           </p>
           <IoChevronForward className="text-[#99A1B7] w-3 h-3" />
-          <p className="text-primary-500 text-sm leading-5 font-medium">
+          <p className="text-primary-600 text-sm leading-5 font-medium">
             All Transactions
           </p>
         </div>
@@ -50,7 +50,7 @@ const DynamicBreadCrum = () => {
         <div className="flex md:flex gap-2 w-auto items-center">
           <p className="text-[#4B5675] text-sm font-medium leading-5">Cards</p>
           <IoChevronForward className="text-[#99A1B7] w-3 h-3" />
-          <p className="text-primary-500 text-sm leading-5 font-medium">
+          <p className="text-primary-600 text-sm leading-5 font-medium">
             Recently added
           </p>
         </div>
@@ -61,7 +61,7 @@ const DynamicBreadCrum = () => {
             User Management
           </p>
           <IoChevronForward className="text-[#99A1B7] w-3 h-3" />
-          <p className="text-primary-500 text-sm leading-5 font-medium">
+          <p className="text-primary-600 text-sm leading-5 font-medium">
             All Users
           </p>
         </div>
@@ -72,7 +72,7 @@ const DynamicBreadCrum = () => {
             User Add
           </p>
           <IoChevronForward className="text-[#99A1B7] w-3 h-3" />
-          <p className="text-primary-500 text-sm leading-5 font-medium">
+          <p className="text-primary-600 text-sm leading-5 font-medium">
             Recently added
           </p>
         </div>
@@ -83,7 +83,7 @@ const DynamicBreadCrum = () => {
             User Activity
           </p>
           <IoChevronForward className="text-[#99A1B7] w-3 h-3" />
-          <p className="text-primary-500 text-sm leading-5 font-medium">
+          <p className="text-primary-600 text-sm leading-5 font-medium">
             All Logs
           </p>
         </div>
