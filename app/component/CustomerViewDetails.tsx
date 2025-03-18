@@ -726,6 +726,13 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
                         className="custom-player"
                         width="100%" // Fill the container
                         height="100%" // Fill the container
+                        config={{
+                          file: {
+                            attributes: {
+                              controlsList: "nodownload", // Disable extra options
+                            },
+                          },
+                        }}
                       />
                     </div>
                   ) : (

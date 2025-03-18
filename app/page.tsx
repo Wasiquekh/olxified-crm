@@ -173,7 +173,7 @@ export default function LoginHome() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className=" bg-primary-500  rounded-[4px] w-full h-[50px] text-center text-white text-lg font-medium leading-normal mb-3 hover:bg-primary-600 transition duration-100"
+                  className=" bg-primary-600  rounded-[4px] w-full h-[50px] text-center text-white text-lg font-medium leading-normal mb-3 hover:bg-primary-500 active:bg-primary-700 transition duration-100"
                 >
                   {loading ? "Logging in..." : "Login"}
                 </button>

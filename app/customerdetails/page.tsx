@@ -108,7 +108,9 @@ export default function Home() {
   const [modalImage, setModalImage] = useState<string>("");
   const context = useContext(AppContext);
   if (!context) {
-    throw new Error("FetchCustomerComponent must be used within an AppProvider");
+    throw new Error(
+      "FetchCustomerComponent must be used within an AppProvider"
+    );
   }
   const { setCustomerFullName } = context;
   // Function to open modal with specific image
@@ -134,10 +136,14 @@ export default function Home() {
           //console.log("VIEW CUSTOMER", res);
           setCustomer(res.data.data.customer);
 
-        if (res?.data.data.customer.firstname && res?.data.data.customer.lastname) {
-          setCustomerFullName(`${res.data.data.customer.firstname} ${res.data.data.customer.lastname}`);
-        }
-
+          if (
+            res?.data.data.customer.firstname &&
+            res?.data.data.customer.lastname
+          ) {
+            setCustomerFullName(
+              `${res.data.data.customer.firstname} ${res.data.data.customer.lastname}`
+            );
+          }
         } catch (error: any) {
           console.log("Error occurred:", error);
         }
@@ -145,11 +151,11 @@ export default function Home() {
 
       fetchData();
     }
-  }, [id,setCustomerFullName]);
+  }, [id, setCustomerFullName]);
   const fetchUserStatus = async () => {
     // console.log('USE EFFECT CUS ID',id);
     try {
-     // console.log("USE EFFECT CUS ID", id);
+      // console.log("USE EFFECT CUS ID", id);
       const response = await axiosProvider.post("/getuserstatus", {
         customer_id: id,
       });
@@ -611,10 +617,17 @@ export default function Home() {
                             url={userVideoFromChild}
                             controls={true}
                             playing={true}
-                            muted={false}
+                            muted={true}
                             className="custom-player"
                             width="100%" // Fill the container
                             height="100%" // Fill the container
+                            config={{
+                              file: {
+                                attributes: {
+                                  controlsList: "nodownload", // Disable extra options
+                                },
+                              },
+                            }}
                           />
                         </div>
                       ) : (
@@ -799,7 +812,7 @@ export default function Home() {
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="w-[150px] h-9 relative">
                   <button
-                    className=" bg-primary-600 text-white hover:bg-primary-600 py-1.5 px-6 rounded-[4px] text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    className=" bg-primary-600 text-white hover:bg-primary-500 py-1.5 px-6 rounded-[4px] text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={
                       liveDetection === "Approved" ||
                       liveDetection === "Rejected"
@@ -866,7 +879,7 @@ export default function Home() {
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="w-[150px] h-9 relative">
                   <button
-                    className=" bg-primary-600 text-white hover:bg-primary-600 py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    className=" bg-primary-600 text-white hover:bg-primary-500 py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={
                       identityMatching === "Approved" ||
                       identityMatching === "Rejected"
@@ -937,7 +950,7 @@ export default function Home() {
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="w-[150px] h-9 relative">
                   <button
-                    className=" bg-primary-600 text-white hover:bg-primary-600 py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    className=" bg-primary-600 text-white hover:bg-primary-500 py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={
                       userDetailsVerification === "Approved" ||
                       userDetailsVerification === "Rejected"
@@ -1008,7 +1021,7 @@ export default function Home() {
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="w-[150px] h-9 relative">
                   <button
-                    className=" bg-primary-600 text-white hover:bg-primary-600 py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    className=" bg-primary-600 text-white hover:bg-primary-500 py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={
                       scannedIdCardVerification === "Approved" ||
                       scannedIdCardVerification === "Rejected"
@@ -1079,7 +1092,7 @@ export default function Home() {
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="w-[150px] h-9 relative">
                   <button
-                    className=" bg-primary-600 text-white hover:bg-primary-600 py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    className=" bg-primary-600 text-white hover:bg-primary-500 py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={
                       fiveSecondVideoVerification === "Approved" ||
                       fiveSecondVideoVerification === "Rejected"
@@ -1150,7 +1163,7 @@ export default function Home() {
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="w-[150px] h-9 relative">
                   <button
-                    className=" bg-primary-600 text-white hover:bg-primary-600 py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    className=" bg-primary-600 text-white hover:bg-primary-500 py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={
                       signatureVerification === "Approved" ||
                       signatureVerification === "Rejected"
