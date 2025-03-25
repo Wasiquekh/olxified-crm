@@ -1250,7 +1250,7 @@ export default function Home() {
                           </td>
                           <td className="border border-gray-300 px-4 py-3">
                             <p
-                              className={`text-[#fff] text-sm px-4 pt-1 pb-1.5 rounded-[4px] w-24 text-center w-full md:w-[80%] ${
+                              className={`text-[#fff] text-sm px-4 pt-1 pb-1.5 rounded-[4px] w-24 text-center w-full ${
                                 item.status === "Approved"
                                   ? "bg-approveBtn"
                                   : item.status === "Rejected"
