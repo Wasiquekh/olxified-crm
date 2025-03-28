@@ -203,6 +203,44 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
 
   const reject = async (verification: string) => {
     setIsEditFlyoutOpen(false);
+
+    // Define different dropdown options based on the verification type
+  const rejectionOptions: Record<string, Record<string, string>> = {
+    "liveness_detection": {
+      "Liveness Score min 90%": "Liveness Score min 90%",
+      "Image is blur": "Image is blur",
+      "Face image not align": "Face image not align",
+    },
+    "identity_matching": {
+      "Miss matching": "Miss matching",
+      "Card image is blur": "Card image is blur",
+    },
+    "user_details_verification": {
+      "Name is miss match": "Name is miss match",
+      "Mobile number is missmatch": "Mobile number is missmatch",
+      "DOB is miss match": "DOB is miss match",
+    },
+    "scanned_id_card_verification": {
+      "ID card is miss match": "ID card is miss match",
+      "Card is blur": "Card is blur",
+    },
+    "five_second_face_video_verification": {
+      "Video is blur": "Video is blur",
+      "Face is not showing": "Face is not showing",
+    },
+    "signature_verification": {
+      "Singniture is not proper": "Singniture is not proper",
+      "Signiture is dot": "Signiture is dot",
+      "Signiture is missmatch": "Signiture is missmatch",
+    },
+  };
+
+  const inputOptions = rejectionOptions[verification];
+
+  if (!inputOptions) {
+    console.warn("No rejection options found for verification type:", verification);
+    return; // Do nothing if the verification type is not found
+  }
     Swal.fire({
       title: "Are you sure?",
       text: "Do you really want to reject this user?",
@@ -212,20 +250,19 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
       cancelButtonText: "No",
       confirmButtonColor: "#d33",
       cancelButtonColor: "#3085d6",
-      input: "text", // Adds a text input field
-      inputPlaceholder: "Enter a reason for deletion", // Placeholder text for the input
+      input: "select", // Change input type to select dropdown
+      inputOptions,
+      inputPlaceholder: "Select a reason", // Placeholder text
       inputValidator: (value) => {
         if (!value) {
-          return "You need to provide a reason!";
+          return "You need to select a reason!";
         }
       },
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const reason = result.value; // Get the value entered in the input field
-        console.log("Reason for deletion:", reason);
+        const reason = result.value; // Get the selected reason
+        console.log("Reason for rejection:", reason);
         if (customer && customer.face_id_url !== undefined) {
-          //console.log('customer id',customer.id);
-          // console.log('system user id',storage.getUserId())
           try {
             const response = await axiosProvider.post("/rejectuser", {
               customer_id: id,
@@ -235,16 +272,16 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
             });
             toast.success("Customer is rejected");
             setHitApi(!hitApi);
-            // toast.success("Successfully get");
             await activityLogger.rejectedUser(id, verification);
           } catch (error) {
-            console.error("Customer rejection is failed:", error);
-            toast.error("Customer rejection is failed");
+            console.error("Customer rejection failed:", error);
+            toast.error("Customer rejection failed");
           }
         }
       }
     });
   };
+  
   const approve = async (verification: string) => {
     setIsEditFlyoutOpen(false);
     Swal.fire({
@@ -421,7 +458,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
               </div>
               <div className="w-full flex flex-col md:flex-row md:justify-between mb-5">
                 <div className="w-full md:w-[49%]">
-                  <p className="mb-5">Id Card Ecto</p>
+                  <p className="mb-5">ID Card Ecto</p>
                   {idCardEcto ? (
                     <Image
                       src={idCardEcto}

@@ -428,7 +428,7 @@ export default function Home() {
                           </span>
                         </td>
                         <td className="px-3 py-2 border border-tableBorder hidden md:table-cell">
-                          <span className="text-[#232323] text-sm sm:text-base">
+                          <span className="text-[#232323] text-sm sm:text-base capitalize">
                             {item.gender}
                           </span>
                         </td>

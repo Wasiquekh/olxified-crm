@@ -81,13 +81,22 @@ const LeftSideBar: React.FC = () => {
           </div>
         </Link>
         {/* MENU WITH ICONS */}
-        <Link href="/customer">
-          <div className=" mb-4 flex gap-4 items-center  cursor-pointer group px-3 py-2 hover:bg-sideBarHoverbg  active:bg-sideBarHoverbgPressed rounded-[4px]">
-            <BiSolidHome className=" w-6 h-6 text-firstBlack group-hover:text-primary-600" />
-            <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-primary-600">
-              Dashboard
-            </p>
-          </div>
+        <Link href="/dashboard">
+          {pathname === "/dashboard" ? (
+            <div className=" mb-4 flex gap-4 items-center group bg-primary-600 px-3 py-2 rounded-[4px]">
+              <BiSolidHome className=" w-6 h-6 text-white group-hover:text-white" />
+              <p className=" text-white text-base leading-normal font-medium group-hover:text-white">
+                Dashboard
+              </p>
+            </div>
+          ) : (
+            <div className=" mb-4 flex gap-4 items-center group px-3 py-2 hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed rounded-[4px]">
+              <BiSolidHome className=" w-6 h-6 text-firstBlack group-hover:text-primary-600" />
+              <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-primary-600">
+                Dashboard
+              </p>
+            </div>
+          )}
         </Link>
         {hasCustomerView && (
           <Link href="/customer">
@@ -125,21 +134,39 @@ const LeftSideBar: React.FC = () => {
             </div>
           )}
         </Link>
-        <Link href="/customer">
-          <div className=" mb-4 flex gap-4 items-center group px-3 py-2 hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed rounded-[4px]">
-            <HiWrenchScrewdriver className=" w-6 h-6 text-firstBlack group-hover:text-primary-600" />
-            <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-primary-600">
-              Point of Services
-            </p>
-          </div>
+        <Link href="/point-of-services">
+          {pathname === "/point-of-services" ? (
+            <div className=" mb-4 flex gap-4 items-center group bg-primary-600 px-3 py-2 rounded-[4px]">
+              <HiWrenchScrewdriver className=" w-6 h-6 text-white group-hover:text-white" />
+              <p className=" text-white text-base leading-normal font-medium group-hover:text-white">
+                Point of Services
+              </p>
+            </div>
+          ) : (
+            <div className=" mb-4 flex gap-4 items-center group px-3 py-2 hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed rounded-[4px]">
+              <HiWrenchScrewdriver className=" w-6 h-6 text-firstBlack group-hover:text-primary-600" />
+              <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-primary-600">
+                Point of Services
+              </p>
+            </div>
+          )}
         </Link>
-        <Link href="/customer">
-          <div className=" mb-4 flex gap-4 items-center group px-3 py-2 hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed rounded-[4px]">
-            <FaMoneyCheckDollar className=" w-6 h-6 text-firstBlack group-hover:text-primary-600" />
-            <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-primary-600">
-              Payment Terminal
-            </p>
-          </div>
+        <Link href="/payment-terminal">
+          {pathname === "/payment-terminal" ? (
+            <div className=" mb-4 flex gap-4 items-center group bg-primary-600 px-3 py-2 rounded-[4px]">
+              <FaMoneyCheckDollar className=" w-6 h-6 text-white group-hover:text-white" />
+              <p className=" text-white text-base leading-normal font-medium group-hover:text-white">
+                Payment Terminal
+              </p>
+            </div>
+          ) : (
+            <div className=" mb-4 flex gap-4 items-center group px-3 py-2 hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed rounded-[4px]">
+              <FaMoneyCheckDollar className=" w-6 h-6 text-firstBlack group-hover:text-primary-600" />
+              <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-primary-600">
+                Payment Terminal
+              </p>
+            </div>
+          )}
         </Link>
         <Link href="/cards">
           {pathname === "/cards" ? (
@@ -196,12 +223,23 @@ const LeftSideBar: React.FC = () => {
             )}
           </Link>
         )}
-        <div className=" mb-4 flex gap-4 items-center group px-3 py-2 hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed rounded-[4px]">
-          <IoMdSettings className=" w-6 h-6 text-firstBlack group-hover:text-primary-600" />
-          <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-primary-600">
-            Settings
-          </p>
-        </div>
+        <Link href="/setting">
+          {pathname === "/setting" ? (
+            <div className=" mb-4 flex gap-4 items-center group bg-primary-600 px-3 py-2 rounded-[4px]">
+              <IoMdSettings className=" w-6 h-6 text-white group-hover:text-white" />
+              <p className=" text-white text-base leading-normal font-medium group-hover:text-white">
+                Setting
+              </p>
+            </div>
+          ) : (
+            <div className=" mb-4 flex gap-4 items-center group px-3 py-2 hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed rounded-[4px]">
+              <IoMdSettings className=" w-6 h-6 text-firstBlack group-hover:text-primary-600" />
+              <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-primary-600">
+                Setting
+              </p>
+            </div>
+          )}
+        </Link>
       </div>
       {/* END SIDE LEFT BAR TOP SECTION */}
 
@@ -224,12 +262,12 @@ const LeftSideBar: React.FC = () => {
       </div>
       {/*  END SIDE LEFT BAR BOTTOM SECTION */}
       <Image
-            src="/images/sideBarDesign.svg"
-            alt="logout Icon"
-            width={100}
-            height={100}
-            className="w-full absolute bottom-0 right-0 -mb-24"
-          />
+        src="/images/sideBarDesign.svg"
+        alt="logout Icon"
+        width={100}
+        height={100}
+        className="w-full absolute bottom-0 right-0 -mb-24"
+      />
     </div>
   );
 };

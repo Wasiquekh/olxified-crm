@@ -1255,7 +1255,7 @@ export default function Home() {
                                   ? "bg-approveBtn"
                                   : item.status === "Rejected"
                                   ? "bg-rejectBtn"
-                                  : "bg-customBlue"
+                                  : "bg-underreviewbtn"
                               }`}
                             >
                               {item.status}

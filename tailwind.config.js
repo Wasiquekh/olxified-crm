@@ -36,6 +36,7 @@ module.exports = {
         approveBtn: "#38B52B",
         underreviewbtn: "#FFA900",
         rejectBtn: "#FE0000",
+        textGrey: "#999",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
@@ -53,6 +54,7 @@ module.exports = {
         lastTransaction: "0px 1px 4px 0px rgba(0, 0, 0, 0.25)",
         lastTransactionList: "0px 0px 1px 0px rgba(0, 0, 0, 0.25)",
         hoverInputShadow: " 0px 0px 4px 0px rgba(0, 0, 0, 0.25)",
+        dashboardShadow: "0px 1px 2px 0px rgba(0, 0, 0, 0.30), 0px 1px 3px 1px rgba(0, 0, 0, 0.15)",
       },
     },
   },

@@ -149,7 +149,7 @@ export default function OtpHome() {
       setAccessToken(res.data.data.token);
       storage.saveAccessToken(res.data.data.token);
       const userID = storage.getUserId();
-      router.push("/customer");
+      router.push("/dashboard");
 
       // Create instance and log activity
       const activityLogger = new UserActivityLogger();

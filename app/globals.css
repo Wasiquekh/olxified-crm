@@ -252,8 +252,8 @@ button.swal2-cancel.swal2-styled.swal2-default-outline {
   background: var(--rejectBtn) !important;
 }
 .swal2-icon.swal2-warning.swal2-icon-show {
-  color: var(--primary-600) !important;
-  border-color: var(--primary-600) !important;
+  color: #FFA900 !important;
+  border-color: #FFA900 !important;
 }
 
 button.swal2-confirm.swal2-styled.swal2-default-outline:hover {
@@ -264,9 +264,38 @@ button.swal2-cancel.swal2-styled.swal2-default-outline:hover {
   background-color: var(--approveBtn) !important;
   color: white !important;
 }
+.swal2-select:focus-visible {
+  border: 1px solid; 
+  border-radius: 4px;
+  border-color: var(--primary-600) !important; /* Replace with your preferred color */
+  outline: none !important;
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);
+}
+.swal2-select option:hover {
+  background-color: var(--primary-500) !important; /* Replace with your custom color */
+  color: white !important; /* Optional: Change text color for better visibility */
+}
+.swal2-select option {
+  background-color: white; /* Default background */
+  color: black; /* Default text color */
+}
+
+/* Change background color when hovering over an option */
+.swal2-select option:hover {
+  background-color: #d33 !important; /* Replace with your custom color */
+  color: white !important; /* Optional: Change text color for better contrast */
+}
+text.recharts-text.recharts-cartesian-axis-tick-value {
+  font-size: 14px !important;
+  font-weight: 600 !important;
+}
 
 @media only screen and (max-width: 767px) {
   .react-tel-input .form-control {
     width: 87.8% !important;
+  }
+  text.recharts-text.recharts-cartesian-axis-tick-value {
+    font-size: 12px !important;
+    font-weight: 400 !important;
   }
 }
