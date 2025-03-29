@@ -181,7 +181,7 @@ export default function Home() {
               <div className=" sm:w-auto">
                 {hasSystemUserAdd ? (
                   <Link href="/useradd">
-                    <button className="flex items-center gap-[10px]  h-12 px-3 py-[6px] rounded-[4px] shadow-borderShadow w-full sm:w-auto bg-primary-600 group hover:bg-primary-600">
+                    <button className="flex items-center gap-[10px]  h-12 px-3 py-[6px] rounded-[4px] shadow-borderShadow w-full sm:w-auto bg-primary-600 group hover:bg-primary-700">
                       <FaPlus className="h-[20px] w-[20px] text-white group-hover:text-white" />
                       <p className="text-white text-base leading-normal group-hover:text-white">
                         Create User
@@ -301,7 +301,7 @@ export default function Home() {
                             {hasSystemUserView ? (
                               <button
                                 onClick={() => changeCurrentUserData(item)}
-                                className="py-[4px] px-3 bg-primary-600 group flex gap-1 items-center rounded-xl text-xs md:text-sm hover:bg-primary-600"
+                                className="py-[4px] px-3 bg-primary-600 hover:bg-primary-800 active:bg-primary-900 group flex gap-1 items-center rounded-xl text-xs md:text-sm "
                               >
                                 <MdRemoveRedEye className="text-white w-4 h-4 group-hover:text-white" />
                                 <p className="text-white hidden md:block group-hover:text-white">

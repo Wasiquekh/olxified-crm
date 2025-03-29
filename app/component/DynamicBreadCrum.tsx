@@ -46,6 +46,28 @@ const DynamicBreadCrum = () => {
           </p>
         </div>
       )}
+      {pathname === "/point-of-services" && (
+        <div className="flex  md:flex gap-2 w-auto items-center">
+          <p className="text-[#4B5675] text-sm font-medium leading-5">
+            Point of services
+          </p>
+          <IoChevronForward className="text-[#99A1B7] w-3 h-3" />
+          <p className="text-primary-600 text-sm leading-5 font-medium">
+            All Services
+          </p>
+        </div>
+      )}
+      {pathname === "/payment-terminal" && (
+        <div className="flex  md:flex gap-2 w-auto items-center">
+          <p className="text-[#4B5675] text-sm font-medium leading-5">
+            Payment terminal
+          </p>
+          <IoChevronForward className="text-[#99A1B7] w-3 h-3" />
+          <p className="text-primary-600 text-sm leading-5 font-medium">
+            All payments
+          </p>
+        </div>
+      )}
       {pathname === "/cards" && (
         <div className="flex md:flex gap-2 w-auto items-center">
           <p className="text-[#4B5675] text-sm font-medium leading-5">Cards</p>
@@ -85,6 +107,17 @@ const DynamicBreadCrum = () => {
           <IoChevronForward className="text-[#99A1B7] w-3 h-3" />
           <p className="text-primary-600 text-sm leading-5 font-medium">
             All Logs
+          </p>
+        </div>
+      )}
+      {pathname === "/setting" && (
+        <div className="flex md:flex gap-2 w-auto items-center">
+          <p className="text-[#4B5675] text-sm font-medium leading-5">
+            Setting
+          </p>
+          <IoChevronForward className="text-[#99A1B7] w-3 h-3" />
+          <p className="text-primary-600 text-sm leading-5 font-medium">
+            All setting
           </p>
         </div>
       )}
