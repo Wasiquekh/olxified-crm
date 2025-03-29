@@ -44,7 +44,7 @@ export default function Home() {
         {/* </div> */}
         <div className="w-full bg-[#F5F7FA] flex justify-center p-0 md:p-0 mt-6 md:mt-0">
           <div className="w-full min-h-80 md:min-h-[600px] bg-white rounded-3xl shadow-lastTransaction z-10">
-            <div className="p-2 md:p-6 h-full flex items-center w-full">
+            <div className="p-3 md:p-6  flex w-full">
               <div className="flex flex-col md:flex-row gap-2 w-full">
                 <Link
                   href="https://orizon.africa/terms"

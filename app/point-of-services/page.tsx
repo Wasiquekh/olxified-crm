@@ -47,7 +47,7 @@ export default function Home() {
               {/* ---------------- Table--------------------------- */}
               <div className="w-full overflow-x-auto">
                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 whitespace-nowrap">
-                  <thead className="text-xs text-[#999999] bg-white">
+                  <thead className="text-xs text-firstBlack bg-white">
                     <tr className="border border-tableBorder">
                       <th className="px-3 py-2 border border-tableBorder">Transaction ID</th>
                       <th className="px-3 py-2 border border-tableBorder">Date & Time</th>
@@ -65,7 +65,7 @@ export default function Home() {
                   </thead>
                   <tbody>
                     {[...Array(10)].map((_, i) => (
-                      <tr key={i} className="border border-tableBorder bg-white hover:bg-primary-100">
+                      <tr key={i} className="border border-tableBorder bg-white hover:bg-primary-100 text-[#232323]">
                         <td className="px-3 py-2 border border-tableBorder">TXN00{i + 1}</td>
                         <td className="px-3 py-2 border border-tableBorder">2024-03-29 {14 + i}:30</td>
                         <td className="px-3 py-2 border border-tableBorder">Customer {i + 1}</td>
