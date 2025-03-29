@@ -1,5 +1,5 @@
 "use client";
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend} from "recharts";
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
 
 interface DataPoint {
   name: string;
@@ -43,9 +43,22 @@ const AreaChartComponent: React.FC = () => {
           <CartesianGrid stroke="#D9E1E7" strokeDasharray="3 3" />
           <XAxis dataKey="name" tick={{ fill: "#999" }} />
           <YAxis tick={{ fill: "#999" }} domain={[0, 100]} tickCount={6} tickFormatter={(value) => `${value}k`} />
-          <Tooltip />
+          <Tooltip content={({ active, payload, label }) => {
+            if (active && payload && payload.length) {
+              return (
+                <div className="bg-white p-2 shadow-md rounded-md text-gray-700 text-sm">
+                  <p className="font-semibold">{label}</p>
+                  {payload.map((entry, index) => (
+                    <p key={index} className="text-xs font-medium text-primary-600">
+                      {entry.name}: {entry.value}k
+                    </p>
+                  ))}
+                </div>
+              );
+            }
+            return null;
+          }} />
           <Legend />
-
           {/* White Shadow Effect - Slightly larger stroke */}
           <Area type="linear" dataKey="value1" stroke="white" strokeWidth={10} fill="none" opacity={0.3} />
           <Area type="linear" dataKey="value2" stroke="white" strokeWidth={10} fill="none" opacity={0.3} />
