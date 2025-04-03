@@ -207,6 +207,7 @@ export default function Home() {
     if (status === "Approved") return "bg-approveBtn";
     if (status === "On Progress") return "bg-progressBtn";
     if (status === "Rejected") return "bg-rejectBtn";
+    if (status === "Under Review") return "bg-underreviewbtn";
     return ""; // Default background color
   };
   const liveDetectionBg = getBgColor(liveDetection);
