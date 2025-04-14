@@ -220,7 +220,6 @@ export default function Home() {
           style={{ width: "150px", height: "auto" }}
           className="animate-pulse rounded"
         />
-      
       </div>
     );
   }
@@ -451,6 +450,8 @@ export default function Home() {
                                 ? "bg-approveBtn"
                                 : item.mainStatus === "Rejected"
                                 ? "bg-rejectBtn"
+                                : item.mainStatus === "Under Review"
+                                ? "bg-underreviewbtn"
                                 : "bg-customBlue"
                             }`}
                           >
