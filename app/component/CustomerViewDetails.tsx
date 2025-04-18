@@ -56,7 +56,7 @@ interface CustomerViewDetailsProps {
   setIdVersoFromChild: (value: string) => void;
   setUserSignatureFromChild: (value: string) => void;
   setUserVideoFromChild: (value: string) => void;
-  setHitApi:Dispatch<SetStateAction<boolean>>;
+  setHitApi: Dispatch<SetStateAction<boolean>>;
   hitApi: boolean;
 }
 
@@ -199,48 +199,58 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
       fetchDataVideo();
       fetchUserSignature();
     }
-  }, [customer]);
+  }, [customer, hitApi]);
 
+  useEffect(() => {
+    fetchData();
+    fetchIdCard();
+    fetchDataVideo();
+    fetchUserSignature();
+  }, [hitApi]);
+  console.log("MY HIT API", hitApi);
   const reject = async (verification: string) => {
     setIsEditFlyoutOpen(false);
 
     // Define different dropdown options based on the verification type
-  const rejectionOptions: Record<string, Record<string, string>> = {
-    "liveness_detection": {
-      "Liveness Score min 90%": "Liveness Score min 90%",
-      "Image is blur": "Image is blur",
-      "Face image not align": "Face image not align",
-    },
-    "identity_matching": {
-      "Miss matching": "Miss matching",
-      "Card image is blur": "Card image is blur",
-    },
-    "user_details_verification": {
-      "Name is miss match": "Name is miss match",
-      "Mobile number is missmatch": "Mobile number is missmatch",
-      "DOB is miss match": "DOB is miss match",
-    },
-    "scanned_id_card_verification": {
-      "ID card is miss match": "ID card is miss match",
-      "Card is blur": "Card is blur",
-    },
-    "five_second_face_video_verification": {
-      "Video is blur": "Video is blur",
-      "Face is not showing": "Face is not showing",
-    },
-    "signature_verification": {
-      "Singniture is not proper": "Singniture is not proper",
-      "Signiture is dot": "Signiture is dot",
-      "Signiture is missmatch": "Signiture is missmatch",
-    },
-  };
+    const rejectionOptions: Record<string, Record<string, string>> = {
+      liveness_detection: {
+        "Liveness Score min 90%": "Liveness Score min 90%",
+        "Image is blur": "Image is blur",
+        "Face image not align": "Face image not align",
+      },
+      identity_matching: {
+        "Miss matching": "Miss matching",
+        "Card image is blur": "Card image is blur",
+      },
+      user_details_verification: {
+        "Name is miss match": "Name is miss match",
+        "Mobile number is missmatch": "Mobile number is missmatch",
+        "DOB is miss match": "DOB is miss match",
+      },
+      scanned_id_card_verification: {
+        "ID card is miss match": "ID card is miss match",
+        "Card is blur": "Card is blur",
+      },
+      five_second_face_video_verification: {
+        "Video is blur": "Video is blur",
+        "Face is not showing": "Face is not showing",
+      },
+      signature_verification: {
+        "Singniture is not proper": "Singniture is not proper",
+        "Signiture is dot": "Signiture is dot",
+        "Signiture is missmatch": "Signiture is missmatch",
+      },
+    };
 
-  const inputOptions = rejectionOptions[verification];
+    const inputOptions = rejectionOptions[verification];
 
-  if (!inputOptions) {
-    console.warn("No rejection options found for verification type:", verification);
-    return; // Do nothing if the verification type is not found
-  }
+    if (!inputOptions) {
+      console.warn(
+        "No rejection options found for verification type:",
+        verification
+      );
+      return; // Do nothing if the verification type is not found
+    }
     Swal.fire({
       title: "Are you sure?",
       text: "Do you really want to reject this user?",
@@ -281,7 +291,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
       }
     });
   };
-  
+
   const approve = async (verification: string) => {
     setIsEditFlyoutOpen(false);
     Swal.fire({
