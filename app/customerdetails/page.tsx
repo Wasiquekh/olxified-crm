@@ -27,6 +27,7 @@ import DesktopHeader from "../component/DesktopHeader";
 import { Tooltip } from "react-tooltip";
 import { FaEllipsisVertical } from "react-icons/fa6";
 import { AppContext } from "../AppContext";
+import { GrPowerReset } from "react-icons/gr";
 
 interface Customer {
   id: string;
@@ -152,6 +153,7 @@ export default function Home() {
       fetchData();
     }
   }, [id, setCustomerFullName]);
+
   const fetchUserStatus = async () => {
     // console.log('USE EFFECT CUS ID',id);
     try {
@@ -769,7 +771,7 @@ export default function Home() {
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="h-[50px] w-[50px] relative flex items-center justify-center bg-black rounded-full">
                   <Image
-                    src="/images/Liveness Detection.svg"
+                    src="/images/Scanned ID Card Verification.svg"
                     alt="Orizon profile"
                     width={26}
                     height={26}
@@ -778,11 +780,15 @@ export default function Home() {
                   />
                   <div
                     className={`w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute rounded-[4px] justify-center items-center gap-2.5 inline-flex  ${
-                      liveDetectionBg ? liveDetectionBg : "bg-customBlue"
+                      scannedIdCardVerificationBg
+                        ? scannedIdCardVerificationBg
+                        : "bg-customBlue"
                     }`}
                   >
                     <div className="text-white text-sm font-semibold">
-                      {liveDetection ? liveDetection : "Loading..."}
+                      {scannedIdCardVerification
+                        ? scannedIdCardVerification
+                        : "Loading..."}
                     </div>
                   </div>
                 </div>
@@ -791,7 +797,7 @@ export default function Home() {
                 </div>
               </div>
               <div className="self-stretch text-[#0e0e0e] text-base font-medium">
-                Liveness Detection
+                Scanned ID Card Verification
               </div>
               <div className="self-stretch h-[93px] rounded border border-[#232323] flex-col justify-start items-start gap-2.5 flex">
                 <div className="self-stretch h-[72px] pl-4 py-1 rounded-tl rounded-tr justify-start items-start gap-1 inline-flex">
@@ -803,75 +809,8 @@ export default function Home() {
                     </div>
                     <div className="self-stretch justify-start items-center inline-flex">
                       <div className="w-[258px] h-12 text-[#414349] text-sm font-normal leading-normal tracking-wide">
-                        <li>The face should be clear</li>
-                        <li>Liveness score should be 90%</li>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="self-stretch justify-between items-center inline-flex">
-                <div className="w-[150px] h-9 relative">
-                  <button
-                    className=" bg-primary-600 text-white hover:bg-primary-500 py-1.5 px-6 rounded-[4px] text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled={
-                      liveDetection === "Approved" ||
-                      liveDetection === "Rejected"
-                    }
-                    onClick={() => {
-                      handleButtonClick("one");
-                    }}
-                  >
-                    Verify User
-                  </button>
-                </div>
-                <div className="px-4 py-2 bg-primary-200 rounded-[4px] justify-center items-center gap-2.5 flex">
-                  <div className="text-black text-sm font-medium">
-                    Notify User
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="w-full md:w-[32.5%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400 mb-4">
-              <div className="self-stretch justify-between items-center inline-flex">
-                <div className="h-[50px] w-[50px] relative flex items-center justify-center bg-black rounded-full">
-                  <Image
-                    src="/images/identity matching.svg"
-                    alt="Orizon profile"
-                    width={26}
-                    height={26}
-                    style={{ filter: "invert(100%)" }} // Makes it white
-                    className="!h-[40px]"
-                  />
-                  <div
-                    className={`w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute rounded-[4px] justify-center items-center gap-2.5 inline-flex  ${
-                      identityMatchingBg ? identityMatchingBg : "bg-customBlue"
-                    }`}
-                  >
-                    <div className="text-white text-sm font-semibold">
-                      {identityMatching ? identityMatching : "Loading..."}
-                    </div>
-                  </div>
-                </div>
-                <div className="w-6 h-6 relative  overflow-hidden">
-                  <div className="w-[5px] h-6 left-[9.50px] top-0 absolute"></div>
-                </div>
-              </div>
-              <div className="self-stretch text-[#0e0e0e] text-base font-medium">
-                Identity Matching
-              </div>
-              <div className="self-stretch h-[93px] rounded border border-[#232323] flex-col justify-start items-start gap-2.5 flex">
-                <div className="self-stretch h-[72px] pl-4 py-1 rounded-tl rounded-tr justify-start items-start gap-1 inline-flex">
-                  <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
-                    <div className="px-1 bg-white justify-start items-center inline-flex relative bottom-[13px]">
-                      <div className="text-black text-xs font-normal leading-none tracking-wide">
-                        Instructions
-                      </div>
-                    </div>
-                    <div className="self-stretch justify-start items-center inline-flex">
-                      <div className="w-[258px] h-12 text-[#414349] text-sm font-normal leading-normal tracking-wide">
-                        <li>The face should be clear</li>
-                        <li>The face should be match</li>
+                        <li>The id card should be clear</li>
+                        <li>Both images will be from same id card</li>
                       </div>
                     </div>
                   </div>
@@ -882,11 +821,11 @@ export default function Home() {
                   <button
                     className=" bg-primary-600 text-white hover:bg-primary-500 py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={
-                      identityMatching === "Approved" ||
-                      identityMatching === "Rejected"
+                      scannedIdCardVerification === "Approved" ||
+                      scannedIdCardVerification === "Rejected"
                     }
                     onClick={() => {
-                      handleButtonClick("two");
+                      handleButtonClick("four");
                     }}
                   >
                     Verify User
@@ -974,7 +913,7 @@ export default function Home() {
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="h-[50px] w-[50px] relative flex items-center justify-center bg-black rounded-full">
                   <Image
-                    src="/images/Scanned ID Card Verification.svg"
+                    src="/images/Liveness Detection.svg"
                     alt="Orizon profile"
                     width={26}
                     height={26}
@@ -983,15 +922,11 @@ export default function Home() {
                   />
                   <div
                     className={`w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute rounded-[4px] justify-center items-center gap-2.5 inline-flex  ${
-                      scannedIdCardVerificationBg
-                        ? scannedIdCardVerificationBg
-                        : "bg-customBlue"
+                      liveDetectionBg ? liveDetectionBg : "bg-customBlue"
                     }`}
                   >
                     <div className="text-white text-sm font-semibold">
-                      {scannedIdCardVerification
-                        ? scannedIdCardVerification
-                        : "Loading..."}
+                      {liveDetection ? liveDetection : "Loading..."}
                     </div>
                   </div>
                 </div>
@@ -1000,7 +935,7 @@ export default function Home() {
                 </div>
               </div>
               <div className="self-stretch text-[#0e0e0e] text-base font-medium">
-                Scanned ID Card Verification
+                Liveness Detection
               </div>
               <div className="self-stretch h-[93px] rounded border border-[#232323] flex-col justify-start items-start gap-2.5 flex">
                 <div className="self-stretch h-[72px] pl-4 py-1 rounded-tl rounded-tr justify-start items-start gap-1 inline-flex">
@@ -1012,8 +947,8 @@ export default function Home() {
                     </div>
                     <div className="self-stretch justify-start items-center inline-flex">
                       <div className="w-[258px] h-12 text-[#414349] text-sm font-normal leading-normal tracking-wide">
-                        <li>The id card should be clear</li>
-                        <li>Both images will be from same id card</li>
+                        <li>The face should be clear</li>
+                        <li>Liveness score should be 90%</li>
                       </div>
                     </div>
                   </div>
@@ -1022,13 +957,13 @@ export default function Home() {
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="w-[150px] h-9 relative">
                   <button
-                    className=" bg-primary-600 text-white hover:bg-primary-500 py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    className=" bg-primary-600 text-white hover:bg-primary-500 py-1.5 px-6 rounded-[4px] text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={
-                      scannedIdCardVerification === "Approved" ||
-                      scannedIdCardVerification === "Rejected"
+                      liveDetection === "Approved" ||
+                      liveDetection === "Rejected"
                     }
                     onClick={() => {
-                      handleButtonClick("four");
+                      handleButtonClick("one");
                     }}
                   >
                     Verify User
@@ -1171,6 +1106,73 @@ export default function Home() {
                     }
                     onClick={() => {
                       handleButtonClick("six");
+                    }}
+                  >
+                    Verify User
+                  </button>
+                </div>
+                <div className="px-4 py-2 bg-primary-200 rounded-[4px] justify-center items-center gap-2.5 flex">
+                  <div className="text-black text-sm font-medium">
+                    Notify User
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="w-full md:w-[32.5%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400 mb-4">
+              <div className="self-stretch justify-between items-center inline-flex">
+                <div className="h-[50px] w-[50px] relative flex items-center justify-center bg-black rounded-full">
+                  <Image
+                    src="/images/identity matching.svg"
+                    alt="Orizon profile"
+                    width={26}
+                    height={26}
+                    style={{ filter: "invert(100%)" }} // Makes it white
+                    className="!h-[40px]"
+                  />
+                  <div
+                    className={`w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute rounded-[4px] justify-center items-center gap-2.5 inline-flex  ${
+                      identityMatchingBg ? identityMatchingBg : "bg-customBlue"
+                    }`}
+                  >
+                    <div className="text-white text-sm font-semibold">
+                      {identityMatching ? identityMatching : "Loading..."}
+                    </div>
+                  </div>
+                </div>
+                <div className="w-6 h-6 relative  overflow-hidden">
+                  <div className="w-[5px] h-6 left-[9.50px] top-0 absolute"></div>
+                </div>
+              </div>
+              <div className="self-stretch text-[#0e0e0e] text-base font-medium">
+                Identity Matching
+              </div>
+              <div className="self-stretch h-[93px] rounded border border-[#232323] flex-col justify-start items-start gap-2.5 flex">
+                <div className="self-stretch h-[72px] pl-4 py-1 rounded-tl rounded-tr justify-start items-start gap-1 inline-flex">
+                  <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
+                    <div className="px-1 bg-white justify-start items-center inline-flex relative bottom-[13px]">
+                      <div className="text-black text-xs font-normal leading-none tracking-wide">
+                        Instructions
+                      </div>
+                    </div>
+                    <div className="self-stretch justify-start items-center inline-flex">
+                      <div className="w-[258px] h-12 text-[#414349] text-sm font-normal leading-normal tracking-wide">
+                        <li>The face should be clear</li>
+                        <li>The face should be match</li>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="self-stretch justify-between items-center inline-flex">
+                <div className="w-[150px] h-9 relative">
+                  <button
+                    className=" bg-primary-600 text-white hover:bg-primary-500 py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={
+                      identityMatching === "Approved" ||
+                      identityMatching === "Rejected"
+                    }
+                    onClick={() => {
+                      handleButtonClick("two");
                     }}
                   >
                     Verify User
@@ -1657,7 +1659,13 @@ export default function Home() {
                     </div>
                   )}
                 </div>
-                <Tabs tabs={tabs} />
+                <div className=" flex relative">
+                  <Tabs tabs={tabs} />
+                  <GrPowerReset
+                    onClick={() => setHitApi(!hitApi)}
+                    className=" absolute top-2 right-1 cursor-pointer text-2xl text-[#4B5675]"
+                  />
+                </div>
               </div>
             </div>
           </div>
