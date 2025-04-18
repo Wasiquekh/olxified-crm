@@ -1659,11 +1659,11 @@ export default function Home() {
                     </div>
                   )}
                 </div>
-                <div className=" flex relative">
+                <div className=" md:flex relative">
                   <Tabs tabs={tabs} />
                   <GrPowerReset
                     onClick={() => setHitApi(!hitApi)}
-                    className=" absolute top-2 right-1 cursor-pointer text-2xl text-[#4B5675]"
+                    className=" absolute -top-5 -right-1 md:top-2 md:right-1 cursor-pointer text-lg md:text-2xl text-[#4B5675] hover:text-tabHoverColor active:text-tabActiveColor"
                   />
                 </div>
               </div>
