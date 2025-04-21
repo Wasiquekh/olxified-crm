@@ -71,7 +71,7 @@ export default function Home() {
   const [customer, setCustomer] = useState<Customer | null>(null); // Initial state as null
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
-  //console.log("Got Id",id);
+
   const [isCustomerViewDetailOpen, setIsCustomerViewDetailOpen] =
     useState<boolean>(false);
   const [liveDetection, setLiveDetection] = useState<string | null>(null);
@@ -152,7 +152,7 @@ export default function Home() {
 
       fetchData();
     }
-  }, [id, setCustomerFullName]);
+  }, [id, setCustomerFullName, hitApi]);
 
   const fetchUserStatus = async () => {
     // console.log('USE EFFECT CUS ID',id);
