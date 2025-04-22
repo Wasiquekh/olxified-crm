@@ -163,7 +163,7 @@ export default function Home() {
       });
       //setFaceImage(response.data.data.url);
       //setFaceImage(response.data.data.url);
-      console.log("CUSTOMER STATUS", response);
+      //console.log("CUSTOMER STATUS", response);
       // console.log("CUSTOMER STATUS", response.data.data.verificationStatuses[0].status);
       setLiveDetection(response.data.data.verificationStatuses[0].status);
       setIdentityMatching(response.data.data.verificationStatuses[1].status);
@@ -203,6 +203,19 @@ export default function Home() {
     fetchUserStatus();
     getUserHistory();
   }, [hitApi]);
+  const callNotificationApi = async (verification: string) => {
+    // console.log("CALLED NOTIFICATION", verification);
+    try {
+      const response = await axiosProvider.post("/sendnotification", {
+        customerId: id,
+        verification_type: verification,
+      });
+      toast.success("Notification is sent");
+    } catch (error) {
+      console.error("Send notification failed:", error);
+      toast.error("Notification is not sent");
+    }
+  };
 
   // Determine background color based on liveDetection value
   const getBgColor = (status: string | null) => {
@@ -796,7 +809,7 @@ export default function Home() {
                   <div className="w-[5px] h-6 left-[9.50px] top-0 absolute"></div>
                 </div>
               </div>
-              <div className="self-stretch text-[#0e0e0e] text-base font-medium">
+              <div className="self-stretch text-[rgb(14,14,14)] text-base font-medium">
                 Scanned ID Card Verification
               </div>
               <div className="self-stretch h-[93px] rounded border border-[#232323] flex-col justify-start items-start gap-2.5 flex">
@@ -831,7 +844,12 @@ export default function Home() {
                     Verify User
                   </button>
                 </div>
-                <div className="px-4 py-2 bg-primary-200 rounded-[4px] justify-center items-center gap-2.5 flex">
+                <div
+                  onClick={() =>
+                    callNotificationApi("scanned_id_card_verification")
+                  }
+                  className="px-4 py-2 bg-primary-200 hover:bg-primary-300 cursor-pointer rounded-[4px] justify-center items-center gap-2.5 flex"
+                >
                   <div className="text-black text-sm font-medium">
                     Notify User
                   </div>
@@ -902,7 +920,12 @@ export default function Home() {
                     Verify User
                   </button>
                 </div>
-                <div className="px-4 py-2 bg-primary-200 rounded-[4px] justify-center items-center gap-2.5 flex">
+                <div
+                  onClick={() =>
+                    callNotificationApi("user_details_verification")
+                  }
+                  className="px-4 py-2 bg-primary-200 hover:bg-primary-300 cursor-pointer  rounded-[4px] justify-center items-center gap-2.5 flex"
+                >
                   <div className="text-black text-sm font-medium">
                     Notify User
                   </div>
@@ -969,7 +992,10 @@ export default function Home() {
                     Verify User
                   </button>
                 </div>
-                <div className="px-4 py-2 bg-primary-200 rounded-[4px] justify-center items-center gap-2.5 flex">
+                <div
+                  onClick={() => callNotificationApi("liveness_detection")}
+                  className="px-4 py-2 bg-primary-200 hover:bg-primary-300 cursor-pointer  rounded-[4px] justify-center items-center gap-2.5 flex"
+                >
                   <div className="text-black text-sm font-medium">
                     Notify User
                   </div>
@@ -1040,7 +1066,12 @@ export default function Home() {
                     Verify User
                   </button>
                 </div>
-                <div className="px-4 py-2 bg-primary-200 rounded-[4px] justify-center items-center gap-2.5 flex">
+                <div
+                  onClick={() =>
+                    callNotificationApi("five_second_face_video_verification")
+                  }
+                  className="px-4 py-2 bg-primary-200 hover:bg-primary-300 cursor-pointer   rounded-[4px] justify-center items-center gap-2.5 flex"
+                >
                   <div className="text-black text-sm font-medium">
                     Notify User
                   </div>
@@ -1111,7 +1142,10 @@ export default function Home() {
                     Verify User
                   </button>
                 </div>
-                <div className="px-4 py-2 bg-primary-200 rounded-[4px] justify-center items-center gap-2.5 flex">
+                <div
+                  onClick={() => callNotificationApi("signature_verification")}
+                  className="px-4 py-2 bg-primary-200 hover:bg-primary-300 cursor-pointer  rounded-[4px] justify-center items-center gap-2.5 flex"
+                >
                   <div className="text-black text-sm font-medium">
                     Notify User
                   </div>
@@ -1178,7 +1212,10 @@ export default function Home() {
                     Verify User
                   </button>
                 </div>
-                <div className="px-4 py-2 bg-primary-200 rounded-[4px] justify-center items-center gap-2.5 flex">
+                <div
+                  onClick={() => callNotificationApi("identity_matching")}
+                  className="px-4 py-2 bg-primary-200 hover:bg-primary-300 cursor-pointer  rounded-[4px] justify-center items-center gap-2.5 flex"
+                >
                   <div className="text-black text-sm font-medium">
                     Notify User
                   </div>

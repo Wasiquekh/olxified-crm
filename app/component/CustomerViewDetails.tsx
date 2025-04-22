@@ -128,7 +128,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
           frontImageFilename: lastPartEcto,
           backImageFilename: lastPartVerso,
         });
-        console.log("ID CARD ECTO", response);
+        // console.log("ID CARD ECTO", response);
         setIdCardEcto(response.data.data.frontImageUrl);
         setIdCardVerso(response.data.data.backImageUrl);
         setIdEctoFromChild(response.data.data.frontImageUrl);
@@ -207,7 +207,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
     fetchDataVideo();
     fetchUserSignature();
   }, [hitApi]);
-  console.log("MY HIT API", hitApi);
+  // console.log("MY HIT API", hitApi);
   const reject = async (verification: string) => {
     setIsEditFlyoutOpen(false);
 
@@ -271,7 +271,7 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
     }).then(async (result) => {
       if (result.isConfirmed) {
         const reason = result.value; // Get the selected reason
-        console.log("Reason for rejection:", reason);
+        // console.log("Reason for rejection:", reason);
         if (customer && customer.face_id_url !== undefined) {
           try {
             const response = await axiosProvider.post("/rejectuser", {
@@ -291,7 +291,6 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
       }
     });
   };
-
   const approve = async (verification: string) => {
     setIsEditFlyoutOpen(false);
     Swal.fire({
