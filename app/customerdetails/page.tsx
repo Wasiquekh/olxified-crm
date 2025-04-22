@@ -1152,7 +1152,7 @@ export default function Home() {
                 </div>
                 <button
                   onClick={() => callNotificationApi("signature_verification")}
-                  disabled={fiveSecondVideoVerification != "Rejected"}
+                  disabled={signatureVerification != "Rejected"}
                   className="px-4 py-2 bg-primary-200 hover:bg-primary-300 cursor-pointer  rounded-[4px] justify-center items-center gap-2.5 flex disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <div className="text-black text-sm font-medium">
