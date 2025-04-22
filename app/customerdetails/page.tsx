@@ -107,6 +107,7 @@ export default function Home() {
   const [hitApi, setHitApi] = useState<boolean>(true);
   //console.log('BBBBBBBBBBBBB',isModalOpenVideo)
   const [modalImage, setModalImage] = useState<string>("");
+
   const context = useContext(AppContext);
   if (!context) {
     throw new Error(
@@ -164,7 +165,10 @@ export default function Home() {
       //setFaceImage(response.data.data.url);
       //setFaceImage(response.data.data.url);
       //console.log("CUSTOMER STATUS", response);
-      // console.log("CUSTOMER STATUS", response.data.data.verificationStatuses[0].status);
+      // console.log(
+      //   "CUSTOMER STATUS",
+      //   response.data.data.verificationStatuses[3].status
+      // );
       setLiveDetection(response.data.data.verificationStatuses[0].status);
       setIdentityMatching(response.data.data.verificationStatuses[1].status);
       setUserDetailsVerification(
@@ -844,16 +848,17 @@ export default function Home() {
                     Verify User
                   </button>
                 </div>
-                <div
+                <button
                   onClick={() =>
                     callNotificationApi("scanned_id_card_verification")
                   }
-                  className="px-4 py-2 bg-primary-200 hover:bg-primary-300 cursor-pointer rounded-[4px] justify-center items-center gap-2.5 flex"
+                  disabled={scannedIdCardVerification != "Rejected"}
+                  className="px-4 py-2 bg-primary-200 hover:bg-primary-300 cursor-pointer rounded-[4px] justify-center items-center gap-2.5 flex disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <div className="text-black text-sm font-medium">
                     Notify User
                   </div>
-                </div>
+                </button>
               </div>
             </div>
             <div className="w-full md:w-[32.5%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400 mb-4">
@@ -920,16 +925,17 @@ export default function Home() {
                     Verify User
                   </button>
                 </div>
-                <div
+                <button
                   onClick={() =>
                     callNotificationApi("user_details_verification")
                   }
-                  className="px-4 py-2 bg-primary-200 hover:bg-primary-300 cursor-pointer  rounded-[4px] justify-center items-center gap-2.5 flex"
+                  disabled={userDetailsVerification != "Rejected"}
+                  className="px-4 py-2 bg-primary-200 hover:bg-primary-300 cursor-pointer  rounded-[4px] justify-center items-center gap-2.5 flex disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <div className="text-black text-sm font-medium">
                     Notify User
                   </div>
-                </div>
+                </button>
               </div>
             </div>
             <div className="w-full md:w-[32.5%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400 mb-4">
@@ -992,14 +998,15 @@ export default function Home() {
                     Verify User
                   </button>
                 </div>
-                <div
+                <button
                   onClick={() => callNotificationApi("liveness_detection")}
-                  className="px-4 py-2 bg-primary-200 hover:bg-primary-300 cursor-pointer  rounded-[4px] justify-center items-center gap-2.5 flex"
+                  disabled={liveDetection != "Rejected"}
+                  className="px-4 py-2 bg-primary-200 hover:bg-primary-300 cursor-pointer  rounded-[4px] justify-center items-center gap-2.5 flex disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <div className="text-black text-sm font-medium">
                     Notify User
                   </div>
-                </div>
+                </button>
               </div>
             </div>
             <div className="w-full md:w-[32.5%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400 mb-4">
@@ -1066,16 +1073,17 @@ export default function Home() {
                     Verify User
                   </button>
                 </div>
-                <div
+                <button
                   onClick={() =>
                     callNotificationApi("five_second_face_video_verification")
                   }
-                  className="px-4 py-2 bg-primary-200 hover:bg-primary-300 cursor-pointer   rounded-[4px] justify-center items-center gap-2.5 flex"
+                  disabled={fiveSecondVideoVerification != "Rejected"}
+                  className="px-4 py-2 bg-primary-200 hover:bg-primary-300 cursor-pointer   rounded-[4px] justify-center items-center gap-2.5 flex disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <div className="text-black text-sm font-medium">
                     Notify User
                   </div>
-                </div>
+                </button>
               </div>
             </div>
             <div className="w-full md:w-[32.5%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400 mb-4">
@@ -1142,14 +1150,15 @@ export default function Home() {
                     Verify User
                   </button>
                 </div>
-                <div
+                <button
                   onClick={() => callNotificationApi("signature_verification")}
-                  className="px-4 py-2 bg-primary-200 hover:bg-primary-300 cursor-pointer  rounded-[4px] justify-center items-center gap-2.5 flex"
+                  disabled={fiveSecondVideoVerification != "Rejected"}
+                  className="px-4 py-2 bg-primary-200 hover:bg-primary-300 cursor-pointer  rounded-[4px] justify-center items-center gap-2.5 flex disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <div className="text-black text-sm font-medium">
                     Notify User
                   </div>
-                </div>
+                </button>
               </div>
             </div>
             <div className="w-full md:w-[32.5%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400 mb-4">
@@ -1212,14 +1221,15 @@ export default function Home() {
                     Verify User
                   </button>
                 </div>
-                <div
+                <button
                   onClick={() => callNotificationApi("identity_matching")}
-                  className="px-4 py-2 bg-primary-200 hover:bg-primary-300 cursor-pointer  rounded-[4px] justify-center items-center gap-2.5 flex"
+                  disabled={identityMatching != "Rejected"}
+                  className="px-4 py-2 bg-primary-200 hover:bg-primary-300 cursor-pointer  rounded-[4px] justify-center items-center gap-2.5 flex disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <div className="text-black text-sm font-medium">
                     Notify User
                   </div>
-                </div>
+                </button>
               </div>
             </div>
           </div>
