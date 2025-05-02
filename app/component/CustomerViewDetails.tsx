@@ -236,9 +236,9 @@ const SidebarUserUpdateForm: React.FC<CustomerViewDetailsProps> = ({
         "Face is not showing": "Face is not showing",
       },
       signature_verification: {
-        "Singniture is not proper": "Singniture is not proper",
-        "Signiture is dot": "Signiture is dot",
-        "Signiture is missmatch": "Signiture is missmatch",
+        "Signature is not proper": "Signature is not proper",
+        "Signature dot": "Signature is dot",
+        "Signature is missmatch": "Signature is missmatch",
       },
     };
 
