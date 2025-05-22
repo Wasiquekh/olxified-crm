@@ -788,6 +788,77 @@ export default function Home() {
               <div className="self-stretch justify-between items-center inline-flex">
                 <div className="h-[50px] w-[50px] relative flex items-center justify-center bg-black rounded-full">
                   <Image
+                    src="/images/identity matching.svg"
+                    alt="Orizon profile"
+                    width={26}
+                    height={26}
+                    style={{ filter: "invert(100%)" }} // Makes it white
+                    className="!h-[40px]"
+                  />
+                  <div
+                    className={`w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute rounded-[4px] justify-center items-center gap-2.5 inline-flex  ${
+                      identityMatchingBg ? identityMatchingBg : "bg-customBlue"
+                    }`}
+                  >
+                    <div className="text-white text-sm font-semibold">
+                      {identityMatching ? identityMatching : "Loading..."}
+                    </div>
+                  </div>
+                </div>
+                <div className="w-6 h-6 relative  overflow-hidden">
+                  <div className="w-[5px] h-6 left-[9.50px] top-0 absolute"></div>
+                </div>
+              </div>
+              <div className="self-stretch text-[#0e0e0e] text-base font-medium">
+                Identity Matching
+              </div>
+              <div className="self-stretch h-[93px] rounded border border-[#232323] flex-col justify-start items-start gap-2.5 flex">
+                <div className="self-stretch h-[72px] pl-4 py-1 rounded-tl rounded-tr justify-start items-start gap-1 inline-flex">
+                  <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
+                    <div className="px-1 bg-white justify-start items-center inline-flex relative bottom-[13px]">
+                      <div className="text-black text-xs font-normal leading-none tracking-wide">
+                        Instructions
+                      </div>
+                    </div>
+                    <div className="self-stretch justify-start items-center inline-flex">
+                      <div className="w-[258px] h-12 text-[#414349] text-sm font-normal leading-normal tracking-wide">
+                        <li>The face should be clear</li>
+                        <li>The face should be match</li>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="self-stretch justify-between items-center inline-flex">
+                <div className="w-[150px] h-9 relative">
+                  <button
+                    className=" bg-primary-600 text-white hover:bg-primary-500 py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={
+                      identityMatching === "Approved" ||
+                      identityMatching === "Rejected"
+                    }
+                    onClick={() => {
+                      handleButtonClick("two");
+                    }}
+                  >
+                    Verify User
+                  </button>
+                </div>
+                <button
+                  onClick={() => callNotificationApi("identity_matching")}
+                  disabled={identityMatching != "Rejected"}
+                  className="px-4 py-2 bg-primary-200 hover:bg-primary-300 cursor-pointer  rounded-[4px] justify-center items-center gap-2.5 flex disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <div className="text-black text-sm font-medium">
+                    Notify User
+                  </div>
+                </button>
+              </div>
+            </div>
+            <div className="w-full md:w-[32.5%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400 mb-4">
+              <div className="self-stretch justify-between items-center inline-flex">
+                <div className="h-[50px] w-[50px] relative flex items-center justify-center bg-black rounded-full">
+                  <Image
                     src="/images/Scanned ID Card Verification.svg"
                     alt="Orizon profile"
                     width={26}
@@ -1153,77 +1224,6 @@ export default function Home() {
                 <button
                   onClick={() => callNotificationApi("signature_verification")}
                   disabled={signatureVerification != "Rejected"}
-                  className="px-4 py-2 bg-primary-200 hover:bg-primary-300 cursor-pointer  rounded-[4px] justify-center items-center gap-2.5 flex disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <div className="text-black text-sm font-medium">
-                    Notify User
-                  </div>
-                </button>
-              </div>
-            </div>
-            <div className="w-full md:w-[32.5%] h-[299px] p-6 bg-white rounded flex-col justify-start items-start gap-4 inline-flex border border-gray-400 mb-4">
-              <div className="self-stretch justify-between items-center inline-flex">
-                <div className="h-[50px] w-[50px] relative flex items-center justify-center bg-black rounded-full">
-                  <Image
-                    src="/images/identity matching.svg"
-                    alt="Orizon profile"
-                    width={26}
-                    height={26}
-                    style={{ filter: "invert(100%)" }} // Makes it white
-                    className="!h-[40px]"
-                  />
-                  <div
-                    className={`w-[152px] h-[41px] px-3.5 py-2.5 left-[66px] top-[4.50px] absolute rounded-[4px] justify-center items-center gap-2.5 inline-flex  ${
-                      identityMatchingBg ? identityMatchingBg : "bg-customBlue"
-                    }`}
-                  >
-                    <div className="text-white text-sm font-semibold">
-                      {identityMatching ? identityMatching : "Loading..."}
-                    </div>
-                  </div>
-                </div>
-                <div className="w-6 h-6 relative  overflow-hidden">
-                  <div className="w-[5px] h-6 left-[9.50px] top-0 absolute"></div>
-                </div>
-              </div>
-              <div className="self-stretch text-[#0e0e0e] text-base font-medium">
-                Identity Matching
-              </div>
-              <div className="self-stretch h-[93px] rounded border border-[#232323] flex-col justify-start items-start gap-2.5 flex">
-                <div className="self-stretch h-[72px] pl-4 py-1 rounded-tl rounded-tr justify-start items-start gap-1 inline-flex">
-                  <div className="w-[258px] h-12 py-1 flex-col justify-start items-start inline-flex">
-                    <div className="px-1 bg-white justify-start items-center inline-flex relative bottom-[13px]">
-                      <div className="text-black text-xs font-normal leading-none tracking-wide">
-                        Instructions
-                      </div>
-                    </div>
-                    <div className="self-stretch justify-start items-center inline-flex">
-                      <div className="w-[258px] h-12 text-[#414349] text-sm font-normal leading-normal tracking-wide">
-                        <li>The face should be clear</li>
-                        <li>The face should be match</li>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="self-stretch justify-between items-center inline-flex">
-                <div className="w-[150px] h-9 relative">
-                  <button
-                    className=" bg-primary-600 text-white hover:bg-primary-500 py-1.5 px-6 rounded text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled={
-                      identityMatching === "Approved" ||
-                      identityMatching === "Rejected"
-                    }
-                    onClick={() => {
-                      handleButtonClick("two");
-                    }}
-                  >
-                    Verify User
-                  </button>
-                </div>
-                <button
-                  onClick={() => callNotificationApi("identity_matching")}
-                  disabled={identityMatching != "Rejected"}
                   className="px-4 py-2 bg-primary-200 hover:bg-primary-300 cursor-pointer  rounded-[4px] justify-center items-center gap-2.5 flex disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <div className="text-black text-sm font-medium">
