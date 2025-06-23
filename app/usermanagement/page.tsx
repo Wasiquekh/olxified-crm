@@ -181,7 +181,7 @@ export default function Home() {
               <div className=" sm:w-auto">
                 {hasSystemUserAdd ? (
                   <Link href="/useradd">
-                    <button className="flex items-center gap-[10px]  h-12 px-3 py-[6px] rounded-[4px] shadow-borderShadow w-full sm:w-auto bg-primary-600 group hover:bg-primary-700">
+                    <button className="flex items-center gap-[10px]  h-12 px-3 py-[6px] rounded-[4px] shadow-borderShadow w-full sm:w-auto bg-primary-600 group hover:bg-primary-7  00">
                       <FaPlus className="h-[20px] w-[20px] text-white group-hover:text-white" />
                       <p className="text-white text-base leading-normal group-hover:text-white">
                         Create User
@@ -292,7 +292,7 @@ export default function Home() {
                           </p>
                         </td>
                         <td className="px-2 py-1 border border-tableBorder hidden md:table-cell">
-                          <button className="py-[4px] px-6 bg-primary-400 rounded-xl w-auto text-xs md:text-sm sm:w-3/5">
+                          <button className="py-[4px] px-6 bg-primary-400 rounded-xl w-auto text-xs md:text-sm sm:w-4/6">
                             <p className="text-white">{item.role}</p>
                           </button>
                         </td>
