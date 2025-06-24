@@ -1,19 +1,22 @@
-import axios, { AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from "axios";
+import axios, {
+  AxiosInstance,
+  AxiosResponse,
+  InternalAxiosRequestConfig,
+} from "axios";
 import { getToken } from "firebase/app-check";
 import { appCheck } from "../app/firebase-config";
 import StorageManager from "./StorageManager";
 
 const isServer = typeof window === "undefined";
-const defaultBaseURL = "https://orizon-crm-api-uat.yliqo.com/api/v1/Orizonapigateway";
+const defaultBaseURL =
+  "https://orizon-crm-api-uat.yliqo.com/api/v1/Orizonapigateway";
 
 export default class AxiosProvider {
   private instance: AxiosInstance;
   private baseURL: string;
   private storage: StorageManager;
 
-  constructor(
-    baseURL: string = defaultBaseURL
-  ) {
+  constructor(baseURL: string = defaultBaseURL) {
     this.baseURL = isServer
       ? process.env.NEXT_PUBLIC_API_URL || baseURL // server-side
       : baseURL; // client-side
@@ -37,15 +40,17 @@ export default class AxiosProvider {
     );
   }
 
-  private async handleRequest(config: InternalAxiosRequestConfig): Promise<InternalAxiosRequestConfig> {
+  private async handleRequest(
+    config: InternalAxiosRequestConfig
+  ): Promise<InternalAxiosRequestConfig> {
     try {
       // Retrieve app check token
       const appCheckTokenResponse = await getToken(appCheck, true);
       const appCheckToken = appCheckTokenResponse.token;
-     // console.log('app check',appCheckToken)
+      //console.log("app check", appCheckToken);
       // Retrieve access token from storage
       const accessToken = this.storage.getAccessToken();
-      //console.log('Access token***',accessToken);
+      //console.log("Access token***", accessToken);
 
       // Set headers using the AxiosHeaders instance methods
       if (appCheckToken) {
@@ -54,7 +59,6 @@ export default class AxiosProvider {
       if (accessToken) {
         config.headers.set("Authorization", `Bearer ${accessToken}`);
       }
-
     } catch (error) {
       console.error("Error setting request headers:", error);
     }
@@ -62,19 +66,33 @@ export default class AxiosProvider {
     return config; // Must return InternalAxiosRequestConfig
   }
 
-  async post<T = any>(url: string, data: any, config?: InternalAxiosRequestConfig): Promise<AxiosResponse<T>> {
+  async post<T = any>(
+    url: string,
+    data: any,
+    config?: InternalAxiosRequestConfig
+  ): Promise<AxiosResponse<T>> {
     return this.instance.post<T>(url, data, config);
   }
 
-  async get<T = any>(url: string, config?: InternalAxiosRequestConfig): Promise<AxiosResponse<T>> {
+  async get<T = any>(
+    url: string,
+    config?: InternalAxiosRequestConfig
+  ): Promise<AxiosResponse<T>> {
     return this.instance.get<T>(url, config);
   }
 
-  async put<T = any>(url: string, data: any, config?: InternalAxiosRequestConfig): Promise<AxiosResponse<T>> {
+  async put<T = any>(
+    url: string,
+    data: any,
+    config?: InternalAxiosRequestConfig
+  ): Promise<AxiosResponse<T>> {
     return this.instance.put<T>(url, data, config);
   }
 
-  async delete<T = any>(url: string, config?: InternalAxiosRequestConfig): Promise<AxiosResponse<T>> {
+  async delete<T = any>(
+    url: string,
+    config?: InternalAxiosRequestConfig
+  ): Promise<AxiosResponse<T>> {
     return this.instance.delete<T>(url, config);
   }
 

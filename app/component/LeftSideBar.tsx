@@ -13,6 +13,8 @@ import { usePathname } from "next/navigation";
 import StorageManager from "../../provider/StorageManager";
 import AxiosProvider from "../../provider/AxiosProvider";
 import { useRouter } from "next/navigation";
+import { FaChevronDown } from "react-icons/fa";
+import { useState } from "react";
 
 const axiosProvider = new AxiosProvider();
 const storage = new StorageManager();
@@ -61,6 +63,11 @@ const LeftSideBar: React.FC = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+  };
+  const [isSubmenuOpen, setIsSubmenuOpen] = useState<boolean>(false);
+
+  const toggleSubmenu = (): void => {
+    setIsSubmenuOpen((prev) => !prev);
   };
   return (
     <div className="w-full hidden md:w-[17%]  md:flex flex-col justify-between py-4 px-1 border-r-2 border-customBorder shadow-borderShadow mt-0  h-screen fixed top-0 left-0">
@@ -116,6 +123,74 @@ const LeftSideBar: React.FC = () => {
               </div>
             )}
           </Link>
+        )}
+        {hasCustomerView && (
+          <div>
+            {pathname === "/crm/total-quotes" ||
+            pathname === "/crm/total-contacts" ||
+            pathname === "/crm/total-accounts" ||
+            pathname === "/crm/total-leads" ? (
+              <>
+                <div
+                  onClick={toggleSubmenu}
+                  className=" mb-4 flex gap-4 items-center group bg-primary-600 px-3 py-2 rounded-[4px] relative cursor-pointer"
+                >
+                  <MdOutlineBarChart className=" w-6 h-6 text-white group-hover:text-white " />
+                  <p className=" text-white text-base leading-normal font-medium group-hover:text-white">
+                    CRM
+                  </p>
+                  <FaChevronDown className="absolute right-3 top-1/2  -translate-y-1/2 text-white" />
+                </div>
+                {/* Submenu */}
+                {isSubmenuOpen && (
+                  <div className="ml-14 mb-4  text-base leading-7 font-medium">
+                    <Link href="/crm/total-accounts">
+                      <p>Total Accounts</p>
+                    </Link>
+                    <Link href="/crm/total-quotes">
+                      <p>Total Quotes</p>
+                    </Link>
+                    <Link href="/crm/total-contacts">
+                      <p>Total Contacts</p>
+                    </Link>
+                    <Link href="/crm/total-leads">
+                      <p>Total Leads</p>
+                    </Link>
+                  </div>
+                )}
+              </>
+            ) : (
+              <>
+                <div
+                  onClick={toggleSubmenu}
+                  className=" mb-4 flex gap-4 items-center group px-3 py-2 hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed rounded-[4px] relative cursor-pointer "
+                >
+                  <MdOutlineBarChart className=" w-6 h-6 text-firstBlack group-hover:text-primary-600 " />
+                  <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-primary-600 cursor-pointer">
+                    CRM
+                  </p>
+                  <FaChevronDown className="absolute right-3 top-1/2  -translate-y-1/2 text-black" />
+                </div>
+                {/* Submenu */}
+                {isSubmenuOpen && (
+                  <div className="ml-14 mb-4  text-base leading-7 font-medium">
+                    <Link href="/crm/total-accounts">
+                      <p>Total Accounts</p>
+                    </Link>
+                    <Link href="/crm/total-quotes">
+                      <p>Total Quotes</p>
+                    </Link>
+                    <Link href="/crm/total-contacts">
+                      <p>Total Contacts</p>
+                    </Link>
+                    <Link href="/crm/total-leads">
+                      <p>Total Leads</p>
+                    </Link>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
         )}
         <Link href="/transaction">
           {pathname === "/transaction" ? (
