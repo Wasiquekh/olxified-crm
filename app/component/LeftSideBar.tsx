@@ -15,6 +15,9 @@ import AxiosProvider from "../../provider/AxiosProvider";
 import { useRouter } from "next/navigation";
 import { FaChevronDown } from "react-icons/fa";
 import { useState } from "react";
+import { AiOutlineDashboard } from "react-icons/ai";
+import { RiHistoryLine } from "react-icons/ri";
+import { FaUserEdit } from "react-icons/fa";
 
 const axiosProvider = new AxiosProvider();
 const storage = new StorageManager();
@@ -72,7 +75,7 @@ const LeftSideBar: React.FC = () => {
   return (
     <div className="w-full hidden md:w-[17%]  md:flex flex-col justify-between py-4 px-1 border-r-2 border-customBorder shadow-borderShadow mt-0  h-screen fixed top-0 left-0">
       {/* SIDE LEFT BAR TOP SECTION */}
-      <div className="z-10">
+      <div className="z-10 overflow-y-auto">
         <Link href="/customer">
           <div className=" flex gap-2 mb-12 px-3 py-2">
             <Image
@@ -135,7 +138,7 @@ const LeftSideBar: React.FC = () => {
                   onClick={toggleSubmenu}
                   className=" mb-4 flex gap-4 items-center group bg-primary-600 px-3 py-2 rounded-[4px] relative cursor-pointer"
                 >
-                  <MdOutlineBarChart className=" w-6 h-6 text-white group-hover:text-white " />
+                  <AiOutlineDashboard className=" w-6 h-6 text-white group-hover:text-white " />
                   <p className=" text-white text-base leading-normal font-medium group-hover:text-white">
                     CRM
                   </p>
@@ -143,7 +146,7 @@ const LeftSideBar: React.FC = () => {
                 </div>
                 {/* Submenu */}
                 {isSubmenuOpen && (
-                  <div className="ml-14 mb-4  text-base leading-7 font-medium">
+                  <div className="ml-14 mb-4  text-base leading-7 font-normal">
                     <Link href="/crm/total-accounts">
                       <p>Total Accounts</p>
                     </Link>
@@ -165,7 +168,7 @@ const LeftSideBar: React.FC = () => {
                   onClick={toggleSubmenu}
                   className=" mb-4 flex gap-4 items-center group px-3 py-2 hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed rounded-[4px] relative cursor-pointer "
                 >
-                  <MdOutlineBarChart className=" w-6 h-6 text-firstBlack group-hover:text-primary-600 " />
+                  <AiOutlineDashboard className=" w-6 h-6 text-firstBlack group-hover:text-primary-600 " />
                   <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-primary-600 cursor-pointer">
                     CRM
                   </p>
@@ -173,7 +176,7 @@ const LeftSideBar: React.FC = () => {
                 </div>
                 {/* Submenu */}
                 {isSubmenuOpen && (
-                  <div className="ml-14 mb-4  text-base leading-7 font-medium">
+                  <div className="ml-14 mb-4  text-base leading-7 font-normal">
                     <Link href="/crm/total-accounts">
                       <p>Total Accounts</p>
                     </Link>
@@ -264,14 +267,14 @@ const LeftSideBar: React.FC = () => {
           <Link href="/usermanagement">
             {pathname === "/usermanagement" || pathname === "/useradd" ? (
               <div className=" mb-4 flex gap-4 items-center group bg-primary-600 px-3 py-2 rounded-[4px]">
-                <BiSolidUser className=" w-6 h-6 text-white group-hover:text-white" />
+                <FaUserEdit className=" w-6 h-6 text-white group-hover:text-white" />
                 <p className=" text-white text-base leading-normal font-medium group-hover:text-white">
                   User Management
                 </p>
               </div>
             ) : (
               <div className=" mb-4 flex gap-4 items-center group px-3 py-2 hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed rounded-[4px]">
-                <BiSolidUser className=" w-6 h-6 text-firstBlack group-hover:text-primary-600" />
+                <FaUserEdit className=" w-6 h-6 text-firstBlack group-hover:text-primary-600" />
                 <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-primary-600">
                   User Management
                 </p>
@@ -283,14 +286,14 @@ const LeftSideBar: React.FC = () => {
           <Link href="/user-activity">
             {pathname === "/user-activity" ? (
               <div className=" mb-4 flex gap-4 items-center group bg-primary-600 px-3 py-2 rounded-[4px]">
-                <BiSolidUser className=" w-6 h-6 text-white group-hover:text-white" />
+                <RiHistoryLine className=" w-6 h-6 text-white group-hover:text-white" />
                 <p className=" text-white text-base leading-normal font-medium group-hover:text-white">
                   User Activity
                 </p>
               </div>
             ) : (
               <div className=" mb-4 flex gap-4 items-center group px-3 py-2 hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed rounded-[4px]">
-                <BiSolidUser className=" w-6 h-6 text-firstBlack group-hover:text-primary-600" />
+                <RiHistoryLine className=" w-6 h-6 text-firstBlack group-hover:text-primary-600" />
                 <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-primary-600">
                   User Activity
                 </p>
@@ -319,7 +322,7 @@ const LeftSideBar: React.FC = () => {
       {/* END SIDE LEFT BAR TOP SECTION */}
 
       {/*  SIDE LEFT BAR BOTTOM SECTION */}
-      <div className=" flex gap-2 items-center px-3 py-2 z-10">
+      <div className=" flex gap-2 items-center px-3 py-2 z-10 ">
         <div>
           <Image
             src="/images/logoutIcon.svg"
