@@ -147,7 +147,7 @@ const LeftSideBar: React.FC = () => {
                 </div>
                 {/* Submenu */}
                 {isSubmenuOpen && (
-                  <div className="ml-14 mb-4  text-base leading-7 font-normal">
+                  <div className="ml-14 mb-4  text-base leading-[2] font-normal">
                     <Link href="/crm/total-accounts">
                       <p>Total Accounts</p>
                     </Link>
@@ -162,6 +162,9 @@ const LeftSideBar: React.FC = () => {
                     </Link>
                     <Link href="/crm/get-product">
                       <p>Get Product</p>
+                    </Link>
+                    <Link href="/crm/create-product">
+                      <p>Create Product</p>
                     </Link>
                   </div>
                 )}
@@ -180,7 +183,7 @@ const LeftSideBar: React.FC = () => {
                 </div>
                 {/* Submenu */}
                 {isSubmenuOpen && (
-                  <div className="ml-14 mb-4  text-base leading-7 font-normal">
+                  <div className="ml-14 mb-4  text-base leading-[2] font-normal">
                     <Link href="/crm/total-accounts">
                       <p>Total Accounts</p>
                     </Link>
@@ -195,6 +198,9 @@ const LeftSideBar: React.FC = () => {
                     </Link>
                     <Link href="/crm/get-product">
                       <p>Get Product</p>
+                    </Link>
+                    <Link href="/crm/create-product">
+                      <p>Create Product</p>
                     </Link>
                   </div>
                 )}
