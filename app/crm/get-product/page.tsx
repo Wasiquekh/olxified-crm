@@ -19,26 +19,26 @@ interface Tab {
   label: string;
   content: JSX.Element;
 }
-interface TotalLeads {
+interface GetProduct {
   id: string;
-  first_name: string;
-  last_name: string;
-  full_name: string;
-  primary_address_street: string;
-  primary_address_city: string;
-  primary_address_country: string;
-  primary_address_postalcode: string;
-  phone_mobile: string;
+  name: string;
   description: string;
-  assigned_user_id: string;
-  assigned_user_name: string;
+  price: string;
+  price_usdollar: string;
+  currency: string;
+  product_image: string;
+  product_category: string;
+  product_category_id: string;
+  product_category_name: string;
+  created_by: string;
+  created_by_name: string;
   created_at: string; // ISO date string
   updated_at: string; // ISO date string
 }
 
 export default function Home() {
-  const [data, setData] = useState<TotalLeads[]>([]);
-  //console.log("total accounts data 000000000000 ", data);
+  const [data, setData] = useState<GetProduct[]>([]);
+  // console.log("total product data 000000000000 ", data);
   const [page, setPage] = useState<number>(1);
   const [limit] = useState<number>(10);
   const [totalPages, setTotalPages] = useState<number>(1);
@@ -49,11 +49,11 @@ export default function Home() {
     // setIsFilter(false);
     try {
       const response = await axiosProvider.get(
-        `/gettotalleads?page=${page}&limit=${limit}`
+        `/getproduct?page=${page}&limit=${limit}`
       );
-      //console.log("total accounts data", response.data.data.accounts);
+      // console.log("total accounts data", response.data.data);
       setTotalPages(response.data.data.totalPages);
-      const result = response.data.data.leads;
+      const result = response.data.data;
       //console.log("total leads", result);
       setData(result);
     } catch (error: any) {
@@ -86,7 +86,7 @@ export default function Home() {
   }
   const tabs: Tab[] = [
     {
-      label: "Total Leads",
+      label: "Get Product",
       content: (
         <>
           {/* ----------------Table----------------------- */}
@@ -99,78 +99,8 @@ export default function Home() {
                     className="p-2 py-0 border border-tableBorder"
                   >
                     <div className="flex items-center gap-2 p-3">
-                      <div className="font-medium text-firstBlack text-base leading-normal">
-                        First Name
-                      </div>
-                    </div>
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-2 py-0 border border-tableBorder hidden md:table-cell"
-                  >
-                    <div className="flex items-center gap-2">
                       <div className="font-medium text-firstBlack text-base leading-normal whitespace-nowrap">
-                        Last Name
-                      </div>
-                    </div>
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-2 py-0 border border-tableBorder hidden md:table-cell"
-                  >
-                    <div className="flex items-center gap-2">
-                      <div className="font-medium text-firstBlack text-base leading-normal">
-                        Full Name
-                      </div>
-                    </div>
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-2 py-0 border border-tableBorder hidden md:table-cell"
-                  >
-                    <div className="flex items-center gap-2">
-                      <div className="font-medium text-firstBlack text-base leading-normal whitespace-nowrap">
-                        Primary address street
-                      </div>
-                    </div>
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-2 py-0 border border-tableBorder hidden md:table-cell"
-                  >
-                    <div className="flex items-center gap-2">
-                      <div className="font-medium text-firstBlack text-base leading-normal whitespace-nowrap">
-                        Primary address city
-                      </div>
-                    </div>
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-2 py-0 border border-tableBorder hidden md:table-cell"
-                  >
-                    <div className="flex items-center gap-2">
-                      <div className="font-medium text-firstBlack text-base leading-normal whitespace-nowrap">
-                        Primary address country
-                      </div>
-                    </div>
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-2 py-0 border border-tableBorder hidden md:table-cell"
-                  >
-                    <div className="flex items-center gap-2">
-                      <div className="font-medium text-firstBlack text-base leading-normal whitespace-nowrap">
-                        Primary address postalcod
-                      </div>
-                    </div>
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-2 py-0 border border-tableBorder hidden md:table-cell"
-                  >
-                    <div className="flex items-center gap-2">
-                      <div className="font-medium text-firstBlack text-base leading-normal whitespace-nowrap">
-                        Phone mobile
+                        Name
                       </div>
                     </div>
                   </th>
@@ -190,7 +120,7 @@ export default function Home() {
                   >
                     <div className="flex items-center gap-2">
                       <div className="font-medium text-firstBlack text-base leading-normal whitespace-nowrap">
-                        Assigned user id
+                        Price
                       </div>
                     </div>
                   </th>
@@ -200,7 +130,77 @@ export default function Home() {
                   >
                     <div className="flex items-center gap-2">
                       <div className="font-medium text-firstBlack text-base leading-normal whitespace-nowrap">
-                        Assigned user name
+                        Price usdollar
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-2 py-0 border border-tableBorder hidden md:table-cell"
+                  >
+                    <div className="flex items-center gap-2">
+                      <div className="font-medium text-firstBlack text-base leading-normal whitespace-nowrap">
+                        Currency
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-2 py-0 border border-tableBorder hidden md:table-cell"
+                  >
+                    <div className="flex items-center gap-2">
+                      <div className="font-medium text-firstBlack text-base leading-normal whitespace-nowrap">
+                        Product image
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-2 py-0 border border-tableBorder hidden md:table-cell"
+                  >
+                    <div className="flex items-center gap-2">
+                      <div className="font-medium text-firstBlack text-base leading-normal whitespace-nowrap">
+                        Product category
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-2 py-0 border border-tableBorder hidden md:table-cell"
+                  >
+                    <div className="flex items-center gap-2">
+                      <div className="font-medium text-firstBlack text-base leading-normal whitespace-nowrap">
+                        Product category id
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-2 py-0 border border-tableBorder hidden md:table-cell"
+                  >
+                    <div className="flex items-center gap-2">
+                      <div className="font-medium text-firstBlack text-base leading-normal whitespace-nowrap">
+                        Product category ame
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-2 py-0 border border-tableBorder hidden md:table-cell"
+                  >
+                    <div className="flex items-center gap-2">
+                      <div className="font-medium text-firstBlack text-base leading-normal whitespace-nowrap">
+                        Created by
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-2 py-0 border border-tableBorder hidden md:table-cell"
+                  >
+                    <div className="flex items-center gap-2">
+                      <div className="font-medium text-firstBlack text-base leading-normal whitespace-nowrap">
+                        Create by name
                       </div>
                     </div>
                   </th>
@@ -224,17 +224,17 @@ export default function Home() {
                           <FaEllipsisVertical
                             data-tooltip-id="my-tooltip"
                             data-tooltip-html={`<div>
-                                  <strong>Description:</strong> <span style="text-transform: capitalize;">${item.first_name}</span><br/>
-                                  <strong>Transaction id:</strong> ${item.last_name}<br/>
-                                   <strong>Type:</strong> ${item.full_name}<br/>
-                                    <strong>Card:</strong> ${item.primary_address_street}<br/>
-                                   <strong>Date:</strong> ${item.primary_address_city}<br/>
-                                    <strong>Date:</strong> ${item.primary_address_country}<br/>
-                                     <strong>Date:</strong> ${item.primary_address_postalcode}<br/>
-                                      <strong>Date:</strong> ${item.phone_mobile}<br/>
-                                       <strong>Date:</strong> ${item.description}<br/>
-                                        <strong>Date:</strong> ${item.assigned_user_id}<br/>
-                                         <strong>Date:</strong> ${item.assigned_user_name}<br/>
+                                  <strong>Description:</strong> <span style="text-transform: capitalize;">${item.name}</span><br/>
+                                  <strong>Transaction id:</strong> ${item.description}<br/>
+                                   <strong>Type:</strong> ${item.price}<br/>
+                                    <strong>Card:</strong> ${item.price_usdollar}<br/>
+                                   <strong>Date:</strong> ${item.currency}<br/>
+                                    <strong>Date:</strong> ${item.product_image}<br/>
+                                     <strong>Date:</strong> ${item.product_category}<br/>
+                                      <strong>Date:</strong> ${item.product_category_id}<br/>
+                                       <strong>Date:</strong> ${item.product_category_name}<br/>
+                                        <strong>Date:</strong> ${item.created_by}<br/>
+                                         <strong>Date:</strong> ${item.created_by_name}<br/>
                                     
                                 </div>`}
                             className="text-black leading-normal capitalize"
@@ -243,59 +243,59 @@ export default function Home() {
                         </div>
                         <div>
                           <p className="text-[#232323] text-base leading-normal">
-                            {item.first_name}
+                            {item.name}
                           </p>
                         </div>
                       </td>
                       <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
                         <p className="text-[#232323] text-base leading-normal">
-                          {item.last_name}
+                          {item.description}
                         </p>
                       </td>
                       <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
                         <p className="text-[#232323] text-base leading-normal">
-                          {item.full_name}
+                          {item.price}
                         </p>
                       </td>
                       <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
                         <div className="flex gap-1.5">
                           <p className="text-[#232323] text-base leading-normal">
-                            {item.primary_address_street}
+                            {item.price_usdollar}
                           </p>
                         </div>
                       </td>
                       <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
                         <div className="flex gap-1.5">
                           <p className="text-[#232323] text-base leading-normal">
-                            {item.primary_address_city}
+                            {item.currency}
                           </p>
                         </div>
                       </td>
                       <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
                         <div className="flex gap-1.5">
                           <p className="text-[#232323] text-base leading-normal">
-                            {item.primary_address_country}
+                            {item.product_image}
                           </p>
                         </div>
                       </td>
                       <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
                         <div className="flex gap-1.5">
                           <p className="text-[#232323] text-base leading-normal">
-                            {item.primary_address_postalcode}
+                            {item.product_category}
                           </p>
                         </div>
                       </td>
                       <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
                         <div className="flex gap-1.5">
                           <p className="text-[#232323] text-base leading-normal">
-                            {item.phone_mobile}
+                            {item.product_category_id}
                           </p>
                         </div>
                       </td>
                       <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
                         <div className="flex gap-1.5">
                           <p className="text-[#232323] text-base leading-normal">
-                            {item.description}
+                            {item.product_category_name}
                           </p>
                         </div>
                       </td>
@@ -303,14 +303,14 @@ export default function Home() {
                       <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
                         <div className="flex gap-1.5">
                           <p className="text-[#232323] text-base leading-normal">
-                            {item.assigned_user_id}
+                            {item.created_by}
                           </p>
                         </div>
                       </td>
                       <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
                         <div className="flex gap-1.5">
                           <p className="text-[#232323] text-base leading-normal">
-                            {item.assigned_user_name}
+                            {item.created_by_name}
                           </p>
                         </div>
                       </td>

@@ -132,7 +132,8 @@ const LeftSideBar: React.FC = () => {
             {pathname === "/crm/total-quotes" ||
             pathname === "/crm/total-contacts" ||
             pathname === "/crm/total-accounts" ||
-            pathname === "/crm/total-leads" ? (
+            pathname === "/crm/total-leads" ||
+            pathname === "/crm/get-product" ? (
               <>
                 <div
                   onClick={toggleSubmenu}
@@ -158,6 +159,9 @@ const LeftSideBar: React.FC = () => {
                     </Link>
                     <Link href="/crm/total-leads">
                       <p>Total Leads</p>
+                    </Link>
+                    <Link href="/crm/get-product">
+                      <p>Get Product</p>
                     </Link>
                   </div>
                 )}
@@ -188,6 +192,9 @@ const LeftSideBar: React.FC = () => {
                     </Link>
                     <Link href="/crm/total-leads">
                       <p>Total Leads</p>
+                    </Link>
+                    <Link href="/crm/get-product">
+                      <p>Get Product</p>
                     </Link>
                   </div>
                 )}
