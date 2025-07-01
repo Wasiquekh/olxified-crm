@@ -25,11 +25,50 @@
   --rejectBtn:#FE0000;
 }
 
-
-
-body {
-
+/* globals.css or any imported CSS file */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 3px;
 }
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--primary-200); /* Tailwind gray-600 */
+  border-radius: 9999px;
+}
+.custom-scrollbar:hover::-webkit-scrollbar-thumb {
+  background-color: var(--primary-300); /* Tailwind gray-700 */
+}
+
+/* Apply custom-scrollbar to body and all scrollable divs */
+body,
+.scrollable,
+.custom-scrollbar {
+  scrollbar-gutter: stable;
+}
+
+body::-webkit-scrollbar,
+.scrollable::-webkit-scrollbar {
+  width: 6px;
+}
+
+body::-webkit-scrollbar-track,
+.scrollable::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+body::-webkit-scrollbar-thumb,
+.scrollable::-webkit-scrollbar-thumb {
+  background-color: var(--primary-200);
+  border-radius: 9999px;
+}
+
+body:hover::-webkit-scrollbar-thumb,
+.scrollable:hover::-webkit-scrollbar-thumb {
+  background-color: var(--primary-300);
+}
+
+
 #my-tooltip {
   background-color: white !important;
   color: black !important;
@@ -288,20 +327,6 @@ button.swal2-cancel.swal2-styled.swal2-default-outline:hover {
 text.recharts-text.recharts-cartesian-axis-tick-value {
   font-size: 14px !important;
   font-weight: 600 !important;
-}
-/* globals.css or any imported CSS file */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 3px;
-}
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
-}
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: var(--primary-200); /* Tailwind gray-600 */
-  border-radius: 9999px;
-}
-.custom-scrollbar:hover::-webkit-scrollbar-thumb {
-  background-color: var(--primary-300); /* Tailwind gray-700 */
 }
 
 @media only screen and (max-width: 767px) {
