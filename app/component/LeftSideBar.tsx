@@ -18,6 +18,13 @@ import { useState } from "react";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { RiHistoryLine } from "react-icons/ri";
 import { FaUserEdit } from "react-icons/fa";
+import { MdOutlineSwitchAccount } from "react-icons/md";
+import { RiContactsBook3Fill } from "react-icons/ri";
+import { SiGoogleadsense } from "react-icons/si";
+import { ImQuotesLeft } from "react-icons/im";
+import { AiFillProduct } from "react-icons/ai";
+import { MdOutlineDashboard } from "react-icons/md";
+import { MdOutlinePeopleOutline } from "react-icons/md";
 
 const axiosProvider = new AxiosProvider();
 const storage = new StorageManager();
@@ -72,6 +79,14 @@ const LeftSideBar: React.FC = () => {
   const toggleSubmenu = (): void => {
     setIsSubmenuOpen((prev) => !prev);
   };
+  const activePaths = [
+    "/crm/total-quotes",
+    "/crm/total-contacts",
+    "/crm/total-accounts",
+    "/crm/total-leads",
+    "/crm/get-product",
+  ];
+  const isActive = activePaths.includes(pathname);
   return (
     <div className="w-full hidden md:w-[17%]  md:flex flex-col justify-between py-4 px-1 border-r-2 border-customBorder shadow-borderShadow mt-0  h-screen fixed top-0 left-0">
       {/* SIDE LEFT BAR TOP SECTION */}
@@ -92,244 +107,205 @@ const LeftSideBar: React.FC = () => {
         </Link>
         {/* MENU WITH ICONS */}
         <Link href="/dashboard">
-          {pathname === "/dashboard" ? (
-            <div className=" mb-4 flex gap-4 items-center group bg-primary-600 px-3 py-2 rounded-[4px]">
-              <BiSolidHome className=" w-6 h-6 text-white group-hover:text-white" />
-              <p className=" text-white text-base leading-normal font-medium group-hover:text-white">
-                Dashboard
-              </p>
-            </div>
-          ) : (
-            <div className=" mb-4 flex gap-4 items-center group px-3 py-2 hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed rounded-[4px]">
-              <BiSolidHome className=" w-6 h-6 text-firstBlack group-hover:text-primary-600" />
-              <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-primary-600">
-                Dashboard
-              </p>
-            </div>
-          )}
+          <div
+            className={`mb-4 flex gap-4 items-center group px-3 py-2 rounded-[4px] relative cursor-pointer text-base leading-normal font-medium text-firstBlack  hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed hover:text-primary-600 ${
+              pathname === "/dashboard"
+                ? "bg-primary-600 text-white hover:!bg-primary-600 hover:!text-white"
+                : ""
+            }`}
+          >
+            <MdOutlineDashboard className=" w-6 h-6   " />
+            <p className="">Dashboard</p>
+          </div>
         </Link>
         {hasCustomerView && (
           <Link href="/customer">
-            {pathname === "/customer" || pathname === "/customerdetails" ? (
-              <div className=" mb-4 flex gap-4 items-center group bg-primary-600 px-3 py-2 rounded-[4px] ">
-                <MdOutlineBarChart className=" w-6 h-6 text-white group-hover:text-white " />
-                <p className=" text-white text-base leading-normal font-medium group-hover:text-white">
-                  Customers
-                </p>
-              </div>
-            ) : (
-              <div className=" mb-4 flex gap-4 items-center group px-3 py-2 hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed rounded-[4px] ">
-                <MdOutlineBarChart className=" w-6 h-6 text-firstBlack group-hover:text-primary-600 " />
-                <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-primary-600">
-                  Customers
-                </p>
-              </div>
-            )}
+            <div
+              className={`mb-4 flex gap-4 items-center group px-3 py-2 rounded-[4px] relative cursor-pointer text-base leading-normal font-medium text-firstBlack  hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed hover:text-primary-600 ${
+                pathname === "/customer" || pathname === "/customerdetails"
+                  ? "bg-primary-600 text-white hover:!bg-primary-600 hover:!text-white"
+                  : ""
+              }`}
+            >
+              <MdOutlinePeopleOutline className=" w-6 h-6   " />
+              <p className="">Customers</p>
+            </div>
           </Link>
         )}
+
         {hasCustomerView && (
           <div>
-            {pathname === "/crm/total-quotes" ||
-            pathname === "/crm/total-contacts" ||
-            pathname === "/crm/total-accounts" ||
-            pathname === "/crm/total-leads" ||
-            pathname === "/crm/get-product" ? (
-              <>
-                <div
-                  onClick={toggleSubmenu}
-                  className=" mb-4 flex gap-4 items-center group bg-primary-600 px-3 py-2 rounded-[4px] relative cursor-pointer"
-                >
-                  <AiOutlineDashboard className=" w-6 h-6 text-white group-hover:text-white " />
-                  <p className=" text-white text-base leading-normal font-medium group-hover:text-white">
-                    CRM
-                  </p>
-                  <FaChevronDown className="absolute right-3 top-1/2  -translate-y-1/2 text-white" />
-                </div>
-                {/* Submenu */}
-                {isSubmenuOpen && (
-                  <div className="ml-14 mb-4  text-base leading-[2] font-normal">
-                    <Link href="/crm/total-accounts">
-                      <p>Total Accounts</p>
-                    </Link>
-                    <Link href="/crm/total-quotes">
-                      <p>Total Quotes</p>
-                    </Link>
-                    <Link href="/crm/total-contacts">
-                      <p>Total Contacts</p>
-                    </Link>
-                    <Link href="/crm/total-leads">
-                      <p>Total Leads</p>
-                    </Link>
-                    <Link href="/crm/get-product">
-                      <p>Get Product</p>
-                    </Link>
-                    <Link href="/crm/create-product">
-                      <p>Create Product</p>
-                    </Link>
-                  </div>
-                )}
-              </>
-            ) : (
-              <>
-                <div
-                  onClick={toggleSubmenu}
-                  className=" mb-4 flex gap-4 items-center group px-3 py-2 hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed rounded-[4px] relative cursor-pointer "
-                >
-                  <AiOutlineDashboard className=" w-6 h-6 text-firstBlack group-hover:text-primary-600 " />
-                  <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-primary-600 cursor-pointer">
-                    CRM
-                  </p>
-                  <FaChevronDown className="absolute right-3 top-1/2  -translate-y-1/2 text-black" />
-                </div>
-                {/* Submenu */}
-                {isSubmenuOpen && (
-                  <div className="ml-14 mb-4  text-base leading-[2] font-normal">
-                    <Link href="/crm/total-accounts">
-                      <p>Total Accounts</p>
-                    </Link>
-                    <Link href="/crm/total-quotes">
-                      <p>Total Quotes</p>
-                    </Link>
-                    <Link href="/crm/total-contacts">
-                      <p>Total Contacts</p>
-                    </Link>
-                    <Link href="/crm/total-leads">
-                      <p>Total Leads</p>
-                    </Link>
-                    <Link href="/crm/get-product">
-                      <p>Get Product</p>
-                    </Link>
-                    <Link href="/crm/create-product">
-                      <p>Create Product</p>
-                    </Link>
-                  </div>
-                )}
-              </>
-            )}
+            <>
+              <div
+                onClick={toggleSubmenu}
+                className={`mb-4 flex gap-4 items-center group hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed  px-3 py-2 rounded-[4px] relative cursor-pointer text-base leading-normal font-medium text-firstBlack hover:text-primary-600 ${
+                  isActive
+                    ? "bg-primary-600 text-white hover:!bg-primary-600 hover:!text-white"
+                    : ""
+                }`}
+              >
+                <AiOutlineDashboard className=" w-6 h-6   " />
+                <p className="">CRM</p>
+                <FaChevronDown className="absolute right-3 top-1/2  -translate-y-1/2" />
+              </div>
+              {/* Submenu */}
+              {isSubmenuOpen && (
+                <>
+                  <Link href="/crm/total-accounts">
+                    <div
+                      className={`mb-2 flex gap-4 items-center group px-3 py-2 rounded-[4px] relative cursor-pointer text-base leading-normal font-medium text-firstBlack hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed hover:text-primary-600 ${
+                        pathname === "/crm/total-accounts"
+                          ? "bg-primary-600 text-white hover:!bg-primary-600 hover:!text-white"
+                          : ""
+                      }`}
+                    >
+                      <MdOutlineSwitchAccount className=" w-6 h-6   " />
+                      <p className="">Total Accounts</p>
+                    </div>
+                  </Link>
+                  <Link href="/crm/total-contacts">
+                    <div
+                      className={`mb-2 flex gap-4 items-center group px-3 py-2 rounded-[4px] relative cursor-pointer text-base leading-normal font-medium text-firstBlack hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed hover:text-primary-600 ${
+                        pathname === "/crm/total-contacts"
+                          ? "bg-primary-600 text-white hover:!bg-primary-600 hover:!text-white"
+                          : ""
+                      }`}
+                    >
+                      <RiContactsBook3Fill className=" w-6 h-6   " />
+                      <p className="">Total Contacts</p>
+                    </div>
+                  </Link>
+                  <Link href="/crm/total-leads">
+                    <div
+                      className={`mb-2 flex gap-4 items-center group px-3 py-2 rounded-[4px] relative cursor-pointer text-base leading-normal font-medium text-firstBlack  hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed hover:text-primary-600 ${
+                        pathname === "/crm/total-leads"
+                          ? "bg-primary-600 text-white hover:!bg-primary-600 hover:!text-white"
+                          : ""
+                      }`}
+                    >
+                      <SiGoogleadsense className=" w-6 h-6   " />
+                      <p className="">Total Leads</p>
+                    </div>
+                  </Link>
+                  <Link href="/crm/total-quotes">
+                    <div
+                      className={`mb-2 flex gap-4 items-center group px-3 py-2 rounded-[4px] relative cursor-pointer text-base leading-normal font-medium text-firstBlack hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed hover:text-primary-600 ${
+                        pathname === "/crm/total-quotes"
+                          ? "bg-primary-600 text-white hover:!bg-primary-600 hover:!text-white"
+                          : ""
+                      }`}
+                    >
+                      <ImQuotesLeft className=" w-6 h-6   " />
+                      <p className="">Total Quotes</p>
+                    </div>
+                  </Link>
+                  <Link href="/crm/get-product">
+                    <div
+                      className={`mb-2 flex gap-4 items-center group px-3 py-2 rounded-[4px] relative cursor-pointer text-base leading-normal font-medium text-firstBlack hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed hover:text-primary-600 ${
+                        pathname === "/crm/get-product"
+                          ? "bg-primary-600 text-white hover:!bg-primary-600 hover:!text-white"
+                          : ""
+                      }`}
+                    >
+                      <AiFillProduct className=" w-6 h-6   " />
+                      <p className="">Product</p>
+                    </div>
+                  </Link>
+                  <Link href="/crm/create-product">
+                    <p>Create Product</p>
+                  </Link>
+                </>
+              )}
+            </>
           </div>
         )}
         <Link href="/transaction">
-          {pathname === "/transaction" ? (
-            <div className=" mb-4 flex gap-4 items-center group bg-primary-600 px-3 py-2 rounded-[4px]">
-              <TbDeviceMobileDollar className=" w-6 h-6 text-white group-hover:text-white" />
-              <p className=" text-white text-base leading-normal font-medium group-hover:text-white">
-                Transaction
-              </p>
-            </div>
-          ) : (
-            <div className=" mb-4 flex gap-4 items-center group px-3 py-2 hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed rounded-[4px]">
-              <TbDeviceMobileDollar className=" w-6 h-6 text-firstBlack group-hover:text-primary-600" />
-              <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-primary-600">
-                Transaction
-              </p>
-            </div>
-          )}
+          <div
+            className={`mb-4 flex gap-4 items-center group px-3 py-2 rounded-[4px] relative cursor-pointer text-base leading-normal font-medium text-firstBlack  hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed hover:text-primary-600 ${
+              pathname === "/transaction"
+                ? "bg-primary-600 text-white hover:!bg-primary-600 hover:!text-white"
+                : ""
+            }`}
+          >
+            <TbDeviceMobileDollar className=" w-6 h-6   " />
+            <p className="">Transaction</p>
+          </div>
         </Link>
         <Link href="/point-of-services">
-          {pathname === "/point-of-services" ? (
-            <div className=" mb-4 flex gap-4 items-center group bg-primary-600 px-3 py-2 rounded-[4px]">
-              <HiWrenchScrewdriver className=" w-6 h-6 text-white group-hover:text-white" />
-              <p className=" text-white text-base leading-normal font-medium group-hover:text-white">
-                Point of Services
-              </p>
-            </div>
-          ) : (
-            <div className=" mb-4 flex gap-4 items-center group px-3 py-2 hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed rounded-[4px]">
-              <HiWrenchScrewdriver className=" w-6 h-6 text-firstBlack group-hover:text-primary-600" />
-              <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-primary-600">
-                Point of Services
-              </p>
-            </div>
-          )}
+          <div
+            className={`mb-4 flex gap-4 items-center group px-3 py-2 rounded-[4px] relative cursor-pointer text-base leading-normal font-medium text-firstBlack  hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed hover:text-primary-600 ${
+              pathname === "/point-of-services"
+                ? "bg-primary-600 text-white hover:!bg-primary-600 hover:!text-white"
+                : ""
+            }`}
+          >
+            <HiWrenchScrewdriver className=" w-6 h-6   " />
+            <p className=""> Point of Services</p>
+          </div>
         </Link>
         <Link href="/payment-terminal">
-          {pathname === "/payment-terminal" ? (
-            <div className=" mb-4 flex gap-4 items-center group bg-primary-600 px-3 py-2 rounded-[4px]">
-              <FaMoneyCheckDollar className=" w-6 h-6 text-white group-hover:text-white" />
-              <p className=" text-white text-base leading-normal font-medium group-hover:text-white">
-                Payment Terminal
-              </p>
-            </div>
-          ) : (
-            <div className=" mb-4 flex gap-4 items-center group px-3 py-2 hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed rounded-[4px]">
-              <FaMoneyCheckDollar className=" w-6 h-6 text-firstBlack group-hover:text-primary-600" />
-              <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-primary-600">
-                Payment Terminal
-              </p>
-            </div>
-          )}
+          <div
+            className={`mb-4 flex gap-4 items-center group px-3 py-2 rounded-[4px] relative cursor-pointer text-base leading-normal font-medium text-firstBlack  hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed hover:text-primary-600 ${
+              pathname === "/payment-terminal"
+                ? "bg-primary-600 text-white hover:!bg-primary-600 hover:!text-white"
+                : ""
+            }`}
+          >
+            <FaMoneyCheckDollar className=" w-6 h-6   " />
+            <p className=""> Payment Terminal</p>
+          </div>
         </Link>
         <Link href="/cards">
-          {pathname === "/cards" ? (
-            <div className=" mb-4 flex gap-4 items-center group bg-primary-600 px-3 py-2 rounded-[4px]">
-              <BsCreditCard2Back className=" w-6 h-6 text-white group-hover:text-white" />
-              <p className=" text-white text-base leading-normal font-medium group-hover:text-white">
-                Credit Cards
-              </p>
-            </div>
-          ) : (
-            <div className=" mb-4 flex gap-4 items-center group px-3 py-2 hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed rounded-[4px]">
-              <BsCreditCard2Back className=" w-6 h-6 text-firstBlack group-hover:text-primary-600" />
-              <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-primary-600">
-                Credit Cards
-              </p>
-            </div>
-          )}
+          <div
+            className={`mb-4 flex gap-4 items-center group px-3 py-2 rounded-[4px] relative cursor-pointer text-base leading-normal font-medium text-firstBlack  hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed hover:text-primary-600 ${
+              pathname === "/cards"
+                ? "bg-primary-600 text-white hover:!bg-primary-600 hover:!text-white"
+                : ""
+            }`}
+          >
+            <BsCreditCard2Back className=" w-6 h-6   " />
+            <p className=""> Credit Cards</p>
+          </div>
         </Link>
         {hasSystemUserView && (
           <Link href="/usermanagement">
-            {pathname === "/usermanagement" || pathname === "/useradd" ? (
-              <div className=" mb-4 flex gap-4 items-center group bg-primary-600 px-3 py-2 rounded-[4px]">
-                <FaUserEdit className=" w-6 h-6 text-white group-hover:text-white" />
-                <p className=" text-white text-base leading-normal font-medium group-hover:text-white">
-                  User Management
-                </p>
-              </div>
-            ) : (
-              <div className=" mb-4 flex gap-4 items-center group px-3 py-2 hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed rounded-[4px]">
-                <FaUserEdit className=" w-6 h-6 text-firstBlack group-hover:text-primary-600" />
-                <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-primary-600">
-                  User Management
-                </p>
-              </div>
-            )}
+            <div
+              className={`mb-4 flex gap-4 items-center group px-3 py-2 rounded-[4px] relative cursor-pointer text-base leading-normal font-medium text-firstBlack  hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed hover:text-primary-600 ${
+                pathname === "/usermanagement"
+                  ? "bg-primary-600 text-white hover:!bg-primary-600 hover:!text-white"
+                  : ""
+              }`}
+            >
+              <FaUserEdit className=" w-6 h-6   " />
+              <p className=""> User Management</p>
+            </div>
           </Link>
         )}
         {hasUserActivityView && (
           <Link href="/user-activity">
-            {pathname === "/user-activity" ? (
-              <div className=" mb-4 flex gap-4 items-center group bg-primary-600 px-3 py-2 rounded-[4px]">
-                <RiHistoryLine className=" w-6 h-6 text-white group-hover:text-white" />
-                <p className=" text-white text-base leading-normal font-medium group-hover:text-white">
-                  User Activity
-                </p>
-              </div>
-            ) : (
-              <div className=" mb-4 flex gap-4 items-center group px-3 py-2 hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed rounded-[4px]">
-                <RiHistoryLine className=" w-6 h-6 text-firstBlack group-hover:text-primary-600" />
-                <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-primary-600">
-                  User Activity
-                </p>
-              </div>
-            )}
+            <div
+              className={`mb-4 flex gap-4 items-center group px-3 py-2 rounded-[4px] relative cursor-pointer text-base leading-normal font-medium text-firstBlack  hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed hover:text-primary-600 ${
+                pathname === "/user-activity"
+                  ? "bg-primary-600 text-white hover:!bg-primary-600 hover:!text-white"
+                  : ""
+              }`}
+            >
+              <RiHistoryLine className=" w-6 h-6   " />
+              <p className=""> User Activity</p>
+            </div>
           </Link>
         )}
         <Link href="/setting">
-          {pathname === "/setting" ? (
-            <div className=" mb-4 flex gap-4 items-center group bg-primary-600 px-3 py-2 rounded-[4px]">
-              <IoMdSettings className=" w-6 h-6 text-white group-hover:text-white" />
-              <p className=" text-white text-base leading-normal font-medium group-hover:text-white">
-                Setting
-              </p>
-            </div>
-          ) : (
-            <div className=" mb-4 flex gap-4 items-center group px-3 py-2 hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed rounded-[4px]">
-              <IoMdSettings className=" w-6 h-6 text-firstBlack group-hover:text-primary-600" />
-              <p className=" text-firstBlack text-base leading-normal font-medium group-hover:text-primary-600">
-                Setting
-              </p>
-            </div>
-          )}
+          <div
+            className={`mb-4 flex gap-4 items-center group px-3 py-2 rounded-[4px] relative cursor-pointer text-base leading-normal font-medium text-firstBlack  hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed hover:text-primary-600 ${
+              pathname === "/setting"
+                ? "bg-primary-600 text-white hover:!bg-primary-600 hover:!text-white"
+                : ""
+            }`}
+          >
+            <IoMdSettings className=" w-6 h-6   " />
+            <p className="">Setting</p>
+          </div>
         </Link>
       </div>
       {/* END SIDE LEFT BAR TOP SECTION */}
