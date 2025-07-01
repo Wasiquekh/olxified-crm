@@ -12,8 +12,20 @@ const DynamicBreadCrum = () => {
   if (!context) {
     throw new Error("ProfileComponent must be used within an AppProvider");
   }
+
   return (
     <div>
+      {pathname === "/dashboard" && (
+        <div className="flex  md:flex gap-2 w-auto items-center">
+          <p className="text-[#4B5675] text-sm font-medium leading-5">
+            Dashboard
+          </p>
+          <IoChevronForward className="text-[#99A1B7] w-3 h-3" />
+          <p className="text-primary-600 text-sm leading-5 font-medium">
+            All Dashboard
+          </p>
+        </div>
+      )}
       {(pathname === "/customer" || pathname === "/customerdetails") && (
         <div className="flex  md:flex gap-2 w-auto items-center">
           <p className="text-[#4B5675] text-sm font-medium leading-5">
@@ -32,6 +44,57 @@ const DynamicBreadCrum = () => {
                 {customerFullName}
               </div>
             )}
+          </p>
+        </div>
+      )}
+      {pathname === "/crm/total-accounts" && (
+        <div className="flex  md:flex gap-2 w-auto items-center">
+          <p className="text-[#4B5675] text-sm font-medium leading-5">
+            Accounts
+          </p>
+          <IoChevronForward className="text-[#99A1B7] w-3 h-3" />
+          <p className="text-primary-600 text-sm leading-5 font-medium">
+            Total Accounts
+          </p>
+        </div>
+      )}
+      {pathname === "/crm/total-contacts" && (
+        <div className="flex  md:flex gap-2 w-auto items-center">
+          <p className="text-[#4B5675] text-sm font-medium leading-5">
+            Contacts
+          </p>
+          <IoChevronForward className="text-[#99A1B7] w-3 h-3" />
+          <p className="text-primary-600 text-sm leading-5 font-medium">
+            All Contacts
+          </p>
+        </div>
+      )}
+      {pathname === "/crm/total-leads" && (
+        <div className="flex  md:flex gap-2 w-auto items-center">
+          <p className="text-[#4B5675] text-sm font-medium leading-5">Leads</p>
+          <IoChevronForward className="text-[#99A1B7] w-3 h-3" />
+          <p className="text-primary-600 text-sm leading-5 font-medium">
+            All Leads
+          </p>
+        </div>
+      )}
+      {pathname === "/crm/total-quotes" && (
+        <div className="flex  md:flex gap-2 w-auto items-center">
+          <p className="text-[#4B5675] text-sm font-medium leading-5">Quotes</p>
+          <IoChevronForward className="text-[#99A1B7] w-3 h-3" />
+          <p className="text-primary-600 text-sm leading-5 font-medium">
+            All Quotes
+          </p>
+        </div>
+      )}
+      {pathname === "/crm/get-product" && (
+        <div className="flex  md:flex gap-2 w-auto items-center">
+          <p className="text-[#4B5675] text-sm font-medium leading-5">
+            Products
+          </p>
+          <IoChevronForward className="text-[#99A1B7] w-3 h-3" />
+          <p className="text-primary-600 text-sm leading-5 font-medium">
+            All Products
           </p>
         </div>
       )}
