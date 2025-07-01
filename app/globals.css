@@ -27,7 +27,8 @@
 
 /* globals.css or any imported CSS file */
 .custom-scrollbar::-webkit-scrollbar {
-  width: 3px;
+   height: 3px !important; /* Add this for horizontal scrollbar */
+  width: 3px !important;
 }
 .custom-scrollbar::-webkit-scrollbar-track {
   background: transparent;
