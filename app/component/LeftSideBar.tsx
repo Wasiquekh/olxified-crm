@@ -74,11 +74,6 @@ const LeftSideBar: React.FC = () => {
       console.error("Error fetching data:", error);
     }
   };
-  const [isSubmenuOpen, setIsSubmenuOpen] = useState<boolean>(false);
-
-  const toggleSubmenu = (): void => {
-    setIsSubmenuOpen((prev) => !prev);
-  };
   const activePaths = [
     "/crm/total-quotes",
     "/crm/total-contacts",
@@ -86,7 +81,12 @@ const LeftSideBar: React.FC = () => {
     "/crm/total-leads",
     "/crm/get-product",
   ];
+
   const isActive = activePaths.includes(pathname);
+  const [isSubmenuOpen, setIsSubmenuOpen] = useState<boolean>(isActive);
+  const toggleSubmenu = (): void => {
+    setIsSubmenuOpen((prev) => !prev);
+  };
   return (
     <div className="w-full hidden md:w-[17%]  md:flex flex-col justify-between py-4 px-1 border-r-2 border-customBorder shadow-borderShadow mt-0  h-screen fixed top-0 left-0">
       {/* SIDE LEFT BAR TOP SECTION */}
@@ -150,7 +150,7 @@ const LeftSideBar: React.FC = () => {
               </div>
               {/* Submenu */}
               {isSubmenuOpen && (
-                <>
+                <div className="bg-sideBarHoverbg pt-2 -mt-4">
                   <Link href="/crm/total-accounts">
                     <div
                       className={`mb-2 flex gap-4 items-center group px-3 py-2 rounded-[4px] relative cursor-pointer text-base leading-normal font-medium text-firstBlack hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed hover:text-primary-600 ${
@@ -160,7 +160,7 @@ const LeftSideBar: React.FC = () => {
                       }`}
                     >
                       <MdOutlineSwitchAccount className=" w-6 h-6   " />
-                      <p className="">Total Accounts</p>
+                      <p className="">Accounts</p>
                     </div>
                   </Link>
                   <Link href="/crm/total-contacts">
@@ -172,7 +172,7 @@ const LeftSideBar: React.FC = () => {
                       }`}
                     >
                       <RiContactsBook3Fill className=" w-6 h-6   " />
-                      <p className="">Total Contacts</p>
+                      <p className="">Contacts</p>
                     </div>
                   </Link>
                   <Link href="/crm/total-leads">
@@ -184,7 +184,7 @@ const LeftSideBar: React.FC = () => {
                       }`}
                     >
                       <SiGoogleadsense className=" w-6 h-6   " />
-                      <p className="">Total Leads</p>
+                      <p className="">Leads</p>
                     </div>
                   </Link>
                   <Link href="/crm/total-quotes">
@@ -196,7 +196,7 @@ const LeftSideBar: React.FC = () => {
                       }`}
                     >
                       <ImQuotesLeft className=" w-6 h-6   " />
-                      <p className="">Total Quotes</p>
+                      <p className="">Quotes</p>
                     </div>
                   </Link>
                   <Link href="/crm/get-product">
@@ -208,13 +208,13 @@ const LeftSideBar: React.FC = () => {
                       }`}
                     >
                       <AiFillProduct className=" w-6 h-6   " />
-                      <p className="">Product</p>
+                      <p className="">Products</p>
                     </div>
                   </Link>
-                  <Link href="/crm/create-product">
+                  {/* <Link href="/crm/create-product">
                     <p>Create Product</p>
-                  </Link>
-                </>
+                  </Link> */}
+                </div>
               )}
             </>
           </div>
