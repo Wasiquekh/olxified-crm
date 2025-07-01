@@ -90,7 +90,7 @@ const LeftSideBar: React.FC = () => {
   return (
     <div className="w-full hidden md:w-[17%]  md:flex flex-col justify-between py-4 px-1 border-r-2 border-customBorder shadow-borderShadow mt-0  h-screen fixed top-0 left-0">
       {/* SIDE LEFT BAR TOP SECTION */}
-      <div className="z-10 overflow-y-auto">
+      <div className="z-10 overflow-y-auto custom-scrollbar">
         <Link href="/customer">
           <div className=" flex gap-2 mb-12 px-3 py-2">
             <Image

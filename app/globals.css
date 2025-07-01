@@ -289,6 +289,20 @@ text.recharts-text.recharts-cartesian-axis-tick-value {
   font-size: 14px !important;
   font-weight: 600 !important;
 }
+/* globals.css or any imported CSS file */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 3px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--primary-200); /* Tailwind gray-600 */
+  border-radius: 9999px;
+}
+.custom-scrollbar:hover::-webkit-scrollbar-thumb {
+  background-color: var(--primary-300); /* Tailwind gray-700 */
+}
 
 @media only screen and (max-width: 767px) {
   .react-tel-input .form-control {
