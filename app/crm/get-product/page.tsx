@@ -13,6 +13,18 @@ import DesktopHeader from "../../component/DesktopHeader";
 import { Tooltip } from "react-tooltip";
 import { FaEllipsisVertical } from "react-icons/fa6";
 import { FiFilter } from "react-icons/fi";
+import { IoCloseOutline } from "react-icons/io5";
+import {
+  Formik,
+  Form,
+  Field,
+  ErrorMessage,
+  FormikHelpers,
+  useField,
+  useFormikContext,
+} from "formik";
+import * as Yup from "yup";
+import Select from "react-select";
 
 const axiosProvider = new AxiosProvider();
 
@@ -36,6 +48,24 @@ interface GetProduct {
   created_at: string; // ISO date string
   updated_at: string; // ISO date string
 }
+// ✅ TypeScript interface for form values
+interface ProductFormValues {
+  name: string;
+  description: string;
+  price: string | number;
+  currency: string;
+  price_usdollar: string | number;
+  //product_category_id: string;
+  category: string; // ✅
+}
+interface ProductCategory {
+  id: string;
+  name: string;
+  created_at: string;
+  created_by: string;
+  created_by_name: string;
+  parent_category: string | null;
+}
 
 export default function Home() {
   const [data, setData] = useState<GetProduct[]>([]);
@@ -45,6 +75,14 @@ export default function Home() {
   const [totalPages, setTotalPages] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
+  const [isFlyoutOpen, setFlyoutOpen] = useState<boolean>(false);
+
+  // Example useState usage
+  const [productCategory, setproductCategory] =
+    useState<ProductCategory | null>(null);
+
+  const toggleFilterFlyout = () => setFlyoutOpen(!isFlyoutOpen);
+
   const fetchData = async () => {
     setIsLoading(true);
     // setIsFilter(false);
@@ -63,9 +101,24 @@ export default function Home() {
       setIsLoading(false);
     }
   };
+  const fetchCategory = async () => {
+    try {
+      const response = await axiosProvider.get("/getcategory");
+      const result = response.data.data.categories;
+      setproductCategory(result);
+      // console.log("total leads", result.data.data.categories);
+    } catch (error: any) {
+      console.error("Failed to fetch categories:", error);
+    }
+  };
   useEffect(() => {
     fetchData();
   }, [page]);
+
+  useEffect(() => {
+    fetchCategory();
+  }, []);
+
   const handlePageChange = (newPage: number) => {
     if (newPage > 0 && newPage <= totalPages) {
       setPage(newPage);
@@ -91,6 +144,43 @@ export default function Home() {
       content: <></>,
     },
   ];
+  // ✅ Yup validation schema
+  const productFormSchema = Yup.object({
+    name: Yup.string().required("Name is required"),
+    description: Yup.string()
+      .min(5, "Minimum 5 characters")
+      .required("Description is required"),
+    price: Yup.number()
+      .typeError("Must be a number")
+      .positive()
+      .required("Price is required"),
+    currency: Yup.string()
+      .length(3, "3-letter currency code")
+      .required("Currency is required"),
+    price_usdollar: Yup.number()
+      .typeError("Must be a number")
+      .positive()
+      .required("USD price is required"),
+    category: Yup.string().required("Category is required"),
+  });
+
+  const initialValues: ProductFormValues = {
+    name: "",
+    description: "",
+    price: "",
+    currency: "",
+    price_usdollar: "",
+    category: "",
+    // product_category_id: "",
+  };
+
+  const handleSubmit = (
+    values: ProductFormValues,
+    actions: FormikHelpers<ProductFormValues>
+  ) => {
+    console.log("Submitted:", values);
+    actions.setSubmitting(false);
+  };
 
   return (
     <div className=" flex justify-end  min-h-screen">
@@ -120,11 +210,11 @@ export default function Home() {
               <div className=" flex justify-center items-center gap-4">
                 <div
                   className=" flex items-center gap-2 py-3 px-6 rounded-[4px] border border-[#E7E7E7] cursor-pointer bg-primary-600 group hover:bg-primary-600"
-                  // onClick={toggleFilterFlyout}
+                  onClick={toggleFilterFlyout}
                 >
                   <FiFilter className=" w-4 h-4 text-white group-hover:text-white" />
                   <p className=" text-white  text-base font-medium group-hover:text-white">
-                    Filter
+                    Add Product
                   </p>
                 </div>
               </div>
@@ -217,16 +307,10 @@ export default function Home() {
                             data-tooltip-html={`<div>
                                   <strong>Description:</strong> <span style="text-transform: capitalize;">${item.name}</span><br/>
                                   <strong>Transaction id:</strong> ${item.description}<br/>
-                                   <strong>Type:</strong> ${item.price}<br/>
-                                    <strong>Card:</strong> ${item.price_usdollar}<br/>
-                                   <strong>Date:</strong> ${item.currency}<br/>
-                                    <strong>Date:</strong> ${item.product_image}<br/>
-                                     <strong>Date:</strong> ${item.product_category}<br/>
-                                      <strong>Date:</strong> ${item.product_category_id}<br/>
-                                       <strong>Date:</strong> ${item.product_category_name}<br/>
-                                        <strong>Date:</strong> ${item.created_by}<br/>
-                                         <strong>Date:</strong> ${item.created_by_name}<br/>
-                                    
+                                  <strong>Type:</strong> ${item.price}<br/>
+                                  <strong>Card:</strong> ${item.price_usdollar}<br/>
+                                  <strong>Date:</strong> ${item.currency}<br/>
+                                  <strong>Date:</strong> ${item.created_by_name}<br/> 
                                 </div>`}
                             className="text-black leading-normal capitalize"
                           />
@@ -299,6 +383,178 @@ export default function Home() {
         </div>
         {/* END PAGINATION */}
       </div>
+
+      {/* FITLER FLYOUT */}
+      {isFlyoutOpen && (
+        <>
+          {/* DARK BG SCREEN */}
+          <div
+            className="min-h-screen w-full bg-[#1f1d1d80] fixed top-0 left-0 right-0 z-[999]"
+            onClick={() => setFlyoutOpen(!isFlyoutOpen)}
+          ></div>
+          {/* NOW MY FLYOUT */}
+          <div className={`filterflyout ${isFlyoutOpen ? "filteropen" : ""}`}>
+            <div className="w-full min-h-auto">
+              {/* Header */}
+              <div className="flex justify-between mb-4 sm:mb-6 md:mb-8">
+                <p className="text-primary-600 text-[22px] sm:text-[24px] md:text-[26px] font-bold leading-8 sm:leading-9">
+                  User Filter
+                </p>
+                <IoCloseOutline
+                  onClick={toggleFilterFlyout}
+                  className="h-7 sm:h-8 w-7 sm:w-8 border border-[#E7E7E7] text-[#0A0A0A] rounded cursor-pointer"
+                />
+              </div>
+              <div className="w-full border-b border-[#E7E7E7] mb-4 sm:mb-6"></div>
+              <Formik
+                initialValues={initialValues}
+                validationSchema={productFormSchema}
+                onSubmit={handleSubmit}
+              >
+                <Form>
+                  {/* Row 1 */}
+                  <div className="w-full flex flex-col md:flex-row gap-6">
+                    {/* Name */}
+                    <div className="w-full relative mb-3">
+                      <p className="text-[#232323] text-base leading-normal mb-2">
+                        Name
+                      </p>
+                      <Field
+                        type="text"
+                        name="name"
+                        placeholder="Enter name"
+                        className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2] 
+                 rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
+                      />
+                      <ErrorMessage
+                        name="name"
+                        component="div"
+                        className="text-red-500 absolute top-[90px] text-xs"
+                      />
+                    </div>
+
+                    {/* Description */}
+                    <div className="w-full relative mb-3">
+                      <p className="text-[#232323] text-base leading-normal mb-2">
+                        Description
+                      </p>
+                      <Field
+                        type="text"
+                        name="description"
+                        placeholder="Enter description"
+                        className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2] 
+                 rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
+                      />
+                      <ErrorMessage
+                        name="description"
+                        component="div"
+                        className="text-red-500 absolute top-[90px] text-xs"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Row 2 */}
+                  <div className="w-full flex flex-col md:flex-row gap-6">
+                    {/* Price */}
+                    <div className="w-full relative mb-3">
+                      <p className="text-[#232323] text-base leading-normal mb-2">
+                        Price
+                      </p>
+                      <Field
+                        type="number"
+                        name="price"
+                        placeholder="Enter price"
+                        className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2] 
+                 rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
+                      />
+                      <ErrorMessage
+                        name="price"
+                        component="div"
+                        className="text-red-500 absolute top-[90px] text-xs"
+                      />
+                    </div>
+
+                    {/* Currency */}
+                    <div className="w-full relative mb-3">
+                      <p className="text-[#232323] text-base leading-normal mb-2">
+                        Currency
+                      </p>
+                      <Field
+                        type="text"
+                        name="currency"
+                        placeholder="Enter currency (e.g. USD)"
+                        className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2] 
+                 rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
+                      />
+                      <ErrorMessage
+                        name="currency"
+                        component="div"
+                        className="text-red-500 absolute top-[90px] text-xs"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Row 3 */}
+                  <div className="w-full flex flex-col md:flex-row gap-6">
+                    {/* Price USD */}
+                    <div className="w-full relative mb-3">
+                      <p className="text-[#232323] text-base leading-normal mb-2">
+                        Price (USD)
+                      </p>
+                      <Field
+                        type="number"
+                        name="price_usdollar"
+                        placeholder="Enter price in USD"
+                        className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2] 
+               rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
+                      />
+                      <ErrorMessage
+                        name="price_usdollar"
+                        component="div"
+                        className="text-red-500 absolute top-[90px] text-xs"
+                      />
+                    </div>
+
+                    {/* Currency Dropdown */}
+                    <div className="w-full relative mb-3">
+                      <p className="text-[#232323] text-base leading-normal mb-2">
+                        Currency
+                      </p>
+                      <Field
+                        as="select"
+                        name="category"
+                        className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2] 
+                 rounded-[4px] text-[15px] pl-4 mb-2 text-firstBlack bg-white"
+                      >
+                        <option value="">Select category</option>
+                        <option value="1">mango</option>
+                        <option value="2">banana</option>
+                        <option value="3">apple</option>
+                        <option value="4">graps</option>
+                      </Field>
+                      <ErrorMessage
+                        name="category"
+                        component="div"
+                        className="text-red-500 absolute top-[90px] text-xs"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Submit Button */}
+                  <div className="mt-6">
+                    <button
+                      type="submit"
+                      className="py-[13px] px-[26px] bg-primary-500 rounded-[4px] text-base font-medium leading-6 text-white hover:text-dark cursor-pointer w-full  text-center hover:bg-primary-700 hover:text-white"
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </Form>
+              </Formik>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }

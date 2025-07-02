@@ -31,7 +31,7 @@
     "react-tooltip": "^5.28.0",
     "recharts": "^2.15.1",
     "sweetalert2": "^11.14.4",
-    "yup": "^1.4.0"
+    "yup": "^1.6.1"
   },
   "devDependencies": {
     "@types/node": "^22.9.0",
