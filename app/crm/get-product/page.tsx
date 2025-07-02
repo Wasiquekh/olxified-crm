@@ -12,6 +12,7 @@ import { HiChevronDoubleRight } from "react-icons/hi";
 import DesktopHeader from "../../component/DesktopHeader";
 import { Tooltip } from "react-tooltip";
 import { FaEllipsisVertical } from "react-icons/fa6";
+import { FiFilter } from "react-icons/fi";
 
 const axiosProvider = new AxiosProvider();
 
@@ -87,10 +88,50 @@ export default function Home() {
   const tabs: Tab[] = [
     {
       label: "Get Product",
-      content: (
-        <>
+      content: <></>,
+    },
+  ];
+
+  return (
+    <div className=" flex justify-end  min-h-screen">
+      {/* Left sidebar */}
+      <LeftSideBar />
+      {/* Main content right section */}
+      <div className="w-full md:w-[83%] bg-[#F5F7FA] min-h-[500px] rounded p-4 mt-0 relative">
+        <div className="absolute bottom-0 right-0">
+          <Image
+            src="/images/sideDesign.svg"
+            alt="side desgin"
+            width={100}
+            height={100}
+            className=" w-full h-full"
+          />
+        </div>
+        {/* Right section top row */}
+        {/* <div className="w-full flex justify-end items-center  p-4"> */}
+        <DesktopHeader />
+        {/* </div> */}
+        {/* Main content middle section */}
+        <div className="rounded-3xl shadow-lastTransaction bg-white px-1 py-6 md:p-6 relative min-h-[600px]">
           {/* ----------------Table----------------------- */}
-          <div className="relative overflow-x-auto  sm:rounded-[12px]">
+          <div className="relative overflow-x-auto  sm:rounded-lg">
+            {/* Search and filter table row */}
+            <div className=" flex justify-end items-center mb-6  w-full mx-auto">
+              <div className=" flex justify-center items-center gap-4">
+                <div
+                  className=" flex items-center gap-2 py-3 px-6 rounded-[4px] border border-[#E7E7E7] cursor-pointer bg-primary-600 group hover:bg-primary-600"
+                  // onClick={toggleFilterFlyout}
+                >
+                  <FiFilter className=" w-4 h-4 text-white group-hover:text-white" />
+                  <p className=" text-white  text-base font-medium group-hover:text-white">
+                    Filter
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* ----------------Table----------------------- */}
+          <div className="relative overflow-x-auto custom-scrollbar sm:rounded-[12px]">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
               <thead className="text-xs text-[#999999]">
                 <tr className="border border-tableBorder">
@@ -141,56 +182,6 @@ export default function Home() {
                     <div className="flex items-center gap-2">
                       <div className="font-medium text-firstBlack text-base leading-normal whitespace-nowrap">
                         Currency
-                      </div>
-                    </div>
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-2 py-0 border border-tableBorder hidden md:table-cell"
-                  >
-                    <div className="flex items-center gap-2">
-                      <div className="font-medium text-firstBlack text-base leading-normal whitespace-nowrap">
-                        Product image
-                      </div>
-                    </div>
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-2 py-0 border border-tableBorder hidden md:table-cell"
-                  >
-                    <div className="flex items-center gap-2">
-                      <div className="font-medium text-firstBlack text-base leading-normal whitespace-nowrap">
-                        Product category
-                      </div>
-                    </div>
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-2 py-0 border border-tableBorder hidden md:table-cell"
-                  >
-                    <div className="flex items-center gap-2">
-                      <div className="font-medium text-firstBlack text-base leading-normal whitespace-nowrap">
-                        Product category id
-                      </div>
-                    </div>
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-2 py-0 border border-tableBorder hidden md:table-cell"
-                  >
-                    <div className="flex items-center gap-2">
-                      <div className="font-medium text-firstBlack text-base leading-normal whitespace-nowrap">
-                        Product category ame
-                      </div>
-                    </div>
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-2 py-0 border border-tableBorder hidden md:table-cell"
-                  >
-                    <div className="flex items-center gap-2">
-                      <div className="font-medium text-firstBlack text-base leading-normal whitespace-nowrap">
-                        Created by
                       </div>
                     </div>
                   </th>
@@ -274,42 +265,6 @@ export default function Home() {
                       <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
                         <div className="flex gap-1.5">
                           <p className="text-[#232323] text-base leading-normal">
-                            {item.product_image}
-                          </p>
-                        </div>
-                      </td>
-                      <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
-                        <div className="flex gap-1.5">
-                          <p className="text-[#232323] text-base leading-normal">
-                            {item.product_category}
-                          </p>
-                        </div>
-                      </td>
-                      <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
-                        <div className="flex gap-1.5">
-                          <p className="text-[#232323] text-base leading-normal">
-                            {item.product_category_id}
-                          </p>
-                        </div>
-                      </td>
-                      <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
-                        <div className="flex gap-1.5">
-                          <p className="text-[#232323] text-base leading-normal">
-                            {item.product_category_name}
-                          </p>
-                        </div>
-                      </td>
-
-                      <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
-                        <div className="flex gap-1.5">
-                          <p className="text-[#232323] text-base leading-normal">
-                            {item.created_by}
-                          </p>
-                        </div>
-                      </td>
-                      <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
-                        <div className="flex gap-1.5">
-                          <p className="text-[#232323] text-base leading-normal">
                             {item.created_by_name}
                           </p>
                         </div>
@@ -320,38 +275,7 @@ export default function Home() {
               </tbody>
             </table>
           </div>
-
           {/* ----------------End table--------------------------- */}
-        </>
-      ),
-    },
-  ];
-
-  return (
-    <div className=" flex justify-end  min-h-screen">
-      {/* Left sidebar */}
-      <LeftSideBar />
-      {/* Main content right section */}
-      <div className="w-full md:w-[83%] bg-[#F5F7FA] min-h-[500px] rounded p-4 mt-0 relative">
-        <div className="absolute bottom-0 right-0">
-          <Image
-            src="/images/sideDesign.svg"
-            alt="side desgin"
-            width={100}
-            height={100}
-            className=" w-full h-full"
-          />
-        </div>
-        {/* Right section top row */}
-        {/* <div className="w-full flex justify-end items-center  p-4"> */}
-        <DesktopHeader />
-        {/* </div> */}
-        <div className="w-full bg-[#F5F7FA] flex justify-center p-0 md:p-0">
-          <div className="w-full min-h-[600px] bg-white rounded-3xl shadow-lastTransaction z-10">
-            <div className="p-1 md:p-6">
-              <Tabs tabs={tabs} />
-            </div>
-          </div>
         </div>
         {/* PAGINATION */}
         <div className="flex justify-center items-center my-10 relative">
