@@ -548,10 +548,12 @@ export default function Home() {
       {/* FITLER FLYOUT */}
       {isFlyoutFilterOpen && (
         <>
+          {/* DARK BG SCREEN */}
           <div
             className="min-h-screen w-full bg-[#1f1d1d80] fixed top-0 left-0 right-0 z-[999]"
             onClick={() => setFlyoutFilterOpen(!isFlyoutFilterOpen)}
           ></div>
+          {/* NOW MY FLYOUT */}
           <div
             className={`filterflyout ${isFlyoutFilterOpen ? "filteropen" : ""}`}
           >
