@@ -539,7 +539,7 @@ export default function Home() {
                     {/* Currency Dropdown */}
                     <div className="w-full relative mb-3">
                       <p className="text-[#232323] text-base leading-normal mb-2">
-                        Currency
+                        Product Category
                       </p>
 
                       <Field
