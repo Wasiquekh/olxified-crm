@@ -35,32 +35,19 @@ interface Tab {
   label: string;
   content: JSX.Element;
 }
-interface GetProduct {
+interface GetCategory {
   id: string;
   name: string;
-  description: string;
-  price: string;
-  price_usdollar: string;
-  currency: string;
-  product_image: string;
-  product_category: string;
-  product_category_id: string;
-  product_category_name: string;
+  parent_category: string | null;
   created_by: string;
   created_by_name: string;
-  created_at: string; // ISO date string
-  updated_at: string; // ISO date string
-  category_name: string;
+  created_at: string; // ISO timestamp format
 }
 // ✅ TypeScript interface for form values
-interface ProductFormValues {
+interface CategoryFormValues {
   user_id: string;
   name: string;
-  description: string;
-  price: string | number;
-  currency: string;
-  price_usdollar: string | number;
-  product_category: string;
+  parent_category: string;
 }
 interface ProductCategory {
   map(arg0: (item: any) => JSX.Element): unknown;
@@ -73,7 +60,7 @@ interface ProductCategory {
 }
 
 export default function Home() {
-  const [data, setData] = useState<GetProduct[]>([]);
+  const [data, setData] = useState<GetCategory[]>([]);
   //console.log("total product data 000000000000 ", data);
   const [page, setPage] = useState<number>(1);
   const [limit] = useState<number>(10);
@@ -89,21 +76,19 @@ export default function Home() {
   const [productCategory, setproductCategory] =
     useState<ProductCategory | null>(null);
 
-  const toggleFilterFlyout = () => {
-    setFlyoutOpen(!isFlyoutOpen);
-  };
+  const toggleFilterFlyout = () => setFlyoutOpen(!isFlyoutOpen);
 
   const fetchData = async () => {
     setIsLoading(true);
     // setIsFilter(false);
     try {
       const response = await axiosProvider.get(
-        `/getproduct?page=${page}&limit=${limit}`
+        `/getproductcategory?page=${page}&limit=${limit}`
       );
       //  console.log("total products data", response.data.data.products);
       setTotalPages(response.data.data.totalPages);
-      const result = response.data.data.products;
-      //console.log("total leads", result);
+      const result = response.data.data.categories;
+      console.log("total category", result);
       setData(result);
     } catch (error: any) {
       setIsError(true);
@@ -116,7 +101,7 @@ export default function Home() {
       const response = await axiosProvider.get("/getproductcategory");
       const result = response.data.data.categories;
       setproductCategory(result);
-      console.log("total CATEGORY", result.data.data.categories);
+      // console.log("total leads", result.data.data.categories);
     } catch (error: any) {
       console.error("Failed to fetch categories:", error);
     }
@@ -157,42 +142,28 @@ export default function Home() {
   // ✅ Yup validation schema
   const productFormSchema = Yup.object({
     name: Yup.string().required("Name is required"),
-    description: Yup.string()
-      .min(5, "Minimum 5 characters")
-      .required("Description is required"),
-    price: Yup.number()
-      .typeError("Must be a number")
-      .positive()
-      .required("Price is required"),
-    currency: Yup.string()
-      .length(3, "3-letter currency code")
-      .required("Currency is required"),
-    price_usdollar: Yup.number()
-      .typeError("Must be a number")
-      .positive()
-      .required("USD price is required"),
-    product_category: Yup.string().required("Category is required"),
+    parent_category: Yup.string().required("Category is required"),
   });
 
-  const initialValues: ProductFormValues = {
+  const initialValues: CategoryFormValues = {
     user_id: userID,
     name: "",
-    description: "",
-    price: "",
-    currency: "",
-    price_usdollar: "",
-    product_category: "",
+    parent_category: "",
   };
 
   const handleSubmit = async (
-    values: ProductFormValues,
-    actions: FormikHelpers<ProductFormValues>
+    values: CategoryFormValues,
+    actions: FormikHelpers<CategoryFormValues>
   ) => {
-    // console.log("Submitted:", values);
+    //   console.log("Submitted:", values);
+
     actions.setSubmitting(true); // Optional: show loading state while submitting
 
     try {
-      const response = await axiosProvider.post("/createproduct", values);
+      const response = await axiosProvider.post(
+        "/createproductcategory",
+        values
+      );
 
       console.log("Product created:", response.data);
       toast.success("Product added");
@@ -237,7 +208,7 @@ export default function Home() {
                 >
                   <FiFilter className=" w-4 h-4 text-white group-hover:text-white" />
                   <p className=" text-white  text-base font-medium group-hover:text-white">
-                    Add Product
+                    Add Category
                   </p>
                 </div>
               </div>
@@ -255,46 +226,6 @@ export default function Home() {
                     <div className="flex items-center gap-2 p-3">
                       <div className="font-medium text-firstBlack text-base leading-normal whitespace-nowrap">
                         Name
-                      </div>
-                    </div>
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-2 py-0 border border-tableBorder hidden md:table-cell"
-                  >
-                    <div className="flex items-center gap-2">
-                      <div className="font-medium text-firstBlack text-base leading-normal whitespace-nowrap">
-                        Description
-                      </div>
-                    </div>
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-2 py-0 border border-tableBorder hidden md:table-cell"
-                  >
-                    <div className="flex items-center gap-2">
-                      <div className="font-medium text-firstBlack text-base leading-normal whitespace-nowrap">
-                        Price
-                      </div>
-                    </div>
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-2 py-0 border border-tableBorder hidden md:table-cell"
-                  >
-                    <div className="flex items-center gap-2">
-                      <div className="font-medium text-firstBlack text-base leading-normal whitespace-nowrap">
-                        Category Name
-                      </div>
-                    </div>
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-2 py-0 border border-tableBorder hidden md:table-cell"
-                  >
-                    <div className="flex items-center gap-2">
-                      <div className="font-medium text-firstBlack text-base leading-normal whitespace-nowrap">
-                        Currency
                       </div>
                     </div>
                   </th>
@@ -329,10 +260,6 @@ export default function Home() {
                             data-tooltip-id="my-tooltip"
                             data-tooltip-html={`<div>
                                   <strong>Description:</strong> <span style="text-transform: capitalize;">${item.name}</span><br/>
-                                  <strong>Transaction id:</strong> ${item.description}<br/>
-                                  <strong>Type:</strong> ${item.price}<br/>
-                                  <strong>Card:</strong> ${item.category_name}<br/>
-                                  <strong>Date:</strong> ${item.currency}<br/>
                                   <strong>Date:</strong> ${item.created_by_name}<br/> 
                                 </div>`}
                             className="text-black leading-normal capitalize"
@@ -345,30 +272,7 @@ export default function Home() {
                           </p>
                         </div>
                       </td>
-                      <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
-                        <p className="text-[#232323] text-base leading-normal">
-                          {item.description}
-                        </p>
-                      </td>
-                      <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
-                        <p className="text-[#232323] text-base leading-normal">
-                          {item.price}
-                        </p>
-                      </td>
-                      <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
-                        <div className="flex gap-1.5">
-                          <p className="text-[#232323] text-base leading-normal">
-                            {item.category_name}
-                          </p>
-                        </div>
-                      </td>
-                      <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
-                        <div className="flex gap-1.5">
-                          <p className="text-[#232323] text-base leading-normal">
-                            {item.currency}
-                          </p>
-                        </div>
-                      </td>
+
                       <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
                         <div className="flex gap-1.5">
                           <p className="text-[#232323] text-base leading-normal">
@@ -421,7 +325,7 @@ export default function Home() {
               {/* Header */}
               <div className="flex justify-between mb-4 sm:mb-6 md:mb-8">
                 <p className="text-primary-600 text-[22px] sm:text-[24px] md:text-[26px] font-bold leading-8 sm:leading-9">
-                  Add Product
+                  Add Category
                 </p>
                 <IoCloseOutline
                   onClick={toggleFilterFlyout}
@@ -456,97 +360,15 @@ export default function Home() {
                       />
                     </div>
 
-                    {/* Description */}
-                    <div className="w-full relative mb-3">
-                      <p className="text-[#232323] text-base leading-normal mb-2">
-                        Description
-                      </p>
-                      <Field
-                        type="text"
-                        name="description"
-                        placeholder="Enter description"
-                        className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2] 
-                 rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
-                      />
-                      <ErrorMessage
-                        name="description"
-                        component="div"
-                        className="text-red-500 absolute top-[90px] text-xs"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Row 2 */}
-                  <div className="w-full flex flex-col md:flex-row gap-6">
-                    {/* Price */}
-                    <div className="w-full relative mb-3">
-                      <p className="text-[#232323] text-base leading-normal mb-2">
-                        Price
-                      </p>
-                      <Field
-                        type="number"
-                        name="price"
-                        placeholder="Enter price"
-                        className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2] 
-                 rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
-                      />
-                      <ErrorMessage
-                        name="price"
-                        component="div"
-                        className="text-red-500 absolute top-[90px] text-xs"
-                      />
-                    </div>
-
-                    {/* Currency */}
-                    <div className="w-full relative mb-3">
-                      <p className="text-[#232323] text-base leading-normal mb-2">
-                        Currency
-                      </p>
-                      <Field
-                        type="text"
-                        name="currency"
-                        placeholder="Enter currency (e.g. USD)"
-                        className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2] 
-                 rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
-                      />
-                      <ErrorMessage
-                        name="currency"
-                        component="div"
-                        className="text-red-500 absolute top-[90px] text-xs"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Row 3 */}
-                  <div className="w-full flex flex-col md:flex-row gap-6">
-                    {/* Price USD */}
-                    <div className="w-full relative mb-3">
-                      <p className="text-[#232323] text-base leading-normal mb-2">
-                        Price (USD)
-                      </p>
-                      <Field
-                        type="number"
-                        name="price_usdollar"
-                        placeholder="Enter price in USD"
-                        className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2] 
-               rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
-                      />
-                      <ErrorMessage
-                        name="price_usdollar"
-                        component="div"
-                        className="text-red-500 absolute top-[90px] text-xs"
-                      />
-                    </div>
-
                     {/* Currency Dropdown */}
                     <div className="w-full relative mb-3">
                       <p className="text-[#232323] text-base leading-normal mb-2">
-                        Product Category
+                        Parent Category
                       </p>
 
                       <Field
                         as="select"
-                        name="product_category"
+                        name="parent_category"
                         className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2] 
       rounded-[4px] text-[15px] pl-4 mb-2 text-firstBlack bg-white"
                       >
@@ -559,13 +381,12 @@ export default function Home() {
                       </Field>
 
                       <ErrorMessage
-                        name="product_category"
+                        name="parent_category"
                         component="div"
                         className="text-red-500 absolute top-[90px] text-xs"
                       />
                     </div>
                   </div>
-
                   {/* Submit Button */}
                   <div className="mt-6">
                     <button

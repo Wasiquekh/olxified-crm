@@ -25,6 +25,7 @@ import { ImQuotesLeft } from "react-icons/im";
 import { AiFillProduct } from "react-icons/ai";
 import { MdOutlineDashboard } from "react-icons/md";
 import { MdOutlinePeopleOutline } from "react-icons/md";
+import { MdCategory } from "react-icons/md";
 
 const axiosProvider = new AxiosProvider();
 const storage = new StorageManager();
@@ -80,6 +81,7 @@ const LeftSideBar: React.FC = () => {
     "/crm/total-accounts",
     "/crm/total-leads",
     "/crm/get-product",
+    "/crm/get-category",
   ];
 
   const isActive = activePaths.includes(pathname);
@@ -211,9 +213,18 @@ const LeftSideBar: React.FC = () => {
                       <p className="">Products</p>
                     </div>
                   </Link>
-                  {/* <Link href="/crm/create-product">
-                    <p>Create Product</p>
-                  </Link> */}
+                  <Link href="/crm/get-category">
+                    <div
+                      className={`mb-2 flex gap-4 items-center group px-3 py-2 rounded-[4px] relative cursor-pointer text-base leading-normal font-medium text-firstBlack hover:bg-sideBarHoverbg active:bg-sideBarHoverbgPressed hover:text-primary-600 ${
+                        pathname === "/crm/get-category"
+                          ? "bg-primary-600 text-white hover:!bg-primary-600 hover:!text-white"
+                          : ""
+                      }`}
+                    >
+                      <MdCategory className=" w-6 h-6   " />
+                      <p className="">Product Category</p>
+                    </div>
+                  </Link>
                 </div>
               )}
             </>
