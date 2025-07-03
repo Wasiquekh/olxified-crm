@@ -6,7 +6,7 @@ import { IoIosNotificationsOutline } from "react-icons/io";
 import { PiArrowCircleUp } from "react-icons/pi";
 import LeftSideBar from "../../component/LeftSideBar";
 import AxiosProvider from "../../../provider/AxiosProvider";
-import { useEffect, useState } from "react";
+import { JSX, useEffect, useState } from "react";
 import { HiChevronDoubleLeft } from "react-icons/hi";
 import { HiChevronDoubleRight } from "react-icons/hi";
 import DesktopHeader from "../../component/DesktopHeader";
@@ -14,6 +14,8 @@ import { Tooltip } from "react-tooltip";
 import { FaEllipsisVertical } from "react-icons/fa6";
 import { FiFilter } from "react-icons/fi";
 import { IoCloseOutline } from "react-icons/io5";
+import StorageManager from "../../../provider/StorageManager";
+import { Toast } from "react-toastify/dist/components";
 import {
   Formik,
   Form,
@@ -25,6 +27,7 @@ import {
 } from "formik";
 import * as Yup from "yup";
 import Select from "react-select";
+import { toast } from "react-toastify";
 
 const axiosProvider = new AxiosProvider();
 
@@ -47,18 +50,20 @@ interface GetProduct {
   created_by_name: string;
   created_at: string; // ISO date string
   updated_at: string; // ISO date string
+  category_name: string;
 }
 // ✅ TypeScript interface for form values
 interface ProductFormValues {
+  user_id: string;
   name: string;
   description: string;
   price: string | number;
   currency: string;
   price_usdollar: string | number;
-  //product_category_id: string;
-  category: string; // ✅
+  product_category: string;
 }
 interface ProductCategory {
+  map(arg0: (item: any) => JSX.Element): unknown;
   id: string;
   name: string;
   created_at: string;
@@ -69,13 +74,16 @@ interface ProductCategory {
 
 export default function Home() {
   const [data, setData] = useState<GetProduct[]>([]);
-  // console.log("total product data 000000000000 ", data);
+  //console.log("total product data 000000000000 ", data);
   const [page, setPage] = useState<number>(1);
   const [limit] = useState<number>(10);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
   const [isFlyoutOpen, setFlyoutOpen] = useState<boolean>(false);
+
+  const storage = new StorageManager();
+  const userID = storage.getUserId();
 
   // Example useState usage
   const [productCategory, setproductCategory] =
@@ -90,9 +98,9 @@ export default function Home() {
       const response = await axiosProvider.get(
         `/getproduct?page=${page}&limit=${limit}`
       );
-      // console.log("total accounts data", response.data.data);
+      //  console.log("total products data", response.data.data.products);
       setTotalPages(response.data.data.totalPages);
-      const result = response.data.data;
+      const result = response.data.data.products;
       //console.log("total leads", result);
       setData(result);
     } catch (error: any) {
@@ -161,25 +169,38 @@ export default function Home() {
       .typeError("Must be a number")
       .positive()
       .required("USD price is required"),
-    category: Yup.string().required("Category is required"),
+    product_category: Yup.string().required("Category is required"),
   });
 
   const initialValues: ProductFormValues = {
+    user_id: userID,
     name: "",
     description: "",
     price: "",
     currency: "",
     price_usdollar: "",
-    category: "",
-    // product_category_id: "",
+    product_category: "",
   };
 
-  const handleSubmit = (
+  const handleSubmit = async (
     values: ProductFormValues,
     actions: FormikHelpers<ProductFormValues>
   ) => {
-    console.log("Submitted:", values);
-    actions.setSubmitting(false);
+    // console.log("Submitted:", values);
+    actions.setSubmitting(true); // Optional: show loading state while submitting
+
+    try {
+      const response = await axiosProvider.post("/createproduct", values);
+
+      console.log("Product created:", response.data);
+      toast.success("Product added");
+      setFlyoutOpen(false);
+      fetchData();
+    } catch (error: any) {
+      console.error("Failed to create product:", error);
+    } finally {
+      actions.setSubmitting(false); // Ensure submitting is turned off
+    }
   };
 
   return (
@@ -261,7 +282,7 @@ export default function Home() {
                   >
                     <div className="flex items-center gap-2">
                       <div className="font-medium text-firstBlack text-base leading-normal whitespace-nowrap">
-                        Price usdollar
+                        Category Name
                       </div>
                     </div>
                   </th>
@@ -335,7 +356,7 @@ export default function Home() {
                       <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
                         <div className="flex gap-1.5">
                           <p className="text-[#232323] text-base leading-normal">
-                            {item.price_usdollar}
+                            {item.category_name}
                           </p>
                         </div>
                       </td>
@@ -520,20 +541,23 @@ export default function Home() {
                       <p className="text-[#232323] text-base leading-normal mb-2">
                         Currency
                       </p>
+
                       <Field
                         as="select"
-                        name="category"
+                        name="product_category"
                         className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2] 
-                 rounded-[4px] text-[15px] pl-4 mb-2 text-firstBlack bg-white"
+      rounded-[4px] text-[15px] pl-4 mb-2 text-firstBlack bg-white"
                       >
                         <option value="">Select category</option>
-                        <option value="1">mango</option>
-                        <option value="2">banana</option>
-                        <option value="3">apple</option>
-                        <option value="4">graps</option>
+                        {productCategory.map((item) => (
+                          <option key={item.id} value={item.id}>
+                            {item.name}
+                          </option>
+                        ))}
                       </Field>
+
                       <ErrorMessage
-                        name="category"
+                        name="product_category"
                         component="div"
                         className="text-red-500 absolute top-[90px] text-xs"
                       />
