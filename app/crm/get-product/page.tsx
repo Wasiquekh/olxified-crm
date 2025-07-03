@@ -329,7 +329,7 @@ export default function Home() {
                                   <strong>Description:</strong> <span style="text-transform: capitalize;">${item.name}</span><br/>
                                   <strong>Transaction id:</strong> ${item.description}<br/>
                                   <strong>Type:</strong> ${item.price}<br/>
-                                  <strong>Card:</strong> ${item.price_usdollar}<br/>
+                                  <strong>Card:</strong> ${item.category_name}<br/>
                                   <strong>Date:</strong> ${item.currency}<br/>
                                   <strong>Date:</strong> ${item.created_by_name}<br/> 
                                 </div>`}
@@ -419,7 +419,7 @@ export default function Home() {
               {/* Header */}
               <div className="flex justify-between mb-4 sm:mb-6 md:mb-8">
                 <p className="text-primary-600 text-[22px] sm:text-[24px] md:text-[26px] font-bold leading-8 sm:leading-9">
-                  User Filter
+                  Add Product
                 </p>
                 <IoCloseOutline
                   onClick={toggleFilterFlyout}
