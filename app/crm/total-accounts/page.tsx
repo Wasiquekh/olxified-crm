@@ -51,8 +51,18 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
   const [isFlyoutOpen, setFlyoutOpen] = useState<boolean>(false);
-  const toggleFilterFlyout = () => setFlyoutOpen(!isFlyoutOpen);
-
+  const [openForAdd, setOpenForAdd] = useState<boolean>(false);
+  const [openForEdit, setOpenForEdit] = useState<boolean>(false);
+  const toggleFilterFlyout = () => {
+    setFlyoutOpen(!isFlyoutOpen);
+    setOpenForAdd(true);
+    setOpenForEdit(false);
+  };
+  const openEditFlyout = () => {
+    setFlyoutOpen(!isFlyoutOpen);
+    setOpenForAdd(false);
+    setOpenForEdit(true);
+  };
   const storage = new StorageManager();
   const user_id = storage.getUserId();
 
@@ -298,7 +308,10 @@ export default function Home() {
                         <td className="px-2 py-1 border border-tableBorder">
                           <div className="flex gap-1 md:gap-2 justify-center md:justify-start">
                             {/* View Button */}
-                            <button className="py-[4px] px-3 bg-primary-600 hover:bg-primary-800 active:bg-primary-900 group flex gap-1 items-center rounded-xl text-xs md:text-sm">
+                            <button
+                              onClick={openEditFlyout}
+                              className="py-[4px] px-3 bg-primary-600 hover:bg-primary-800 active:bg-primary-900 group flex gap-1 items-center rounded-xl text-xs md:text-sm"
+                            >
                               <MdRemoveRedEye className="text-white w-4 h-4 group-hover:text-white" />
                               <p className="text-white hidden md:block group-hover:text-white">
                                 View
@@ -356,117 +369,239 @@ export default function Home() {
               onClick={() => setFlyoutOpen(!isFlyoutOpen)}
             ></div>
             {/* NOW MY FLYOUT */}
-            <div className={`filterflyout ${isFlyoutOpen ? "filteropen" : ""}`}>
-              <div className="w-full min-h-auto">
-                {/* Header */}
-                <div className="flex justify-between mb-4 sm:mb-6 md:mb-8">
-                  <p className="text-primary-600 text-[22px] sm:text-[24px] md:text-[26px] font-bold leading-8 sm:leading-9">
-                    Add Accounts
-                  </p>
-                  <IoCloseOutline
-                    onClick={toggleFilterFlyout}
-                    className="h-7 sm:h-8 w-7 sm:w-8 border border-[#E7E7E7] text-[#0A0A0A] rounded cursor-pointer"
-                  />
-                </div>
-                <div className="w-full border-b border-[#E7E7E7] mb-4 sm:mb-6"></div>
-                <div className="w-full  mx-auto p-0">
-                  <Formik
-                    initialValues={initialValues}
-                    validationSchema={validationSchema}
-                    onSubmit={handleSubmit}
-                  >
-                    <Form>
-                      {/* Hidden user_id field */}
-                      <Field type="hidden" name="user_id" />
+            {/* ADD PRODUCT */}
+            {openForAdd && (
+              <div
+                className={`filterflyout ${isFlyoutOpen ? "filteropen" : ""}`}
+              >
+                <div className="w-full min-h-auto">
+                  {/* Header */}
+                  <div className="flex justify-between mb-4 sm:mb-6 md:mb-8">
+                    <p className="text-primary-600 text-[22px] sm:text-[24px] md:text-[26px] font-bold leading-8 sm:leading-9">
+                      Add Accounts
+                    </p>
+                    <IoCloseOutline
+                      onClick={toggleFilterFlyout}
+                      className="h-7 sm:h-8 w-7 sm:w-8 border border-[#E7E7E7] text-[#0A0A0A] rounded cursor-pointer"
+                    />
+                  </div>
+                  <div className="w-full border-b border-[#E7E7E7] mb-4 sm:mb-6"></div>
+                  <div className="w-full  mx-auto p-0">
+                    <Formik
+                      initialValues={initialValues}
+                      validationSchema={validationSchema}
+                      onSubmit={handleSubmit}
+                    >
+                      <Form>
+                        {/* Hidden user_id field */}
+                        <Field type="hidden" name="user_id" />
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {/* Name */}
-                        <div className="w-full relative mb-3">
-                          <p className="text-[#232323] text-base leading-normal mb-2">
-                            Name
-                          </p>
-                          <Field
-                            type="text"
-                            name="name"
-                            placeholder="Enter name"
-                            className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2] rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
-                          />
-                          <ErrorMessage
-                            name="name"
-                            component="div"
-                            className="text-red-500 text-xs absolute top-[100%]"
-                          />
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          {/* Name */}
+                          <div className="w-full relative mb-3">
+                            <p className="text-[#232323] text-base leading-normal mb-2">
+                              Name
+                            </p>
+                            <Field
+                              type="text"
+                              name="name"
+                              placeholder="Enter name"
+                              className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2] rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
+                            />
+                            <ErrorMessage
+                              name="name"
+                              component="div"
+                              className="text-red-500 text-xs absolute top-[100%]"
+                            />
+                          </div>
+
+                          {/* Phone Office */}
+                          <div className="w-full relative mb-3">
+                            <p className="text-[#232323] text-base leading-normal mb-2">
+                              Phone (Office)
+                            </p>
+                            <Field
+                              type="text"
+                              name="phone_office"
+                              placeholder="Enter office phone"
+                              className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2] rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
+                            />
+                            <ErrorMessage
+                              name="phone_office"
+                              component="div"
+                              className="text-red-500 text-xs absolute top-[100%]"
+                            />
+                          </div>
+
+                          {/* Phone Alternate */}
+                          <div className="w-full relative mb-3">
+                            <p className="text-[#232323] text-base leading-normal mb-2">
+                              Phone (Alternate)
+                            </p>
+                            <Field
+                              type="text"
+                              name="phone_alternate"
+                              placeholder="Enter alternate phone"
+                              className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2] rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
+                            />
+                            <ErrorMessage
+                              name="phone_alternate"
+                              component="div"
+                              className="text-red-500 text-xs absolute top-[100%]"
+                            />
+                          </div>
+
+                          {/* Industry */}
+                          <div className="w-full relative mb-3">
+                            <p className="text-[#232323] text-base leading-normal mb-2">
+                              Industry
+                            </p>
+                            <Field
+                              type="text"
+                              name="industry"
+                              placeholder="Enter industry"
+                              className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2] rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
+                            />
+                            <ErrorMessage
+                              name="industry"
+                              component="div"
+                              className="text-red-500 text-xs absolute top-[100%]"
+                            />
+                          </div>
                         </div>
 
-                        {/* Phone Office */}
-                        <div className="w-full relative mb-3">
-                          <p className="text-[#232323] text-base leading-normal mb-2">
-                            Phone (Office)
-                          </p>
-                          <Field
-                            type="text"
-                            name="phone_office"
-                            placeholder="Enter office phone"
-                            className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2] rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
-                          />
-                          <ErrorMessage
-                            name="phone_office"
-                            component="div"
-                            className="text-red-500 text-xs absolute top-[100%]"
-                          />
+                        {/* Submit Button */}
+                        <div className="mt-6">
+                          <button
+                            type="submit"
+                            className="py-[13px] px-[26px] bg-primary-500 rounded-[4px] text-base font-medium leading-6 text-white hover:text-dark cursor-pointer w-full text-center hover:bg-primary-700 hover:text-white"
+                          >
+                            Submit
+                          </button>
                         </div>
-
-                        {/* Phone Alternate */}
-                        <div className="w-full relative mb-3">
-                          <p className="text-[#232323] text-base leading-normal mb-2">
-                            Phone (Alternate)
-                          </p>
-                          <Field
-                            type="text"
-                            name="phone_alternate"
-                            placeholder="Enter alternate phone"
-                            className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2] rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
-                          />
-                          <ErrorMessage
-                            name="phone_alternate"
-                            component="div"
-                            className="text-red-500 text-xs absolute top-[100%]"
-                          />
-                        </div>
-
-                        {/* Industry */}
-                        <div className="w-full relative mb-3">
-                          <p className="text-[#232323] text-base leading-normal mb-2">
-                            Industry
-                          </p>
-                          <Field
-                            type="text"
-                            name="industry"
-                            placeholder="Enter industry"
-                            className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2] rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
-                          />
-                          <ErrorMessage
-                            name="industry"
-                            component="div"
-                            className="text-red-500 text-xs absolute top-[100%]"
-                          />
-                        </div>
-                      </div>
-
-                      {/* Submit Button */}
-                      <div className="mt-6">
-                        <button
-                          type="submit"
-                          className="py-[13px] px-[26px] bg-primary-500 rounded-[4px] text-base font-medium leading-6 text-white hover:text-dark cursor-pointer w-full text-center hover:bg-primary-700 hover:text-white"
-                        >
-                          Submit
-                        </button>
-                      </div>
-                    </Form>
-                  </Formik>
+                      </Form>
+                    </Formik>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
+            {openForEdit && (
+              <div
+                className={`filterflyout ${isFlyoutOpen ? "filteropen" : ""}`}
+              >
+                <div className="w-full min-h-auto">
+                  {/* Header */}
+                  <div className="flex justify-between mb-4 sm:mb-6 md:mb-8">
+                    <p className="text-primary-600 text-[22px] sm:text-[24px] md:text-[26px] font-bold leading-8 sm:leading-9">
+                      Edit Accounts
+                    </p>
+                    <IoCloseOutline
+                      onClick={toggleFilterFlyout}
+                      className="h-7 sm:h-8 w-7 sm:w-8 border border-[#E7E7E7] text-[#0A0A0A] rounded cursor-pointer"
+                    />
+                  </div>
+                  <div className="w-full border-b border-[#E7E7E7] mb-4 sm:mb-6"></div>
+                  <div className="w-full  mx-auto p-0">
+                    <Formik
+                      initialValues={initialValues}
+                      validationSchema={validationSchema}
+                      onSubmit={handleSubmit}
+                    >
+                      <Form>
+                        {/* Hidden user_id field */}
+                        <Field type="hidden" name="user_id" />
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          {/* Name */}
+                          <div className="w-full relative mb-3">
+                            <p className="text-[#232323] text-base leading-normal mb-2">
+                              Name
+                            </p>
+                            <Field
+                              type="text"
+                              name="name"
+                              placeholder="Enter name"
+                              className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2] rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
+                            />
+                            <ErrorMessage
+                              name="name"
+                              component="div"
+                              className="text-red-500 text-xs absolute top-[100%]"
+                            />
+                          </div>
+
+                          {/* Phone Office */}
+                          <div className="w-full relative mb-3">
+                            <p className="text-[#232323] text-base leading-normal mb-2">
+                              Phone (Office)
+                            </p>
+                            <Field
+                              type="text"
+                              name="phone_office"
+                              placeholder="Enter office phone"
+                              className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2] rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
+                            />
+                            <ErrorMessage
+                              name="phone_office"
+                              component="div"
+                              className="text-red-500 text-xs absolute top-[100%]"
+                            />
+                          </div>
+
+                          {/* Phone Alternate */}
+                          <div className="w-full relative mb-3">
+                            <p className="text-[#232323] text-base leading-normal mb-2">
+                              Phone (Alternate)
+                            </p>
+                            <Field
+                              type="text"
+                              name="phone_alternate"
+                              placeholder="Enter alternate phone"
+                              className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2] rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
+                            />
+                            <ErrorMessage
+                              name="phone_alternate"
+                              component="div"
+                              className="text-red-500 text-xs absolute top-[100%]"
+                            />
+                          </div>
+
+                          {/* Industry */}
+                          <div className="w-full relative mb-3">
+                            <p className="text-[#232323] text-base leading-normal mb-2">
+                              Industry
+                            </p>
+                            <Field
+                              type="text"
+                              name="industry"
+                              placeholder="Enter industry"
+                              className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2] rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
+                            />
+                            <ErrorMessage
+                              name="industry"
+                              component="div"
+                              className="text-red-500 text-xs absolute top-[100%]"
+                            />
+                          </div>
+                        </div>
+
+                        {/* Submit Button */}
+                        <div className="mt-6">
+                          <button
+                            type="submit"
+                            className="py-[13px] px-[26px] bg-primary-500 rounded-[4px] text-base font-medium leading-6 text-white hover:text-dark cursor-pointer w-full text-center hover:bg-primary-700 hover:text-white"
+                          >
+                            Submit
+                          </button>
+                        </div>
+                      </Form>
+                    </Formik>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* END ADD PRODUCT */}
           </>
         )}
       </div>
