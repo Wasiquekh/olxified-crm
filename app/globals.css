@@ -297,11 +297,11 @@ button.swal2-cancel.swal2-styled.swal2-default-outline {
 }
 
 button.swal2-confirm.swal2-styled.swal2-default-outline:hover {
-  background: var(--rejectBtn) !important;
+  background: var(--primary-600) !important;
   color: #fff !important;
 }
 button.swal2-cancel.swal2-styled.swal2-default-outline:hover {
-  background-color: var(--approveBtn) !important;
+  background-color: #cc0000 !important;
   color: white !important;
 }
 .swal2-select:focus-visible {

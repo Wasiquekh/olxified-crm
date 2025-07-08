@@ -14,12 +14,20 @@ import { Tooltip } from "react-tooltip";
 import { FaEllipsisVertical } from "react-icons/fa6";
 import { FiFilter } from "react-icons/fi";
 import { IoCloseOutline } from "react-icons/io5";
+import { ImQuotesLeft } from "react-icons/im";
+import StorageManager from "../../../provider/StorageManager";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import { toast } from "react-toastify";
+import { MdRemoveRedEye } from "react-icons/md";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import Swal from "sweetalert2";
 
 const axiosProvider = new AxiosProvider();
 
-interface Tab {
-  label: string;
-  content: JSX.Element;
+interface FormValues {
+  user_id: string;
+  name: string;
 }
 interface TotalQuotes {
   id: string;
@@ -41,6 +49,9 @@ export default function Home() {
   const [isError, setIsError] = useState<boolean>(false);
   const [isFlyoutOpen, setFlyoutOpen] = useState<boolean>(false);
   const toggleFilterFlyout = () => setFlyoutOpen(!isFlyoutOpen);
+  const storage = new StorageManager();
+  const user_id = storage.getUserId();
+
   const fetchData = async () => {
     setIsLoading(true);
     // setIsFilter(false);
@@ -66,6 +77,51 @@ export default function Home() {
       setPage(newPage);
     }
   };
+  const initialValues: FormValues = {
+    user_id,
+    name: "",
+  };
+  const validationSchema = Yup.object().shape({
+    name: Yup.string().required("Name is required"),
+  });
+  const handleSubmit = async (values: FormValues) => {
+    try {
+      const response = await axiosProvider.post("/createquote", values);
+      console.log("Product created:", response.data);
+      toast.success("Product added");
+      setFlyoutOpen(false);
+      fetchData();
+    } catch (error: any) {
+      console.error("Failed to create product:", error);
+    }
+  };
+  // DELETE DATA
+  const deleteUserData = async (item: TotalQuotes) => {
+    const userID = item.id;
+    console.log("^^^^^^^^^^^^", userID);
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to delete this user?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+      confirmButtonColor: "#FFCCD0",
+      cancelButtonColor: "#A3000E",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await axiosProvider.post("/deletequote", { id: userID });
+          toast.success("Successfully Deleted");
+          fetchData();
+        } catch (error) {
+          console.error("Error deleting user:", error);
+          toast.error("Failed to delete user");
+        }
+      }
+    });
+  };
   if (isLoading) {
     return (
       <div className="h-screen flex flex-col gap-5 justify-center items-center">
@@ -80,12 +136,6 @@ export default function Home() {
       </div>
     );
   }
-  const tabs: Tab[] = [
-    {
-      label: "Total Quotes",
-      content: <></>,
-    },
-  ];
 
   return (
     <div className=" flex justify-end  min-h-screen">
@@ -113,12 +163,12 @@ export default function Home() {
               <div className=" flex justify-end items-center mb-6  w-full mx-auto">
                 <div className=" flex justify-center items-center gap-4">
                   <div
-                    className=" flex items-center gap-2 py-3 px-6 rounded-[4px] border border-[#E7E7E7] cursor-pointer bg-primary-600 group hover:bg-primary-600"
+                    className=" flex items-center gap-2 py-3 px-6 rounded-[4px] border border-[#E7E7E7] cursor-pointer bg-primary-500 group hover:bg-primary-700"
                     onClick={toggleFilterFlyout}
                   >
-                    <FiFilter className=" w-4 h-4 text-white group-hover:text-white" />
+                    <ImQuotesLeft className=" w-4 h-4 text-white group-hover:text-white" />
                     <p className=" text-white  text-base font-medium group-hover:text-white">
-                      Add Accounts
+                      Add Qoutes
                     </p>
                   </div>
                 </div>
@@ -145,27 +195,17 @@ export default function Home() {
                     >
                       <div className="flex items-center gap-2">
                         <div className="font-medium text-firstBlack text-base leading-normal">
-                          Website
-                        </div>
-                      </div>
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-2 py-0 border border-tableBorder hidden md:table-cell"
-                    >
-                      <div className="flex items-center gap-2">
-                        <div className="font-medium text-firstBlack text-base leading-normal">
-                          Created by
-                        </div>
-                      </div>
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-2 py-0 border border-tableBorder hidden md:table-cell"
-                    >
-                      <div className="flex items-center gap-2">
-                        <div className="font-medium text-firstBlack text-base leading-normal">
                           By Name
+                        </div>
+                      </div>
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-2 py-0 border border-tableBorder hidden md:table-cell"
+                    >
+                      <div className="flex items-center gap-2">
+                        <div className="font-medium text-firstBlack text-base leading-normal">
+                          Action
                         </div>
                       </div>
                     </th>
@@ -206,20 +246,32 @@ export default function Home() {
                           </div>
                         </td>
                         <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
-                          <p className="text-[#232323] text-base leading-normal">
-                            {item.website}
-                          </p>
-                        </td>
-                        <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
-                          <p className="text-[#232323] text-base leading-normal">
-                            {item.created_by}
-                          </p>
-                        </td>
-                        <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
                           <div className="flex gap-1.5">
                             <p className="text-[#232323] text-base leading-normal">
                               {item.created_by_name}
                             </p>
+                          </div>
+                        </td>
+                        <td className="px-2 py-1 border border-tableBorder">
+                          <div className="flex gap-1 md:gap-2 justify-center md:justify-start">
+                            {/* View Button */}
+                            <button className="py-[4px] px-3 bg-primary-600 hover:bg-primary-800 active:bg-primary-900 group flex gap-1 items-center rounded-xl text-xs md:text-sm">
+                              <MdRemoveRedEye className="text-white w-4 h-4 group-hover:text-white" />
+                              <p className="text-white hidden md:block group-hover:text-white">
+                                View
+                              </p>
+                            </button>
+
+                            {/* Delete Button */}
+                            <button
+                              onClick={() => deleteUserData(item)}
+                              className="py-[4px] px-3 bg-black flex gap-1 items-center rounded-full text-xs md:text-sm group hover:bg-primary-600"
+                            >
+                              <RiDeleteBin6Line className="text-white w-4 h-4" />
+                              <p className="text-white hidden md:block">
+                                Delete
+                              </p>
+                            </button>
                           </div>
                         </td>
                       </tr>
@@ -274,6 +326,47 @@ export default function Home() {
                   />
                 </div>
                 <div className="w-full border-b border-[#E7E7E7] mb-4 sm:mb-6"></div>
+                <div className="w-full  p-0">
+                  <Formik
+                    initialValues={initialValues}
+                    validationSchema={validationSchema}
+                    onSubmit={handleSubmit}
+                  >
+                    <Form>
+                      {/* Hidden user_id */}
+                      <Field type="hidden" name="user_id" />
+
+                      {/* Name Field */}
+                      <div className="w-full relative mb-3">
+                        <p className="text-[#232323] text-base leading-normal mb-2">
+                          Name
+                        </p>
+                        <Field
+                          type="text"
+                          name="name"
+                          placeholder="Enter name"
+                          className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2] 
+                rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
+                        />
+                        <ErrorMessage
+                          name="name"
+                          component="div"
+                          className="text-red-500 text-xs absolute top-[100%]"
+                        />
+                      </div>
+
+                      {/* Submit Button */}
+                      <div className="mt-6">
+                        <button
+                          type="submit"
+                          className="py-[13px] px-[26px] bg-primary-500 rounded-[4px] text-base font-medium leading-6 text-white hover:text-dark cursor-pointer w-full text-center hover:bg-primary-700 hover:text-white"
+                        >
+                          Submit
+                        </button>
+                      </div>
+                    </Form>
+                  </Formik>
+                </div>
               </div>
             </div>
           </>

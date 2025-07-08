@@ -16,6 +16,10 @@ import { FiFilter } from "react-icons/fi";
 import { IoCloseOutline } from "react-icons/io5";
 import StorageManager from "../../../provider/StorageManager";
 import { Toast } from "react-toastify/dist/components";
+import { MdRemoveRedEye } from "react-icons/md";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { MdCategory } from "react-icons/md";
+import Swal from "sweetalert2";
 import {
   Formik,
   Form,
@@ -119,6 +123,33 @@ export default function Home() {
       setPage(newPage);
     }
   };
+  // DELETE DATA
+  const deleteUserData = async (item: GetCategory) => {
+    const userID = item.id;
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to delete this user?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+      confirmButtonColor: "#FFCCD0",
+      cancelButtonColor: "#A3000E",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await axiosProvider.post("/deletecategory", { id: userID });
+          toast.success("Successfully Deleted");
+          fetchData();
+        } catch (error) {
+          console.error("Error deleting user:", error);
+          toast.error("Failed to delete user");
+        }
+      }
+    });
+  };
+
   if (isLoading) {
     return (
       <div className="h-screen flex flex-col gap-5 justify-center items-center">
@@ -203,10 +234,10 @@ export default function Home() {
             <div className=" flex justify-end items-center mb-6  w-full mx-auto">
               <div className=" flex justify-center items-center gap-4">
                 <div
-                  className=" flex items-center gap-2 py-3 px-6 rounded-[4px] border border-[#E7E7E7] cursor-pointer bg-primary-600 group hover:bg-primary-600"
+                  className=" flex items-center gap-2 py-3 px-6 rounded-[4px] border border-[#E7E7E7] cursor-pointer bg-primary-500 group hover:bg-primary-700"
                   onClick={toggleFilterFlyout}
                 >
-                  <FiFilter className=" w-4 h-4 text-white group-hover:text-white" />
+                  <MdCategory className=" w-4 h-4 text-white group-hover:text-white" />
                   <p className=" text-white  text-base font-medium group-hover:text-white">
                     Add Category
                   </p>
@@ -236,6 +267,16 @@ export default function Home() {
                     <div className="flex items-center gap-2">
                       <div className="font-medium text-firstBlack text-base leading-normal whitespace-nowrap">
                         Create by name
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-2 py-0 border border-tableBorder hidden md:table-cell"
+                  >
+                    <div className="flex items-center gap-2">
+                      <div className="font-medium text-firstBlack text-base leading-normal whitespace-nowrap">
+                        Action
                       </div>
                     </div>
                   </th>
@@ -272,12 +313,31 @@ export default function Home() {
                           </p>
                         </div>
                       </td>
-
                       <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
                         <div className="flex gap-1.5">
                           <p className="text-[#232323] text-base leading-normal">
                             {item.created_by_name}
                           </p>
+                        </div>
+                      </td>
+                      <td className="px-2 py-1 border border-tableBorder">
+                        <div className="flex gap-1 md:gap-2 justify-center md:justify-start">
+                          {/* View Button */}
+                          <button className="py-[4px] px-3 bg-primary-600 hover:bg-primary-800 active:bg-primary-900 group flex gap-1 items-center rounded-xl text-xs md:text-sm">
+                            <MdRemoveRedEye className="text-white w-4 h-4 group-hover:text-white" />
+                            <p className="text-white hidden md:block group-hover:text-white">
+                              View
+                            </p>
+                          </button>
+
+                          {/* Delete Button */}
+                          <button
+                            onClick={() => deleteUserData(item)}
+                            className="py-[4px] px-3 bg-black flex gap-1 items-center rounded-full text-xs md:text-sm group hover:bg-primary-600"
+                          >
+                            <RiDeleteBin6Line className="text-white w-4 h-4" />
+                            <p className="text-white hidden md:block">Delete</p>
+                          </button>
                         </div>
                       </td>
                     </tr>

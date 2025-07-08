@@ -14,13 +14,17 @@ import { Tooltip } from "react-tooltip";
 import { FaEllipsisVertical } from "react-icons/fa6";
 import { FiFilter } from "react-icons/fi";
 import { IoCloseOutline } from "react-icons/io5";
+import { SiGoogleadsense } from "react-icons/si";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import StorageManager from "../../../provider/StorageManager";
+import { toast } from "react-toastify";
+import { MdRemoveRedEye } from "react-icons/md";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import Swal from "sweetalert2";
 
 const axiosProvider = new AxiosProvider();
 
-interface Tab {
-  label: string;
-  content: JSX.Element;
-}
 interface TotalLeads {
   id: string;
   first_name: string;
@@ -37,7 +41,17 @@ interface TotalLeads {
   created_at: string; // ISO date string
   updated_at: string; // ISO date string
 }
-
+interface FormValues {
+  user_id: string;
+  first_name: string;
+  last_name: string;
+  primary_address_street: string;
+  primary_address_city: string;
+  primary_address_country: string;
+  primary_address_postalcode: string;
+  phone_mobile: string;
+  description: string;
+}
 export default function Home() {
   const [data, setData] = useState<TotalLeads[]>([]);
   //console.log("total accounts data 000000000000 ", data);
@@ -74,6 +88,70 @@ export default function Home() {
       setPage(newPage);
     }
   };
+  const storage = new StorageManager();
+  const user_id = storage.getUserId();
+
+  const initialValues: FormValues = {
+    user_id,
+    first_name: "",
+    last_name: "",
+    primary_address_street: "",
+    primary_address_city: "",
+    primary_address_country: "",
+    primary_address_postalcode: "",
+    phone_mobile: "",
+    description: "",
+  };
+  const validationSchema = Yup.object().shape({
+    first_name: Yup.string().required("First name is required"),
+    last_name: Yup.string().required("Last name is required"),
+    primary_address_street: Yup.string().required("Street address is required"),
+    primary_address_city: Yup.string().required("City is required"),
+    primary_address_country: Yup.string().required("Country is required"),
+    primary_address_postalcode: Yup.string().required(
+      "Postal code is required"
+    ),
+    phone_mobile: Yup.string().required("Mobile number is required"),
+    description: Yup.string(),
+  });
+  const handleSubmit = async (values: FormValues) => {
+    try {
+      const response = await axiosProvider.post("/createlead", values);
+      console.log("Product created:", response.data);
+      toast.success("Product added");
+      setFlyoutOpen(false);
+      fetchData();
+    } catch (error: any) {
+      console.error("Failed to create product:", error);
+    }
+  };
+
+  // DELETE DATA
+  const deleteUserData = async (item: TotalLeads) => {
+    const userID = item.id;
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to delete this user?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+      confirmButtonColor: "#FFCCD0",
+      cancelButtonColor: "#A3000E",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await axiosProvider.post("/deletelead", { id: userID });
+          toast.success("Successfully Deleted");
+          fetchData();
+        } catch (error) {
+          console.error("Error deleting user:", error);
+          toast.error("Failed to delete user");
+        }
+      }
+    });
+  };
   if (isLoading) {
     return (
       <div className="h-screen flex flex-col gap-5 justify-center items-center">
@@ -88,12 +166,6 @@ export default function Home() {
       </div>
     );
   }
-  const tabs: Tab[] = [
-    {
-      label: "Total Leads",
-      content: <></>,
-    },
-  ];
 
   return (
     <div className=" flex justify-end  min-h-screen">
@@ -124,9 +196,9 @@ export default function Home() {
                     className=" flex items-center gap-2 py-3 px-6 rounded-[4px] border border-[#E7E7E7] cursor-pointer bg-primary-600 group hover:bg-primary-600"
                     onClick={toggleFilterFlyout}
                   >
-                    <FiFilter className=" w-4 h-4 text-white group-hover:text-white" />
+                    <SiGoogleadsense className=" w-4 h-4 text-white group-hover:text-white" />
                     <p className=" text-white  text-base font-medium group-hover:text-white">
-                      Add Accounts
+                      Add Leads
                     </p>
                   </div>
                 </div>
@@ -173,46 +245,6 @@ export default function Home() {
                     >
                       <div className="flex items-center gap-2">
                         <div className="font-medium text-firstBlack text-base leading-normal whitespace-nowrap">
-                          Primary address street
-                        </div>
-                      </div>
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-2 py-0 border border-tableBorder hidden md:table-cell"
-                    >
-                      <div className="flex items-center gap-2">
-                        <div className="font-medium text-firstBlack text-base leading-normal whitespace-nowrap">
-                          Primary address city
-                        </div>
-                      </div>
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-2 py-0 border border-tableBorder hidden md:table-cell"
-                    >
-                      <div className="flex items-center gap-2">
-                        <div className="font-medium text-firstBlack text-base leading-normal whitespace-nowrap">
-                          Primary address country
-                        </div>
-                      </div>
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-2 py-0 border border-tableBorder hidden md:table-cell"
-                    >
-                      <div className="flex items-center gap-2">
-                        <div className="font-medium text-firstBlack text-base leading-normal whitespace-nowrap">
-                          Primary address postalcod
-                        </div>
-                      </div>
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-2 py-0 border border-tableBorder hidden md:table-cell"
-                    >
-                      <div className="flex items-center gap-2">
-                        <div className="font-medium text-firstBlack text-base leading-normal whitespace-nowrap">
                           Phone mobile
                         </div>
                       </div>
@@ -233,17 +265,7 @@ export default function Home() {
                     >
                       <div className="flex items-center gap-2">
                         <div className="font-medium text-firstBlack text-base leading-normal whitespace-nowrap">
-                          Assigned user id
-                        </div>
-                      </div>
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-2 py-0 border border-tableBorder hidden md:table-cell"
-                    >
-                      <div className="flex items-center gap-2">
-                        <div className="font-medium text-firstBlack text-base leading-normal whitespace-nowrap">
-                          Assigned user name
+                          Action
                         </div>
                       </div>
                     </th>
@@ -295,38 +317,10 @@ export default function Home() {
                             {item.last_name}
                           </p>
                         </td>
-                        <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
+                        <td className="px-2 py-0 border border-tableBorder hidden md:table-cell whitespace-nowrap">
                           <p className="text-[#232323] text-base leading-normal">
                             {item.full_name}
                           </p>
-                        </td>
-                        <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
-                          <div className="flex gap-1.5">
-                            <p className="text-[#232323] text-base leading-normal">
-                              {item.primary_address_street}
-                            </p>
-                          </div>
-                        </td>
-                        <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
-                          <div className="flex gap-1.5">
-                            <p className="text-[#232323] text-base leading-normal">
-                              {item.primary_address_city}
-                            </p>
-                          </div>
-                        </td>
-                        <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
-                          <div className="flex gap-1.5">
-                            <p className="text-[#232323] text-base leading-normal">
-                              {item.primary_address_country}
-                            </p>
-                          </div>
-                        </td>
-                        <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
-                          <div className="flex gap-1.5">
-                            <p className="text-[#232323] text-base leading-normal">
-                              {item.primary_address_postalcode}
-                            </p>
-                          </div>
                         </td>
                         <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
                           <div className="flex gap-1.5">
@@ -342,19 +336,26 @@ export default function Home() {
                             </p>
                           </div>
                         </td>
+                        <td className="px-2 py-1 border border-tableBorder">
+                          <div className="flex gap-1 md:gap-2 justify-center md:justify-start">
+                            {/* View Button */}
+                            <button className="py-[4px] px-3 bg-primary-600 hover:bg-primary-800 active:bg-primary-900 group flex gap-1 items-center rounded-xl text-xs md:text-sm">
+                              <MdRemoveRedEye className="text-white w-4 h-4 group-hover:text-white" />
+                              <p className="text-white hidden md:block group-hover:text-white">
+                                View
+                              </p>
+                            </button>
 
-                        <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
-                          <div className="flex gap-1.5">
-                            <p className="text-[#232323] text-base leading-normal">
-                              {item.assigned_user_id}
-                            </p>
-                          </div>
-                        </td>
-                        <td className="px-2 py-0 border border-tableBorder hidden md:table-cell">
-                          <div className="flex gap-1.5">
-                            <p className="text-[#232323] text-base leading-normal">
-                              {item.assigned_user_name}
-                            </p>
+                            {/* Delete Button */}
+                            <button
+                              onClick={() => deleteUserData(item)}
+                              className="py-[4px] px-3 bg-black flex gap-1 items-center rounded-full text-xs md:text-sm group hover:bg-primary-600"
+                            >
+                              <RiDeleteBin6Line className="text-white w-4 h-4" />
+                              <p className="text-white hidden md:block">
+                                Delete
+                              </p>
+                            </button>
                           </div>
                         </td>
                       </tr>
@@ -409,6 +410,182 @@ export default function Home() {
                   />
                 </div>
                 <div className="w-full border-b border-[#E7E7E7] mb-4 sm:mb-6"></div>
+                <div className="w-full p-0">
+                  <Formik
+                    initialValues={initialValues}
+                    validationSchema={validationSchema}
+                    onSubmit={handleSubmit}
+                  >
+                    <Form>
+                      <Field type="hidden" name="user_id" />
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {/* First Name */}
+                        <div className="w-full relative mb-3">
+                          <p className="text-[#232323] text-base leading-normal mb-2">
+                            First Name
+                          </p>
+                          <Field
+                            type="text"
+                            name="first_name"
+                            placeholder="Enter first name"
+                            className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2]
+                  rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
+                          />
+                          <ErrorMessage
+                            name="first_name"
+                            component="div"
+                            className="text-red-500 text-xs absolute top-[100%]"
+                          />
+                        </div>
+
+                        {/* Last Name */}
+                        <div className="w-full relative mb-3">
+                          <p className="text-[#232323] text-base leading-normal mb-2">
+                            Last Name
+                          </p>
+                          <Field
+                            type="text"
+                            name="last_name"
+                            placeholder="Enter last name"
+                            className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2]
+                  rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
+                          />
+                          <ErrorMessage
+                            name="last_name"
+                            component="div"
+                            className="text-red-500 text-xs absolute top-[100%]"
+                          />
+                        </div>
+
+                        {/* Street */}
+                        <div className="w-full relative mb-3">
+                          <p className="text-[#232323] text-base leading-normal mb-2">
+                            Street Address
+                          </p>
+                          <Field
+                            type="text"
+                            name="primary_address_street"
+                            placeholder="Enter street address"
+                            className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2]
+                  rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
+                          />
+                          <ErrorMessage
+                            name="primary_address_street"
+                            component="div"
+                            className="text-red-500 text-xs absolute top-[100%]"
+                          />
+                        </div>
+
+                        {/* City */}
+                        <div className="w-full relative mb-3">
+                          <p className="text-[#232323] text-base leading-normal mb-2">
+                            City
+                          </p>
+                          <Field
+                            type="text"
+                            name="primary_address_city"
+                            placeholder="Enter city"
+                            className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2]
+                  rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
+                          />
+                          <ErrorMessage
+                            name="primary_address_city"
+                            component="div"
+                            className="text-red-500 text-xs absolute top-[100%]"
+                          />
+                        </div>
+
+                        {/* Country */}
+                        <div className="w-full relative mb-3">
+                          <p className="text-[#232323] text-base leading-normal mb-2">
+                            Country
+                          </p>
+                          <Field
+                            type="text"
+                            name="primary_address_country"
+                            placeholder="Enter country"
+                            className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2]
+                  rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
+                          />
+                          <ErrorMessage
+                            name="primary_address_country"
+                            component="div"
+                            className="text-red-500 text-xs absolute top-[100%]"
+                          />
+                        </div>
+
+                        {/* Postal Code */}
+                        <div className="w-full relative mb-3">
+                          <p className="text-[#232323] text-base leading-normal mb-2">
+                            Postal Code
+                          </p>
+                          <Field
+                            type="text"
+                            name="primary_address_postalcode"
+                            placeholder="Enter postal code"
+                            className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2]
+                  rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
+                          />
+                          <ErrorMessage
+                            name="primary_address_postalcode"
+                            component="div"
+                            className="text-red-500 text-xs absolute top-[100%]"
+                          />
+                        </div>
+
+                        {/* Mobile */}
+                        <div className="w-full relative mb-3">
+                          <p className="text-[#232323] text-base leading-normal mb-2">
+                            Mobile Number
+                          </p>
+                          <Field
+                            type="text"
+                            name="phone_mobile"
+                            placeholder="Enter mobile number"
+                            className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2]
+                  rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
+                          />
+                          <ErrorMessage
+                            name="phone_mobile"
+                            component="div"
+                            className="text-red-500 text-xs absolute top-[100%]"
+                          />
+                        </div>
+
+                        {/* Description (Full Width) */}
+                        <div className="w-full md:col-span-2 relative mb-3">
+                          <p className="text-[#232323] text-base leading-normal mb-2">
+                            Description
+                          </p>
+                          <Field
+                            as="textarea"
+                            name="description"
+                            rows={3}
+                            placeholder="Enter description"
+                            className="hover:shadow-hoverInputShadow focus-border-primary w-full border border-[#DFEAF2]
+                  rounded-[4px] text-[15px] placeholder-[#718EBF] p-4 mb-2 text-firstBlack"
+                          />
+                          <ErrorMessage
+                            name="description"
+                            component="div"
+                            className="text-red-500 text-xs absolute top-full mt-1"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Submit Button */}
+                      <div className="mt-6">
+                        <button
+                          type="submit"
+                          className="py-[13px] px-[26px] bg-primary-500 rounded-[4px] text-base font-medium leading-6 text-white hover:text-dark cursor-pointer w-full text-center hover:bg-primary-700 hover:text-white"
+                        >
+                          Submit
+                        </button>
+                      </div>
+                    </Form>
+                  </Formik>
+                </div>
               </div>
             </div>
           </>
