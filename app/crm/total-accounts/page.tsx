@@ -53,16 +53,20 @@ export default function Home() {
   const [isFlyoutOpen, setFlyoutOpen] = useState<boolean>(false);
   const [openForAdd, setOpenForAdd] = useState<boolean>(false);
   const [openForEdit, setOpenForEdit] = useState<boolean>(false);
+  const [editAccount, setEditAccount] = useState<any | null>(null);
+  console.log("GGGGGGGGGGGGGG", editAccount);
   const toggleFilterFlyout = () => {
     setFlyoutOpen(!isFlyoutOpen);
     setOpenForAdd(true);
     setOpenForEdit(false);
   };
-  const openEditFlyout = () => {
+  const openEditFlyout = (item: any) => {
     setFlyoutOpen(!isFlyoutOpen);
     setOpenForAdd(false);
     setOpenForEdit(true);
+    setEditAccount(item);
   };
+
   const storage = new StorageManager();
   const user_id = storage.getUserId();
 
@@ -309,7 +313,7 @@ export default function Home() {
                           <div className="flex gap-1 md:gap-2 justify-center md:justify-start">
                             {/* View Button */}
                             <button
-                              onClick={openEditFlyout}
+                              onClick={() => openEditFlyout(item)}
                               className="py-[4px] px-3 bg-primary-600 hover:bg-primary-800 active:bg-primary-900 group flex gap-1 items-center rounded-xl text-xs md:text-sm"
                             >
                               <MdRemoveRedEye className="text-white w-4 h-4 group-hover:text-white" />
@@ -502,11 +506,18 @@ export default function Home() {
                   </div>
                   <div className="w-full border-b border-[#E7E7E7] mb-4 sm:mb-6"></div>
                   <div className="w-full  mx-auto p-0">
-                    <Formik
-                      initialValues={initialValues}
-                      validationSchema={validationSchema}
-                      onSubmit={handleSubmit}
-                    >
+               <Formik
+  initialValues={{
+    user_id: editAccount?.user_id || '',
+    name: editAccount?.name || '',
+    phone_office: editAccount?.phone_office || '',
+    phone_alternate: editAccount?.phone_alternate || '',
+    industry: editAccount?.industry || '',
+  }}
+  enableReinitialize={true}
+  validationSchema={validationSchema}
+  onSubmit={handleSubmit}
+/>
                       <Form>
                         {/* Hidden user_id field */}
                         <Field type="hidden" name="user_id" />
