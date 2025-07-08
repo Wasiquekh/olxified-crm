@@ -98,7 +98,6 @@ export default function Home() {
   // DELETE DATA
   const deleteUserData = async (item: TotalQuotes) => {
     const userID = item.id;
-    console.log("^^^^^^^^^^^^", userID);
 
     Swal.fire({
       title: "Are you sure?",
