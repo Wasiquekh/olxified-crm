@@ -29,6 +29,11 @@ interface FormValues {
   user_id: string;
   name: string;
 }
+interface EditFormValues {
+  id: string;
+  user_id: string;
+  name: string;
+}
 interface TotalQuotes {
   id: string;
   name: string;
@@ -48,7 +53,22 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
   const [isFlyoutOpen, setFlyoutOpen] = useState<boolean>(false);
-  const toggleFilterFlyout = () => setFlyoutOpen(!isFlyoutOpen);
+  const [openForAdd, setOpenForAdd] = useState<boolean>(false);
+  const [openForEdit, setOpenForEdit] = useState<boolean>(false);
+  const [editAccount, setEditAccount] = useState<any | null>(null);
+
+  const toggleFilterFlyout = () => {
+    setFlyoutOpen(!isFlyoutOpen);
+    setOpenForAdd(true);
+    setOpenForEdit(false);
+  };
+  const openEditFlyout = (item: any) => {
+    setFlyoutOpen(!isFlyoutOpen);
+    setOpenForAdd(false);
+    setOpenForEdit(true);
+    setEditAccount(item);
+  };
+
   const storage = new StorageManager();
   const user_id = storage.getUserId();
 
@@ -81,6 +101,11 @@ export default function Home() {
     user_id,
     name: "",
   };
+  const EditInitialValues: EditFormValues = {
+    user_id,
+    id: editAccount?.id || "",
+    name: editAccount?.name || "",
+  };
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
   });
@@ -89,6 +114,17 @@ export default function Home() {
       const response = await axiosProvider.post("/createquote", values);
       console.log("Product created:", response.data);
       toast.success("Product added");
+      setFlyoutOpen(false);
+      fetchData();
+    } catch (error: any) {
+      console.error("Failed to create product:", error);
+    }
+  };
+  const handleEditSubmit = async (values: FormValues) => {
+    try {
+      const response = await axiosProvider.post("/updatequote", values);
+      //console.log("Product created:", response.data);
+      toast.success("Accounts Updated");
       setFlyoutOpen(false);
       fetchData();
     } catch (error: any) {
@@ -254,7 +290,10 @@ export default function Home() {
                         <td className="px-2 py-1 border border-tableBorder">
                           <div className="flex gap-1 md:gap-2 justify-center md:justify-start">
                             {/* View Button */}
-                            <button className="py-[4px] px-3 bg-primary-600 hover:bg-primary-800 active:bg-primary-900 group flex gap-1 items-center rounded-xl text-xs md:text-sm">
+                            <button
+                              onClick={() => openEditFlyout(item)}
+                              className="py-[4px] px-3 bg-primary-600 hover:bg-primary-800 active:bg-primary-900 group flex gap-1 items-center rounded-xl text-xs md:text-sm"
+                            >
                               <MdRemoveRedEye className="text-white w-4 h-4 group-hover:text-white" />
                               <p className="text-white hidden md:block group-hover:text-white">
                                 View
@@ -312,62 +351,126 @@ export default function Home() {
               onClick={() => setFlyoutOpen(!isFlyoutOpen)}
             ></div>
             {/* NOW MY FLYOUT */}
-            <div className={`filterflyout ${isFlyoutOpen ? "filteropen" : ""}`}>
-              <div className="w-full min-h-auto">
-                {/* Header */}
-                <div className="flex justify-between mb-4 sm:mb-6 md:mb-8">
-                  <p className="text-primary-600 text-[22px] sm:text-[24px] md:text-[26px] font-bold leading-8 sm:leading-9">
-                    Add Accounts
-                  </p>
-                  <IoCloseOutline
-                    onClick={toggleFilterFlyout}
-                    className="h-7 sm:h-8 w-7 sm:w-8 border border-[#E7E7E7] text-[#0A0A0A] rounded cursor-pointer"
-                  />
-                </div>
-                <div className="w-full border-b border-[#E7E7E7] mb-4 sm:mb-6"></div>
-                <div className="w-full  p-0">
-                  <Formik
-                    initialValues={initialValues}
-                    validationSchema={validationSchema}
-                    onSubmit={handleSubmit}
-                  >
-                    <Form>
-                      {/* Hidden user_id */}
-                      <Field type="hidden" name="user_id" />
+            {openForAdd && (
+              <div
+                className={`filterflyout ${isFlyoutOpen ? "filteropen" : ""}`}
+              >
+                <div className="w-full min-h-auto">
+                  {/* Header */}
+                  <div className="flex justify-between mb-4 sm:mb-6 md:mb-8">
+                    <p className="text-primary-600 text-[22px] sm:text-[24px] md:text-[26px] font-bold leading-8 sm:leading-9">
+                      Add Quotes
+                    </p>
+                    <IoCloseOutline
+                      onClick={toggleFilterFlyout}
+                      className="h-7 sm:h-8 w-7 sm:w-8 border border-[#E7E7E7] text-[#0A0A0A] rounded cursor-pointer"
+                    />
+                  </div>
+                  <div className="w-full border-b border-[#E7E7E7] mb-4 sm:mb-6"></div>
+                  <div className="w-full  p-0">
+                    <Formik
+                      initialValues={initialValues}
+                      validationSchema={validationSchema}
+                      onSubmit={handleSubmit}
+                    >
+                      <Form>
+                        {/* Hidden user_id */}
+                        <Field type="hidden" name="user_id" />
 
-                      {/* Name Field */}
-                      <div className="w-full relative mb-3">
-                        <p className="text-[#232323] text-base leading-normal mb-2">
-                          Name
-                        </p>
-                        <Field
-                          type="text"
-                          name="name"
-                          placeholder="Enter name"
-                          className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2] 
+                        {/* Name Field */}
+                        <div className="w-full relative mb-3">
+                          <p className="text-[#232323] text-base leading-normal mb-2">
+                            Name
+                          </p>
+                          <Field
+                            type="text"
+                            name="name"
+                            placeholder="Enter name"
+                            className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2] 
                 rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
-                        />
-                        <ErrorMessage
-                          name="name"
-                          component="div"
-                          className="text-red-500 text-xs absolute top-[100%]"
-                        />
-                      </div>
+                          />
+                          <ErrorMessage
+                            name="name"
+                            component="div"
+                            className="text-red-500 text-xs absolute top-[100%]"
+                          />
+                        </div>
 
-                      {/* Submit Button */}
-                      <div className="mt-6">
-                        <button
-                          type="submit"
-                          className="py-[13px] px-[26px] bg-primary-500 rounded-[4px] text-base font-medium leading-6 text-white hover:text-dark cursor-pointer w-full text-center hover:bg-primary-700 hover:text-white"
-                        >
-                          Submit
-                        </button>
-                      </div>
-                    </Form>
-                  </Formik>
+                        {/* Submit Button */}
+                        <div className="mt-6">
+                          <button
+                            type="submit"
+                            className="py-[13px] px-[26px] bg-primary-500 rounded-[4px] text-base font-medium leading-6 text-white hover:text-dark cursor-pointer w-full text-center hover:bg-primary-700 hover:text-white"
+                          >
+                            Submit
+                          </button>
+                        </div>
+                      </Form>
+                    </Formik>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
+            {openForEdit && (
+              <div
+                className={`filterflyout ${isFlyoutOpen ? "filteropen" : ""}`}
+              >
+                <div className="w-full min-h-auto">
+                  {/* Header */}
+                  <div className="flex justify-between mb-4 sm:mb-6 md:mb-8">
+                    <p className="text-primary-600 text-[22px] sm:text-[24px] md:text-[26px] font-bold leading-8 sm:leading-9">
+                      Edit Quotes
+                    </p>
+                    <IoCloseOutline
+                      onClick={toggleFilterFlyout}
+                      className="h-7 sm:h-8 w-7 sm:w-8 border border-[#E7E7E7] text-[#0A0A0A] rounded cursor-pointer"
+                    />
+                  </div>
+                  <div className="w-full border-b border-[#E7E7E7] mb-4 sm:mb-6"></div>
+                  <div className="w-full  p-0">
+                    <Formik
+                      initialValues={EditInitialValues}
+                      validationSchema={validationSchema}
+                      onSubmit={handleEditSubmit}
+                    >
+                      <Form>
+                        {/* Hidden user_id */}
+                        <Field type="hidden" name="user_id" />
+
+                        {/* Name Field */}
+                        <div className="w-full relative mb-3">
+                          <p className="text-[#232323] text-base leading-normal mb-2">
+                            Name
+                          </p>
+                          <Field
+                            type="text"
+                            name="name"
+                            placeholder="Enter name"
+                            className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2] 
+                rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
+                          />
+                          <ErrorMessage
+                            name="name"
+                            component="div"
+                            className="text-red-500 text-xs absolute top-[100%]"
+                          />
+                        </div>
+
+                        {/* Submit Button */}
+                        <div className="mt-6">
+                          <button
+                            type="submit"
+                            className="py-[13px] px-[26px] bg-primary-500 rounded-[4px] text-base font-medium leading-6 text-white hover:text-dark cursor-pointer w-full text-center hover:bg-primary-700 hover:text-white"
+                          >
+                            Submit
+                          </button>
+                        </div>
+                      </Form>
+                    </Formik>
+                  </div>
+                </div>
+              </div>
+            )}
           </>
         )}
       </div>

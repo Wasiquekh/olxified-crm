@@ -41,6 +41,14 @@ interface FormValues {
   phone_alternate: string;
   industry: string;
 }
+interface EditFormValues {
+  user_id: string;
+  id: string;
+  name: string;
+  phone_office: string;
+  phone_alternate: string;
+  industry: string;
+}
 
 export default function Home() {
   const [data, setData] = useState<TotalAccounts[]>([]);
@@ -54,7 +62,7 @@ export default function Home() {
   const [openForAdd, setOpenForAdd] = useState<boolean>(false);
   const [openForEdit, setOpenForEdit] = useState<boolean>(false);
   const [editAccount, setEditAccount] = useState<any | null>(null);
-  console.log("GGGGGGGGGGGGGG", editAccount);
+
   const toggleFilterFlyout = () => {
     setFlyoutOpen(!isFlyoutOpen);
     setOpenForAdd(true);
@@ -103,6 +111,15 @@ export default function Home() {
     phone_alternate: "",
     industry: "",
   };
+  // EDIT FORM DATA
+  const initialEditValues: EditFormValues = {
+    user_id,
+    id: editAccount?.id || "",
+    name: editAccount?.name || "",
+    phone_office: editAccount?.phone_office || "",
+    phone_alternate: editAccount?.phone_alternate || "",
+    industry: editAccount?.industry || "",
+  };
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
@@ -122,7 +139,17 @@ export default function Home() {
       console.error("Failed to create product:", error);
     }
   };
-
+  const handleEditSubmit = async (values: FormValues) => {
+    try {
+      const response = await axiosProvider.post("/updateaccount", values);
+      //console.log("Product created:", response.data);
+      toast.success("Accounts Updated");
+      setFlyoutOpen(false);
+      fetchData();
+    } catch (error: any) {
+      console.error("Failed to create product:", error);
+    }
+  };
   // DELETE DATA
   const deleteUserData = async (item: TotalAccounts) => {
     const userID = item.id;
@@ -507,9 +534,9 @@ export default function Home() {
                   <div className="w-full border-b border-[#E7E7E7] mb-4 sm:mb-6"></div>
                   <div className="w-full  mx-auto p-0">
                     <Formik
-                      initialValues={initialValues}
+                      initialValues={initialEditValues}
                       validationSchema={validationSchema}
-                      onSubmit={handleSubmit}
+                      onSubmit={handleEditSubmit}
                     >
                       <Form>
                         {/* Hidden user_id field */}
