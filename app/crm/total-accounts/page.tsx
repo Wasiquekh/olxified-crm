@@ -506,18 +506,11 @@ export default function Home() {
                   </div>
                   <div className="w-full border-b border-[#E7E7E7] mb-4 sm:mb-6"></div>
                   <div className="w-full  mx-auto p-0">
-               <Formik
-  initialValues={{
-    user_id: editAccount?.user_id || '',
-    name: editAccount?.name || '',
-    phone_office: editAccount?.phone_office || '',
-    phone_alternate: editAccount?.phone_alternate || '',
-    industry: editAccount?.industry || '',
-  }}
-  enableReinitialize={true}
-  validationSchema={validationSchema}
-  onSubmit={handleSubmit}
-/>
+                    <Formik
+                      initialValues={initialValues}
+                      validationSchema={validationSchema}
+                      onSubmit={handleSubmit}
+                    >
                       <Form>
                         {/* Hidden user_id field */}
                         <Field type="hidden" name="user_id" />
