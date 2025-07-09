@@ -40,6 +40,7 @@ interface TotalLeads {
   assigned_user_name: string;
   created_at: string; // ISO date string
   updated_at: string; // ISO date string
+  website: string;
 }
 interface FormValues {
   user_id: string;
@@ -63,6 +64,7 @@ interface EditFormValues {
   primary_address_postalcode: string;
   phone_mobile: string;
   description: string;
+  website: string;
 }
 export default function Home() {
   const [data, setData] = useState<TotalLeads[]>([]);
@@ -141,6 +143,7 @@ export default function Home() {
     primary_address_postalcode: editAccount?.primary_address_postalcode || "",
     phone_mobile: editAccount?.phone_mobile || "",
     description: editAccount?.description || "",
+    website: "",
   };
   const validationSchema = Yup.object().shape({
     first_name: Yup.string().required("First name is required"),
@@ -799,6 +802,24 @@ export default function Home() {
                             />
                             <ErrorMessage
                               name="phone_mobile"
+                              component="div"
+                              className="text-red-500 text-xs absolute top-[100%]"
+                            />
+                          </div>
+                          {/* Website */}
+                          <div className="w-full relative mb-3">
+                            <p className="text-[#232323] text-base leading-normal mb-2">
+                              Website
+                            </p>
+                            <Field
+                              type="text"
+                              name="website"
+                              placeholder="Enter Website"
+                              className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2]
+                  rounded-[4px] text-[15px] placeholder-[#718EBF] pl-4 mb-2 text-firstBlack"
+                            />
+                            <ErrorMessage
+                              name="website"
                               component="div"
                               className="text-red-500 text-xs absolute top-[100%]"
                             />
