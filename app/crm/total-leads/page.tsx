@@ -22,6 +22,8 @@ import { toast } from "react-toastify";
 import { MdRemoveRedEye } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import Swal from "sweetalert2";
+import UserActivityLogger from "../../../provider/UserActivityLogger";
+const activityLogger = new UserActivityLogger();
 
 const axiosProvider = new AxiosProvider();
 
@@ -164,6 +166,15 @@ export default function Home() {
       toast.success("Product added");
       setFlyoutOpen(false);
       fetchData();
+      const activity = "Created CRM Lead";
+      const module = "Lead";
+      const type = "Create";
+      await activityLogger.crmAdd(
+        response.data.data.id,
+        activity,
+        module,
+        type
+      );
     } catch (error: any) {
       console.error("Failed to create product:", error);
     }
@@ -175,6 +186,15 @@ export default function Home() {
       toast.success("Lead Updated");
       setFlyoutOpen(false);
       fetchData();
+      const activity = "Updated CRM Lead";
+      const module = "Lead";
+      const type = "Update";
+      await activityLogger.crmUpdate(
+        editAccount?.id || "",
+        activity,
+        module,
+        type
+      );
     } catch (error: any) {
       console.error("Failed to create product:", error);
     }
@@ -198,6 +218,10 @@ export default function Home() {
           await axiosProvider.post("/deletelead", { id: userID });
           toast.success("Successfully Deleted");
           fetchData();
+          const activity = "Deleted CRM Lead";
+          const module = "Lead";
+          const type = "Delete";
+          await activityLogger.crmDelete(userID, activity, module, type);
         } catch (error) {
           console.error("Error deleting user:", error);
           toast.error("Failed to delete user");

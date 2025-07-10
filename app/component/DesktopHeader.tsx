@@ -79,7 +79,7 @@ const DesktopHeader = () => {
               <LeftSideBarMobile />
               <IoCloseOutline
                 onClick={toggleFilterFlyout}
-                className=" h-8 w-8 border border-[#E7E7E7] text-[#0A0A0A] rounded cursor-pointer absolute top-[62px] right-4"
+                className=" h-8 w-8 border border-[#E7E7E7] text-[#0A0A0A] rounded cursor-pointer absolute top-[69px] right-4"
               />
             </div>
           </div>

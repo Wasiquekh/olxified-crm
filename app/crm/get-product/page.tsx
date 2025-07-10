@@ -20,6 +20,8 @@ import { AiFillProduct } from "react-icons/ai";
 import { MdRemoveRedEye } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import Swal from "sweetalert2";
+import UserActivityLogger from "../../../provider/UserActivityLogger";
+const activityLogger = new UserActivityLogger();
 import {
   Formik,
   Form,
@@ -166,6 +168,15 @@ export default function Home() {
       toast.success("Product Updated");
       setFlyoutOpen(false);
       fetchData();
+      const activity = "Updated CRM Product";
+      const module = "Product";
+      const type = "Update";
+      await activityLogger.crmUpdate(
+        editAccount?.id || "",
+        activity,
+        module,
+        type
+      );
     } catch (error: any) {
       console.error("Failed to create product:", error);
     }
@@ -189,6 +200,10 @@ export default function Home() {
           await axiosProvider.post("/deleteproduct", { id: userID });
           toast.success("Successfully Deleted");
           fetchData();
+          const activity = "Deleted CRM Product";
+          const module = "Product";
+          const type = "Delete";
+          await activityLogger.crmDelete(userID, activity, module, type);
         } catch (error) {
           console.error("Error deleting user:", error);
           toast.error("Failed to delete user");
@@ -262,10 +277,19 @@ export default function Home() {
     try {
       const response = await axiosProvider.post("/createproduct", values);
 
-      console.log("Product created:", response.data);
+      console.log("Product created:", response.data.data.productId);
       toast.success("Product added");
       setFlyoutOpen(false);
       fetchData();
+      const activity = "Created CRM Product";
+      const module = "Product";
+      const type = "Create";
+      await activityLogger.crmAdd(
+        response.data.data.productId,
+        activity,
+        module,
+        type
+      );
     } catch (error: any) {
       console.error("Failed to create product:", error);
     } finally {

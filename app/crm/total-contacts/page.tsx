@@ -22,6 +22,8 @@ import { toast } from "react-toastify";
 import { MdRemoveRedEye } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import Swal from "sweetalert2";
+import UserActivityLogger from "../../../provider/UserActivityLogger";
+const activityLogger = new UserActivityLogger();
 
 const axiosProvider = new AxiosProvider();
 
@@ -67,7 +69,7 @@ export default function Home() {
   const [openForAdd, setOpenForAdd] = useState<boolean>(false);
   const [openForEdit, setOpenForEdit] = useState<boolean>(false);
   const [editAccount, setEditAccount] = useState<any | null>(null);
-  console.log("EDIT", editAccount);
+  //console.log("EDIT", editAccount);
 
   const toggleFilterFlyout = () => {
     setFlyoutOpen(!isFlyoutOpen);
@@ -118,7 +120,7 @@ export default function Home() {
     full_name: "",
     phone_mobile: "",
   };
-  // ADD FORM DATA
+  // EDIT FORM DATA
   const editInitialValues: EditFormValues = {
     id: editAccount?.id || "",
     user_id,
@@ -142,17 +144,36 @@ export default function Home() {
       toast.success("Contact added");
       setFlyoutOpen(false);
       fetchData();
+      const activity = "Created CRM Contact";
+      const module = "Contact";
+      const type = "Create";
+      await activityLogger.crmAdd(
+        response.data.data.data.id,
+        activity,
+        module,
+        type
+      );
     } catch (error: any) {
       console.error("Failed to create product:", error);
     }
   };
   const handleEditSubmit = async (values: FormValues) => {
+    editAccount?.id || "";
     try {
       const response = await axiosProvider.post("/updatecontact", values);
       //console.log("Product created:", response.data);
       toast.success("Contact Updated");
       setFlyoutOpen(false);
       fetchData();
+      const activity = "Updated CRM Contact";
+      const module = "Conact";
+      const type = "Update";
+      await activityLogger.crmUpdate(
+        editAccount?.id || "",
+        activity,
+        module,
+        type
+      );
     } catch (error: any) {
       console.error("Failed to create product:", error);
     }

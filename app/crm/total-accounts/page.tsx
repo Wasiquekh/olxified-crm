@@ -21,7 +21,10 @@ import { toast } from "react-toastify";
 import { MdRemoveRedEye } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import Swal from "sweetalert2";
+import UserActivityLogger from "../../../provider/UserActivityLogger";
+
 const axiosProvider = new AxiosProvider();
+const activityLogger = new UserActivityLogger();
 
 interface TotalAccounts {
   id: string;
@@ -135,6 +138,16 @@ export default function Home() {
       toast.success("Accounts added");
       setFlyoutOpen(false);
       fetchData();
+      // console.log("YYYYYYYYYYYYY", response.data.data.data);
+      const activity = "Created CRM Account";
+      const module = "Account";
+      const type = "Create";
+      await activityLogger.crmAdd(
+        response.data.data.data.id,
+        activity,
+        module,
+        type
+      );
     } catch (error: any) {
       console.error("Failed to create product:", error);
     }
@@ -142,7 +155,16 @@ export default function Home() {
   const handleEditSubmit = async (values: FormValues) => {
     try {
       const response = await axiosProvider.post("/updateaccount", values);
-      //console.log("Product created:", response.data);
+      //  console.log("Product created:", response.data.data.id);
+      const activity = "Updated CRM Account";
+      const module = "Account";
+      const type = "Update";
+      await activityLogger.crmUpdate(
+        response.data.data.id,
+        activity,
+        module,
+        type
+      );
       toast.success("Accounts Updated");
       setFlyoutOpen(false);
       fetchData();
@@ -167,6 +189,10 @@ export default function Home() {
       if (result.isConfirmed) {
         try {
           await axiosProvider.post("/deleteaccount", { id: userID });
+          const activity = "Deleted CRM Account";
+          const module = "Account";
+          const type = "Delete";
+          await activityLogger.crmDelete(userID, activity, module, type);
           toast.success("Successfully Deleted");
           fetchData();
         } catch (error) {

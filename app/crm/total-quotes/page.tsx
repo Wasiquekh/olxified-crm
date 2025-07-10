@@ -22,6 +22,8 @@ import { toast } from "react-toastify";
 import { MdRemoveRedEye } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import Swal from "sweetalert2";
+import UserActivityLogger from "../../../provider/UserActivityLogger";
+const activityLogger = new UserActivityLogger();
 
 const axiosProvider = new AxiosProvider();
 
@@ -79,7 +81,7 @@ export default function Home() {
       const response = await axiosProvider.get(
         `/gettotalquotes?page=${page}&limit=${limit}`
       );
-      console.log("total quotes data", response.data.data.quotes);
+      // console.log("total quotes data", response.data.data.quotes);
       setTotalPages(response.data.data.totalPages);
       const result = response.data.data.quotes;
       setData(result);
@@ -112,10 +114,19 @@ export default function Home() {
   const handleSubmit = async (values: FormValues) => {
     try {
       const response = await axiosProvider.post("/createquote", values);
-      console.log("Product created:", response.data);
+      //console.log("Quotes created:", response);
       toast.success("Product added");
       setFlyoutOpen(false);
       fetchData();
+      const activity = "Created CRM Quotes";
+      const module = "Quotes";
+      const type = "Create";
+      await activityLogger.crmAdd(
+        response.data.data.quoteId,
+        activity,
+        module,
+        type
+      );
     } catch (error: any) {
       console.error("Failed to create product:", error);
     }
@@ -127,6 +138,15 @@ export default function Home() {
       toast.success("Accounts Updated");
       setFlyoutOpen(false);
       fetchData();
+      const activity = "Updated CRM Quotes";
+      const module = "Quotes";
+      const type = "Update";
+      await activityLogger.crmUpdate(
+        editAccount?.id || "",
+        activity,
+        module,
+        type
+      );
     } catch (error: any) {
       console.error("Failed to create product:", error);
     }
@@ -150,6 +170,10 @@ export default function Home() {
           await axiosProvider.post("/deletequote", { id: userID });
           toast.success("Successfully Deleted");
           fetchData();
+          const activity = "Deleted CRM Quotes";
+          const module = "Quotes";
+          const type = "Delete";
+          await activityLogger.crmDelete(userID, activity, module, type);
         } catch (error) {
           console.error("Error deleting user:", error);
           toast.error("Failed to delete user");
