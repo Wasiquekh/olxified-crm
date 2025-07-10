@@ -160,9 +160,14 @@ export default function Home() {
           toast.success("Successfully Deleted");
           fetchData();
           const activity = "Deleted CRM Category";
-          const module = "Category";
+          const moduleNameName = "Category";
           const type = "Delete";
-          await activityLogger.crmDelete(userID, activity, module, type);
+          await activityLogger.crmDelete(
+            userID,
+            activity,
+            moduleNameName,
+            type
+          );
         } catch (error) {
           console.error("Error deleting user:", error);
           toast.error("Failed to delete user");
@@ -222,12 +227,12 @@ export default function Home() {
       setFlyoutOpen(false);
       fetchData();
       const activity = "Created CRM Category";
-      const module = "Category";
+      const moduleName = "Category";
       const type = "Create";
       await activityLogger.crmAdd(
         response.data.data.categoryId,
         activity,
-        module,
+        moduleName,
         type
       );
     } catch (error: any) {
@@ -247,12 +252,12 @@ export default function Home() {
       setFlyoutOpen(false);
       fetchData();
       const activity = "Updated CRM Category";
-      const module = "Category";
+      const moduleName = "Category";
       const type = "Update";
       await activityLogger.crmUpdate(
         editAccount?.id || "",
         activity,
-        module,
+        moduleName,
         type
       );
     } catch (error: any) {

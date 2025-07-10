@@ -140,12 +140,12 @@ export default function Home() {
       fetchData();
       // console.log("YYYYYYYYYYYYY", response.data.data.data);
       const activity = "Created CRM Account";
-      const module = "Account";
+      const moduleName = "Account";
       const type = "Create";
       await activityLogger.crmAdd(
         response.data.data.data.id,
         activity,
-        module,
+        moduleName,
         type
       );
     } catch (error: any) {
@@ -157,12 +157,12 @@ export default function Home() {
       const response = await axiosProvider.post("/updateaccount", values);
       //  console.log("Product created:", response.data.data.id);
       const activity = "Updated CRM Account";
-      const module = "Account";
+      const moduleName = "Account";
       const type = "Update";
       await activityLogger.crmUpdate(
         response.data.data.id,
         activity,
-        module,
+        moduleName,
         type
       );
       toast.success("Accounts Updated");
@@ -190,9 +190,9 @@ export default function Home() {
         try {
           await axiosProvider.post("/deleteaccount", { id: userID });
           const activity = "Deleted CRM Account";
-          const module = "Account";
+          const moduleName = "Account";
           const type = "Delete";
-          await activityLogger.crmDelete(userID, activity, module, type);
+          await activityLogger.crmDelete(userID, activity, moduleName, type);
           toast.success("Successfully Deleted");
           fetchData();
         } catch (error) {

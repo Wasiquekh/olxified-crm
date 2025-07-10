@@ -119,12 +119,12 @@ export default function Home() {
       setFlyoutOpen(false);
       fetchData();
       const activity = "Created CRM Quotes";
-      const module = "Quotes";
+      const moduleName = "Quotes";
       const type = "Create";
       await activityLogger.crmAdd(
         response.data.data.quoteId,
         activity,
-        module,
+        moduleName,
         type
       );
     } catch (error: any) {
@@ -139,12 +139,12 @@ export default function Home() {
       setFlyoutOpen(false);
       fetchData();
       const activity = "Updated CRM Quotes";
-      const module = "Quotes";
+      const moduleName = "Quotes";
       const type = "Update";
       await activityLogger.crmUpdate(
         editAccount?.id || "",
         activity,
-        module,
+        moduleName,
         type
       );
     } catch (error: any) {
@@ -171,9 +171,9 @@ export default function Home() {
           toast.success("Successfully Deleted");
           fetchData();
           const activity = "Deleted CRM Quotes";
-          const module = "Quotes";
+          const moduleName = "Quotes";
           const type = "Delete";
-          await activityLogger.crmDelete(userID, activity, module, type);
+          await activityLogger.crmDelete(userID, activity, moduleName, type);
         } catch (error) {
           console.error("Error deleting user:", error);
           toast.error("Failed to delete user");

@@ -169,12 +169,12 @@ export default function Home() {
       setFlyoutOpen(false);
       fetchData();
       const activity = "Updated CRM Product";
-      const module = "Product";
+      const moduleName = "Product";
       const type = "Update";
       await activityLogger.crmUpdate(
         editAccount?.id || "",
         activity,
-        module,
+        moduleName,
         type
       );
     } catch (error: any) {
@@ -201,9 +201,9 @@ export default function Home() {
           toast.success("Successfully Deleted");
           fetchData();
           const activity = "Deleted CRM Product";
-          const module = "Product";
+          const moduleName = "Product";
           const type = "Delete";
-          await activityLogger.crmDelete(userID, activity, module, type);
+          await activityLogger.crmDelete(userID, activity, moduleName, type);
         } catch (error) {
           console.error("Error deleting user:", error);
           toast.error("Failed to delete user");
@@ -282,12 +282,12 @@ export default function Home() {
       setFlyoutOpen(false);
       fetchData();
       const activity = "Created CRM Product";
-      const module = "Product";
+      const moduleName = "Product";
       const type = "Create";
       await activityLogger.crmAdd(
         response.data.data.productId,
         activity,
-        module,
+        moduleName,
         type
       );
     } catch (error: any) {

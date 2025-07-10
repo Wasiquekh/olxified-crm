@@ -145,12 +145,12 @@ export default function Home() {
       setFlyoutOpen(false);
       fetchData();
       const activity = "Created CRM Contact";
-      const module = "Contact";
+      const moduleName = "Contact";
       const type = "Create";
       await activityLogger.crmAdd(
         response.data.data.data.id,
         activity,
-        module,
+        moduleName,
         type
       );
     } catch (error: any) {
@@ -166,12 +166,12 @@ export default function Home() {
       setFlyoutOpen(false);
       fetchData();
       const activity = "Updated CRM Contact";
-      const module = "Conact";
+      const moduleName = "Conact";
       const type = "Update";
       await activityLogger.crmUpdate(
         editAccount?.id || "",
         activity,
-        module,
+        moduleName,
         type
       );
     } catch (error: any) {

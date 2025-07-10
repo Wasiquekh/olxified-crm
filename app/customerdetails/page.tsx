@@ -207,6 +207,7 @@ export default function Home() {
     fetchUserStatus();
     getUserHistory();
   }, [hitApi]);
+
   const callNotificationApi = async (verification: string) => {
     // console.log("CALLED NOTIFICATION", verification);
     try {
