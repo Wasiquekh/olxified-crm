@@ -670,18 +670,68 @@ export default function Home() {
                           Product Category
                         </p>
 
-                        <Field
-                          as="select"
-                          name="product_category"
-                          className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2] 
-      rounded-[4px] text-[15px] pl-4 mb-2 text-firstBlack bg-white"
-                        >
-                          <option value="">Select category</option>
-                          {productCategory.map((item) => (
-                            <option key={item.id} value={item.id}>
-                              {item.name}
-                            </option>
-                          ))}
+                        <Field name="product_category">
+                          {({ field, form }: any) => {
+                            const options = Array.isArray(productCategory)
+                              ? productCategory.map((item: any) => ({
+                                  value: item.id,
+                                  label: item.name,
+                                }))
+                              : [];
+
+                            const selectedOption =
+                              options.find(
+                                (opt) => opt.value === field.value
+                              ) || null;
+
+                            return (
+                              <Select
+                                value={selectedOption}
+                                onChange={(option: any) =>
+                                  form.setFieldValue(
+                                    field.name,
+                                    option ? option.value : ""
+                                  )
+                                }
+                                onBlur={() =>
+                                  form.setFieldTouched(field.name, true)
+                                }
+                                options={options}
+                                placeholder="Select category"
+                                isClearable
+                                classNames={{
+                                  control: ({ isFocused }: any) =>
+                                    `onHoverBoxShadow !w-full !border-[0.4px] !rounded-[4px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm ${
+                                      isFocused
+                                        ? "!border-primary-500"
+                                        : "!border-[#DFEAF2]"
+                                    }`,
+                                }}
+                                styles={{
+                                  menu: (base: any) => ({
+                                    ...base,
+                                    borderRadius: "4px",
+                                    boxShadow:
+                                      "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                                    backgroundColor: "#fff",
+                                  }),
+                                  option: (
+                                    base: any,
+                                    { isFocused, isSelected }: any
+                                  ) => ({
+                                    ...base,
+                                    backgroundColor: isSelected
+                                      ? "var(--primary-500)"
+                                      : isFocused
+                                      ? "var(--primary-100)"
+                                      : "#fff",
+                                    color: isSelected ? "#fff" : "#333",
+                                    cursor: "pointer",
+                                  }),
+                                }}
+                              />
+                            );
+                          }}
                         </Field>
 
                         <ErrorMessage
@@ -835,18 +885,68 @@ export default function Home() {
                           Product Category
                         </p>
 
-                        <Field
-                          as="select"
-                          name="product_category"
-                          className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2] 
-      rounded-[4px] text-[15px] pl-4 mb-2 text-firstBlack bg-white"
-                        >
-                          <option value="">Select category</option>
-                          {productCategory.map((item) => (
-                            <option key={item.id} value={item.id}>
-                              {item.name}
-                            </option>
-                          ))}
+                        <Field name="product_category">
+                          {({ field, form }: any) => {
+                            const options = Array.isArray(productCategory)
+                              ? productCategory.map((item: any) => ({
+                                  value: item.id,
+                                  label: item.name,
+                                }))
+                              : [];
+
+                            const selectedOption =
+                              options.find(
+                                (opt) => opt.value === field.value
+                              ) || null;
+
+                            return (
+                              <Select
+                                value={selectedOption}
+                                onChange={(option: any) =>
+                                  form.setFieldValue(
+                                    field.name,
+                                    option ? option.value : ""
+                                  )
+                                }
+                                onBlur={() =>
+                                  form.setFieldTouched(field.name, true)
+                                }
+                                options={options}
+                                placeholder="Select category"
+                                isClearable
+                                classNames={{
+                                  control: ({ isFocused }: any) =>
+                                    `onHoverBoxShadow !w-full !border-[0.4px] !rounded-[4px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm ${
+                                      isFocused
+                                        ? "!border-primary-500"
+                                        : "!border-[#DFEAF2]"
+                                    }`,
+                                }}
+                                styles={{
+                                  menu: (base: any) => ({
+                                    ...base,
+                                    borderRadius: "4px",
+                                    boxShadow:
+                                      "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                                    backgroundColor: "#fff",
+                                  }),
+                                  option: (
+                                    base: any,
+                                    { isFocused, isSelected }: any
+                                  ) => ({
+                                    ...base,
+                                    backgroundColor: isSelected
+                                      ? "var(--primary-500)"
+                                      : isFocused
+                                      ? "var(--primary-100)"
+                                      : "#fff",
+                                    color: isSelected ? "#fff" : "#333",
+                                    cursor: "pointer",
+                                  }),
+                                }}
+                              />
+                            );
+                          }}
                         </Field>
 
                         <ErrorMessage

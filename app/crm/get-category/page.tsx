@@ -58,7 +58,6 @@ interface EditCategoryFormValues {
   parent_category: string;
 }
 interface ProductCategory {
-  map(arg0: (item: any) => JSX.Element): unknown;
   id: string;
   name: string;
   created_at: string;
@@ -79,6 +78,7 @@ export default function Home() {
   const [openForAdd, setOpenForAdd] = useState<boolean>(false);
   const [openForEdit, setOpenForEdit] = useState<boolean>(false);
   const [editAccount, setEditAccount] = useState<any | null>(null);
+  const [productCategory, setproductCategory] = useState<ProductCategory[]>([]);
 
   const toggleFilterFlyout = () => {
     setFlyoutOpen(!isFlyoutOpen);
@@ -91,13 +91,13 @@ export default function Home() {
     setOpenForEdit(true);
     setEditAccount(item);
   };
+  const options = productCategory.map((item) => ({
+    value: item.id,
+    label: item.name,
+  }));
 
   const storage = new StorageManager();
   const userID = storage.getUserId();
-
-  // Example useState usage
-  const [productCategory, setproductCategory] =
-    useState<ProductCategory | null>(null);
 
   const fetchData = async () => {
     setIsLoading(true);
@@ -480,31 +480,78 @@ export default function Home() {
                           className="text-red-500 absolute top-[90px] text-xs"
                         />
                       </div>
-
-                      {/* Currency Dropdown */}
+                      {/* Parent Category using react-select */}
                       <div className="w-full relative mb-3">
                         <p className="text-[#232323] text-base leading-normal mb-2">
                           Parent Category
                         </p>
 
-                        <Field
-                          as="select"
-                          name="parent_category"
-                          className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2] 
-      rounded-[4px] text-[15px] pl-4 mb-2 text-firstBlack bg-white"
-                        >
-                          <option value="">Select category</option>
-                          {productCategory.map((item) => (
-                            <option key={item.id} value={item.id}>
-                              {item.name}
-                            </option>
-                          ))}
+                        <Field name="parent_category">
+                          {({ field, form }: any) => {
+                            const options = productCategory.map((item) => ({
+                              value: item.id,
+                              label: item.name,
+                            }));
+
+                            const selectedOption =
+                              options.find(
+                                (opt) => opt.value === field.value
+                              ) || null;
+
+                            return (
+                              <Select
+                                value={selectedOption}
+                                onChange={(option: any) =>
+                                  form.setFieldValue(
+                                    field.name,
+                                    option ? option.value : ""
+                                  )
+                                }
+                                onBlur={() =>
+                                  form.setFieldTouched(field.name, true)
+                                }
+                                options={options}
+                                placeholder="Select category"
+                                isClearable
+                                classNames={{
+                                  control: ({ isFocused }: any) =>
+                                    `onHoverBoxShadow !w-full !border-[0.4px] !rounded-[4px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm ${
+                                      isFocused
+                                        ? "!border-primary-500"
+                                        : "!border-[#DFEAF2]"
+                                    }`,
+                                }}
+                                styles={{
+                                  menu: (base: any) => ({
+                                    ...base,
+                                    borderRadius: "4px",
+                                    boxShadow:
+                                      "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                                    backgroundColor: "#fff",
+                                  }),
+                                  option: (
+                                    base: any,
+                                    { isFocused, isSelected }: any
+                                  ) => ({
+                                    ...base,
+                                    backgroundColor: isSelected
+                                      ? "var(--primary-500)"
+                                      : isFocused
+                                      ? "var(--primary-100)"
+                                      : "#fff",
+                                    color: isSelected ? "#fff" : "#333",
+                                    cursor: "pointer",
+                                  }),
+                                }}
+                              />
+                            );
+                          }}
                         </Field>
 
                         <ErrorMessage
                           name="parent_category"
                           component="div"
-                          className="text-red-500 absolute top-[90px] text-xs"
+                          className="text-red-500 absolute top-full text-xs mt-1"
                         />
                       </div>
                     </div>
@@ -568,19 +615,66 @@ export default function Home() {
                         <p className="text-[#232323] text-base leading-normal mb-2">
                           Parent Category
                         </p>
+                        <Field name="parent_category">
+                          {({ field, form }: any) => {
+                            const options = productCategory.map((item) => ({
+                              value: item.id,
+                              label: item.name,
+                            }));
 
-                        <Field
-                          as="select"
-                          name="parent_category"
-                          className="hover:shadow-hoverInputShadow focus-border-primary w-full h-[50px] border border-[#DFEAF2] 
-      rounded-[4px] text-[15px] pl-4 mb-2 text-firstBlack bg-white"
-                        >
-                          <option value="">Select category</option>
-                          {productCategory.map((item) => (
-                            <option key={item.id} value={item.id}>
-                              {item.name}
-                            </option>
-                          ))}
+                            const selectedOption =
+                              options.find(
+                                (opt) => opt.value === field.value
+                              ) || null;
+
+                            return (
+                              <Select
+                                value={selectedOption}
+                                onChange={(option: any) =>
+                                  form.setFieldValue(
+                                    field.name,
+                                    option ? option.value : ""
+                                  )
+                                }
+                                onBlur={() =>
+                                  form.setFieldTouched(field.name, true)
+                                }
+                                options={options}
+                                placeholder="Select category"
+                                isClearable
+                                classNames={{
+                                  control: ({ isFocused }: any) =>
+                                    `onHoverBoxShadow !w-full !border-[0.4px] !rounded-[4px] !text-sm !leading-4 !font-medium !py-1.5 !px-1 !bg-white !shadow-sm ${
+                                      isFocused
+                                        ? "!border-primary-500"
+                                        : "!border-[#DFEAF2]"
+                                    }`,
+                                }}
+                                styles={{
+                                  menu: (base: any) => ({
+                                    ...base,
+                                    borderRadius: "4px",
+                                    boxShadow:
+                                      "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                                    backgroundColor: "#fff",
+                                  }),
+                                  option: (
+                                    base: any,
+                                    { isFocused, isSelected }: any
+                                  ) => ({
+                                    ...base,
+                                    backgroundColor: isSelected
+                                      ? "var(--primary-500)"
+                                      : isFocused
+                                      ? "var(--primary-100)"
+                                      : "#fff",
+                                    color: isSelected ? "#fff" : "#333",
+                                    cursor: "pointer",
+                                  }),
+                                }}
+                              />
+                            );
+                          }}
                         </Field>
 
                         <ErrorMessage
