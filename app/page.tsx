@@ -66,8 +66,6 @@ export default function LoginHome() {
     accessTokenlocal !== "null"
   ) {
     router.replace("/dashboard");
-  } else {
-    router.replace("/");
   }
   // const value = localStorage.getItem("accessToken");
   // value === null ?

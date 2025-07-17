@@ -94,8 +94,6 @@ export default function OtpHome() {
     accessTokenlocal !== "null"
   ) {
     router.replace("/dashboard");
-  } else {
-    router.replace("/qrcode");
   }
   return (
     <>
