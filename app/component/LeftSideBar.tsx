@@ -70,8 +70,8 @@ const LeftSideBar: React.FC = () => {
   const handleLogout = async () => {
     try {
       const response = await axiosProvider.post("/logout", {});
-      router.push("/");
-      storage.removeAccessToken();
+      localStorage.clear();
+      window.location.href = "/";
     } catch (error) {
       console.error("Error fetching data:", error);
     }
