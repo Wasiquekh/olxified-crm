@@ -67,6 +67,7 @@ export default function OtpHome() {
 
       setAccessToken(res.data.data.token);
       storage.saveAccessToken(res.data.data.token);
+      //  expiryTokenafter24Hour();
       router.push("/dashboard");
 
       const activityLogger = new UserActivityLogger();
@@ -79,7 +80,23 @@ export default function OtpHome() {
       setLoading(false);
     }
   };
+  // const expiryTokenafter24Hour = () => {
+  //   setTimeout(() => {
+  //     storage.removeAccessToken();
+  //     window.location.reload();
+  //   }, 60 * 1000);
+  // };
 
+  const accessTokenlocal = storage.getAccessToken();
+  if (
+    accessTokenlocal !== null &&
+    accessTokenlocal !== "" &&
+    accessTokenlocal !== "null"
+  ) {
+    router.replace("/dashboard");
+  } else {
+    router.replace("/qrcode");
+  }
   return (
     <>
       <div className="bg-[#F5F5F5] hidden md:block">

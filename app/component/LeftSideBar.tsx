@@ -71,6 +71,7 @@ const LeftSideBar: React.FC = () => {
     try {
       const response = await axiosProvider.post("/logout", {});
       router.push("/");
+      storage.removeAccessToken();
     } catch (error) {
       console.error("Error fetching data:", error);
     }

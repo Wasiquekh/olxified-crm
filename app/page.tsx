@@ -59,6 +59,20 @@ export default function LoginHome() {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+  const accessTokenlocal = storage.getAccessToken();
+  if (
+    accessTokenlocal !== null &&
+    accessTokenlocal !== "" &&
+    accessTokenlocal !== "null"
+  ) {
+    router.replace("/dashboard");
+  } else {
+    router.replace("/");
+  }
+  // const value = localStorage.getItem("accessToken");
+  // value === null ?
+  // console.log("OOOOOOOOOOOOOOO", value);
+
   return (
     <>
       <div className="bg-[#F5F5F5] hidden md:block">
