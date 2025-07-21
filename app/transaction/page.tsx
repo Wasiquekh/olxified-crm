@@ -12,6 +12,7 @@ import { HiChevronDoubleRight } from "react-icons/hi";
 import DesktopHeader from "../component/DesktopHeader";
 import { Tooltip } from "react-tooltip";
 import { FaEllipsisVertical } from "react-icons/fa6";
+import { useAuthRedirect } from "../component/hooks/useAuthRedirect";
 
 const axiosProvider = new AxiosProvider();
 
@@ -29,6 +30,20 @@ interface Transaction {
 }
 
 export default function Home() {
+  const isChecking = useAuthRedirect();
+  if (isChecking) {
+    return (
+      <div className="h-screen flex flex-col gap-5 justify-center items-center bg-white">
+        <Image
+          src="/images/orizonIcon.svg"
+          alt="Loading"
+          width={150}
+          height={150}
+          className="animate-pulse rounded"
+        />
+      </div>
+    );
+  }
   const [data, setData] = useState<Transaction[]>([]);
   const [page, setPage] = useState<number>(1);
   const [limit] = useState<number>(10);

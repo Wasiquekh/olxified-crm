@@ -12,7 +12,6 @@ import { useAuthRedirect } from "../component/hooks/useAuthRedirect";
 
 export default function Home() {
   const isChecking = useAuthRedirect();
-
   if (isChecking) {
     return (
       <div className="h-screen flex flex-col gap-5 justify-center items-center bg-white">

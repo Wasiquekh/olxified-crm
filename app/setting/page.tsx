@@ -15,14 +15,23 @@ import { FaEllipsisVertical } from "react-icons/fa6";
 import { MdOutlineSecurity } from "react-icons/md";
 import { MdOutlineRuleFolder } from "react-icons/md";
 import Link from "next/link";
-
-
+import { useAuthRedirect } from "../component/hooks/useAuthRedirect";
 
 export default function Home() {
-
-
-
-
+  const isChecking = useAuthRedirect();
+  if (isChecking) {
+    return (
+      <div className="h-screen flex flex-col gap-5 justify-center items-center bg-white">
+        <Image
+          src="/images/orizonIcon.svg"
+          alt="Loading"
+          width={150}
+          height={150}
+          className="animate-pulse rounded"
+        />
+      </div>
+    );
+  }
   return (
     <div className=" flex justify-end  min-h-screen">
       {/* Left sidebar */}
@@ -49,22 +58,27 @@ export default function Home() {
                 <Link
                   href="https://orizon.africa/terms"
                   target="_blank"
-                  className="shadow-dashboardShadow p-8 rounded w-full md:w-2/6  flex items-center gap-2 bg-gradient-to-b from-primary-200 to-primary-100 hover:from-primary-300 hover:to-primary-200 active:from-primary-400 active:to-primary-300">
+                  className="shadow-dashboardShadow p-8 rounded w-full md:w-2/6  flex items-center gap-2 bg-gradient-to-b from-primary-200 to-primary-100 hover:from-primary-300 hover:to-primary-200 active:from-primary-400 active:to-primary-300"
+                >
                   <MdOutlineSecurity className=" text-primary-600 text-2xl" />
-                  <p className="text-firstBlack text-xl font-medium">Terms and conditions</p>
+                  <p className="text-firstBlack text-xl font-medium">
+                    Terms and conditions
+                  </p>
                 </Link>
                 <Link
                   href="https://orizon.africa/privacy"
                   target="_blank"
-                  className="shadow-dashboardShadow p-8 rounded w-full md:w-2/6 flex items-center gap-2 bg-gradient-to-b from-primary-200 to-primary-100 hover:from-primary-300 hover:to-primary-200 active:from-primary-400 active:to-primary-300">
+                  className="shadow-dashboardShadow p-8 rounded w-full md:w-2/6 flex items-center gap-2 bg-gradient-to-b from-primary-200 to-primary-100 hover:from-primary-300 hover:to-primary-200 active:from-primary-400 active:to-primary-300"
+                >
                   <MdOutlineRuleFolder className=" text-primary-600 text-2xl" />
-                  <p className="text-firstBlack text-xl font-medium">Privacy policy</p>
+                  <p className="text-firstBlack text-xl font-medium">
+                    Privacy policy
+                  </p>
                 </Link>
               </div>
             </div>
           </div>
         </div>
-
       </div>
     </div>
   );

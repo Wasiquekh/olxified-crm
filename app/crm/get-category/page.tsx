@@ -21,6 +21,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { MdCategory } from "react-icons/md";
 import Swal from "sweetalert2";
 import UserActivityLogger from "../../../provider/UserActivityLogger";
+import { useAuthRedirect } from "../../component/hooks/useAuthRedirect";
 const activityLogger = new UserActivityLogger();
 import {
   Formik,
@@ -34,6 +35,7 @@ import {
 import * as Yup from "yup";
 import Select from "react-select";
 import { toast } from "react-toastify";
+import { ImPodcast } from "react-icons/im";
 
 const axiosProvider = new AxiosProvider();
 
@@ -67,6 +69,20 @@ interface ProductCategory {
 }
 
 export default function Home() {
+  const isChecking = useAuthRedirect();
+  if (isChecking) {
+    return (
+      <div className="h-screen flex flex-col gap-5 justify-center items-center bg-white">
+        <Image
+          src="/images/orizonIcon.svg"
+          alt="Loading"
+          width={150}
+          height={150}
+          className="animate-pulse rounded"
+        />
+      </div>
+    );
+  }
   const [data, setData] = useState<GetCategory[]>([]);
   //console.log("total product data 000000000000 ", data);
   const [page, setPage] = useState<number>(1);

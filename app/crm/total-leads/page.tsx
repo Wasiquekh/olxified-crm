@@ -23,6 +23,7 @@ import { MdRemoveRedEye } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import Swal from "sweetalert2";
 import UserActivityLogger from "../../../provider/UserActivityLogger";
+import { useAuthRedirect } from "../../component/hooks/useAuthRedirect";
 const activityLogger = new UserActivityLogger();
 
 const axiosProvider = new AxiosProvider();
@@ -69,6 +70,20 @@ interface EditFormValues {
   website: string;
 }
 export default function Home() {
+  const isChecking = useAuthRedirect();
+  if (isChecking) {
+    return (
+      <div className="h-screen flex flex-col gap-5 justify-center items-center bg-white">
+        <Image
+          src="/images/orizonIcon.svg"
+          alt="Loading"
+          width={150}
+          height={150}
+          className="animate-pulse rounded"
+        />
+      </div>
+    );
+  }
   const [data, setData] = useState<TotalLeads[]>([]);
   //console.log("total accounts data 000000000000 ", data);
   const [page, setPage] = useState<number>(1);
