@@ -87,14 +87,14 @@ export default function OtpHome() {
   //   }, 60 * 1000);
   // };
 
-  // const accessTokenlocal = storage.getAccessToken();
-  // if (
-  //   accessTokenlocal !== null &&
-  //   accessTokenlocal !== "" &&
-  //   accessTokenlocal !== "null"
-  // ) {
-  //   router.replace("/dashboard");
-  // }
+  const accessTokenlocal = storage.getAccessToken();
+  if (
+    accessTokenlocal !== null &&
+    accessTokenlocal !== "" &&
+    accessTokenlocal !== "null"
+  ) {
+    router.replace("/dashboard");
+  }
   return (
     <>
       <div className="bg-[#F5F5F5] hidden md:block">

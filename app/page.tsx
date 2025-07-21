@@ -59,14 +59,14 @@ export default function LoginHome() {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-  // const accessTokenlocal = storage.getAccessToken();
-  // if (
-  //   accessTokenlocal !== null &&
-  //   accessTokenlocal !== "" &&
-  //   accessTokenlocal !== "null"
-  // ) {
-  //   router.replace("/dashboard");
-  // }
+  const accessTokenlocal = storage.getAccessToken();
+  if (
+    accessTokenlocal !== null &&
+    accessTokenlocal !== "" &&
+    accessTokenlocal !== "null"
+  ) {
+    router.replace("/dashboard");
+  }
   // const value = localStorage.getItem("accessToken");
   // value === null ?
   // console.log("OOOOOOOOOOOOOOO", value);
