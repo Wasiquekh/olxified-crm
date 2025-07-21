@@ -57,10 +57,11 @@ const LeftSideBarMobile: React.FC = () => {
 
   const handleLogout = async () => {
     try {
-      await axiosProvider.post("/logout", {});
-      router.push("/");
+      const response = await axiosProvider.post("/logout", {});
+      localStorage.clear();
+      window.location.href = "/";
     } catch (error) {
-      console.error("Logout error:", error);
+      console.error("Error fetching data:", error);
     }
   };
 
