@@ -70,19 +70,6 @@ interface CustomerHistoryItem {
 
 export default function Home() {
   const isChecking = useAuthRedirect();
-  if (isChecking) {
-    return (
-      <div className="h-screen flex flex-col gap-5 justify-center items-center bg-white">
-        <Image
-          src="/images/orizonIcon.svg"
-          alt="Loading"
-          width={150}
-          height={150}
-          className="animate-pulse rounded"
-        />
-      </div>
-    );
-  }
   const [customer, setCustomer] = useState<Customer | null>(null); // Initial state as null
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
@@ -1648,6 +1635,19 @@ export default function Home() {
       ),
     },
   ];
+  if (isChecking) {
+    return (
+      <div className="h-screen flex flex-col gap-5 justify-center items-center bg-white">
+        <Image
+          src="/images/orizonIcon.svg"
+          alt="Loading"
+          width={150}
+          height={150}
+          className="animate-pulse rounded"
+        />
+      </div>
+    );
+  }
   return (
     <>
       <div className=" flex justify-end  min-h-screen">
