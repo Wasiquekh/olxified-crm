@@ -139,8 +139,8 @@ export default function Home() {
         `/filter?page=${page}&limit=${limit}`,
         data
       );
-      //console.log("VVVVVVVVVVVVVVVVV", response.data.data);
       const result = response.data.data;
+      // console.log("VVVVVVVVVVVVVVVVV", result);
       setData(result.customers);
       setTotalPagesFilter(result.totalPages);
     } catch (error: any) {
@@ -162,6 +162,7 @@ export default function Home() {
       console.log("PEGINATION", response);
       setTotalPages(response.data.data.pagination.totalPages);
       const result = response.data.data.customers;
+      console.log("ALL CRM USER", result);
       setData(result);
     } catch (error: any) {
       setIsError(true);

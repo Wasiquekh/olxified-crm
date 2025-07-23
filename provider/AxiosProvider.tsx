@@ -47,7 +47,7 @@ export default class AxiosProvider {
       // Retrieve app check token
       const appCheckTokenResponse = await getToken(appCheck, true);
       const appCheckToken = appCheckTokenResponse.token;
-      //console.log("app check", appCheckToken);
+      console.log("app check", appCheckToken);
       // Retrieve access token from storage
       const accessToken = this.storage.getAccessToken();
       console.log("Access token***", accessToken);
