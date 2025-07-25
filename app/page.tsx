@@ -137,7 +137,7 @@ export default function LoginHome() {
             <Form className="w-full">
               <div className="w-full">
                 <p className="text-[#232323] text-base leading-normal mb-2">
-                  Email or User ID
+                  Email or User ID1
                 </p>
                 <div className="relative">
                   <Field
